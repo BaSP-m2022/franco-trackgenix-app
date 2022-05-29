@@ -31,7 +31,7 @@ function SuperAdmins() {
   return (
     <section className={styles.container}>
       <h2>SuperAdmins</h2>
-      <button className="add">&#10010; Add Super Admin</button>
+      <button>&#10010; Add Super Admin</button>
       <List list={listSuperAdmins} setList={setSuperAdmins} deleteSuperAdmin={deleteSuperAdmin} />
     </section>
   );
