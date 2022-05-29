@@ -21,7 +21,10 @@ function SuperAdmins() {
     }
   }, []);
 
-  const deleteSuperAdmin = (_id) => {
+  const deleteSuperAdmin = async (_id) => {
+    await fetch(`http://localhost:4000/super-admins/${_id}`, {
+      method: 'DELETE'
+    });
     setSuperAdmins([...listSuperAdmins.filter((admin) => admin._id !== _id)]);
   };
 
