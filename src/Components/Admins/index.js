@@ -10,9 +10,9 @@ const Admins = () => {
   useEffect(async () => {
     try {
       const response = await fetch(URL, { method: 'GET' });
-      const data = await response.json();
-      setList(data.data);
-      console.log('data', data.data);
+      const responseJson = await response.json();
+      setList(responseJson.data);
+      console.log('data', responseJson.data);
     } catch (error) {
       console.error(error);
     }
@@ -20,14 +20,14 @@ const Admins = () => {
 
   //API request to delete admins
   const deleteAdmin = async (_id) => {
-    await fetch(`${URL} / ${_id}`, { method: 'GET' });
+    // await fetch(`${URL} / ${_id}`, { method: 'DELETE' });
     setList([...list.filter((adminsItem) => adminsItem._id !== _id)]);
   };
 
   return (
     <section className={styles.container}>
       <h2>Admins</h2>
-      <button>&#10010; Add New Admin</button>
+      <button href="/admins-form">&#10010; Add New Admin</button>
       <List list={list} setList={setList} deleteAdmin={deleteAdmin} />
     </section>
   );

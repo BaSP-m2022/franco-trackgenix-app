@@ -1,5 +1,5 @@
 import React from 'react';
-import AdminsItem from './ListItem/AdminsItem';
+import AdminsItem from '../ListItem/AdminsItem';
 import './list.module.css';
 
 const List = ({ list, deleteAdmin }) => {
@@ -19,7 +19,7 @@ const List = ({ list, deleteAdmin }) => {
         </thead>
         <tbody>
           {list.map((item) => (
-            <AdminsItem key={item.id} listItem={item} deleteAdmin={deleteAdmin} />
+            <AdminsItem key={item._id} listItem={item} deleteAdmin={deleteAdmin} />
           ))}
         </tbody>
       </table>
