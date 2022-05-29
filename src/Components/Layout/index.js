@@ -28,7 +28,7 @@ function Layout() {
     case '/time-sheets':
       currentScreen = <TimeSheets />;
       break;
-    case '/time-sheets/form':
+    case '/time-sheet/form':
       currentScreen = <TimesheetForm />;
       break;
     case '/tasks':

@@ -1,4 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import Dropdown from 'react-dropdown';
+import 'react-dropdown/style.css';
 import styles from './form.module.css';
 
 function TimeSheetForm() {
@@ -8,10 +10,8 @@ function TimeSheetForm() {
   const [startDateValue, setstartDateValue] = useState('');
   const [endDateValue, setendDateValue] = useState('');
   const [employeeIdValue, setemployeeIdValue] = useState('');
-
-  const onChangeTaskInput = (event) => {
-    settaskValue(event.target.value);
-  };
+  const [employeeOptions, setEmployeeOptions] = useState([]);
+  const [tasksOptions, setTasksOptions] = useState([]);
 
   const onChangeTotalHoursInput = (event) => {
     settotalHoursValue(event.target.value);
@@ -25,9 +25,48 @@ function TimeSheetForm() {
   const onChangeEndDateInput = (event) => {
     setendDateValue(event.target.value);
   };
-  const onChangeEmployeeIdInput = (event) => {
-    setemployeeIdValue(event.target.value);
+  const onChangeTaskInput = (event) => {
+    settaskValue(event.value);
   };
+  const onChangeEmployeeIdInput = (event) => {
+    setemployeeIdValue(event.value);
+  };
+
+  useEffect(async () => {
+    try {
+      const data = await fetch(`${process.env.REACT_APP_API_URL}/employees/`);
+      const employees = await data.json();
+      for (let i = 0; i < employees.data.length; i++) {
+        setEmployeeOptions((employeeOptions) => [
+          ...employeeOptions,
+          {
+            value: `${employees.data[i]._id}`,
+            label: `${employees.data[i].firstName} ${employees.data[i].lastName}`
+          }
+        ]);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }, []);
+
+  useEffect(async () => {
+    try {
+      const data = await fetch(`${process.env.REACT_APP_API_URL}/tasks/`);
+      const tasks = await data.json();
+      for (let i = 0; i < tasks.data.length; i++) {
+        setTasksOptions((tasksOptions) => [
+          ...tasksOptions,
+          {
+            value: `${tasks.data[i]._id}`,
+            label: `${tasks.data[i].description}`
+          }
+        ]);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }, []);
 
   const onSubmit = async (event) => {
     event.preventDefault();
@@ -39,7 +78,7 @@ function TimeSheetForm() {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        tasks: taskValue,
+        tasks: [taskValue],
         totalHours: totalHoursValue,
         status: statusValue,
         startDate: startDateValue,
@@ -55,19 +94,20 @@ function TimeSheetForm() {
       console.error(error);
     }
   };
-
   return (
     <div className={styles.container}>
       <h2>Time Sheets Form</h2>
       <form onSubmit={onSubmit}>
-        <input
+        <Dropdown
+          options={tasksOptions}
+          onChange={onChangeTaskInput}
+          value={taskValue}
+          placeholder="Select a task"
           className={styles.input}
           id="task"
           name="task"
           required
           type="text"
-          value={taskValue}
-          onChange={onChangeTaskInput}
         />
         <input
           className={styles.input}
@@ -105,14 +145,16 @@ function TimeSheetForm() {
           value={endDateValue}
           onChange={onChangeEndDateInput}
         />
-        <input
+        <Dropdown
+          options={employeeOptions}
+          onChange={onChangeEmployeeIdInput}
+          value={employeeIdValue}
+          placeholder="Select an employee"
           className={styles.input}
           id="employeeId"
           name="employeeId"
           required
           type="text"
-          value={employeeIdValue}
-          onChange={onChangeEmployeeIdInput}
         />
         <button type="submit">Save</button>
       </form>
