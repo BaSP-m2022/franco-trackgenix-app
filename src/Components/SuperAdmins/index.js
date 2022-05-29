@@ -5,14 +5,12 @@ import List from './List/List';
 
 dotenv.config();
 
-//const mongoURL = process.env.REACT_APP_API_URL;
-
 function SuperAdmins() {
   const [listSuperAdmins, setSuperAdmins] = useState([]);
 
   useEffect(async () => {
     try {
-      const response = await fetch('http://localhost:4000/super-admins');
+      const response = await fetch(process.env.REACT_APP_API_URL);
       const data = await response.json();
       setSuperAdmins(data.data);
       console.log('Data', data.data);
@@ -22,7 +20,7 @@ function SuperAdmins() {
   }, []);
 
   const deleteSuperAdmin = async (_id) => {
-    await fetch(`http://localhost:4000/super-admins/${_id}`, {
+    await fetch(`${process.env.REACT_APP_API_URL}/${_id}`, {
       method: 'DELETE'
     });
     setSuperAdmins([...listSuperAdmins.filter((admin) => admin._id !== _id)]);
