@@ -2,24 +2,24 @@ import React from 'react';
 import AdminsItem from './ListItem/AdminsItem';
 import './list.module.css';
 
-const List = ({ adminsList, deleteAdmin }) => {
-  console.log('Admins list', adminsList);
+const List = ({ list, deleteAdmin }) => {
+  console.log('admins list', list);
 
   return (
-    <div className="container">
+    <div>
       <table>
         <thead>
           <tr>
-            <th id="id">ID</th>
-            <th id="password">Password</th>
-            <th id="email">Email</th>
-            <th id="fname">First Name</th>
-            <th id="lname">Last Name</th>
+            <th>ID</th>
+            <th>Password</th>
+            <th>Email</th>
+            <th>First Name</th>
+            <th>Last Name</th>
           </tr>
         </thead>
         <tbody>
-          {adminsList.map((item) => (
-            <AdminsItem key={item.id} adminsItem={item} deleteAdmin={deleteAdmin} />
+          {list.map((item) => (
+            <AdminsItem key={item.id} listItem={item} deleteAdmin={deleteAdmin} />
           ))}
         </tbody>
       </table>

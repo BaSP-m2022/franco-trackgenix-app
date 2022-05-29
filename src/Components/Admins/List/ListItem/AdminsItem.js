@@ -1,25 +1,28 @@
 import React from 'react';
 import './adminsItem.module.css';
 
-function AdminsItem({ adminsItem, deleteAdmin }) {
-  console.log('props', adminsItem);
+function AdminsItem({ listItem, deleteAdmin }) {
+  console.log('props', listItem);
 
   const handleDelete = () => {
     let confirm = window.confirm('Are yo sure yo want to delete Admin?');
     if (confirm) {
-      deleteAdmin(adminsItem._id);
+      deleteAdmin(listItem._id);
     }
   };
 
   return (
     <tr>
-      <td>{adminsItem._id}</td>
-      <td>{adminsItem.password}</td>
-      <td>{adminsItem.email}</td>
-      <td>{adminsItem.firstName}</td>
-      <td>{adminsItem.lastName}</td>
+      <td>{listItem._id}</td>
+      <td>{listItem.password}</td>
+      <td>{listItem.email}</td>
+      <td>{listItem.firstName}</td>
+      <td>{listItem.lastName}</td>
       <td>
-        <button onClick={() => handleDelete(adminsItem._id)}>X</button>
+        <button id="delete" onClick={() => handleDelete(listItem._id)}>
+          &#10008;
+        </button>
+        <button id="edit">&#9998;</button>
       </td>
     </tr>
   );
