@@ -1,6 +1,4 @@
 import { useState, useEffect } from 'react';
-import Dropdown from 'react-dropdown';
-import 'react-dropdown/style.css';
 import styles from './form.module.css';
 
 function TimeSheetForm() {
@@ -12,6 +10,8 @@ function TimeSheetForm() {
   const [employeeIdValue, setemployeeIdValue] = useState('');
   const [employeeOptions, setEmployeeOptions] = useState([]);
   const [tasksOptions, setTasksOptions] = useState([]);
+  const [error, setError] = useState('');
+  const [isLoading, setLoading] = useState(false);
 
   const onChangeTotalHoursInput = (event) => {
     settotalHoursValue(event.target.value);
@@ -26,16 +26,17 @@ function TimeSheetForm() {
     setendDateValue(event.target.value);
   };
   const onChangeTaskInput = (event) => {
-    settaskValue(event.value);
+    settaskValue(event.target.value);
   };
   const onChangeEmployeeIdInput = (event) => {
-    setemployeeIdValue(event.value);
+    setemployeeIdValue(event.target.value);
   };
 
   useEffect(async () => {
     try {
-      const data = await fetch(`${process.env.REACT_APP_API_URL}/employees/`);
-      const employees = await data.json();
+      setLoading(true);
+      const employeesData = await fetch(`${process.env.REACT_APP_API_URL}/employees/`);
+      const employees = await employeesData.json();
       for (let i = 0; i < employees.data.length; i++) {
         setEmployeeOptions((employeeOptions) => [
           ...employeeOptions,
@@ -45,15 +46,8 @@ function TimeSheetForm() {
           }
         ]);
       }
-    } catch (error) {
-      console.error(error);
-    }
-  }, []);
-
-  useEffect(async () => {
-    try {
-      const data = await fetch(`${process.env.REACT_APP_API_URL}/tasks/`);
-      const tasks = await data.json();
+      const tasksData = await fetch(`${process.env.REACT_APP_API_URL}/tasks/`);
+      const tasks = await tasksData.json();
       for (let i = 0; i < tasks.data.length; i++) {
         setTasksOptions((tasksOptions) => [
           ...tasksOptions,
@@ -65,13 +59,47 @@ function TimeSheetForm() {
       }
     } catch (error) {
       console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    setLoading(true);
+    const params = new URLSearchParams(window.location.search);
+    const timeSheetId = params.get('id');
+    if (timeSheetId) {
+      fetch(`${process.env.REACT_APP_API_URL}/time-sheets/${timeSheetId}`)
+        .then((response) => {
+          if (response.status !== 200) {
+            return response.json().then(({ message }) => {
+              throw new Error(message);
+            });
+          }
+          return response.json();
+        })
+        .then((response) => {
+          // settaskValue(response.data[0].tasks[0]);
+          settotalHoursValue(response.data.totalHours);
+          setstatusValue(response.data.status);
+          setstartDateValue(response.data.startDate.split('T')[0]);
+          setendDateValue(response.data.endDate.split('T')[0]);
+          // setemployeeIdValue(response.data[0].employeeId);
+        })
+        .catch((error) => {
+          setError(error.toString());
+        })
+        .finally(() => setLoading(false));
     }
   }, []);
 
   const onSubmit = async (event) => {
+    setLoading(true);
     event.preventDefault();
+    const params = new URLSearchParams(window.location.search);
+    const timeSheetId = params.get('id');
 
-    const url = `${process.env.REACT_APP_API_URL}/time-sheets/`;
+    let url = `${process.env.REACT_APP_API_URL}/time-sheets/`;
     const options = {
       method: 'POST',
       headers: {
@@ -86,29 +114,44 @@ function TimeSheetForm() {
         employeeId: employeeIdValue
       })
     };
+    if (timeSheetId) {
+      options.method = 'PUT';
+      url = `${process.env.REACT_APP_API_URL}/time-sheets/${timeSheetId}`;
+    }
     try {
       const response = await fetch(url, options);
       const data = await response.json();
       console.log(data);
     } catch (error) {
       console.error(error);
+    } finally {
+      setLoading(false);
     }
   };
   return (
     <div className={styles.container}>
       <h2>Time Sheets Form</h2>
       <form onSubmit={onSubmit}>
-        <Dropdown
-          options={tasksOptions}
+        <select
           onChange={onChangeTaskInput}
           value={taskValue}
-          placeholder="Select a task"
           className={styles.input}
           id="task"
           name="task"
           required
           type="text"
-        />
+          disabled={isLoading}
+        >
+          <option value="" disabled>
+            Select a task
+          </option>
+          {tasksOptions.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </select>
+        {/* hacer el map de las tareas del usuario */}
         <input
           className={styles.input}
           id="totalHours"
@@ -117,6 +160,7 @@ function TimeSheetForm() {
           type="number"
           value={totalHoursValue}
           onChange={onChangeTotalHoursInput}
+          disabled={isLoading}
         />
         <input
           className={styles.input}
@@ -126,6 +170,7 @@ function TimeSheetForm() {
           type="text"
           value={statusValue}
           onChange={onChangeStatusInput}
+          disabled={isLoading}
         />
         <input
           className={styles.input}
@@ -135,6 +180,7 @@ function TimeSheetForm() {
           type="date"
           value={startDateValue}
           onChange={onChangeStartDateInput}
+          disabled={isLoading}
         />
         <input
           className={styles.input}
@@ -144,19 +190,31 @@ function TimeSheetForm() {
           type="date"
           value={endDateValue}
           onChange={onChangeEndDateInput}
+          disabled={isLoading}
         />
-        <Dropdown
-          options={employeeOptions}
+        <select
           onChange={onChangeEmployeeIdInput}
           value={employeeIdValue}
-          placeholder="Select an employee"
           className={styles.input}
           id="employeeId"
           name="employeeId"
           required
           type="text"
-        />
-        <button type="submit">Save</button>
+          disabled={isLoading}
+        >
+          <option value="" disabled>
+            Select an employee
+          </option>
+          {employeeOptions.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </select>
+        <button type="submit" disabled={isLoading}>
+          Save
+        </button>
+        <div className={styles.error}>{error}</div>
       </form>
     </div>
   );
