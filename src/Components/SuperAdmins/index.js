@@ -23,7 +23,6 @@ function SuperAdmins() {
     await fetch(`${process.env.REACT_APP_API_URL}/${_id}`, {
       method: 'DELETE'
     });
-    setSuperAdmins([...listSuperAdmins.filter((admin) => admin._id !== _id)]);
   };
 
   return (
