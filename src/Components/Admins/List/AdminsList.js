@@ -3,8 +3,6 @@ import AdminsItem from '../ListItem/AdminsItem';
 import './list.module.css';
 
 const List = ({ list, deleteAdmin }) => {
-  console.log('admins list', list);
-
   return (
     <div>
       <table>

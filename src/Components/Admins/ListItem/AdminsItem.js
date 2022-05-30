@@ -2,8 +2,6 @@ import React from 'react';
 import styles from './adminsItem.module.css';
 
 function AdminsItem({ listItem, deleteAdmin }) {
-  console.log('props', listItem);
-
   const handleDelete = () => {
     let confirm = window.confirm('Are yo sure yo want to delete Admin?');
     if (confirm) {
