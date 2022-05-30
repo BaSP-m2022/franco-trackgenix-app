@@ -4,7 +4,11 @@ import React from 'react';
 const TimeSheetItem = ({ listItem, deleteTimeSheet }) => {
   console.log('Time sheets list', listItem);
 
-  const handleDelete = () => deleteTimeSheet(listItem._id);
+  const handleDelete = () => {
+    if (window.confirm('Are you sure you want to delete this time sheet?')) {
+      deleteTimeSheet(listItem._id);
+    }
+  };
 
   return (
     <tr>
@@ -14,7 +18,9 @@ const TimeSheetItem = ({ listItem, deleteTimeSheet }) => {
       <td>{listItem.status}</td>
       <td>{listItem.startDate}</td>
       <td>{listItem.endDate}</td>
-      {/* <td>{listItem.employeeId}</td> */}
+      <td>
+        {listItem.employeeId?.firstName} {listItem.employeeId?.lastName}
+      </td>
       <td>
         <button onClick={() => handleDelete(listItem._id)}>X</button>
       </td>

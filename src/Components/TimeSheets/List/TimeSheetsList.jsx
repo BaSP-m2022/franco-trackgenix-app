@@ -14,7 +14,7 @@ const List = ({ list, deleteTimeSheet }) => {
           <th id="status">Status</th>
           <th id="startDate">Start Date</th>
           <th id="endDate">End Date</th>
-          <th id="employeeId">Employee ID</th>
+          <th id="employeeId">Employee</th>
         </tr>
       </thead>
       <tbody>
