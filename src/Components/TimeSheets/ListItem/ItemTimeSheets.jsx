@@ -14,7 +14,7 @@ const TimeSheetItem = ({ listItem, deleteTimeSheet }) => {
       <td>{listItem.status}</td>
       <td>{listItem.startDate}</td>
       <td>{listItem.endDate}</td>
-      <td>{listItem.employeeId}</td>
+      {/* <td>{listItem.employeeId}</td> */}
       <td>
         <button onClick={() => handleDelete(listItem._id)}>X</button>
       </td>
