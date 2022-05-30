@@ -20,9 +20,9 @@ const ListItem = ({ listItem, deleteItem }) => {
         <button className={styles.button} onClick={() => handleDelete(listItem._id)}>
           {del}
         </button>
-        <button className={styles.button} onClick={() => {}}>
+        <a className={styles.button} href={`/admins/form?id=${listItem._id}`}>
           {pencil}
-        </button>
+        </a>
       </td>
     </tr>
   );
