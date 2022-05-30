@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
 import styles from './Project.module.css';
 
@@ -7,7 +6,7 @@ function ProjectForm() {
   const [nameValue, setnameValue] = useState('');
   const [statusValue, setstatusValue] = useState('');
   const [descriptionValue, setdescriptionValue] = useState('');
-  const [employeeIdValue, setemployeeIdValue] = useState('');
+  const [employeeIdValue, setemployeeIdValue] = useState({});
   const [employeeOptions, setEmployeeOptions] = useState([]);
   const [startDateValue, setstartDateValue] = useState('');
   const [endDateValue, setendDateValue] = useState('');
@@ -40,6 +39,8 @@ function ProjectForm() {
           ...employeeOptions,
           {
             value: `${employees.data[i]._id}`,
+            role: `${employees.data[i].role}`, //Missing role data
+            rate: `${employees.data[i].rate}`, //Missing rate data
             label: `${employees.data[i].firstName} ${employees.data[i].lastName}`
           }
         ]);
@@ -52,7 +53,11 @@ function ProjectForm() {
   const onSubmit = async (event) => {
     event.preventDefault();
 
-    const url = `${process.env.REACT_APP_API_URL}/projects/`;
+    const params = new URLSearchParams(window.location.search);
+    const projectId = params.get('id');
+
+    let url = `${process.env.REACT_APP_API_URL}/projects/`;
+
     const options = {
       method: 'POST',
       headers: {
@@ -62,11 +67,15 @@ function ProjectForm() {
         name: nameValue,
         status: statusValue,
         description: descriptionValue,
-        employeeId: employeeIdValue,
+        employees: [{ employeeId: employeeIdValue, rate: 1, role: 'ADM' }], //missing data from employee (rate and role)
         startDate: startDateValue,
         endDate: endDateValue
       })
     };
+    if (projectId) {
+      options.method = 'PUT';
+      url = `${process.env.REACT_APP_API_URL}/projects/${projectId}`;
+    }
     try {
       const response = await fetch(url, options);
       const data = await response.json();
@@ -80,6 +89,7 @@ function ProjectForm() {
     <div className={styles.container}>
       <h2>Project Form</h2>
       <form onSubmit={onSubmit}>
+        <label>Name</label>
         <input
           className={styles.input}
           id="name"
@@ -89,6 +99,7 @@ function ProjectForm() {
           value={nameValue}
           onChange={onChangeNameInput}
         />
+        <label>Status</label>
         <input
           className={styles.input}
           id="status"
@@ -98,6 +109,7 @@ function ProjectForm() {
           value={statusValue}
           onChange={onChangeStatusInput}
         />
+        <label>Description</label>
         <input
           className={styles.input}
           id="description"
@@ -107,17 +119,25 @@ function ProjectForm() {
           value={descriptionValue}
           onChange={onChangeDescriptionInput}
         />
-        <Dropdown
-          options={employeeOptions}
+        <select
           onChange={onChangeEmployeeIdInput}
           value={employeeIdValue}
-          placeholder="Select an employee"
           className={styles.input}
           id="employeeId"
           name="employeeId"
           required
           type="text"
-        />
+        >
+          <option value="" disabled>
+            Select a Employee
+          </option>
+          {employeeOptions.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </select>
+        <label>Start Date</label>
         <input
           className={styles.input}
           id="startDate"
@@ -127,6 +147,7 @@ function ProjectForm() {
           value={startDateValue}
           onChange={onChangeStartDateInput}
         />
+        <label>End Date</label>
         <input
           className={styles.input}
           id="endDate"
