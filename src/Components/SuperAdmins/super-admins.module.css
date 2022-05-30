@@ -6,7 +6,7 @@
   flex-direction: column;
   padding: 0 20%;
 }
-section button {
+.btn {
   align-self: flex-end;
   padding: 5px 8px;
   border: 1px solid #181818;
@@ -14,10 +14,9 @@ section button {
   color: #181818;
   background-color: #F0F4F9;
   font-size: 16px;
+  text-decoration: none;
 }
-
-section button:hover {
-  color: #181818;
+.btn:hover {
   background-color: #FFFFFF;
   transform: scale(1.05);
   transition: all .2s ease-in-out;
