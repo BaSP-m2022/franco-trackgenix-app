@@ -1,5 +1,5 @@
 import React from 'react';
-import './adminsItem.module.css';
+import styles from './adminsItem.module.css';
 
 function AdminsItem({ listItem, deleteAdmin }) {
   console.log('props', listItem);
@@ -19,10 +19,10 @@ function AdminsItem({ listItem, deleteAdmin }) {
       <td>{listItem.firstName}</td>
       <td>{listItem.lastName}</td>
       <td>
-        <a id="delete" className="button" onClick={() => handleDelete(listItem._id)}>
+        <a id="delete" className={styles.button} onClick={() => handleDelete(listItem._id)}>
           &#10008;
         </a>
-        <a id="edit" className="button" href={`/admins/form?id=${listItem._id}`}>
+        <a id="edit" className={styles.button} href={`/admins/form?id=${listItem._id}`}>
           &#9998;
         </a>
       </td>

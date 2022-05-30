@@ -34,7 +34,9 @@ const Admins = () => {
   return (
     <section className={styles.container}>
       <h2>Admins</h2>
-      <a href="/admins/form">&#10010; Add New Admin</a>
+      <a className={styles.add} href="/admins/form">
+        &#10010; Add New Admin
+      </a>
       <List list={list} setList={setList} deleteAdmin={deleteAdmin} />
     </section>
   );
