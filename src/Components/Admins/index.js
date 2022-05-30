@@ -20,14 +20,21 @@ const Admins = () => {
 
   //API request to delete admins
   const deleteAdmin = async (_id) => {
-    // await fetch(`${URL} / ${_id}`, { method: 'DELETE' });
-    setList([...list.filter((adminsItem) => adminsItem._id !== _id)]);
+    const response = await fetch(`${URL}/${_id}`, { method: 'DELETE' });
+    const responseJson = await response.json();
+    console.log(responseJson);
+    if (responseJson.error) {
+      alert('error');
+    } else {
+      setList([...list.filter((adminsItem) => adminsItem._id !== _id)]);
+      alert('delete successfully');
+    }
   };
 
   return (
     <section className={styles.container}>
       <h2>Admins</h2>
-      <button href="/admins-form">&#10010; Add New Admin</button>
+      <a href="/admins/form">&#10010; Add New Admin</a>
       <List list={list} setList={setList} deleteAdmin={deleteAdmin} />
     </section>
   );

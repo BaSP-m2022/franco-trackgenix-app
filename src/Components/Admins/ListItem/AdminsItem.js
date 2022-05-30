@@ -19,12 +19,12 @@ function AdminsItem({ listItem, deleteAdmin }) {
       <td>{listItem.firstName}</td>
       <td>{listItem.lastName}</td>
       <td>
-        <button id="delete" onClick={() => handleDelete(listItem._id)}>
+        <a id="delete" className="button" onClick={() => handleDelete(listItem._id)}>
           &#10008;
-        </button>
-        <button id="edit" href={`/admins-form/${listItem._id}`}>
+        </a>
+        <a id="edit" className="button" href={`/admins/form?id=${listItem._id}`}>
           &#9998;
-        </button>
+        </a>
       </td>
     </tr>
   );
