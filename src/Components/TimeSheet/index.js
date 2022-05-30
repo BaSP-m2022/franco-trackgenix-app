@@ -2,34 +2,39 @@ import { useState, useEffect } from 'react';
 import styles from './form.module.css';
 
 function TimeSheetForm() {
-  const [taskValue, settaskValue] = useState('');
-  const [totalHoursValue, settotalHoursValue] = useState('');
-  const [statusValue, setstatusValue] = useState('');
-  const [startDateValue, setstartDateValue] = useState('');
-  const [endDateValue, setendDateValue] = useState('');
-  const [employeeIdValue, setemployeeIdValue] = useState('');
+  const [taskValue, setTaskValue] = useState('');
+  const [totalHoursValue, setTotalHoursValue] = useState('');
+  const [statusValue, setStatusValue] = useState('');
+  const [startDateValue, setStartDateValue] = useState('');
+  const [endDateValue, setEndDateValue] = useState('');
+  const [employeeIdValue, setEmployeeIdValue] = useState({});
   const [employeeOptions, setEmployeeOptions] = useState([]);
   const [tasksOptions, setTasksOptions] = useState([]);
   const [error, setError] = useState('');
   const [isLoading, setLoading] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
+  const [showModal, setShowModal] = useState(false);
 
+  const closeModal = () => {
+    setShowModal(false);
+  };
   const onChangeTotalHoursInput = (event) => {
-    settotalHoursValue(event.target.value);
+    setTotalHoursValue(event.target.value);
   };
   const onChangeStatusInput = (event) => {
-    setstatusValue(event.target.value);
+    setStatusValue(event.target.value);
   };
   const onChangeStartDateInput = (event) => {
-    setstartDateValue(event.target.value);
+    setStartDateValue(event.target.value);
   };
   const onChangeEndDateInput = (event) => {
-    setendDateValue(event.target.value);
+    setEndDateValue(event.target.value);
   };
   const onChangeTaskInput = (event) => {
-    settaskValue(event.target.value);
+    setTaskValue(event.target.value);
   };
   const onChangeEmployeeIdInput = (event) => {
-    setemployeeIdValue(event.target.value);
+    setEmployeeIdValue(event.target.value);
   };
 
   useEffect(async () => {
@@ -79,12 +84,14 @@ function TimeSheetForm() {
           return response.json();
         })
         .then((response) => {
-          // settaskValue(response.data[0].tasks[0]);
-          settotalHoursValue(response.data.totalHours);
-          setstatusValue(response.data.status);
-          setstartDateValue(response.data.startDate.split('T')[0]);
-          setendDateValue(response.data.endDate.split('T')[0]);
-          // setemployeeIdValue(response.data[0].employeeId);
+          // console.log(response.data.tasks);
+          // console.log(response.data.employeeId);
+          setTaskValue(response.data.tasks);
+          setTotalHoursValue(response.data.totalHours);
+          setStatusValue(response.data.status);
+          setStartDateValue(response.data.startDate.split('T')[0]);
+          setEndDateValue(response.data.endDate.split('T')[0]);
+          setEmployeeIdValue(response.data.employeeId);
         })
         .catch((error) => {
           setError(error.toString());
@@ -98,7 +105,7 @@ function TimeSheetForm() {
     event.preventDefault();
     const params = new URLSearchParams(window.location.search);
     const timeSheetId = params.get('id');
-
+    setModalMessage('Timesheet created correctly!');
     let url = `${process.env.REACT_APP_API_URL}/time-sheets/`;
     const options = {
       method: 'POST',
@@ -106,15 +113,18 @@ function TimeSheetForm() {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        tasks: [taskValue],
+        tasks: [taskValue._id],
         totalHours: totalHoursValue,
         status: statusValue,
         startDate: startDateValue,
         endDate: endDateValue,
-        employeeId: employeeIdValue
+        employeeId: employeeIdValue._id
       })
     };
+    console.log(employeeIdValue, 'employee value');
+    console.log(taskValue, 'task Value');
     if (timeSheetId) {
+      setModalMessage('Timesheet edited correctly!');
       options.method = 'PUT';
       url = `${process.env.REACT_APP_API_URL}/time-sheets/${timeSheetId}`;
     }
@@ -123,8 +133,10 @@ function TimeSheetForm() {
       const data = await response.json();
       console.log(data);
     } catch (error) {
+      setModalMessage(error.toString());
       console.error(error);
     } finally {
+      setShowModal(true);
       setLoading(false);
     }
   };
@@ -214,6 +226,16 @@ function TimeSheetForm() {
         <button type="submit" disabled={isLoading}>
           Save
         </button>
+        {showModal && (
+          <div className={styles.modalContainer}>
+            <div className={styles.modal}>
+              <h3>{modalMessage}</h3>
+              <button disabled={isLoading} onClick={closeModal} className={styles.button}>
+                OK
+              </button>
+            </div>
+          </div>
+        )}
         <div className={styles.error}>{error}</div>
       </form>
     </div>
