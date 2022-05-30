@@ -8,7 +8,6 @@ function Projects() {
     try {
       const response = await fetch(`${process.env.REACT_APP_API}/projects`);
       const data = await response.json();
-      console.log(data.data);
       setProjects(data.data);
     } catch (error) {
       console.log(error);
@@ -16,38 +15,36 @@ function Projects() {
   }, []);
 
   async function deleteProject(projectId) {
-    console.log('delete project with id: ' + projectId);
-    try {
-      const response = await fetch(`${process.env.REACT_APP_API}/projects/${projectId}`, {
-        method: 'DELETE'
-      });
-      const data = await response.json();
-      console.log('response.json() del delete: ');
-      console.log(data);
-      console.log('projects: ');
-      console.log(projects);
-      const result = projects.filter((project) => project._id !== projectId);
-      setProjects(result);
-    } catch (error) {
-      console.log(error);
+    let confirm = window.confirm('Are you sure yo want to delete Project');
+    if (confirm) {
+      try {
+        const response = await fetch(`${process.env.REACT_APP_API}/projects/${projectId}`, {
+          method: 'DELETE'
+        });
+        const data = await response.json();
+        console.log('response.json() del delete: ');
+        console.log(data);
+        const result = projects.filter((project) => project._id !== projectId);
+        setProjects(result);
+      } catch (error) {
+        console.log(error);
+      }
     }
-  }
-
-  function editProject() {
-    console.log('edit project');
   }
 
   return (
     <section className={styles.container}>
       <h2>- Projects List -</h2>
-      <div>
+      <div className={styles.flex}>
+        <a className={styles.add} href="/projects/form">
+          Add Form
+        </a>
         <table id={styles.projects_list_table}>
           <tbody>
-            <tr>
+            <tr className={styles.capitalize}>
               <th>id</th>
               <th>name</th>
               <th>status</th>
-              {/* <th>employees</th> */}
               <th>description</th>
               <th>start date</th>
               <th>end date</th>
@@ -58,12 +55,14 @@ function Projects() {
                   <td>{project._id}</td>
                   <td>{project.name}</td>
                   <td>{project.status}</td>
-                  {/* <td>{project.employees}</td> */}
                   <td>{project.description}</td>
                   <td>{project.startDate}</td>
                   <td>{project.endDate}</td>
-                  <i onClick={() => deleteProject(project._id)} className="fa fa-trash"></i>
-                  <i onClick={() => editProject(project._id)} className="fa fa-pencil"></i>
+                  <i
+                    onClick={() => deleteProject(project._id)}
+                    className={`fa fa-trash ` + styles.fa_style}
+                  ></i>
+                  <i className={`fa fa-pencil ` + styles.fa_style}></i>
                 </tr>
               );
             })}
