@@ -3,7 +3,6 @@ import ListItem from '../ListItem/Index';
 import styles from './List.module.css';
 
 const List = ({ list, deleteItem }) => {
-  // console.log("array list", list);
   return (
     <div className={styles.container}>
       <table>

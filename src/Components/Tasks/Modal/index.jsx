@@ -2,7 +2,6 @@ import React from 'react';
 import styles from './Modal.module.css';
 
 const Modal = ({ setIsOpen, setList, list, id }) => {
-  console.log(id);
   return (
     <>
       <div className={styles.darkBG} onClick={() => setIsOpen(false)} />

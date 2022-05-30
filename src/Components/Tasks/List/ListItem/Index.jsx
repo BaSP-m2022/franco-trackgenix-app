@@ -2,8 +2,6 @@ import React from 'react';
 import styles from './listItem.module.css';
 
 const ListItem = ({ listItem, deleteItem }) => {
-  // console.log('props', listItem);
-
   const handleDelete = () => {
     deleteItem(listItem._id);
   };
