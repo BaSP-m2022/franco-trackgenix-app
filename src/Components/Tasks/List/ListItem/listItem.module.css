@@ -2,3 +2,19 @@
   border: 1px solid #000;
   margin-bottom: 3px;
 }
+.button {
+  align-self: flex-end;
+  padding: 5px 8px;
+  margin: 0px 4px;
+  border: 1px solid #181818;
+  border-radius: 5px;
+  color: #181818;
+  background-color: #f0f4f9;
+  font-size: 16px;
+}
+
+.button:hover {
+  background-color: #ffffff;
+  transform: scale(1.05);
+  transition: all 0.2s ease-in-out;
+}

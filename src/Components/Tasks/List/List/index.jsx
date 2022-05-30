@@ -14,6 +14,7 @@ const List = ({ list, deleteItem }) => {
             <th id="projectName">Project Name</th>
             <th id="workedHours">Worked Hours</th>
             <th id="date">Date</th>
+            <th id="delEdit">Delete/Edit</th>
           </tr>
         </thead>
         <tbody>
