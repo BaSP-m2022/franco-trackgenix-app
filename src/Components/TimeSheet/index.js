@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import styles from './form.module.css';
 
 function TimeSheetForm() {
-  const [taskValue, setTaskValue] = useState('');
+  const [taskValue, setTaskValue] = useState([]);
   const [totalHoursValue, setTotalHoursValue] = useState('');
   const [statusValue, setStatusValue] = useState('');
   const [startDateValue, setStartDateValue] = useState('');
@@ -31,7 +31,11 @@ function TimeSheetForm() {
     setEndDateValue(event.target.value);
   };
   const onChangeTaskInput = (event) => {
-    setTaskValue(event.target.value);
+    if (taskValue.indexOf(event.target.value) > -1) {
+      setTaskValue(taskValue.filter((task) => task !== event.target.value));
+    } else {
+      setTaskValue([...taskValue, event.target.value]);
+    }
   };
   const onChangeEmployeeIdInput = (event) => {
     setEmployeeIdValue(event.target.value);
@@ -84,8 +88,6 @@ function TimeSheetForm() {
           return response.json();
         })
         .then((response) => {
-          // console.log(response.data.tasks);
-          // console.log(response.data.employeeId);
           setTaskValue(response.data.tasks);
           setTotalHoursValue(response.data.totalHours);
           setStatusValue(response.data.status);
@@ -113,16 +115,14 @@ function TimeSheetForm() {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        tasks: [taskValue._id],
+        tasks: taskValue,
         totalHours: totalHoursValue,
         status: statusValue,
         startDate: startDateValue,
         endDate: endDateValue,
-        employeeId: employeeIdValue._id
+        employeeId: employeeIdValue
       })
     };
-    console.log(employeeIdValue, 'employee value');
-    console.log(taskValue, 'task Value');
     if (timeSheetId) {
       setModalMessage('Timesheet edited correctly!');
       options.method = 'PUT';
@@ -131,9 +131,11 @@ function TimeSheetForm() {
     try {
       const response = await fetch(url, options);
       const data = await response.json();
+      if (data.error) {
+        setModalMessage('There was an error');
+      }
       console.log(data);
     } catch (error) {
-      setModalMessage(error.toString());
       console.error(error);
     } finally {
       setShowModal(true);
@@ -144,85 +146,98 @@ function TimeSheetForm() {
     <div className={styles.container}>
       <h2>Time Sheets Form</h2>
       <form onSubmit={onSubmit}>
-        <select
-          onChange={onChangeTaskInput}
-          value={taskValue}
-          className={styles.input}
-          id="task"
-          name="task"
-          required
-          type="text"
-          disabled={isLoading}
-        >
-          <option value="" disabled>
-            Select a task
-          </option>
-          {tasksOptions.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
+        <div className="select">
+          <select
+            onChange={onChangeTaskInput}
+            value={taskValue}
+            className={styles.input}
+            id="task"
+            name="task"
+            required
+            type="text"
+            disabled={isLoading}
+            multiple={true}
+          >
+            <option value="" disabled>
+              Select a task
             </option>
-          ))}
-        </select>
+            {tasksOptions.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+        </div>
         {/* hacer el map de las tareas del usuario */}
-        <input
-          className={styles.input}
-          id="totalHours"
-          name="totalHours"
-          required
-          type="number"
-          value={totalHoursValue}
-          onChange={onChangeTotalHoursInput}
-          disabled={isLoading}
-        />
-        <input
-          className={styles.input}
-          id="status"
-          name="status"
-          required
-          type="text"
-          value={statusValue}
-          onChange={onChangeStatusInput}
-          disabled={isLoading}
-        />
-        <input
-          className={styles.input}
-          id="startDate"
-          name="startDate"
-          required
-          type="date"
-          value={startDateValue}
-          onChange={onChangeStartDateInput}
-          disabled={isLoading}
-        />
-        <input
-          className={styles.input}
-          id="endDate"
-          name="endDate"
-          required
-          type="date"
-          value={endDateValue}
-          onChange={onChangeEndDateInput}
-          disabled={isLoading}
-        />
-        <select
-          onChange={onChangeEmployeeIdInput}
-          value={employeeIdValue}
-          className={styles.input}
-          id="employeeId"
-          name="employeeId"
-          required
-          type="text"
-          disabled={isLoading}
-        >
-          <option value="" disabled>
-            Select an employee
-          </option>
-          {employeeOptions.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
+        <div className="input">
+          <input
+            className={styles.input}
+            id="totalHours"
+            name="totalHours"
+            required
+            type="number"
+            value={totalHoursValue}
+            onChange={onChangeTotalHoursInput}
+            disabled={isLoading}
+          />
+        </div>
+        <div className="input">
+          <input
+            className={styles.input}
+            id="status"
+            name="status"
+            required
+            type="text"
+            value={statusValue}
+            onChange={onChangeStatusInput}
+            disabled={isLoading}
+          />
+        </div>
+        <div className="input">
+          <input
+            className={styles.input}
+            id="startDate"
+            name="startDate"
+            required
+            type="date"
+            value={startDateValue}
+            onChange={onChangeStartDateInput}
+            disabled={isLoading}
+          />
+        </div>
+        <div className="input">
+          <input
+            className={styles.input}
+            id="endDate"
+            name="endDate"
+            required
+            type="date"
+            value={endDateValue}
+            onChange={onChangeEndDateInput}
+            disabled={isLoading}
+          />
+        </div>
+        <div className="select">
+          <select
+            onChange={onChangeEmployeeIdInput}
+            value={employeeIdValue}
+            className={styles.input}
+            id="employeeId"
+            name="employeeId"
+            required
+            type="text"
+            disabled={isLoading}
+          >
+            <option value="" disabled>
+              Select an employee
             </option>
-          ))}
-        </select>
+            {employeeOptions.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+        </div>
         <button type="submit" disabled={isLoading}>
           Save
         </button>
