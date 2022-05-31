@@ -1,10 +1,10 @@
 import React from 'react';
 import AdminsItem from '../ListItem/AdminsItem';
-import './list.module.css';
+import styles from './list.module.css';
 
 const List = ({ list, deleteAdmin }) => {
   return (
-    <div>
+    <div className={styles.container}>
       <table>
         <thead>
           <tr>

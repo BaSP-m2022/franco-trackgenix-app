@@ -17,7 +17,7 @@ function AdminsItem({ listItem, deleteAdmin }) {
       <td>{listItem.firstName}</td>
       <td>{listItem.lastName}</td>
       <td>
-        <a id="delete" className={styles.button} onClick={() => handleDelete(listItem._id)}>
+        <a id="delete" className={styles.button} onClick={() => handleDelete()}>
           &#10008;
         </a>
         <a id="edit" className={styles.button} href={`/admins/form?id=${listItem._id}`}>
