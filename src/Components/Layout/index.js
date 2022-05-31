@@ -5,7 +5,7 @@ import SuperAdmins from '../SuperAdmins/index';
 import Home from '../Home/index';
 import styles from './layout.module.css';
 import Employees from '../Employees/index';
-import EmployeeForm from '../Employees/index';
+import EmployeeForm from '../Employee/index';
 import Projects from '../Projects';
 import TimeSheets from '../TimeSheets';
 import Tasks from '../Tasks/index';
