@@ -6,7 +6,7 @@ function Projects() {
 
   useEffect(async () => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_API}/projects`);
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/projects`);
       const data = await response.json();
       setProjects(data.data);
     } catch (error) {
@@ -18,7 +18,7 @@ function Projects() {
     let confirm = window.confirm('Are you sure yo want to delete Project');
     if (confirm) {
       try {
-        const response = await fetch(`${process.env.REACT_APP_API}/projects/${projectId}`, {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/projects/${projectId}`, {
           method: 'DELETE'
         });
         const data = await response.json();
