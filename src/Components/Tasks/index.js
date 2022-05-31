@@ -28,7 +28,7 @@ function Tasks() {
       <div>
         <List list={list} setList={setList} deleteItem={deleteItem} />
       </div>
-      <a href="/task" className={styles.button}>
+      <a href="/tasks/form" className={styles.button}>
         Add new task
       </a>
       {isOpen && <Modal setIsOpen={setIsOpen} setList={setList} list={list} id={idTask} />}
