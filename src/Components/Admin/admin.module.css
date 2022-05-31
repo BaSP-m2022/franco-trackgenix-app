@@ -2,6 +2,42 @@
   box-sizing:border-box
 }
 
+.section{
+padding: 0 20px;
+}
+
+.a{
+  display: inline-block;
+  text-decoration: none;
+  color: #000;
+  cursor: pointer;
+  padding: 5px 10px;
+  margin-bottom: 20px;
+}
+
+.a:hover {
+  text-decoration: underline;
+background-color: #f1f1f1;
+
+}
+
+.a:link {
+    text-decoration: inherit;
+    color: inherit;
+}
+
+.a:visited {
+    text-decoration: inherit;
+    color: inherit;
+}
+
+.h3{
+  display: block;
+  margin: 15px 20px;
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
 .form{
   width: 100%;
   display: flex;

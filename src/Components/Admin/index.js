@@ -85,9 +85,11 @@ function AdminForm() {
   }
 
   return (
-    <section>
-      <a href="/admins">Admin Home</a>
-      <h3>Add admin</h3>
+    <section className={styles.section}>
+      <a className={styles.a} href="/admins">
+        &#10094; Admin list
+      </a>
+      <h3 className={styles.h3}>Admin form</h3>
       <form className={styles.form}>
         <div className={styles.container}>
           <Input name="First Name" type="text" value={firstName} onChange={setFirstName} />
