@@ -1,22 +1,43 @@
 import { useEffect, useState } from 'react';
+import dotenv from 'dotenv';
 import styles from './super-admins.module.css';
+import List from './List/List';
+
+dotenv.config();
 
 function SuperAdmins() {
-  // eslint-disable-next-line no-unused-vars
-  const [superAdmins, saveSuperAdmins] = useState([]);
+  const [listSuperAdmins, setSuperAdmins] = useState([]);
+
   useEffect(async () => {
     try {
-      const response = await fetch('http://localhost:4000/super-admins');
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/super-admins`);
       const data = await response.json();
-      console.log(data);
-      saveSuperAdmins(response.data);
+      setSuperAdmins(data.data);
     } catch (error) {
       console.error(error);
     }
   }, []);
+
+  const deleteSuperAdmin = async (_id) => {
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/super-admins/${_id}`, {
+      method: 'DELETE'
+    });
+    const res = await response.json();
+    if (res.data.error) {
+      window.alert('there was an error');
+    } else {
+      setSuperAdmins([...listSuperAdmins.filter((admin) => admin._id !== _id)]);
+      window.alert(res.message);
+    }
+  };
+
   return (
     <section className={styles.container}>
       <h2>SuperAdmins</h2>
+      <a className={styles.btn} href={'/super-admins/form'}>
+        &#10010; Add Super Admin
+      </a>
+      <List list={listSuperAdmins} setList={setSuperAdmins} deleteSuperAdmin={deleteSuperAdmin} />
     </section>
   );
 }
