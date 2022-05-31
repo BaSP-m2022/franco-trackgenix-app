@@ -1,9 +1,6 @@
 import { useEffect, useState } from 'react';
-import dotenv from 'dotenv';
 import styles from './super-admins.module.css';
 import List from './List/List';
-
-dotenv.config();
 
 function SuperAdmins() {
   const [listSuperAdmins, setSuperAdmins] = useState([]);
