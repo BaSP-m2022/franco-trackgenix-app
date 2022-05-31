@@ -46,26 +46,17 @@ function TimeSheetForm() {
       setLoading(true);
       const employeesData = await fetch(`${process.env.REACT_APP_API_URL}/employees/`);
       const employees = await employeesData.json();
-      for (let i = 0; i < employees.data.length; i++) {
-        setEmployeeOptions((employeeOptions) => [
-          ...employeeOptions,
-          {
-            value: `${employees.data[i]._id}`,
-            label: `${employees.data[i].firstName} ${employees.data[i].lastName}`
-          }
-        ]);
-      }
+      setEmployeeOptions(
+        employees.data.map(({ _id, first_name, last_name }) => ({
+          value: _id,
+          label: first_name & last_name
+        }))
+      );
       const tasksData = await fetch(`${process.env.REACT_APP_API_URL}/tasks/`);
       const tasks = await tasksData.json();
-      for (let i = 0; i < tasks.data.length; i++) {
-        setTasksOptions((tasksOptions) => [
-          ...tasksOptions,
-          {
-            value: `${tasks.data[i]._id}`,
-            label: `${tasks.data[i].description}`
-          }
-        ]);
-      }
+      setTasksOptions(
+        tasks.data.map(({ _id, description }) => ({ value: _id, label: description }))
+      );
     } catch (error) {
       console.error(error);
     } finally {
@@ -168,9 +159,10 @@ function TimeSheetForm() {
             ))}
           </select>
         </div>
-        {/* hacer el map de las tareas del usuario */}
+
         <div className="input">
           <input
+            placeholder="Total Hours"
             className={styles.input}
             id="totalHours"
             name="totalHours"
@@ -183,6 +175,7 @@ function TimeSheetForm() {
         </div>
         <div className="input">
           <input
+            placeholder="Status"
             className={styles.input}
             id="status"
             name="status"
@@ -195,6 +188,7 @@ function TimeSheetForm() {
         </div>
         <div className="input">
           <input
+            placeholder="Start Date"
             className={styles.input}
             id="startDate"
             name="startDate"
@@ -207,6 +201,7 @@ function TimeSheetForm() {
         </div>
         <div className="input">
           <input
+            placeholder="End Date"
             className={styles.input}
             id="endDate"
             name="endDate"
@@ -219,6 +214,7 @@ function TimeSheetForm() {
         </div>
         <div className="select">
           <select
+            placeholder="Employee"
             onChange={onChangeEmployeeIdInput}
             value={employeeIdValue}
             className={styles.input}
@@ -242,7 +238,7 @@ function TimeSheetForm() {
           Save
         </button>
         {showModal && (
-          <div className={styles.modalContainer}>
+          <div className={styles['modal-container']}>
             <div className={styles.modal}>
               <h3>{modalMessage}</h3>
               <button disabled={isLoading} onClick={closeModal} className={styles.button}>
