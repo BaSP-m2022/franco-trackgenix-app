@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { useState, useEffect } from 'react';
 import styles from './Task.module.css';
 import Input from './Input';
@@ -11,7 +10,7 @@ const Form = () => {
   const [projectNameValue, setProjectNameValue] = useState('');
   const [isLoading, setLoading] = useState('');
   const [projectId, setProjectId] = useState('');
-  const [projects, setProjects] = useState('');
+  const [projects, setProjects] = useState([]);
 
   useEffect(() => {
     setLoading(true);
@@ -32,12 +31,14 @@ const Form = () => {
           setDateValue(response.data.date);
           setWorkedHoursValue(response.data.workedHours);
           setProjectNameValue(response.data.projectId.name);
+          setProjectId(response.data.projectId._id);
         })
         .catch((error) => {
           console.log(error);
         })
         .finally(() => setLoading(false));
     }
+    console.log(dateValue);
     fetch(`${process.env.REACT_APP_API_URL}/projects/`)
       .then((response) => {
         if (response.status !== 200) {
@@ -70,6 +71,7 @@ const Form = () => {
     setDateValue(event.target.value);
   };
   const onChangeProjectNameValue = (event) => {
+    setProjectNameValue(event.target.value);
     setProjectId(event.target.value);
   };
 
@@ -107,6 +109,11 @@ const Form = () => {
         return response.json();
       })
       .then(() => {
+        if (tasksId) {
+          window.alert('Task modified');
+        } else {
+          window.alert('Task created');
+        }
         window.location.href = '/tasks';
       })
       .catch((error) => {
@@ -119,37 +126,49 @@ const Form = () => {
     <div className={styles.container}>
       <form className={styles.form} onSubmit={onSubmit}>
         <h2>task</h2>
-        <Input
-          name="description"
-          value={descriptionValue}
-          onChange={onChangeDescriptionValue}
-          type="text"
-          required
-          disabled={isLoading}
-        />
-        <Input
-          name="workedHours"
-          value={dateValue}
-          onChange={onChangeWorkedHoursValue}
-          type="text"
-          required
-          disabled={isLoading}
-        />
-        <Select
-          name="Projects"
-          value={projectNameValue}
-          onChange={onChangeProjectNameValue}
-          options={projects}
-          disabled={isLoading}
-        />
-        <Input
-          name="date"
-          value={dateValue}
-          onChange={onChangeDateValue}
-          type="datetime"
-          required
-          disabled={isLoading}
-        />
+        <div>
+          <label htmlFor="description">Description</label>
+          <Input
+            name="description"
+            value={descriptionValue}
+            onChange={onChangeDescriptionValue}
+            type="text"
+            required
+            disabled={isLoading}
+          />
+        </div>
+        <div>
+          <label htmlFor="workedHours">Worked Hours</label>
+          <Input
+            name="workedHours"
+            value={workedHoursValue}
+            onChange={onChangeWorkedHoursValue}
+            type="text"
+            required
+            disabled={isLoading}
+          />
+        </div>
+        <div>
+          <label htmlFor="projects">Project Name</label>
+          <Select
+            name="projects"
+            value={projectNameValue}
+            onChange={onChangeProjectNameValue}
+            options={projects}
+            disabled={isLoading}
+          />
+        </div>
+        <div>
+          <label htmlFor="date">Date</label>
+          <Input
+            name="date"
+            value={dateValue}
+            onChange={onChangeDateValue}
+            type="datetime-now"
+            required
+            disabled={isLoading}
+          />
+        </div>
         <button disabled={isLoading} type="submit">
           Save
         </button>

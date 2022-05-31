@@ -20,7 +20,7 @@ const ListItem = ({ listItem, deleteItem }) => {
         <button className={styles.button} onClick={() => handleDelete(listItem._id)}>
           {del}
         </button>
-        <a className={styles.button} href={`/task/?id=${listItem._id}`}>
+        <a className={styles.button} href={`/tasks/form?id=${listItem._id}`}>
           {pencil}
         </a>
       </td>

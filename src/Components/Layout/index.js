@@ -31,7 +31,7 @@ function Layout() {
     case '/tasks':
       currentScreen = <Tasks />;
       break;
-    case '/task/':
+    case '/tasks/form':
       currentScreen = <Task />;
       break;
     default:
