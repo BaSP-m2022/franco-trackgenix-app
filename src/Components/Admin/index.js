@@ -30,7 +30,9 @@ function AdminForm() {
     }
     const params = new URLSearchParams(window.location.search);
     const adminId = params.get('id');
+
     if (adminId) {
+      setEditAdminId(adminId);
       setRequestType('PUT');
       fetchAdmin(adminId);
     } else {
