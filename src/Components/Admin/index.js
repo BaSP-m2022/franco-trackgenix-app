@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styles from './admin.module.css';
 import Input from './Input';
 
@@ -11,10 +11,33 @@ function AdminForm() {
   const [errorMessage, setErrorMessage] = useState('');
   const [loading, setLoading] = useState(false);
 
-  // const [requestType, setRequestType] = useState('POST');
-  //  const [editAdminId, setEditAdminId] = useState('');
-  const requestType = 'POST';
-  const editAdminId = '';
+  const [requestType, setRequestType] = useState('POST');
+  const [editAdminId, setEditAdminId] = useState('');
+
+  useEffect(() => {
+    async function fetchAdmin(id) {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/admins/${id}`);
+      const { message, data, error } = await response.json();
+      if (error) {
+        setErrorMessage(message);
+      } else {
+        setEditAdminId(id);
+        setFirstName(data.firstName);
+        setLastName(data.lastName);
+        setEmail(data.email);
+        setPassword(data.password);
+      }
+    }
+    const params = new URLSearchParams(window.location.search);
+    const adminId = params.get('id');
+    if (adminId) {
+      setRequestType('PUT');
+      fetchAdmin(adminId);
+    } else {
+      setRequestType('POST');
+    }
+  }, []);
+
   async function handleSubmit(e) {
     e.preventDefault();
     if (firstName === '' || lastName === '' || email === '' || password === '') {
@@ -40,23 +63,21 @@ function AdminForm() {
           })
         });
         const data = await response.json();
-        console.log('data', data);
-
         setLoading(false);
 
         if (data.error) {
           setErrorMessage(data.message);
         } else {
-          alert('Admin added successfully');
+          const msg = requestType === 'POST' ? 'Admin created' : 'Admin updated';
           setErrorMessage('');
           setFirstName('');
           setLastName('');
           setEmail('');
           setPassword('');
+          alert(msg);
         }
       } catch (error) {
-        console.log('error', error);
-        // setErrorMessage(error);
+        setErrorMessage(error.toString());
       }
     }
   }
@@ -65,16 +86,20 @@ function AdminForm() {
     <section>
       <a href="/admins">Admin Home</a>
       <h3>Add admin</h3>
-      <form className={styles.addForm}>
-        <div className={styles.addInputsContainer}>
+      <form className={styles.form}>
+        <div className={styles.container}>
           <Input name="First Name" type="text" value={firstName} onChange={setFirstName} />
           <Input name="Last Name" type="text" value={lastName} onChange={setLastName} />
           <Input name="Email" type="email" value={email} onChange={setEmail} />
           <Input name="Password" type="text" value={password} onChange={setPassword} />
         </div>
-        <div className={styles.addButtonContainer}>
-          {errorMessage && <p>{errorMessage}</p>}
-          <button className={styles.addButton} onClick={handleSubmit}>
+        <div className={styles.buttonContainer}>
+          {errorMessage && <p className={styles.error}>{errorMessage}</p>}
+          <button
+            className={styles.button}
+            onClick={handleSubmit}
+            disabled={!firstName || !lastName || !email || !password || loading}
+          >
             {loading && 'Loading...'}
             {!loading && requestType === 'POST' ? 'Add Admin' : 'Update Admin'}
           </button>

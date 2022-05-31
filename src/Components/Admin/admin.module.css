@@ -2,22 +2,14 @@
   box-sizing:border-box
 }
 
-.container {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.addForm{
+.form{
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.addInputsContainer{
+.container{
   width: 100%;
   display: flex;
   flex-wrap: wrap;
@@ -25,37 +17,40 @@
   align-items: center;
 }
 
-.addInputContainer{
-  width: 24%;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-}
-
-.addInput{
-width: 97%;
-}
-
-.addButtonContainer{
+.buttonContainer{
   width: 100%;
   display: flex;
   justify-content: flex-end;
+  align-items: center;
   padding: 0 25px;
 }
 
-.addButton{
+.error{
+  color: red;
+  font-size: 16px;
+  margin-right: 25px;
+}
+
+.button{
   width: 120px;
   height: 40px;
   border-radius: 5px;
   border: 1px solid #ccc;
-  background-color: #ccc;
-  color: #fff;
   padding: 5px;
-  margin-left: 20px;
-  margin-top: 10px;
   cursor: pointer;
-}
-
-.addButton:hover{
   background-color: #EA3354;
   color: #000;
+}
+
+.button:hover{
+  background-color: #aa3354;
+  color: #000;
+  box-shadow: 0 0.5em 0.5em -0.4em;
+  transform: translateY(-0.25em);
+}
+
+.button:disabled{
+  background-color: #ccc;
+  color: #fff;
+  cursor: not-allowed;
 }

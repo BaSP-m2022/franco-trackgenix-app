@@ -2,7 +2,7 @@ import styles from './input.module.css';
 
 function Input({ name, type, value, onChange }) {
   return (
-    <div className={styles.inputContainer}>
+    <div className={styles.container}>
       <label className={styles.label}>
         {name}:
         <input
