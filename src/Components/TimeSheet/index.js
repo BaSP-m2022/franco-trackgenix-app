@@ -238,7 +238,7 @@ function TimeSheetForm() {
           Save
         </button>
         {showModal && (
-          <div className={styles['modal-container']}>
+          <div className={styles.modalContainer}>
             <div className={styles.modal}>
               <h3>{modalMessage}</h3>
               <button disabled={isLoading} onClick={closeModal} className={styles.button}>
