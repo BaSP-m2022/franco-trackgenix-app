@@ -22,7 +22,6 @@ function Projects() {
           method: 'DELETE'
         });
         const data = await response.json();
-        console.log('response.json() del delete: ');
         console.log(data);
         const result = projects.filter((project) => project._id !== projectId);
         setProjects(result);
