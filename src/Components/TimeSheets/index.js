@@ -36,7 +36,7 @@ const TimeSheets = () => {
       <h2 className={styles.title}>TimeSheets</h2>
       <List list={list} setList={setList} deleteTimeSheet={deleteTimeSheet} />
       <a className={styles.btn} href="/time-sheets/form">
-        Add New Admin
+        Add New Time Sheet
       </a>
     </section>
   );
