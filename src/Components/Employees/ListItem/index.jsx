@@ -7,7 +7,6 @@ const ListItem = ({ listItem, deleteItem }) => {
   const handleDelete = (_id) => {
     deleteItem(_id);
   };
-  console.log(listItem);
   return (
     <tr key={listItem.id}>
       <td>{listItem.firstName}</td>

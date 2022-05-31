@@ -14,12 +14,11 @@ const Employees = () => {
     }
   }, []);
 
-  const deleteItem = (_id) => {
+  const deleteItem = async (_id) => {
     try {
-      const response = fetch(`${process.env.REACT_APP_API_URL}/employees/${_id}`, {
+      await fetch(`${process.env.REACT_APP_API_URL}/employees/${_id}`, {
         method: 'DELETE'
       });
-      console.log(response);
       alert('Employee deleted');
     } catch (error) {
       console.error(error);
