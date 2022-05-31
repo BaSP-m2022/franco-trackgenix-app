@@ -35,9 +35,11 @@ const TimeSheets = () => {
 
   return (
     <section className={styles.container}>
-      <h2>TimeSheets</h2>
+      <h2 className={styles.title}>TimeSheets</h2>
       <List list={list} setList={setList} deleteTimeSheet={deleteTimeSheet} />
-      <a href="/time-sheets/form">Add New Admin</a>
+      <a className={styles.btn} href="/time-sheets/form">
+        Add New Admin
+      </a>
     </section>
   );
 };

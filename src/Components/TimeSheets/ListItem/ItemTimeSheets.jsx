@@ -1,5 +1,5 @@
 import React from 'react';
-// import styles from './item-time-sheets.module.css';
+import './item-time-sheets.module.css';
 
 const TimeSheetItem = ({ listItem, deleteTimeSheet }) => {
   console.log('Time sheets list', listItem);
@@ -9,7 +9,8 @@ const TimeSheetItem = ({ listItem, deleteTimeSheet }) => {
       deleteTimeSheet(listItem._id);
     }
   };
-
+  let pencil = '✎';
+  let del = '✘';
   return (
     <tr>
       <td>{listItem._id}</td>
@@ -22,7 +23,10 @@ const TimeSheetItem = ({ listItem, deleteTimeSheet }) => {
         {listItem.employeeId?.firstName} {listItem.employeeId?.lastName}
       </td>
       <td>
-        <button onClick={() => handleDelete(listItem._id)}>X</button>
+        <a href="">{pencil}</a>
+      </td>
+      <td>
+        <button onClick={() => handleDelete(listItem._id)}>{del}</button>
       </td>
     </tr>
   );
