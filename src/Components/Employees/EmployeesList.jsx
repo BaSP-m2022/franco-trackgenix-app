@@ -1,6 +1,6 @@
 import React from 'react';
 import './employees.module.css';
-import ListItem from './ListItem';
+import ListItem from './EmployeesItem';
 
 const List = ({ list, deleteItem }) => {
   return (
@@ -15,7 +15,11 @@ const List = ({ list, deleteItem }) => {
             <th>Active</th>
           </tr>
         </thead>
-        <ListItem listItem={list} deleteItem={deleteItem} />
+        <tbody>
+          {list.map((item) => (
+            <ListItem key={item._id} listItem={item} deleteItem={deleteItem} />
+          ))}
+        </tbody>
       </table>
     </div>
   );
