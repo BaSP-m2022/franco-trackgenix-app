@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import styles from './employees.module.css';
-import List from './EmployeesList.jsx';
+import List from './List/EmployeesList.jsx';
 
 const Employees = () => {
   const [list, setList] = useState([]);
@@ -33,7 +33,9 @@ const Employees = () => {
       <div>
         <List list={list} deleteItem={deleteItem} setList={setList} />
       </div>
-      <a href="/employees/form">Add New Employee</a>
+      <button className={styles.button} href="/employees/form">
+        Add New Employee
+      </button>
     </section>
   );
 };

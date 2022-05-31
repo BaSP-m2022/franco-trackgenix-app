@@ -1,6 +1,6 @@
 import React from 'react';
-import './employees.module.css';
-import ListItem from './EmployeesItem';
+import ListItem from '../ListItem';
+import './employees-list.module.css';
 
 const List = ({ list, deleteItem }) => {
   return (
@@ -10,9 +10,9 @@ const List = ({ list, deleteItem }) => {
           <tr>
             <th>Name</th>
             <th>Last Name</th>
-            <th>Phone</th>
+            <th>DNI</th>
             <th>Email</th>
-            <th>Active</th>
+            <th>Date Of Birth</th>
           </tr>
         </thead>
         <tbody>
