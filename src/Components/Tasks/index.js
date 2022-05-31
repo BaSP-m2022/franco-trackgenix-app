@@ -12,7 +12,6 @@ function Tasks() {
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/tasks`);
       const responseJson = await response.json();
-      // console.log(responseJson.data);
       setList(responseJson.data);
     } catch (error) {
       console.error(error);
