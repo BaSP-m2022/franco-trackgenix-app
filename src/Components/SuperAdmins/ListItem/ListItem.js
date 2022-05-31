@@ -16,7 +16,7 @@ function ListItem({ listItem, deleteSuperAdmin }) {
       <td>{listItem.lastName}</td>
       <td>{listItem.email}</td>
       <td>
-        <button className={styles.btn} onClick={() => handleDelete(listItem._id)}>
+        <button className={styles.btn} onClick={() => handleDelete()}>
           &#10008;
         </button>
         <a className={styles.btn} href={`/super-admins/form?id=${listItem._id}`}>
