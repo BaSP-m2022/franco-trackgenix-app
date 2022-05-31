@@ -7,7 +7,6 @@ const TimeSheets = () => {
   const [loading, setLoading] = useState([]);
   const URL = `${process.env.REACT_APP_API_URL}/time-sheets`;
 
-  // API request to get admins
   useEffect(async () => {
     try {
       setLoading(true);
@@ -23,7 +22,6 @@ const TimeSheets = () => {
     }
   }, []);
 
-  // API request to delete admins
   const deleteTimeSheet = async (_id) => {
     await fetch(`${process.env.REACT_APP_API_URL}/time-sheets`, { method: 'DELETE' });
     setList([...list.filter((timeSheet) => timeSheet._id !== _id)]);

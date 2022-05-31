@@ -2,15 +2,15 @@ import React from 'react';
 import './item-time-sheets.module.css';
 
 const TimeSheetItem = ({ listItem, deleteTimeSheet }) => {
-  console.log('Time sheets list', listItem);
-
   const handleDelete = () => {
     if (window.confirm('Are you sure you want to delete this time sheet?')) {
       deleteTimeSheet(listItem._id);
     }
   };
+  
   let pencil = '✎';
   let del = '✘';
+
   return (
     <tr>
       <td>{listItem._id}</td>

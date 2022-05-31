@@ -3,7 +3,6 @@ import TimeSheetItem from '../ListItem/ItemTimeSheets.jsx';
 import './list.module.css';
 
 const List = ({ list, deleteTimeSheet }) => {
-  console.log('array list', list);
   return (
     <table>
       <thead>
