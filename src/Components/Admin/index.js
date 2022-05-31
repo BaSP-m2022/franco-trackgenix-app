@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styles from './admin.module.css';
 import Input from './Input';
 
@@ -11,10 +11,33 @@ function AdminForm() {
   const [errorMessage, setErrorMessage] = useState('');
   const [loading, setLoading] = useState(false);
 
-  // const [requestType, setRequestType] = useState('POST');
-  //  const [editAdminId, setEditAdminId] = useState('');
-  const requestType = 'POST';
-  const editAdminId = '';
+  const [requestType, setRequestType] = useState('POST');
+  const [editAdminId, setEditAdminId] = useState('');
+
+  useEffect(() => {
+    async function fetchAdmin(id) {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/admins/${id}`);
+      const { message, data, error } = await response.json();
+      if (error) {
+        setErrorMessage(message);
+      } else {
+        setFirstName(data.firstName);
+        setLastName(data.lastName);
+        setEmail(data.email);
+        setPassword(data.password);
+      }
+    }
+    const params = new URLSearchParams(window.location.search);
+    const adminId = params.get('id');
+    if (adminId) {
+      setEditAdminId(adminId);
+      setRequestType('PUT');
+      fetchAdmin(adminId);
+    } else {
+      setRequestType('POST');
+    }
+  }, []);
+
   async function handleSubmit(e) {
     e.preventDefault();
     if (firstName === '' || lastName === '' || email === '' || password === '') {
@@ -40,23 +63,21 @@ function AdminForm() {
           })
         });
         const data = await response.json();
-        console.log('data', data);
-
         setLoading(false);
 
         if (data.error) {
           setErrorMessage(data.message);
         } else {
-          alert('Admin added successfully');
           setErrorMessage('');
           setFirstName('');
           setLastName('');
           setEmail('');
           setPassword('');
+          const msg = requestType === 'POST' ? 'Admin created' : 'Admin updated';
+          alert(msg);
         }
       } catch (error) {
-        console.log('error', error);
-        // setErrorMessage(error);
+        setErrorMessage(error.toString());
       }
     }
   }
