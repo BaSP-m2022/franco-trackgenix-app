@@ -15,14 +15,12 @@ function Projects() {
   }, []);
 
   async function deleteProject(projectId) {
-    let confirm = window.confirm('Are you sure yo want to delete Project');
+    let confirm = window.confirm('Are you sure you want to delete Project');
     if (confirm) {
       try {
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/projects/${projectId}`, {
+        await fetch(`${process.env.REACT_APP_API_URL}/projects/${projectId}`, {
           method: 'DELETE'
         });
-        const data = await response.json();
-        console.log(data);
         const result = projects.filter((project) => project._id !== projectId);
         setProjects(result);
       } catch (error) {
