@@ -15,7 +15,7 @@ function SuperAdminForm() {
   const [editSuperAdminId, setEditSuperAdminId] = useState('');
 
   useEffect(() => {
-    async function fetchSuperAdmin(id) {
+    async function fetchId(id) {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/super-admins/${id}`);
       const { message, data, error } = await response.json();
       if (error) {
@@ -32,7 +32,7 @@ function SuperAdminForm() {
     if (superAdminId) {
       setEditSuperAdminId(superAdminId);
       setRequestType('PUT');
-      fetchSuperAdmin(superAdminId);
+      fetchId(superAdminId);
     } else {
       setRequestType('POST');
     }
@@ -81,22 +81,26 @@ function SuperAdminForm() {
       }
     }
   }
-
   return (
     <section>
-      <a href="/super-admins">Super Admin Home</a>
-      <h3>Add Super admin</h3>
-      <form className={styles.container}>
+      <h2>Add Super admin</h2>
+      <form className={styles.form}>
         <div className={styles.container}>
           <Input name="First Name" type="text" value={firstName} onChange={setFirstName} />
+        </div>
+        <div className={styles.container}>
           <Input name="Last Name" type="text" value={lastName} onChange={setLastName} />
+        </div>
+        <div className={styles.container}>
           <Input name="Email" type="email" value={email} onChange={setEmail} />
+        </div>
+        <div className={styles.container}>
           <Input name="Password" type="text" value={password} onChange={setPassword} />
         </div>
         <div className={styles.container}>
           {errorMessage && <p>{errorMessage}</p>}
           <button className={styles.btn} onClick={handleSubmit}>
-            {loading && 'Loading...'}
+            {loading}
             {!loading && requestType === 'POST' ? 'Add Admin' : 'Update Admin'}
           </button>
         </div>
