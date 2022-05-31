@@ -33,9 +33,9 @@ const Employees = () => {
       <div>
         <List list={list} deleteItem={deleteItem} setList={setList} />
       </div>
-      <button className={styles.button} href="/employees/form">
+      <a className={styles.button} href="/employees/form">
         Add New Employee
-      </button>
+      </a>
     </section>
   );
 };
