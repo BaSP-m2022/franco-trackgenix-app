@@ -1,6 +1,6 @@
 import styles from './info.module.css';
 
-function info({ name, type, value, onChange }) {
+function Input({ name, type, value, onChange }) {
   return (
     <div className={styles.inputContainer}>
       <label className={styles.label}>
@@ -18,4 +18,4 @@ function info({ name, type, value, onChange }) {
     </div>
   );
 }
-export default info;
+export default Input;

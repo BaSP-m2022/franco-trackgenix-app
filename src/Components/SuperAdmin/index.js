@@ -83,6 +83,7 @@ function SuperAdminForm() {
   }
   return (
     <section>
+      <a href="/super-admins">Super Admin</a>
       <h2>Add Super admin</h2>
       <form className={styles.form}>
         <div className={styles.container}>
