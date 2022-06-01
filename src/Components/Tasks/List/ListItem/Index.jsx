@@ -11,7 +11,7 @@ const ListItem = ({ listItem, deleteItem }) => {
     <tr className={styles.rows}>
       <td>{listItem._id}</td>
       <td>{listItem.description}</td>
-      <td>{listItem.projectId.name}</td>
+      <td>{listItem.projectId ? listItem.projectId.name : 'Project deleted'}</td>
       <td>{listItem.workedHours}</td>
       <td>{listItem.date}</td>
       <td>
