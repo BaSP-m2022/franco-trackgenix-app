@@ -2,6 +2,16 @@ import { useState, useEffect } from 'react';
 import 'react-dropdown/style.css';
 import styles from './Project.module.css';
 
+function EmployeeItem({ employee }) {
+  return (
+    <tr>
+      <td>{employee.employeeId}</td>
+      <td>{employee.role}</td>
+      <td>{employee.rate}</td>
+    </tr>
+  );
+}
+
 function ProjectForm() {
   const [nameValue, setnameValue] = useState('');
   const [statusValue, setstatusValue] = useState('');
@@ -10,6 +20,9 @@ function ProjectForm() {
   const [employeeOptions, setEmployeeOptions] = useState([]);
   const [startDateValue, setstartDateValue] = useState('');
   const [endDateValue, setendDateValue] = useState('');
+  const [rateValue, setRateValue] = useState('');
+  const [roleValue, setRoleValue] = useState('');
+  const [employeesValue, setEmployeesValue] = useState([]);
 
   const onChangeNameInput = (event) => {
     setnameValue(event.target.value);
@@ -29,22 +42,32 @@ function ProjectForm() {
   const onChangeEndDateInput = (event) => {
     setendDateValue(event.target.value);
   };
+  const onChangeRateInput = (event) => {
+    setRateValue(event.target.value);
+  };
+  const onChangeRoleInput = (event) => {
+    setRoleValue(event.target.value);
+  };
 
+  const onAddEmployee = (event) => {
+    event.preventDefault();
+    setEmployeesValue([
+      ...employeesValue,
+      { employeeId: employeeIdValue, rate: rateValue, role: roleValue }
+    ]);
+  };
   useEffect(async () => {
     try {
       const data = await fetch(`${process.env.REACT_APP_API_URL}/employees/`);
       const employees = await data.json();
-      for (let i = 0; i < employees.data.length; i++) {
-        setEmployeeOptions((employeeOptions) => [
-          ...employeeOptions,
-          {
-            value: `${employees.data[i]._id}`,
-            role: `${employees.data[i].role}`, //Missing role data
-            rate: `${employees.data[i].rate}`, //Missing rate data
-            label: `${employees.data[i].firstName} ${employees.data[i].lastName}`
-          }
-        ]);
-      }
+      const newEmployees = employees.data.map((employee) => {
+        return {
+          label: `${employee.firstName} ${employee.lastName}`,
+          value: employee._id
+        };
+      });
+      console.log('mensaje prueba', newEmployees);
+      setEmployeeOptions(newEmployees);
     } catch (error) {
       console.error(error);
     }
@@ -67,7 +90,7 @@ function ProjectForm() {
         name: nameValue,
         status: statusValue,
         description: descriptionValue,
-        employees: [{ employeeId: employeeIdValue, rate: 1, role: 'ADM' }], //missing data from employee (rate and role)
+        employees: employeesValue,
         startDate: startDateValue,
         endDate: endDateValue
       })
@@ -119,24 +142,63 @@ function ProjectForm() {
           value={descriptionValue}
           onChange={onChangeDescriptionInput}
         />
-        <select
-          onChange={onChangeEmployeeIdInput}
-          value={employeeIdValue}
-          className={styles.input}
-          id="employeeId"
-          name="employeeId"
-          required
-          type="text"
-        >
-          <option value="" disabled>
-            Select a Employee
-          </option>
-          {employeeOptions.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
+        <div className={styles.container}>
+          <select
+            onChange={onChangeEmployeeIdInput}
+            value={employeeIdValue}
+            className={styles.input}
+            id="employeeId"
+            name="employeeId"
+            required
+            type="text"
+          >
+            <option value="" disabled>
+              Select a Employee
             </option>
-          ))}
-        </select>
+            {employeeOptions.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+          <label>Rate</label>
+          <input
+            className={styles.input}
+            id="rate"
+            name="rate"
+            required
+            type="number"
+            value={rateValue}
+            onChange={onChangeRateInput}
+          />
+          <label>Role</label>
+          <input
+            className={styles.input}
+            id="role"
+            name="role"
+            required
+            type="text"
+            value={roleValue}
+            onChange={onChangeRoleInput}
+          />
+          <button onClick={onAddEmployee} type="submit">
+            Add
+          </button>
+          <table>
+            <thead>
+              <tr>
+                <th id="employeeId">ID</th>
+                <th id="role">Role</th>
+                <th id="rate">Rate</th>
+              </tr>
+            </thead>
+            <tbody>
+              {employeesValue.map((employee) => (
+                <EmployeeItem key={employee.employeeId} employee={employee} />
+              ))}
+            </tbody>
+          </table>
+        </div>
         <label>Start Date</label>
         <input
           className={styles.input}
