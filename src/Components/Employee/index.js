@@ -47,56 +47,44 @@ const EmployeeForm = () => {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    if (
-      firstName === '' ||
-      lastName === '' ||
-      dateOfBirth === '' ||
-      email === '' ||
-      password === '' ||
-      dni === ''
-    ) {
-      setErrorMessage('Please fill in all fields');
-    } else {
-      try {
-        setLoading(true);
-        const URL =
-          process.env.REACT_APP_API_URL +
-          `/employees${requestType === 'POST' ? '' : `/${editEmployeeId}`}`;
+    try {
+      setLoading(true);
+      const URL =
+        process.env.REACT_APP_API_URL +
+        `/employees${requestType === 'POST' ? '' : `/${editEmployeeId}`}`;
 
-        const response = await fetch(URL, {
-          method: requestType,
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            firstName,
-            lastName,
-            dateOfBirth,
-            email,
-            password,
-            dni
-          })
-        });
-        const data = await response.json();
-        setLoading(false);
-        console.log(data);
+      const response = await fetch(URL, {
+        method: requestType,
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          firstName,
+          lastName,
+          dateOfBirth,
+          email,
+          password,
+          dni
+        })
+      });
+      const data = await response.json();
+      setLoading(false);
 
-        if (data.error) {
-          setErrorMessage(data.message);
-        } else {
-          const msg = requestType === 'POST' ? 'Employee created' : 'Employee updated';
-          setErrorMessage('');
-          setFirstName('');
-          setLastName('');
-          setDateOfBirth('');
-          setEmail('');
-          setPassword('');
-          setDni('');
-          alert(msg);
-        }
-      } catch (error) {
-        setErrorMessage(error.toString());
+      if (data.error) {
+        setErrorMessage(data.message);
+      } else {
+        const msg = requestType === 'POST' ? 'Employee created' : 'Employee updated';
+        setErrorMessage('');
+        setFirstName('');
+        setLastName('');
+        setDateOfBirth('');
+        setEmail('');
+        setPassword('');
+        setDni('');
+        alert(msg);
       }
+    } catch (error) {
+      setErrorMessage(error.toString());
     }
   }
 
