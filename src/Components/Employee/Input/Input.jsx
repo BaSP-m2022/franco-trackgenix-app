@@ -18,4 +18,5 @@ function Input({ name, type, value, onChange }) {
     </div>
   );
 }
+
 export default Input;

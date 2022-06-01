@@ -79,6 +79,7 @@ const EmployeeForm = () => {
         });
         const data = await response.json();
         setLoading(false);
+        console.log(data);
 
         if (data.error) {
           setErrorMessage(data.message);
@@ -102,6 +103,9 @@ const EmployeeForm = () => {
   return (
     <section>
       <h3>Add admin</h3>
+      <a className={styles.button} href="/employees">
+        Back to list
+      </a>
       <form className={styles.form}>
         <div className={styles.container}>
           <Input name="FirstName" type="text" value={firstName} onChange={setFirstName} />
@@ -125,7 +129,6 @@ const EmployeeForm = () => {
           </button>
         </div>
       </form>
-      <a href="/employees">Back to list</a>
     </section>
   );
 };
