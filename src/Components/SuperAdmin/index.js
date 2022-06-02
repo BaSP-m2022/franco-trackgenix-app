@@ -40,45 +40,40 @@ function SuperAdminForm() {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    {
-      try {
-        setLoading(true);
+    console.log(requestType);
+    setLoading(true);
+    const URL =
+      process.env.REACT_APP_API_URL +
+      `/super-admins${requestType === 'POST' ? '' : `/${editSuperAdminId}`}`;
 
-        const URL =
-          process.env.REACT_APP_API_URL +
-          `/super-admins${requestType === 'POST' ? '' : `/${editSuperAdminId}`}`;
+    const response = await fetch(URL, {
+      method: requestType,
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        firstName,
+        lastName,
+        email,
+        password
+      })
+    });
+    const data = await response.json();
+    setLoading(false);
 
-        const response = await fetch(URL, {
-          method: requestType,
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            firstName,
-            lastName,
-            email,
-            password
-          })
-        });
-        const data = await response.json();
-        setLoading(false);
-
-        if (data.error) {
-          setErrorMessage(data.message);
-        } else {
-          setErrorMessage('');
-          setFirstName('');
-          setLastName('');
-          setEmail('');
-          setPassword('');
-          const msg = requestType === 'POST' ? 'Super Admin created' : 'Super Admin updated';
-          alert(msg);
-        }
-      } catch (error) {
-        setErrorMessage(error.toString());
-      }
+    if (data.error) {
+      setErrorMessage(data.message);
+    } else {
+      setErrorMessage('');
+      setFirstName('');
+      setLastName('');
+      setEmail('');
+      setPassword('');
+      const msg = requestType === 'POST' ? 'Super Admin created' : 'Super Admin updated';
+      alert(msg);
     }
   }
+
   return (
     <section>
       <a href="/super-admins">Super Admin</a>
@@ -94,7 +89,7 @@ function SuperAdminForm() {
           <Input name="Email" type="email" value={email} onChange={setEmail} />
         </div>
         <div className={styles.container}>
-          <Input name="Password" type="text" value={password} onChange={setPassword} />
+          <Input name="Password" type="password" value={password} onChange={setPassword} />
         </div>
         <div className={styles.container}>
           {errorMessage && <p>{errorMessage}</p>}
