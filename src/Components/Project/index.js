@@ -66,7 +66,6 @@ function ProjectForm() {
           value: employee._id
         };
       });
-      console.log('mensaje prueba', newEmployees);
       setEmployeeOptions(newEmployees);
     } catch (error) {
       console.error(error);
