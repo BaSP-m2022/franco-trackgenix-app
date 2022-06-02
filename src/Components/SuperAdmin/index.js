@@ -40,9 +40,7 @@ function SuperAdminForm() {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    if (firstName === '' || lastName === '' || email === '' || password === '') {
-      setErrorMessage('All fields must be completed');
-    } else {
+    if (requestType === 'POST') {
       try {
         setLoading(true);
 
