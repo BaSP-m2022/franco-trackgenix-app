@@ -69,7 +69,6 @@ const EmployeeForm = () => {
       });
       const data = await response.json();
       setLoading(false);
-
       if (data.error) {
         setErrorMessage(data.message);
       } else {
