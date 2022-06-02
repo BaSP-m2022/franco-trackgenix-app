@@ -40,7 +40,7 @@ function SuperAdminForm() {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    if (requestType === 'POST') {
+    {
       try {
         setLoading(true);
 
