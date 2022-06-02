@@ -7,7 +7,7 @@ const TimeSheetItem = ({ listItem, deleteTimeSheet }) => {
       deleteTimeSheet(listItem._id);
     }
   };
-  
+
   let pencil = '✎';
   let del = '✘';
 
@@ -26,7 +26,7 @@ const TimeSheetItem = ({ listItem, deleteTimeSheet }) => {
         <a href={`/time-theets/form?id=${listItem._id}`}>{pencil}</a>
       </td>
       <td>
-        <button onClick={() => handleDelete(listItem._id)}>{del}</button>
+        <button onClick={() => handleDelete()}>{del}</button>
       </td>
     </tr>
   );
