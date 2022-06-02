@@ -3,4 +3,51 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
+}
+
+#projects_list_table {
+  text-align: center;
+}
+
+#projects_list_table td, #projects_list_table th {
+  padding: 7px;
+}
+
+.capitalize {
+  text-transform: capitalize;
+}
+
+.fa_style {
+  padding-left: 10px;
+  padding-top: 10px;
+  font-size: 20px;
+  transition: all 0.2s;
+}
+
+.fa_style:hover {
+  cursor: pointer;
+  transform: scale(1.21);
+}
+
+.add {
+  margin-left: auto;
+  border-radius: 10px;
+  border: 2px solid #070707;
+  padding: 5px;
+  text-decoration: none;
+  font-size: 18px;
+  color: #FFF;
+  background-color: #EA3354;
+  transition: all 0.2s;
+}
+
+.add:hover {
+  cursor: pointer;
+  transform: scale(1.21);
+}
+
+.flex {
+  display: flex;
+  flex-direction: column;
 }
