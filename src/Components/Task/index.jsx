@@ -38,7 +38,6 @@ const Form = () => {
         })
         .finally(() => setLoading(false));
     }
-    console.log(dateValue);
     fetch(`${process.env.REACT_APP_API_URL}/projects/`)
       .then((response) => {
         if (response.status !== 200) {
