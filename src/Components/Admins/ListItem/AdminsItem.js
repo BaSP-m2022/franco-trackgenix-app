@@ -11,11 +11,9 @@ function AdminsItem({ listItem, deleteAdmin }) {
 
   return (
     <tr>
-      <td>{listItem._id}</td>
-      <td>{listItem.password}</td>
-      <td>{listItem.email}</td>
       <td>{listItem.firstName}</td>
       <td>{listItem.lastName}</td>
+      <td>{listItem.email}</td>
       <td>
         <a id="delete" className={styles.button} onClick={() => handleDelete()}>
           &#10008;
