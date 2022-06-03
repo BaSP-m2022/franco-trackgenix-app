@@ -8,13 +8,15 @@ const ListItem = ({ listItem, deleteItem }) => {
   let pencil = '✎';
   let del = '✘';
   return (
-    <tr className={styles.rows}>
-      <td>{listItem._id}</td>
-      <td>{listItem.description}</td>
-      <td>{listItem.projectId ? listItem.projectId.name : 'Project Deleted'}</td>
-      <td>{listItem.workedHours}</td>
-      <td>{listItem.date}</td>
-      <td>
+    <tr className={styles.rws}>
+      <td className={styles.rws}>{listItem._id}</td>
+      <td className={styles.rws}>{listItem.description}</td>
+      <td className={styles.rws}>
+        {listItem.projectId ? listItem.projectId.name : 'Project Deleted'}
+      </td>
+      <td className={styles.rws}>{listItem.workedHours}</td>
+      <td className={styles.rws}>{listItem.date}</td>
+      <td className={styles.rws}>
         <button className={styles.button} onClick={() => handleDelete(listItem._id)}>
           {del}
         </button>
