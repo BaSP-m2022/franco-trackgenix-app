@@ -28,7 +28,9 @@ const Form = () => {
         })
         .then((response) => {
           setDescriptionValue(response.data.description);
-          setDateValue(response.data.date);
+          let date = response.data.date.slice(0, 10);
+          console.log(date);
+          setDateValue(date);
           setWorkedHoursValue(response.data.workedHours);
           setProjectNameValue(response.data.projectId.name);
           setProjectId(response.data.projectId._id);
@@ -163,7 +165,7 @@ const Form = () => {
             name="date"
             value={dateValue}
             onChange={onChangeDateValue}
-            type="datetime-now"
+            type="date"
             required
             disabled={isLoading}
           />
