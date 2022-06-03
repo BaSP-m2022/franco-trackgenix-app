@@ -11,6 +11,7 @@ const Form = () => {
   const [isLoading, setLoading] = useState('');
   const [projectId, setProjectId] = useState('');
   const [projects, setProjects] = useState([]);
+  let errorAlert = '';
 
   useEffect(() => {
     setLoading(true);
@@ -29,7 +30,6 @@ const Form = () => {
         .then((response) => {
           setDescriptionValue(response.data.description);
           let date = response.data.date.slice(0, 10);
-          console.log(date);
           setDateValue(date);
           setWorkedHoursValue(response.data.workedHours);
           setProjectNameValue(response.data.projectId.name);
@@ -76,51 +76,51 @@ const Form = () => {
     setProjectId(event.target.value);
   };
 
-  const onSubmit = (event) => {
+  const onSubmit = async (event) => {
     event.preventDefault();
     setLoading(true);
-    const params = new URLSearchParams(window.location.search);
-    const tasksId = params.get('id');
-    let url;
-    const options = {
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        description: descriptionValue,
-        workedHours: workedHoursValue,
-        date: dateValue,
-        projectId: projectId
-      })
-    };
-    if (tasksId) {
-      options.method = 'PUT';
-      url = `${process.env.REACT_APP_API_URL}/tasks/${tasksId}`;
-    } else {
-      options.method = 'POST';
-      url = `${process.env.REACT_APP_API_URL}/tasks`;
-    }
-    fetch(url, options)
-      .then((response) => {
-        if (response.status !== 200 && response.status !== 201) {
-          return response.json().then(({ message }) => {
-            throw new Error(message);
-          });
-        }
-        return response.json();
-      })
-      .then(() => {
-        if (tasksId) {
-          window.alert('Task modified');
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const tasksId = params.get('id');
+      let url;
+      const options = {
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          description: descriptionValue,
+          workedHours: workedHoursValue,
+          date: dateValue,
+          projectId: projectId
+        })
+      };
+      if (tasksId) {
+        options.method = 'PUT';
+        url = `${process.env.REACT_APP_API_URL}/tasks/${tasksId}`;
+      } else {
+        options.method = 'POST';
+        url = `${process.env.REACT_APP_API_URL}/tasks`;
+      }
+      const response = await fetch(url, options);
+      const data = await response.json();
+      {
+        if (data.error) {
+          errorAlert += data.error;
+          window.alert(errorAlert);
+          setLoading(false);
         } else {
-          window.alert('Task created');
+          if (tasksId) {
+            window.alert('Task modified.');
+          } else {
+            window.alert('Task created.');
+          }
+          setLoading(false);
+          window.location.href = '/tasks';
         }
-        window.location.href = '/tasks';
-      })
-      .catch((error) => {
-        console.log(error);
-      })
-      .finally(() => setLoading(false));
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -128,7 +128,7 @@ const Form = () => {
       <form className={styles.form} onSubmit={onSubmit}>
         <h2>task</h2>
         <div>
-          <label htmlFor="description">Description</label>
+          <label className={styles.label}>Description</label>
           <Input
             name="description"
             value={descriptionValue}
@@ -139,7 +139,7 @@ const Form = () => {
           />
         </div>
         <div>
-          <label htmlFor="workedHours">Worked Hours</label>
+          <label className={styles.label}>Worked Hours</label>
           <Input
             name="workedHours"
             value={workedHoursValue}
@@ -150,7 +150,7 @@ const Form = () => {
           />
         </div>
         <div>
-          <label htmlFor="projects">Project Name</label>
+          <label className={styles.label}>Project Name</label>
           <Select
             name="projects"
             value={projectNameValue}
@@ -160,7 +160,7 @@ const Form = () => {
           />
         </div>
         <div>
-          <label htmlFor="date">Date</label>
+          <label className={styles.label}>Date</label>
           <Input
             name="date"
             value={dateValue}
@@ -170,7 +170,7 @@ const Form = () => {
             disabled={isLoading}
           />
         </div>
-        <button disabled={isLoading} type="submit">
+        <button className={styles.btn} disabled={isLoading} type="submit">
           Save
         </button>
       </form>

@@ -3,14 +3,10 @@
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  align-items: center;
   text-align: center;
 }
-div {
-  width: 100%;
-}
 
-button {
+.btn {
   align-self: flex-end;
   padding: 5px 8px;
   margin: 5px 4px;
@@ -22,8 +18,13 @@ button {
   text-decoration: none;
 }
 
-button:hover {
+.btn:hover {
   background-color: #ffffff;
   transform: scale(1.05);
   transition: all 0.2s ease-in-out;
+}
+.label {
+  font-size: 1.1em;
+  font-weight: bold;
+  color: #333;
 }
