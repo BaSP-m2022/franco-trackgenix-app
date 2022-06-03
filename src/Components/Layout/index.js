@@ -1,12 +1,14 @@
 import Header from '../Header/index';
 import Footer from '../Footer/index';
 import Admins from '../Admins/index';
+import AdminForm from '../Admin/index';
 import SuperAdmins from '../SuperAdmins/index';
 import Home from '../Home/index';
 import styles from './layout.module.css';
 import Employees from '../Employees/index';
 import Projects from '../Projects';
 import TimeSheets from '../TimeSheets';
+import TimesheetForm from '../TimeSheet';
 import Tasks from '../Tasks/index';
 
 function Layout() {
@@ -14,6 +16,9 @@ function Layout() {
   switch (window.location.pathname) {
     case '/admins':
       currentScreen = <Admins />;
+      break;
+    case '/admins/form':
+      currentScreen = <AdminForm />;
       break;
     case '/super-admins':
       currentScreen = <SuperAdmins />;
@@ -26,6 +31,9 @@ function Layout() {
       break;
     case '/time-sheets':
       currentScreen = <TimeSheets />;
+      break;
+    case '/time-sheets/form':
+      currentScreen = <TimesheetForm />;
       break;
     case '/tasks':
       currentScreen = <Tasks />;
