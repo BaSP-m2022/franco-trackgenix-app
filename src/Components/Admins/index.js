@@ -6,14 +6,13 @@ const Admins = () => {
   const URL = `${process.env.REACT_APP_API_URL}/admins`;
   const [list, setList] = useState([]);
 
-  useEffect(async () => {
-    try {
+  useEffect(() => {
+    const fetchData = async () => {
       const response = await fetch(URL, { method: 'GET' });
       const responseJson = await response.json();
       setList(responseJson.data);
-    } catch (error) {
-      console.error(error);
-    }
+    };
+    fetchData().catch(console.error);
   }, []);
 
   const deleteAdmin = async (_id) => {
@@ -22,7 +21,7 @@ const Admins = () => {
     if (responseJson.error) {
       alert('error');
     } else {
-      setList([...list.filter((adminsItem) => adminsItem._id !== _id)]);
+      setList(list.filter((adminsItem) => adminsItem._id !== _id));
       alert('delete successfully');
     }
   };
