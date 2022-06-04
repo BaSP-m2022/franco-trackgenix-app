@@ -100,6 +100,8 @@ function ProjectForm() {
     }
     try {
       const response = await fetch(url, options);
+      window.alert('The Project was created');
+      window.location.href = '/projects';
       const data = await response.json();
       console.log(data);
     } catch (error) {
@@ -111,7 +113,7 @@ function ProjectForm() {
     <div className={styles.container}>
       <h2>Project Form</h2>
       <form onSubmit={onSubmit}>
-        <label>Name</label>
+        <label className={styles.label}>Name</label>
         <input
           className={styles.input}
           id="name"
@@ -121,7 +123,7 @@ function ProjectForm() {
           value={nameValue}
           onChange={onChangeNameInput}
         />
-        <label>Status</label>
+        <label className={styles.label}>Status</label>
         <input
           className={styles.input}
           id="status"
@@ -131,7 +133,7 @@ function ProjectForm() {
           value={statusValue}
           onChange={onChangeStatusInput}
         />
-        <label>Description</label>
+        <label className={styles.label}>Description</label>
         <input
           className={styles.input}
           id="description"
@@ -141,6 +143,7 @@ function ProjectForm() {
           value={descriptionValue}
           onChange={onChangeDescriptionInput}
         />
+        <label className={styles.label}>Employee</label>
         <div className={styles.container}>
           <select
             onChange={onChangeEmployeeIdInput}
@@ -160,7 +163,7 @@ function ProjectForm() {
               </option>
             ))}
           </select>
-          <label>Rate</label>
+          <label className={styles.label}>Rate</label>
           <input
             className={styles.input}
             id="rate"
@@ -170,7 +173,7 @@ function ProjectForm() {
             value={rateValue}
             onChange={onChangeRateInput}
           />
-          <label>Role</label>
+          <label className={styles.label}>Role</label>
           <input
             className={styles.input}
             id="role"
@@ -180,7 +183,7 @@ function ProjectForm() {
             value={roleValue}
             onChange={onChangeRoleInput}
           />
-          <button onClick={onAddEmployee} type="submit">
+          <button className={styles.btn} onClick={onAddEmployee} type="submit">
             Add
           </button>
           <table>
@@ -198,7 +201,7 @@ function ProjectForm() {
             </tbody>
           </table>
         </div>
-        <label>Start Date</label>
+        <label className={styles.label}>Start Date</label>
         <input
           className={styles.input}
           id="startDate"
@@ -208,7 +211,7 @@ function ProjectForm() {
           value={startDateValue}
           onChange={onChangeStartDateInput}
         />
-        <label>End Date</label>
+        <label className={styles.label}>End Date</label>
         <input
           className={styles.input}
           id="endDate"
@@ -218,7 +221,9 @@ function ProjectForm() {
           value={endDateValue}
           onChange={onChangeEndDateInput}
         />
-        <button type="submit">Submit</button>
+        <button className={styles.btn} type="submit">
+          Submit
+        </button>
       </form>
     </div>
   );
