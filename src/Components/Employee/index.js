@@ -18,7 +18,7 @@ const EmployeeForm = () => {
 
   useEffect(() => {
     async function fetchEmployee(id) {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/employees/form/${id}`);
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/employees/${id}`);
       const { message, data, error } = await response.json();
       if (error) {
         setErrorMessage(message);
@@ -81,6 +81,7 @@ const EmployeeForm = () => {
         setPassword('');
         setDni('');
         alert(msg);
+        window.location = '/employees';
       }
     } catch (error) {
       setErrorMessage(error.toString());
@@ -88,7 +89,7 @@ const EmployeeForm = () => {
   }
 
   return (
-    <section>
+    <section className={styles.containerSec}>
       <h3>Add admin</h3>
       <a className={styles.button} href="/employees">
         Back to list
