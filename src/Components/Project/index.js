@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import 'react-dropdown/style.css';
 import styles from './Project.module.css';
 
 function EmployeeItem({ employee }) {
@@ -56,8 +55,22 @@ function ProjectForm() {
       { employeeId: employeeIdValue, rate: rateValue, role: roleValue }
     ]);
   };
+
   useEffect(async () => {
     try {
+      const params = new URLSearchParams(window.location.search);
+      const projectId = params.get('id');
+      if (projectId) {
+        const data = await fetch(`${process.env.REACT_APP_API_URL}/projects/${projectId}`);
+        const Projectfetch = await data.json();
+        let startDate = Projectfetch.data.startDate.slice(0, 10);
+        let endDate = Projectfetch.data.endDate.slice(0, 10);
+        setnameValue(Projectfetch.data.name);
+        setstatusValue(Projectfetch.data.status);
+        setdescriptionValue(Projectfetch.data.description);
+        setstartDateValue(startDate);
+        setendDateValue(endDate);
+      }
       const data = await fetch(`${process.env.REACT_APP_API_URL}/employees/`);
       const employees = await data.json();
       const newEmployees = employees.data.map((employee) => {
@@ -75,9 +88,6 @@ function ProjectForm() {
   const onSubmit = async (event) => {
     event.preventDefault();
 
-    const params = new URLSearchParams(window.location.search);
-    const projectId = params.get('id');
-
     let url = `${process.env.REACT_APP_API_URL}/projects/`;
 
     const options = {
@@ -94,16 +104,28 @@ function ProjectForm() {
         endDate: endDateValue
       })
     };
-    if (projectId) {
+
+    const params = new URLSearchParams(window.location.search);
+    const projectId2 = params.get('id');
+
+    if (projectId2) {
       options.method = 'PUT';
-      url = `${process.env.REACT_APP_API_URL}/projects/${projectId}`;
+      url = `${process.env.REACT_APP_API_URL}/projects/${projectId2}`;
     }
     try {
       const response = await fetch(url, options);
-      window.alert('The Project was created');
-      window.location.href = '/projects';
       const data = await response.json();
-      console.log(data);
+      if (response.status === 200 || response.status === 201) {
+        if (options.method === 'POST') {
+          window.alert('The Project was created.');
+          window.location.href = '/projects';
+        } else {
+          window.alert('The Projects was changed.');
+          window.location.href = '/projects';
+        }
+      } else {
+        window.alert(data.data);
+      }
     } catch (error) {
       console.error(error);
     }
