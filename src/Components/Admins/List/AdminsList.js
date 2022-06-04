@@ -1,18 +1,16 @@
 import React from 'react';
 import AdminsItem from '../ListItem/AdminsItem';
-import styles from './list.module.css';
+import './list.module.css';
 
 const List = ({ list, deleteAdmin }) => {
   return (
-    <div className={styles.container}>
+    <div>
       <table>
         <thead>
           <tr>
-            <th>ID</th>
-            <th>Password</th>
-            <th>Email</th>
             <th>First Name</th>
             <th>Last Name</th>
+            <th>Email</th>
           </tr>
         </thead>
         <tbody>
