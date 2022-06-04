@@ -8,8 +8,9 @@ import styles from './layout.module.css';
 import Employees from '../Employees/index';
 import Projects from '../Projects';
 import TimeSheets from '../TimeSheets';
+import Tasks from '../Tasks';
+import Task from '../Task';
 import TimesheetForm from '../TimeSheet';
-import Tasks from '../Tasks/index';
 
 function Layout() {
   let currentScreen = <Home />;
@@ -37,6 +38,9 @@ function Layout() {
       break;
     case '/tasks':
       currentScreen = <Tasks />;
+      break;
+    case '/tasks/form':
+      currentScreen = <Task />;
       break;
     default:
       break;
