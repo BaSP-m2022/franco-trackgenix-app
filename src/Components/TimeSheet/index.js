@@ -15,6 +15,12 @@ function TimeSheetForm() {
   const [modalMessage, setModalMessage] = useState('');
   const [showModal, setShowModal] = useState(false);
 
+  const statusOption = [
+    { value: 'To do', label: 'To do' },
+    { value: 'In progress', label: 'In progress' },
+    { value: 'Done', label: 'Done' }
+  ];
+
   const closeModal = () => {
     setShowModal(false);
   };
@@ -47,9 +53,9 @@ function TimeSheetForm() {
       const employeesData = await fetch(`${process.env.REACT_APP_API_URL}/employees/`);
       const employees = await employeesData.json();
       setEmployeeOptions(
-        employees.data.map(({ _id, first_name, last_name }) => ({
+        employees.data.map(({ _id, firstName, lastName }) => ({
           value: _id,
-          label: first_name & last_name
+          label: `${firstName} ${lastName}`
         }))
       );
       const tasksData = await fetch(`${process.env.REACT_APP_API_URL}/tasks/`);
@@ -168,23 +174,33 @@ function TimeSheetForm() {
             name="totalHours"
             required
             type="number"
+            min="0"
             value={totalHoursValue}
             onChange={onChangeTotalHoursInput}
             disabled={isLoading}
           />
         </div>
-        <div className="input">
-          <input
-            placeholder="Status"
+        <div className="select">
+          <select
+            onChange={onChangeStatusInput}
+            value={statusValue}
             className={styles.input}
             id="status"
             name="status"
             required
-            type="text"
-            value={statusValue}
-            onChange={onChangeStatusInput}
+            type="status"
             disabled={isLoading}
-          />
+            option={statusOption}
+          >
+            <option value=" " disabled>
+              Select an status
+            </option>
+            {statusOption.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
         </div>
         <div className="input">
           <input
