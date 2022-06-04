@@ -1,7 +1,30 @@
 .container {
+  flex: 1;
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
+  flex-wrap: wrap;
   text-align: center;
-  width: 100%;
+}
+
+.btn {
+  align-self: flex-end;
+  padding: 5px 8px;
+  margin: 5px 4px;
+  border: 1px solid #181818;
+  border-radius: 5px;
+  color: #181818;
+  background-color: #f0f4f9;
+  font-size: 16px;
+  text-decoration: none;
+}
+
+.btn:hover {
+  background-color: #ffffff;
+  transform: scale(1.05);
+  transition: all 0.2s ease-in-out;
+}
+.label {
+  font-size: 1.1em;
+  font-weight: bold;
+  color: #333;
 }
