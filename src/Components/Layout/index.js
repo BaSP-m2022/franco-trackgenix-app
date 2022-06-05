@@ -1,67 +1,44 @@
-import Header from '../Header/index';
-import Footer from '../Footer/index';
-import Admins from '../Admins/index';
-import AdminForm from '../Admin/index';
-import SuperAdmins from '../SuperAdmins/index';
-import SuperAdminsForm from '../SuperAdmin/index';
-import Home from '../Home/index';
+import React from 'react';
+import { Switch, Route, Redirect } from 'react-router-dom';
+import Header from '../Shared/Header';
+import Footer from '../Shared/Footer';
+import Admins from '../Admins';
+import AdminForm from '../Admin';
+import SuperAdmins from '../SuperAdmins';
+import SuperAdminForm from '../SuperAdmin';
+import Home from '../Home';
 import styles from './layout.module.css';
-import Employees from '../Employees/index';
-import EmployeeForm from '../Employee/index';
+import Employees from '../Employees';
+import EmployeeForm from '../Employee';
 import Projects from '../Projects';
 import ProjectForm from '../Project';
 import TimeSheets from '../TimeSheets';
+import TimeSheetForm from '../TimeSheet';
 import Tasks from '../Tasks';
-import Task from '../Task';
-import TimesheetForm from '../TimeSheet';
+import TaskForm from '../Task';
 
 function Layout() {
-  let currentScreen = <Home />;
-  switch (window.location.pathname) {
-    case '/admins':
-      currentScreen = <Admins />;
-      break;
-    case '/admins/form':
-      currentScreen = <AdminForm />;
-      break;
-    case '/super-admins':
-      currentScreen = <SuperAdmins />;
-      break;
-    case '/super-admins/form':
-      currentScreen = <SuperAdminsForm />;
-      break;
-    case '/employees':
-      currentScreen = <Employees />;
-      break;
-    case '/employees/form':
-      currentScreen = <EmployeeForm />;
-      break;
-    case '/projects':
-      currentScreen = <Projects />;
-      break;
-    case '/projects/form':
-      currentScreen = <ProjectForm />;
-      break;
-    case '/time-sheets':
-      currentScreen = <TimeSheets />;
-      break;
-    case '/time-sheets/form':
-      currentScreen = <TimesheetForm />;
-      break;
-    case '/tasks':
-      currentScreen = <Tasks />;
-      break;
-    case '/tasks/form':
-      currentScreen = <Task />;
-      break;
-    default:
-      break;
-  }
-
   return (
     <div className={styles.container}>
       <Header />
-      {currentScreen}
+      <Switch>
+        <Route exact path="/home" component={Home} />
+        <Route exact path="/admins" component={Admins} />
+        <Route exact path="/admins/form" component={AdminForm} />
+        <Route exact path="/super-admins" component={SuperAdmins} />
+        <Route exact path="/super-admins/form" component={SuperAdminForm} />
+        <Route exact path="/employees" component={Employees} />
+        <Route exact path="/employees/form" component={EmployeeForm} />
+        <Route exact path="/projects" component={Projects} />
+        <Route exact path="/projects/form" component={ProjectForm} />
+        <Route exact path="/time-sheets" component={TimeSheets} />
+        <Route exact path="/time-sheets/form" component={TimeSheetForm} />
+        <Route exact path="/Tasks" component={Tasks} />
+        <Route exact path="/Tasks/form" component={TaskForm} />
+        <Route exact path="/">
+          <Redirect to="/home" />
+        </Route>
+      </Switch>
       <Footer />
     </div>
   );
