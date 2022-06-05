@@ -62,12 +62,12 @@ function ProjectForm() {
       const projectId = params.get('id');
       if (projectId) {
         const data = await fetch(`${process.env.REACT_APP_API_URL}/projects/${projectId}`);
-        const Projectfetch = await data.json();
-        let startDate = Projectfetch.data.startDate.slice(0, 10);
-        let endDate = Projectfetch.data.endDate.slice(0, 10);
-        setnameValue(Projectfetch.data.name);
-        setstatusValue(Projectfetch.data.status);
-        setdescriptionValue(Projectfetch.data.description);
+        const projectfetch = await data.json();
+        let startDate = projectfetch.data.startDate.slice(0, 10);
+        let endDate = projectfetch.data.endDate.slice(0, 10);
+        setnameValue(projectfetch.data.name);
+        setstatusValue(projectfetch.data.status);
+        setdescriptionValue(projectfetch.data.description);
         setstartDateValue(startDate);
         setendDateValue(endDate);
       }
