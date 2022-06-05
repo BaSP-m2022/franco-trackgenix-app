@@ -1,4 +1,6 @@
+import React from 'react';
 import styles from './header.module.css';
+import { Link } from 'react-router-dom';
 
 function Header() {
   return (
@@ -30,24 +32,24 @@ function Header() {
         <div className={styles.appName}>
           Track<span>GENIX</span>
         </div>
-        <ul className={styles.rutes}>
+        <ul className={styles.routes}>
           <li>
-            <a href="/admins">admins</a>
+            <Link to={'/admins'}>admins</Link>
           </li>
           <li>
-            <a href="/super-admins">super admins</a>
+            <Link to={'/super-admins'}>super admins</Link>
           </li>
           <li>
-            <a href="/employees">employees</a>
+            <Link to={'/employees'}>employees</Link>
           </li>
           <li>
-            <a href="/projects">projects</a>
+            <Link to={'/projects'}>projects</Link>
           </li>
           <li>
-            <a href="/time-sheets">timesheets</a>
+            <Link to={'/time-sheets'}>timesheets</Link>
           </li>
           <li>
-            <a href="/tasks">tasks</a>
+            <Link to={'/tasks'}>tasks</Link>
           </li>
         </ul>
       </nav>
