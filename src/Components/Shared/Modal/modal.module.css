@@ -1,0 +1,92 @@
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  z-index: 10;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modalWrapper {
+  position: relative;
+  display: flex;
+  min-width: 320px;
+  max-width: 550px;
+  flex-direction: column;
+  border: 1px solid black;
+  border-radius: 12px;
+  background-color: white;
+  box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.15);
+}
+
+.modalDivTitle {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 0px 3px;
+  background-color: #373867;
+  border-radius: 11px 11px 0px 0px;
+}
+
+.modalDivTitle h3 {
+  margin: 0px;
+  padding: 2px;
+  color: #fff;
+}
+
+.closeButton {
+  top: 8px;
+  right: 8px;
+  margin: 0px 2px;
+  padding: 0px;
+  background-color: inherit;
+  border: none;
+  color: #f13312;
+  font-weight: 500;
+}
+
+.closeButton:hover {
+  color: inherit;
+  background-color: inherit;
+  transform: none;
+  transition: none;
+  color: inherit;
+}
+
+.modalDivChildren {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  margin: 10px 0px;
+}
+
+.modalDivChildren div {
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+  text-align: center;
+}
+
+.modalDivChildren p {
+  width: 60%;
+  margin: 5px 0px;
+}
+.modalDivChildren p:last-of-type {
+  margin: 16px 0px;
+}
+
+@media (max-width: 440px) {
+  .modalWrapper {
+    max-width: 320px;
+  }
+}
+@media (max-width: 660px) {
+  .modalWrapper {
+    max-width: 350px;
+  }
+}
