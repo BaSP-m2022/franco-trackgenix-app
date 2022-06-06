@@ -3,9 +3,9 @@ import styles from './footer.module.css';
 const Footer = () => {
   return (
     <footer className={styles.container}>
-      <div className={styles.greenline}></div>
+      <div className={styles.greenLine}></div>
       <div className={styles.content}>
-        <nav className={styles.rowlinks}>
+        <nav className={styles.rowLinks}>
           <a href={'#'}>
             {''}
             <svg
@@ -96,7 +96,7 @@ const Footer = () => {
           </a>
         </nav>
 
-        <div className={styles.footertext}>
+        <div className={styles.footerText}>
           <div className={styles.p1}>
             <p>Rosario, Argentina</p>
           </div>
