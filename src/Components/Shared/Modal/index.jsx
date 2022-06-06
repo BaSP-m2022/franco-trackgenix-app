@@ -1,6 +1,6 @@
 import styles from './modal.module.css';
 
-const Modal = ({ isOpen, modalText, modalTitle, handleClose, children }) => {
+const Modal = ({ isOpen, modalTitle, handleClose, children }) => {
   if (!isOpen) {
     return null;
   }
@@ -13,8 +13,7 @@ const Modal = ({ isOpen, modalText, modalTitle, handleClose, children }) => {
             X
           </button>
         </div>
-        <p>{modalText}</p>
-        {children}
+        <div className={styles.modalDivChildren}> {children}</div>
       </div>
     </div>
   );
