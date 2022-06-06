@@ -16,7 +16,7 @@ const TableRow = ({ item, column }) => (
   </tr>
 );
 
-const Table = ({ data, column, deleteSuperAdmin }) => {
+const Table = ({ data, column, deleteItem }) => {
   return (
     <table>
       <thead>
@@ -29,7 +29,11 @@ const Table = ({ data, column, deleteSuperAdmin }) => {
       <tbody>
         <tr>
           {data.map((item, index) => (
-            <TableRow key={index} item={item} column={column} deleteSuperAdmin={deleteSuperAdmin} />
+            <div>
+              <TableRow key={index} item={item} column={column} />
+              <button onClick={() => deleteItem(item._id)}>X</button>
+              <a href={`/time-theets/form?id=${item._id}`}>edit</a>
+            </div>
           ))}
         </tr>
       </tbody>
