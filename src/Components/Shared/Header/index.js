@@ -1,13 +1,12 @@
 import React from 'react';
 import styles from './header.module.css';
-// import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const Header = () => {
   return (
     <header>
       <div id="logo">
-        <a href={'/home'} className={styles.logo}>
-          {/* <Link to={'/home'} className={styles.logo}> */}
+        <Link to={'/home'} className={styles.logo}>
           <img
             src={`${process.env.PUBLIC_URL}/assets/images/logo1.svg`}
             alt="Rocket"
@@ -18,8 +17,7 @@ const Header = () => {
             alt="Radium"
             className={styles.radium}
           />
-          {/* </Link> */}
-        </a>
+        </Link>
       </div>
       <div id="title" className={styles.title}>
         TRACKGENIX
