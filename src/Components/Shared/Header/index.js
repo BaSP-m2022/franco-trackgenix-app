@@ -1,60 +1,32 @@
 import React from 'react';
+import logo1 from './images/logo-1.png';
+import logo2 from './images/logo-2.png';
 import styles from './header.module.css';
-import { Link } from 'react-router-dom';
 
-function Header() {
+const Header = () => {
   return (
     <header>
-      <div className={styles.container}>
-        <div className={styles.brand}>Radium Rocket</div>
-        <div>
-          <a href={'https://www.facebook.com/radiumrocket'} target={'_blank'} rel="noreferrer">
-            <img
-              className={styles.socialIcon}
-              src={`${process.env.PUBLIC_URL}/assets/images/facebook.svg`}
-            />
-          </a>
-          <a href={'https://twitter.com/radiumrocket'} target={'_blank'} rel="noreferrer">
-            <img
-              className={styles.socialIcon}
-              src={`${process.env.PUBLIC_URL}/assets/images/twitter.svg`}
-            />
-          </a>
-          <a href={'https://www.instagram.com/radium.rocket/'} target={'_blank'} rel="noreferrer">
-            <img
-              className={styles.socialIcon}
-              src={`${process.env.PUBLIC_URL}/assets/images/instagram.svg`}
-            />
-          </a>
-        </div>
+      <div id="logo">
+        <a href="/home" className={styles.logo}>
+          {/* <img
+            src={`${process.env.PUBLIC_URL}/assets/images/logo1.png`}
+            alt="Rocket"
+            className={styles.rocket}
+          />
+          <img
+            src={`${process.env.PUBLIC_URL}/assets/images/logo2.png`}
+            alt="Radium"
+            className={styles.radium}
+          /> */}
+          <img src={logo1} alt="Rocket" className={styles.rocket} />
+          <img src={logo2} alt="Radium" className={styles.radium} />
+        </a>
       </div>
-      <nav className={styles.navbar}>
-        <div className={styles.appName}>
-          Track<span>GENIX</span>
-        </div>
-        <ul className={styles.routes}>
-          <li>
-            <Link to={'/admins'}>admins</Link>
-          </li>
-          <li>
-            <Link to={'/super-admins'}>super admins</Link>
-          </li>
-          <li>
-            <Link to={'/employees'}>employees</Link>
-          </li>
-          <li>
-            <Link to={'/projects'}>projects</Link>
-          </li>
-          <li>
-            <Link to={'/time-sheets'}>timesheets</Link>
-          </li>
-          <li>
-            <Link to={'/tasks'}>tasks</Link>
-          </li>
-        </ul>
-      </nav>
+      <div id="title" className={styles.title}>
+        TRACKGENIX
+      </div>
     </header>
   );
-}
+};
 
 export default Header;
