@@ -2,7 +2,7 @@ import styles from './search.module.css';
 
 const Search = ({ searchQuery, setSearchQuery, placeholder }) => {
   return (
-    <form className={styles.Flatsearch}>
+    <form className={styles.flatSearch}>
       <input
         value={searchQuery}
         onInput={(e) => setSearchQuery(e.target.value)}
@@ -12,7 +12,7 @@ const Search = ({ searchQuery, setSearchQuery, placeholder }) => {
         className={styles.search}
       />
       <button>
-        <span className={styles.icon}>&#x1F50E;&#xFE0E;</span>
+        <span>&#x1F50E;&#xFE0E;</span>
       </button>
     </form>
   );

@@ -1,4 +1,4 @@
-.Flatsearch {
+.flatSearch {
   max-height: 34px;
   max-width: 242;
   align-items: center;
@@ -12,8 +12,8 @@
   transition: all 0.5s ease 0s;
 }
 
-.Flatsearch button,
-.Flatsearch input {
+.flatSearch button,
+.flatSearch input {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -26,6 +26,12 @@
   outline: 0;
 }
 
-.Flatsearch button {
+.flatSearch button {
   padding-right: 14px;
+}
+
+.flatSearch button:hover {
+  background-color: inherit;
+  transform: scale(1.02);
+  transition: all 0.2s ease-in-out;
 }
