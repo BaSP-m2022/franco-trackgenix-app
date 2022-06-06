@@ -46,7 +46,7 @@ function Sidebar() {
             </Link>
           </li>
           <li>
-            <p className={styles.contact}>Contact Us</p>
+            <p className={styles.contact}> Contact Us</p>
           </li>
           <li>
             <p>
