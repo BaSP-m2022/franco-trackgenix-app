@@ -4,31 +4,47 @@ import { Link } from 'react-router-dom';
 
 function Sidebar() {
   return (
-      <nav className={styles.navbar}>
-        <div className={styles.appName}>
-          Track<span>GENIX</span>
-        </div>
+    <nav className={styles.navbar}>
+      <div>
         <ul className={styles.routes}>
-          <li>
-            <Link to={'/admins'}>admins</Link>
-          </li>
-          <li>
-            <Link to={'/super-admins'}>super admins</Link>
-          </li>
-          <li>
-            <Link to={'/employees'}>employees</Link>
-          </li>
-          <li>
-            <Link to={'/projects'}>projects</Link>
-          </li>
-          <li>
-            <Link to={'/time-sheets'}>timesheets</Link>
-          </li>
-          <li>
-            <Link to={'/tasks'}>tasks</Link>
-          </li>
+          <div>
+            <li>
+              <Link to={'/'}>Home</Link>
+            </li>
+          </div>
+          <div>
+            <li>
+              <Link to={'/admins'}>Admins</Link>
+            </li>
+          </div>
+          <div>
+            <li>
+              <Link to={'/super-admins'}>Super admins</Link>
+            </li>
+          </div>
+          <div>
+            <li>
+              <Link to={'/employees'}>Employees</Link>
+            </li>
+          </div>
+          <div>
+            <li>
+              <Link to={'/projects'}>Projects</Link>
+            </li>
+          </div>
+          <div>
+            <li>
+              <Link to={'/time-sheets'}>Timesheets</Link>
+            </li>
+          </div>
+          <div>
+            <li>
+              <Link to={'/tasks'}>Tasks</Link>
+            </li>
+          </div>
         </ul>
-      </nav>
+      </div>
+    </nav>
   );
 }
 
