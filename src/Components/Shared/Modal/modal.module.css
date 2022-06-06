@@ -1,0 +1,50 @@
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  z-index: 10;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modalWrapper {
+  position: relative;
+  display: flex;
+  min-width: 350px;
+  flex-direction: column;
+  border: 1px solid black;
+  border-radius: 12px;
+  background-color: white;
+}
+
+.modalDivTitle {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 3px;
+  background-color: #373867;
+  border-radius: 11px 11px 0px 0px;
+}
+.modalDivTitle h3 {
+  margin: 0px;
+}
+
+.closeButton {
+  top: 8px;
+  right: 8px;
+  background-color: inherit;
+  border: none;
+  color: #f13312;
+}
+
+.closeButton:hover {
+  color: inherit;
+  background-color: inherit;
+  transform: none;
+  transition: none;
+  color: inherit;
+}
