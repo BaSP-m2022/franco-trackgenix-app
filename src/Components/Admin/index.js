@@ -102,7 +102,6 @@ function AdminForm() {
           <Input name="Email" type="email" value={email} onChange={setEmail} />
           <Input name="Password" type="text" value={password} onChange={setPassword} />
         </div>
-
         <div className={styles.buttonContainer}>
           {errorMessage && <p className={styles.error}>{errorMessage}</p>}
           {loading && 'Loading...'}
@@ -122,4 +121,5 @@ function AdminForm() {
     </div>
   );
 }
+
 export default AdminForm;
