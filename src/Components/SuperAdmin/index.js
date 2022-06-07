@@ -1,30 +1,48 @@
+/* eslint-disable no-unused-vars */
 import { useState, useEffect } from 'react';
 import styles from './superAdmin.module.css';
-import Input from './Info';
+import Input from '../Shared/Input';
+import Button from '../Shared/Button';
+import Modal from '../Shared/Modal';
+import LoadingScreen from '../Shared/LoadingScreen';
+import { useHistory } from 'react-router-dom';
 
 function SuperAdminForm() {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
-  const [errorMessage, setErrorMessage] = useState('');
+  const [isOpen, setIsOpen] = useState(false);
+  const [redirect, setRedirect] = useState(false);
+  const [message, setMessage] = useState('');
+  const [modalTitle, setModalTitle] = useState('');
+  const [buttonText, setButtonText] = useState('');
   const [loading, setLoading] = useState(false);
-
   const [requestType, setRequestType] = useState('POST');
   const [editSuperAdminId, setEditSuperAdminId] = useState('');
+  const history = useHistory();
+
+  const routeChange = () => {
+    let path = `/super-admins`;
+    history.push(path);
+  };
+
+  const closeModal = () => {
+    setIsOpen(false);
+  };
 
   useEffect(() => {
     async function fetchId(id) {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/super-admins/${id}`);
       const { message, data, error } = await response.json();
       if (error) {
-        setErrorMessage(message);
+        setMessage(message);
       } else {
         setFirstName(data.firstName);
         setLastName(data.lastName);
         setEmail(data.email);
         setPassword(data.password);
+        setButtonText('Update Super Admin');
       }
     }
     const params = new URLSearchParams(window.location.search);
@@ -35,12 +53,12 @@ function SuperAdminForm() {
       fetchId(superAdminId);
     } else {
       setRequestType('POST');
+      setButtonText('Save Super Admin');
     }
   }, []);
 
   async function handleSubmit(e) {
     e.preventDefault();
-    console.log(requestType);
     setLoading(true);
     const URL =
       process.env.REACT_APP_API_URL +
@@ -62,41 +80,59 @@ function SuperAdminForm() {
     setLoading(false);
 
     if (data.error) {
-      setErrorMessage(data.message);
+      setModalTitle('Validation Error');
+      setMessage(data.message);
+      setIsOpen(true);
     } else {
-      setErrorMessage('');
-      setFirstName('');
-      setLastName('');
-      setEmail('');
-      setPassword('');
-      const msg = requestType === 'POST' ? 'Super Admin created' : 'Super Admin updated';
-      alert(msg);
+      setMessage(requestType === 'POST' ? 'Super Admin Created' : 'Super Admin Updated');
+      setModalTitle(
+        requestType === 'POST'
+          ? ' The Super Admin has been created'
+          : 'The Super Admin has been updated'
+      );
+      setRedirect(true);
+      setIsOpen(true);
     }
   }
 
   return (
     <section>
-      <a href="/super-admins">Super Admin</a>
+      <Modal
+        isOpen={isOpen}
+        handleClose={() => {
+          setIsOpen(false);
+        }}
+        modalTitle={modalTitle}
+      >
+        <p>{message}</p>
+        <div>
+          <Button text={'Ok'} handler={redirect ? routeChange : closeModal} />
+        </div>
+      </Modal>
       <h2>Add Super admin</h2>
       <form className={styles.form}>
         <div className={styles.container}>
-          <Input name="First Name" type="text" value={firstName} onChange={setFirstName} />
-        </div>
-        <div className={styles.container}>
-          <Input name="Last Name" type="text" value={lastName} onChange={setLastName} />
-        </div>
-        <div className={styles.container}>
-          <Input name="Email" type="email" value={email} onChange={setEmail} />
-        </div>
-        <div className={styles.container}>
-          <Input name="Password" type="password" value={password} onChange={setPassword} />
-        </div>
-        <div className={styles.container}>
-          {errorMessage && <p>{errorMessage}</p>}
-          <button className={styles.btn} onClick={handleSubmit}>
-            {loading}
-            {!loading && requestType === 'POST' ? 'Add Admin' : 'Update Admin'}
-          </button>
+          <Input
+            name={'First Name'}
+            placeholder={'Enter your first name'}
+            onChange={setFirstName}
+            value={firstName}
+          />
+          <Input
+            name={'Last Name'}
+            placeholder={'Enter your last name'}
+            onChange={setLastName}
+            value={lastName}
+          />
+          <Input name={'Email'} placeholder={'Enter the Email'} onChange={setEmail} value={email} />
+          <Input
+            name={'Password'}
+            type={'password'}
+            placeholder={'Enter the Password'}
+            onChange={setPassword}
+            value={password}
+          />
+          <Button text={buttonText} handler={handleSubmit} />
         </div>
       </form>
     </section>
