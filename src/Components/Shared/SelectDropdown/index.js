@@ -14,8 +14,8 @@ function SelectDropdown(props) {
       <option value="" disabled>
         Select one
       </option>
-      {props.options.map((option) => (
-        <option key={option.value} value={option.value}>
+      {props.options.map((option, index) => (
+        <option key={index} value={option.value}>
           {option.label}
         </option>
       ))}
