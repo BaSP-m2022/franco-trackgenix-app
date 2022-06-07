@@ -3,6 +3,7 @@ import styles from './admin.module.css';
 import Input from '../Shared/Input';
 import Button from '../Shared/Button';
 import Modal from '../Shared/Modal';
+import LoadingScreen from '../Shared/LoadingScreen';
 import { useHistory } from 'react-router-dom';
 
 function AdminForm() {
@@ -76,11 +77,6 @@ function AdminForm() {
           setErrorMessage(data.message);
         } else {
           const msg = requestType === 'POST' ? 'Admin created' : 'Admin updated';
-          setErrorMessage('');
-          setFirstName('');
-          setLastName('');
-          setEmail('');
-          setPassword('');
           setMsg(msg);
           setIsOpen(!isOpen);
         }
@@ -90,44 +86,47 @@ function AdminForm() {
     }
   }
   const history = useHistory();
-
   const routeChange = () => {
     let path = `/admins`;
     history.push(path);
   };
 
-  return (
-    <div className={styles.container}>
-      <h3 className={styles.h3}>Admin form</h3>
-      <form className={styles.form}>
-        <div className={styles.inputs}>
-          <Input name="First Name" type="text" value={firstName} onChange={setFirstName} />
-          <Input name="Last Name" type="text" value={lastName} onChange={setLastName} />
-          <Input name="Email" type="email" value={email} onChange={setEmail} />
-          <Input name="Password" type="text" value={password} onChange={setPassword} />
-        </div>
-        <div className={styles.buttonContainer}>
-          {errorMessage && <p className={styles.error}>{errorMessage}</p>}
-          {loading && 'Loading...'}
-          <Button text="Return" handler={routeChange} />
-          <Button
-            text={!loading && requestType === 'POST' ? 'Add Admin' : 'Update Admin'}
-            handler={handleSubmit}
-          />
-          <Modal
-            modalTitle={!loading && requestType === 'POST' ? 'Add Admin' : 'Update Admin'}
-            isOpen={isOpen}
-            handleClose={() => setIsOpen(!isOpen)}
-          >
-            {msg}
-            <div>
-              <Button text="OK" handler={routeChange} />
-            </div>
-          </Modal>
-        </div>
-      </form>
-    </div>
-  );
+  const ls = LoadingScreen();
+  if (loading) {
+    return ls;
+  } else {
+    return (
+      <div className={styles.container}>
+        <h3 className={styles.h3}>Admin form</h3>
+        <form className={styles.form}>
+          <div className={styles.inputs}>
+            <Input name="First Name" type="text" value={firstName} onChange={setFirstName} />
+            <Input name="Last Name" type="text" value={lastName} onChange={setLastName} />
+            <Input name="Email" type="email" value={email} onChange={setEmail} />
+            <Input name="Password" type="text" value={password} onChange={setPassword} />
+          </div>
+          <div className={styles.buttonContainer}>
+            {errorMessage && <p className={styles.error}>{errorMessage}</p>}
+            <Button text="Return" handler={routeChange} />
+            <Button
+              text={!loading && requestType === 'POST' ? 'Add Admin' : 'Update Admin'}
+              handler={handleSubmit}
+            />
+            <Modal
+              modalTitle={!loading && requestType === 'POST' ? 'Add Admin' : 'Update Admin'}
+              isOpen={isOpen}
+              handleClose={() => setIsOpen(!isOpen)}
+            >
+              {msg}
+              <div>
+                <Button text="OK" handler={routeChange} />
+              </div>
+            </Modal>
+          </div>
+        </form>
+      </div>
+    );
+  }
 }
 
 export default AdminForm;
