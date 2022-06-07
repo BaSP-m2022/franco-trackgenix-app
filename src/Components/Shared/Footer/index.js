@@ -1,4 +1,5 @@
 import styles from './footer.module.css';
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
   return (
@@ -6,8 +7,7 @@ const Footer = () => {
       <div className={styles.greenLine}></div>
       <div className={styles.content}>
         <nav className={styles.rowLinks}>
-          <a href={'#'}>
-            {''}
+          <Link to={{ pathname: '#' }} target="_blank">
             <svg
               width="35"
               height="35"
@@ -28,8 +28,8 @@ const Footer = () => {
                 fill="#373867"
               />
             </svg>
-          </a>
-          <a href={'https://twitter.com/radiumrocket'}>
+          </Link>
+          <Link to={{ pathname: 'https://twitter.com/radiumrocket' }} target="_blank">
             <svg
               width="41"
               height="34"
@@ -42,9 +42,8 @@ const Footer = () => {
                 fill="#373867"
               />
             </svg>
-          </a>
-          <a href={'https://www.facebook.com/radiumrocket'}>
-            {' '}
+          </Link>
+          <Link to={{ pathname: 'https://www.facebook.com/radiumrocket' }} target="_blank">
             <svg
               width="20"
               height="34"
@@ -57,8 +56,8 @@ const Footer = () => {
                 fill="#373867"
               />
             </svg>
-          </a>
-          <a href={'https://www.instagram.com/radium.rocket/'}>
+          </Link>
+          <Link to={{ pathname: 'https://www.instagram.com/radium.rocket/' }} target="_blank">
             <svg
               width="34"
               height="34"
@@ -79,8 +78,8 @@ const Footer = () => {
                 fill="#373867"
               />
             </svg>
-          </a>
-          <a href={'#'}>
+          </Link>
+          <Link to={{ pathname: '#' }} target="_blank">
             <svg
               width="31"
               height="34"
@@ -93,7 +92,7 @@ const Footer = () => {
                 fill="#373867"
               />
             </svg>
-          </a>
+          </Link>
         </nav>
 
         <div className={styles.footerText}>
