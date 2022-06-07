@@ -107,12 +107,48 @@ const EmployeeForm = () => {
       <h3>Add admin</h3>
       <form className={styles.form}>
         <div>
-          <Input name="Firs tName" type="text" value={firstName} onChange={setFirstName} />
-          <Input name="Last Name" type="text" value={lastName} onChange={setLastName} />
-          <Input name="Date Of Birth" type="date" value={dateOfBirth} onChange={setDateOfBirth} />
-          <Input name="Dni" type="number" value={dni} onChange={setDni} />
-          <Input name="Email" type="email" value={email} onChange={setEmail} />
-          <Input name="Password" type="password" value={password} onChange={setPassword} />
+          <Input
+            name="Firs tName"
+            type="text"
+            value={firstName}
+            placeholder="Enter your First Name"
+            onChange={setFirstName}
+          />
+          <Input
+            name="Last Name"
+            type="text"
+            value={lastName}
+            placeholder="Enter your Last Name"
+            onChange={setLastName}
+          />
+          <Input
+            name="Date Of Birth"
+            type="date"
+            value={dateOfBirth}
+            placeholder="Enter your Birth date"
+            onChange={setDateOfBirth}
+          />
+          <Input
+            name="Dni"
+            type="number"
+            value={dni}
+            placeholder="Enter your IDN"
+            onChange={setDni}
+          />
+          <Input
+            name="Email"
+            type="email"
+            value={email}
+            placeholder="Enter your e-mail address"
+            onChange={setEmail}
+          />
+          <Input
+            name="Password"
+            type="password"
+            value={password}
+            placeholder="Enter Password"
+            onChange={setPassword}
+          />
         </div>
         <div className={styles.buttonContainer}>
           {errorMessage && <p className={styles.error}>{errorMessage}</p>}
