@@ -36,7 +36,6 @@ function AdminForm() {
     }
     const params = new URLSearchParams(window.location.search);
     const adminId = params.get('id');
-
     if (adminId) {
       setEditAdminId(adminId);
       setRequestType('PUT');
@@ -53,11 +52,9 @@ function AdminForm() {
     } else {
       try {
         setLoading(true);
-
         const URL =
           process.env.REACT_APP_API_URL +
           `/admins${requestType === 'POST' ? '' : `/${editAdminId}`}`;
-
         const response = await fetch(URL, {
           method: requestType,
           headers: {
@@ -85,6 +82,7 @@ function AdminForm() {
       }
     }
   }
+
   const history = useHistory();
   const routeChange = () => {
     let path = `/admins`;
@@ -100,10 +98,34 @@ function AdminForm() {
         <h3 className={styles.h3}>Admin form</h3>
         <form className={styles.form}>
           <div className={styles.inputs}>
-            <Input name="First Name" type="text" value={firstName} onChange={setFirstName} />
-            <Input name="Last Name" type="text" value={lastName} onChange={setLastName} />
-            <Input name="Email" type="email" value={email} onChange={setEmail} />
-            <Input name="Password" type="text" value={password} onChange={setPassword} />
+            <Input
+              name="First Name"
+              type="text"
+              placeholder="First Name"
+              value={firstName}
+              onChange={setFirstName}
+            />
+            <Input
+              name="Last Name"
+              type="text"
+              placeholder="Last Name"
+              value={lastName}
+              onChange={setLastName}
+            />
+            <Input
+              name="Email"
+              type="email"
+              placeholder="mail@example.com"
+              value={email}
+              onChange={setEmail}
+            />
+            <Input
+              name="Password"
+              type="password"
+              placeholder="********"
+              value={password}
+              onChange={setPassword}
+            />
           </div>
           <div className={styles.buttonContainer}>
             {errorMessage && <p className={styles.error}>{errorMessage}</p>}
