@@ -108,7 +108,7 @@ const EmployeeForm = () => {
       <form className={styles.form}>
         <div>
           <Input
-            name="Firs tName"
+            name="First Name"
             type="text"
             value={firstName}
             placeholder="Enter your First Name"
