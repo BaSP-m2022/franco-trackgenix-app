@@ -27,10 +27,6 @@ function SuperAdminForm() {
     history.push(path);
   };
 
-  const closeModal = () => {
-    setIsOpen(false);
-  };
-
   useEffect(() => {
     async function fetchId(id) {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/super-admins/${id}`);
@@ -84,8 +80,8 @@ function SuperAdminForm() {
       setMessage(data.message);
       setIsOpen(true);
     } else {
-      setMessage(requestType === 'POST' ? 'Super Admin Created' : 'Super Admin Updated');
-      setModalTitle(
+      setModalTitle(requestType === 'POST' ? 'Super Admin Created' : 'Super Admin Updated');
+      setMessage(
         requestType === 'POST'
           ? ' The Super Admin has been created'
           : 'The Super Admin has been updated'
@@ -94,45 +90,57 @@ function SuperAdminForm() {
       setIsOpen(true);
     }
   }
+  if (loading) {
+    return (
+      <section className={styles.sectionSuperAdmin}>
+        <LoadingScreen loading={loading} />
+      </section>
+    );
+  }
 
   return (
-    <section>
+    <section className={styles.sectionSuperAdmin}>
       <Modal
         isOpen={isOpen}
-        handleClose={() => {
-          setIsOpen(false);
-        }}
+        handleClose={
+          redirect
+            ? routeChange
+            : () => {
+                setIsOpen(!isOpen);
+              }
+        }
         modalTitle={modalTitle}
       >
         <p>{message}</p>
         <div>
-          <Button text={'Ok'} handler={redirect ? routeChange : closeModal} />
+          <Button text={'Ok'} handler={redirect ? routeChange : () => setIsOpen(!isOpen)} />
         </div>
       </Modal>
       <h2>Add Super admin</h2>
       <form className={styles.form}>
-        <div className={styles.container}>
-          <Input
-            name={'First Name'}
-            placeholder={'Enter your first name'}
-            onChange={setFirstName}
-            value={firstName}
-          />
-          <Input
-            name={'Last Name'}
-            placeholder={'Enter your last name'}
-            onChange={setLastName}
-            value={lastName}
-          />
-          <Input name={'Email'} placeholder={'Enter the Email'} onChange={setEmail} value={email} />
-          <Input
-            name={'Password'}
-            type={'password'}
-            placeholder={'Enter the Password'}
-            onChange={setPassword}
-            value={password}
-          />
+        <Input
+          name={'First Name'}
+          placeholder={'Enter your first name'}
+          onChange={setFirstName}
+          value={firstName}
+        />
+        <Input
+          name={'Last Name'}
+          placeholder={'Enter your last name'}
+          onChange={setLastName}
+          value={lastName}
+        />
+        <Input name={'Email'} placeholder={'Enter the Email'} onChange={setEmail} value={email} />
+        <Input
+          name={'Password'}
+          type={'password'}
+          placeholder={'Enter the Password'}
+          onChange={setPassword}
+          value={password}
+        />
+        <div className={styles.superAdminDiv}>
           <Button text={buttonText} handler={handleSubmit} />
+          <Button text={'Return'} handler={routeChange} />
         </div>
       </form>
     </section>

@@ -1,18 +1,27 @@
-* {
-  box-sizing: border-box;
-}
-
-.container {
-  width: 100%;
+.sectionSuperAdmin {
+  flex: 1;
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
+  justify-content: center;
   align-items: center;
+  flex-direction: column;
+  margin-right: 28%;
+  padding: 0 20% 10% 20%;
 }
-
+.sectionSuperAdmin h2 {
+  display: block;
+  margin: 15px 20px;
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #373867;
+}
 .form {
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.superAdminDiv {
+  display: flex;
+  justify-content: space-between;
 }
