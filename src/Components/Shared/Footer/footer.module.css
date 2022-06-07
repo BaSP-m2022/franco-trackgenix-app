@@ -1,72 +1,44 @@
 .container {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  background-color: #000000;
+  background-color: #ffff;
+  width: 75%;
+  height: 12%;
+  margin: 0% 0% 0% 25%;
 }
-
-.main {
+.greenLine {
+  width: 80%;
+  border-top: 8px solid #aace9b;
+  border-radius: 5px;
+}
+.content {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 5%;
-  width: 90%;
-  height: 250px;
+  flex-direction: row;
 }
-
-.appName {
-  font-size: 2rem;
-  font-weight: bold;
-  color: #FFF;
-}
-
-.rutes {
+.footerText {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-  list-style-type: none;
+  flex-direction: column;
+  float: right;
+  padding-top: 0.5%;
+  width: 70%;
 }
-
-.rutes > li > a {
-  margin-left: 15px;
-  font-size: 1rem;
-  font-weight: 600;
-  text-decoration: none;
-  text-transform: capitalize;
-  color: #FFF;
+.footerText p {
+  width: 80%;
+  color: #000;
+  float: right;
+  margin: 0% 0% 0% 90%;
 }
-
-.license {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 50px;
-  width: 90%;
-  padding: 0 20px;
-  background-color: #EA3354;
+.p1 {
+  padding: 0% 0% 0% 42.5%;
 }
-
-.copyright {
-  font-size: 0.7rem;
-  font-style: italic;
+.p2 {
+  padding: 0% 0% 0% 9%;
 }
-
-.socialIcon {
-  margin-left: 5px;
+.rowLinks {
+  background-color: #ffff;
+  padding-top: 1%;
+  width: 40%;
 }
-
-@media screen and (min-width: 750px) {
-  .main {
-    padding: 0 20%;
-    width: unset;
-  }
-
-  .license {
-    padding: 0 20px;
-    width: calc(60% - 40px);
-  }
-
-  .socialIcon {
-    margin-left: 15px;
-  }
+.rowLinks a {
+  padding: 3%;
 }
