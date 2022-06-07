@@ -1,6 +1,10 @@
 import { useState, useEffect } from 'react';
 import styles from './employee.module.css';
-import Input from './Input/Input.jsx';
+import Input from '../Shared/Input';
+import Modal from '../Shared/Modal';
+import Button from '../Shared/Button';
+import { useHistory } from 'react-router-dom';
+import LoadingScreen from '../Shared/LoadingScreen';
 
 const EmployeeForm = () => {
   const [loading, setLoading] = useState(false);
@@ -16,6 +20,9 @@ const EmployeeForm = () => {
   const [password, setPassword] = useState('');
   const [dni, setDni] = useState('');
 
+  const [msg, setMsg] = useState('');
+  const [isOpen, setIsOpen] = useState(false);
+
   useEffect(() => {
     async function fetchEmployee(id) {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/employees/${id}`);
@@ -26,7 +33,8 @@ const EmployeeForm = () => {
         setEditEmployeeId(id);
         setFirstName(data.firstName);
         setLastName(data.lastName);
-        setDateOfBirth(data.dateOfBirth);
+        let date = data.dateOfBirth.slice(0, 10);
+        setDateOfBirth(date);
         setEmail(data.email);
         setPassword(data.password);
         setDni(data.dni);
@@ -80,44 +88,53 @@ const EmployeeForm = () => {
         setEmail('');
         setPassword('');
         setDni('');
-        alert(msg);
-        window.location = '/employees';
+        setMsg(msg);
+        setIsOpen(!isOpen);
       }
     } catch (error) {
       setErrorMessage(error.toString());
     }
   }
 
+  const history = useHistory();
+  const routeChange = () => {
+    let path = `/employees`;
+    history.push(path);
+  };
+
   return (
-    <section className={styles.containerSec}>
+    <div className={styles.containerSec}>
       <h3>Add admin</h3>
-      <a className={styles.button} href="/employees">
-        Back to list
-      </a>
       <form className={styles.form}>
-        <div className={styles.container}>
-          <Input name="FirstName" type="text" value={firstName} onChange={setFirstName} />
-          <Input name="LastName" type="text" value={lastName} onChange={setLastName} />
-          <Input name="DateOfBirth" type="dale" value={dateOfBirth} onChange={setDateOfBirth} />
+        <div>
+          <Input name="Firs tName" type="text" value={firstName} onChange={setFirstName} />
+          <Input name="Last Name" type="text" value={lastName} onChange={setLastName} />
+          <Input name="Date Of Birth" type="date" value={dateOfBirth} onChange={setDateOfBirth} />
+          <Input name="Dni" type="number" value={dni} onChange={setDni} />
           <Input name="Email" type="email" value={email} onChange={setEmail} />
           <Input name="Password" type="password" value={password} onChange={setPassword} />
-          <Input name="Dni" type="number" value={dni} onChange={setDni} />
         </div>
         <div className={styles.buttonContainer}>
           {errorMessage && <p className={styles.error}>{errorMessage}</p>}
-          <button
-            className={styles.button}
-            onClick={handleSubmit}
-            disabled={
-              !firstName || !lastName || !dateOfBirth || !email || !password || !dni || loading
-            }
+          {loading && <LoadingScreen />}
+          <Button text="Return" handler={routeChange} />
+          <Button
+            text={!loading && requestType === 'POST' ? 'Add Employee' : 'Update Employee'}
+            handler={handleSubmit}
+          />
+          <Modal
+            modalTitle={!loading && requestType === 'POST' ? 'Add Employee' : 'Update Employee'}
+            isOpen={isOpen}
+            handleClose={() => setIsOpen(!isOpen)}
           >
-            {loading && 'Loading...'}
-            {!loading && requestType === 'POST' ? 'Add Employee' : 'Update Employee'}
-          </button>
+            {msg}
+            <div>
+              <Button text="OK" handler={routeChange} />
+            </div>
+          </Modal>
         </div>
       </form>
-    </section>
+    </div>
   );
 };
 
