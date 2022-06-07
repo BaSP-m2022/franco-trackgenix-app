@@ -3,6 +3,7 @@ import styles from './admin.module.css';
 import Input from '../Shared/Input';
 import Button from '../Shared/Button';
 import Modal from '../Shared/Modal';
+import { useHistory } from 'react-router-dom';
 
 function AdminForm() {
   const [firstName, setFirstName] = useState('');
@@ -88,12 +89,15 @@ function AdminForm() {
       }
     }
   }
+  const history = useHistory();
+
+  const routeChange = () => {
+    let path = `/admins`;
+    history.push(path);
+  };
 
   return (
     <div className={styles.container}>
-      <a className={styles.a} href="/admins">
-        &#10094; Admin list
-      </a>
       <h3 className={styles.h3}>Admin form</h3>
       <form className={styles.form}>
         <div className={styles.inputs}>
@@ -105,6 +109,7 @@ function AdminForm() {
         <div className={styles.buttonContainer}>
           {errorMessage && <p className={styles.error}>{errorMessage}</p>}
           {loading && 'Loading...'}
+          <Button text="Return" handler={routeChange} />
           <Button
             text={!loading && requestType === 'POST' ? 'Add Admin' : 'Update Admin'}
             handler={handleSubmit}
@@ -115,6 +120,9 @@ function AdminForm() {
             handleClose={() => setIsOpen(!isOpen)}
           >
             {msg}
+            <div>
+              <Button text="OK" handler={routeChange} />
+            </div>
           </Modal>
         </div>
       </form>
