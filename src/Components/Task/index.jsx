@@ -1,9 +1,13 @@
 import { useState, useEffect } from 'react';
 import styles from './Task.module.css';
-import Input from './Input';
-import Select from './Select';
+import Input from '../Shared/Input';
+import Select from '../Shared/SelectDropdown';
+import Button from '../Shared/Button';
+import { useHistory } from 'react-router-dom';
+import Modal from '../Shared/Modal';
+// import LoadingScreen from '../Shared/LoadingScreen';
 
-const Form = () => {
+const TaskForm = () => {
   const [descriptionValue, setDescriptionValue] = useState('');
   const [workedHoursValue, setWorkedHoursValue] = useState('');
   const [dateValue, setDateValue] = useState('');
@@ -62,19 +66,20 @@ const Form = () => {
       })
       .finally(() => setLoading(false));
   }, []);
-  const onChangeDescriptionValue = (event) => {
-    setDescriptionValue(event.target.value);
-  };
-  const onChangeWorkedHoursValue = (event) => {
-    setWorkedHoursValue(event.target.value);
-  };
-  const onChangeDateValue = (event) => {
-    setDateValue(event.target.value);
-  };
-  const onChangeProjectNameValue = (event) => {
-    setProjectNameValue(event.target.value);
-    setProjectId(event.target.value);
-  };
+
+  // const onChangeDescriptionValue = (event) => {
+  //   setDescriptionValue(event.target.value);
+  // };
+  // const onChangeWorkedHoursValue = (event) => {
+  //   setWorkedHoursValue(event.target.value);
+  // };
+  // const onChangeDateValue = (event) => {
+  //   setDateValue(event.target.value);
+  // };
+  // const onChangeProjectNameValue = (event) => {
+  //   setProjectNameValue(event.target.value);
+  //   setProjectId(event.target.value);
+  // };
 
   const onSubmit = async (event) => {
     event.preventDefault();
@@ -123,59 +128,56 @@ const Form = () => {
     }
   };
 
+  const history = useHistory();
+  const routeChange = () => {
+    let path = `/tasks`;
+    history.push(path);
+  };
+
   return (
     <div className={styles.container}>
       <form className={styles.form} onSubmit={onSubmit}>
-        <h2>task</h2>
+        <h2>Task</h2>
+        <Input
+          name="Description"
+          type="text"
+          value={descriptionValue}
+          placeholder="Description here..."
+          // onChange={onChangeDescriptionValue}
+          onChange={setDescriptionValue}
+          disabled={isLoading}
+        />
+        <Input
+          name="Worked hours"
+          type="text"
+          value={workedHoursValue}
+          placeholder="Hours here..."
+          // onChange={onChangeWorkedHoursValue}
+          onChange={setWorkedHoursValue}
+          disabled={isLoading}
+        />
+        <Select
+          name="Projects"
+          value={projectNameValue}
+          // onChange={onChangeProjectNameValue}
+          onChange={setProjectNameValue}
+          options={projects}
+          required={true}
+          disabled={isLoading}
+        />
+        <Input name="Date" type="date" value={dateValue} onChange={setDateValue} />
         <div>
-          <label className={styles.label}>Description</label>
-          <Input
-            name="description"
-            value={descriptionValue}
-            onChange={onChangeDescriptionValue}
-            type="text"
-            required
-            disabled={isLoading}
-          />
+          <Button text="Return" handler={routeChange} />
+          <Button text="Submit" handler={onSubmit} />
+          <Modal>
+            <div>
+              <Button text="Accept" handler={routeChange} />
+            </div>
+          </Modal>
         </div>
-        <div>
-          <label className={styles.label}>Worked Hours</label>
-          <Input
-            name="workedHours"
-            value={workedHoursValue}
-            onChange={onChangeWorkedHoursValue}
-            type="text"
-            required
-            disabled={isLoading}
-          />
-        </div>
-        <div>
-          <label className={styles.label}>Project Name</label>
-          <Select
-            name="projects"
-            value={projectNameValue}
-            onChange={onChangeProjectNameValue}
-            options={projects}
-            disabled={isLoading}
-          />
-        </div>
-        <div>
-          <label className={styles.label}>Date</label>
-          <Input
-            name="date"
-            value={dateValue}
-            onChange={onChangeDateValue}
-            type="date"
-            required
-            disabled={isLoading}
-          />
-        </div>
-        <button className={styles.btn} disabled={isLoading} type="submit">
-          Save
-        </button>
       </form>
     </div>
   );
 };
 
-export default Form;
+export default TaskForm;
