@@ -4,6 +4,7 @@
   justify-content: center;
   flex-wrap: wrap;
   text-align: center;
+  flex-direction: column;
 }
 
 .btn {
@@ -27,4 +28,17 @@
   font-size: 1.1em;
   font-weight: bold;
   color: #333;
+}
+.employee {
+  display: flex;
+  justify-content: space-around;
+}
+
+.select{
+  display: flex;
+  flex-direction: column;
+}
+
+.table {
+  width: 80%;
 }

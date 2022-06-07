@@ -1,5 +1,11 @@
+/* eslint-disable no-unused-vars */
 import { useState, useEffect } from 'react';
 import styles from './Project.module.css';
+import Input from '../Shared/Input';
+import Button from '../Shared/Button';
+import Modal from '../Shared/Modal';
+import LoadingScreen from '../Shared/LoadingScreen';
+import Select from '../Shared/SelectDropdown';
 
 function EmployeeItem({ employee }) {
   return (
@@ -12,41 +18,16 @@ function EmployeeItem({ employee }) {
 }
 
 function ProjectForm() {
-  const [nameValue, setnameValue] = useState('');
-  const [statusValue, setstatusValue] = useState('');
-  const [descriptionValue, setdescriptionValue] = useState('');
-  const [employeeIdValue, setemployeeIdValue] = useState({});
+  const [nameValue, setNameValue] = useState('');
+  const [statusValue, setStatusValue] = useState('');
+  const [descriptionValue, setDescriptionValue] = useState('');
+  const [employeeIdValue, setEmployeeIdValue] = useState({});
   const [employeeOptions, setEmployeeOptions] = useState([]);
-  const [startDateValue, setstartDateValue] = useState('');
-  const [endDateValue, setendDateValue] = useState('');
+  const [startDateValue, setStartDateValue] = useState('');
+  const [endDateValue, setEndDateValue] = useState('');
   const [rateValue, setRateValue] = useState('');
   const [roleValue, setRoleValue] = useState('');
   const [employeesValue, setEmployeesValue] = useState([]);
-
-  const onChangeNameInput = (event) => {
-    setnameValue(event.target.value);
-  };
-  const onChangeStatusInput = (event) => {
-    setstatusValue(event.target.value);
-  };
-  const onChangeDescriptionInput = (event) => {
-    setdescriptionValue(event.target.value);
-  };
-  const onChangeEmployeeIdInput = (event) => {
-    setemployeeIdValue(event.target.value);
-  };
-  const onChangeStartDateInput = (event) => {
-    setstartDateValue(event.target.value);
-  };
-  const onChangeEndDateInput = (event) => {
-    setendDateValue(event.target.value);
-  };
-  const onChangeRateInput = (event) => {
-    setRateValue(event.target.value);
-  };
-  const onChangeRoleInput = (event) => {
-    setRoleValue(event.target.value);
-  };
 
   const onAddEmployee = (event) => {
     event.preventDefault();
@@ -62,14 +43,15 @@ function ProjectForm() {
       const projectId = params.get('id');
       if (projectId) {
         const data = await fetch(`${process.env.REACT_APP_API_URL}/projects/${projectId}`);
-        const projectfetch = await data.json();
-        let startDate = projectfetch.data.startDate.slice(0, 10);
-        let endDate = projectfetch.data.endDate.slice(0, 10);
-        setnameValue(projectfetch.data.name);
-        setstatusValue(projectfetch.data.status);
-        setdescriptionValue(projectfetch.data.description);
-        setstartDateValue(startDate);
-        setendDateValue(endDate);
+        const projectFetch = await data.json();
+        console.log(projectFetch);
+        let startDate = projectFetch.data.startDate.slice(0, 10);
+        let endDate = projectFetch.data.endDate ? projectFetch.data.endDate.slice(0, 10) : '';
+        setNameValue(projectFetch.data.name);
+        setStatusValue(projectFetch.data.status);
+        setDescriptionValue(projectFetch.data.description);
+        setStartDateValue(startDate);
+        setEndDateValue(endDate);
       }
       const data = await fetch(`${process.env.REACT_APP_API_URL}/employees/`);
       const employees = await data.json();
@@ -79,6 +61,7 @@ function ProjectForm() {
           value: employee._id
         };
       });
+      console.log(newEmployees);
       setEmployeeOptions(newEmployees);
     } catch (error) {
       console.error(error);
@@ -135,79 +118,60 @@ function ProjectForm() {
     <div className={styles.container}>
       <h2>Project Form</h2>
       <form onSubmit={onSubmit}>
-        <label className={styles.label}>Name</label>
-        <input
-          className={styles.input}
-          id="name"
-          name="name"
-          required
+        <Input
+          className={styles.label}
+          name="Name"
           type="text"
           value={nameValue}
-          onChange={onChangeNameInput}
+          placeholder="Name"
+          onChange={setNameValue}
         />
-        <label className={styles.label}>Status</label>
-        <input
-          className={styles.input}
-          id="status"
-          name="status"
-          required
+        <Input
+          className={styles.label}
+          name="Status"
           type="text"
           value={statusValue}
-          onChange={onChangeStatusInput}
+          placeholder="Status"
+          onChange={setStatusValue}
         />
-        <label className={styles.label}>Description</label>
-        <input
-          className={styles.input}
-          id="description"
-          name="description"
-          required
+        <Input
+          className={styles.label}
+          name="Description"
           type="text"
           value={descriptionValue}
-          onChange={onChangeDescriptionInput}
+          placeholder="Description"
+          onChange={setDescriptionValue}
         />
-        <label className={styles.label}>Employee</label>
-        <div className={styles.container}>
-          <select
-            onChange={onChangeEmployeeIdInput}
-            value={employeeIdValue}
-            className={styles.input}
-            id="employeeId"
-            name="employeeId"
-            required
-            type="text"
-          >
-            <option value="" disabled>
-              Select a Employee
-            </option>
-            {employeeOptions.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </select>
-          <label className={styles.label}>Rate</label>
-          <input
-            className={styles.input}
-            id="rate"
-            name="rate"
-            required
+        <div className={styles.employee}>
+          <div className={styles.select}>
+            <label className={styles.label}>Employee</label>
+            <Select
+              className={styles.label}
+              value={employeeIdValue}
+              onChange={setEmployeesValue}
+              options={employeeOptions}
+              required={true}
+            />
+          </div>
+          <Input
+            className={styles.label}
+            name="Rate"
             type="number"
             value={rateValue}
-            onChange={onChangeRateInput}
+            placeholder="Rate"
+            onChange={setRateValue}
           />
-          <label className={styles.label}>Role</label>
-          <input
-            className={styles.input}
-            id="role"
-            name="role"
-            required
+          <Input
+            className={styles.label}
+            name="Role"
             type="text"
             value={roleValue}
-            onChange={onChangeRoleInput}
+            placeholder="Role"
+            onChange={setRoleValue}
           />
-          <button className={styles.btn} onClick={onAddEmployee} type="submit">
-            Add
-          </button>
+        </div>
+        <Button text="Add" handler={onAddEmployee} />
+        <div className={styles.table}>
           <table>
             <thead>
               <tr>
@@ -223,29 +187,21 @@ function ProjectForm() {
             </tbody>
           </table>
         </div>
-        <label className={styles.label}>Start Date</label>
-        <input
-          className={styles.input}
-          id="startDate"
-          name="startDate"
-          required
+        <Input
+          className={styles.label}
+          name="Start Date"
           type="date"
           value={startDateValue}
-          onChange={onChangeStartDateInput}
+          onChange={setStartDateValue}
         />
-        <label className={styles.label}>End Date</label>
-        <input
-          className={styles.input}
-          id="endDate"
-          name="endDate"
-          required
+        <Input
+          className={styles.label}
+          name="End Date"
           type="date"
           value={endDateValue}
-          onChange={onChangeEndDateInput}
+          onChange={setEndDateValue}
         />
-        <button className={styles.btn} type="submit">
-          Submit
-        </button>
+        <Button text="Submit" handler={onSubmit} />
       </form>
     </div>
   );
