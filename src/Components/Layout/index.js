@@ -39,8 +39,8 @@ function Layout() {
             <Route exact path="/projects/form" component={ProjectForm} />
             <Route exact path="/time-sheets" component={TimeSheets} />
             <Route exact path="/time-sheets/form" component={TimeSheetForm} />
-            <Route exact path="/Tasks" component={Tasks} />
-            <Route exact path="/Tasks/form" component={TaskForm} />
+            <Route exact path="/tasks" component={Tasks} />
+            <Route exact path="/tasks/form" component={TaskForm} />
             <Route exact path="/">
               <Redirect to="/home" />
             </Route>
