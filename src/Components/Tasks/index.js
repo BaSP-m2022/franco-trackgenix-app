@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import styles from './tasks.module.css';
 import Table from '../Shared/Table';
+import Button from '../Shared/Button';
 
 function Tasks() {
   const [dataTable, setDataTable] = useState([]);
@@ -44,7 +45,9 @@ function Tasks() {
       <div>
         <Table data={dataTable} column={column} deleteItem={deleteItem} entity={entity} />
       </div>
-      <div className={styles.btn_div}></div>
+      <div className={styles.btn_div}>
+        <Button text={'Add Task'} link={'/tasks/form'} />
+      </div>
     </section>
   );
 }
