@@ -1,0 +1,45 @@
+.tableMain {
+  width: 100%;
+  border: 1px solid #BEBEC8;
+  border-radius: 5px;
+  border-spacing: 0px;
+}
+
+.containerTable tr, .tableMain tr {
+  text-align: left;
+  color: #373867;
+  border-radius: 20px;
+}
+
+.containerTable td {
+  border-bottom: 1px solid #BEBEC8;
+  padding: 1px 8px;
+}
+
+.headTable, .tableMain th{
+  padding: 12px;
+  background-color: #D9DBE2;
+}
+
+.containerTable svg {
+  fill: #373867;
+  width: 20px;
+  height: 20px;
+  margin: 10px 0px 7px 8px;
+}
+
+.tableMain tbody tr:hover {
+  background: #EEF5EB;
+}
+
+.buttonTable:hover {
+  transform: scale(1.05);
+  transition: all 0.2s ease-in-out;
+}
+
+.containerTable a, .containerTable button {
+  text-align: center;
+  background: none;
+  border: 0;
+  text-decoration: none;
+}
