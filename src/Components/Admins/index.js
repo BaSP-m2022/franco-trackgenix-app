@@ -1,38 +1,82 @@
 import styles from './admins.module.css';
 import { useState, useEffect } from 'react';
-import List from './List/AdminsList';
+
+import Table from '../Shared/Table';
+import LoadingScreen from '../Shared/LoadingScreen';
+import Modal from '../Shared/Modal';
+import Button from '../Shared/Button';
 
 const Admins = () => {
+  const [admins, setAdmins] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [deleteId, setDeleteId] = useState('');
+
   const URL = `${process.env.REACT_APP_API_URL}/admins`;
-  const [list, setList] = useState([]);
+
+  const column = [
+    { heading: 'First name', value: 'firstName' },
+    { heading: 'Last name', value: 'lastName' },
+    { heading: 'Email', value: 'email' },
+    { heading: 'Id', value: '_id' }
+  ];
 
   useEffect(() => {
-    const fetchData = async () => {
-      const response = await fetch(URL, { method: 'GET' });
-      const responseJson = await response.json();
-      setList(responseJson.data);
-    };
-    fetchData().catch(console.error);
+    async function fetchAdmins() {
+      try {
+        setLoading(true);
+        const response = await fetch(`${URL}`);
+        const { message, data, error } = await response.json();
+        if (!error) {
+          console.log('data', data);
+          setAdmins(data);
+        } else {
+          throw new Error(message);
+        }
+      } catch (error) {
+        console.log('error', error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchAdmins();
   }, []);
 
-  const deleteAdmin = async (_id) => {
-    const response = await fetch(`${URL}/${_id}`, { method: 'DELETE' });
+  function handleDeleteAdmin(id) {
+    setDeleteId(id);
+    setIsOpen(true);
+  }
+
+  async function deleteAdmin(id) {
+    const response = await fetch(`${URL}/${id}`, { method: 'DELETE' });
     const responseJson = await response.json();
     if (responseJson.error) {
       alert('error');
     } else {
-      setList(list.filter((adminsItem) => adminsItem._id !== _id));
-      alert('delete successfully');
+      setAdmins(admins.filter((adminsItem) => adminsItem._id !== id));
+      setIsOpen(false);
     }
-  };
+  }
 
   return (
     <section className={styles.container}>
-      <h2>Admins</h2>
-      <a className={styles.add} href="/admins/form">
-        &#10010; Add New Admin
-      </a>
-      <List list={list} setList={setList} deleteAdmin={deleteAdmin} />
+      {loading ? (
+        <LoadingScreen />
+      ) : (
+        <>
+          <Modal
+            modalTitle="Are you sure you want to delete?"
+            isOpen={isOpen}
+            handleClose={() => {
+              setIsOpen(!isOpen);
+            }}
+          >
+            <Button text="Yes" type="delete" handler={() => deleteAdmin(deleteId)} />
+          </Modal>
+          <h2>Admins</h2>
+          <Table data={admins} column={column} deleteItem={handleDeleteAdmin} entity="admins" />
+        </>
+      )}
     </section>
   );
 };

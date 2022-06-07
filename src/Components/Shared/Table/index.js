@@ -11,7 +11,7 @@ const TableRow = ({ item, column, deleteItem, entity }) => (
         if (item[itemSplit[0]]) {
           return <td>{item[itemSplit[0]][itemSplit[1]]}</td>;
         }
-        return <td>No {columnItem.heading}</td>;
+        return <td key={index}>No {columnItem.heading}</td>;
       }
       return <td key={index}>{item[`${columnItem.value}`]}</td>;
     })}
