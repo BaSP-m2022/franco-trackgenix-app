@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import styles from './admin.module.css';
-import Input from './Input';
+import Input from '../Shared/Input';
+import Button from '../Shared/Button';
+import Modal from '../Shared/Modal';
 
 function AdminForm() {
   const [firstName, setFirstName] = useState('');
@@ -13,6 +15,8 @@ function AdminForm() {
 
   const [requestType, setRequestType] = useState('POST');
   const [editAdminId, setEditAdminId] = useState('');
+  const [msg, setMsg] = useState('');
+  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     async function fetchAdmin(id) {
@@ -76,7 +80,8 @@ function AdminForm() {
           setLastName('');
           setEmail('');
           setPassword('');
-          alert(msg);
+          setMsg(msg);
+          setIsOpen(!isOpen);
         }
       } catch (error) {
         setErrorMessage(error.toString());
@@ -85,31 +90,36 @@ function AdminForm() {
   }
 
   return (
-    <section className={styles.section}>
+    <div className={styles.container}>
       <a className={styles.a} href="/admins">
         &#10094; Admin list
       </a>
       <h3 className={styles.h3}>Admin form</h3>
       <form className={styles.form}>
-        <div className={styles.container}>
+        <div className={styles.inputs}>
           <Input name="First Name" type="text" value={firstName} onChange={setFirstName} />
           <Input name="Last Name" type="text" value={lastName} onChange={setLastName} />
           <Input name="Email" type="email" value={email} onChange={setEmail} />
           <Input name="Password" type="text" value={password} onChange={setPassword} />
         </div>
+
         <div className={styles.buttonContainer}>
           {errorMessage && <p className={styles.error}>{errorMessage}</p>}
-          <button
-            className={styles.button}
-            onClick={handleSubmit}
-            disabled={!firstName || !lastName || !email || !password || loading}
+          {loading && 'Loading...'}
+          <Button
+            text={!loading && requestType === 'POST' ? 'Add Admin' : 'Update Admin'}
+            handler={handleSubmit}
+          />
+          <Modal
+            modalTitle={!loading && requestType === 'POST' ? 'Add Admin' : 'Update Admin'}
+            isOpen={isOpen}
+            handleClose={() => setIsOpen(!isOpen)}
           >
-            {loading && 'Loading...'}
-            {!loading && requestType === 'POST' ? 'Add Admin' : 'Update Admin'}
-          </button>
+            {msg}
+          </Modal>
         </div>
       </form>
-    </section>
+    </div>
   );
 }
 export default AdminForm;
