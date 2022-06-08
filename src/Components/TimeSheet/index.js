@@ -1,5 +1,12 @@
 import { useState, useEffect } from 'react';
 import styles from './form.module.css';
+/*import Input from '../Shared/Input';*/
+import Modal from '../Shared/Modal';
+import Button from '../Shared/Button';
+import { useHistory } from 'react-router-dom';
+import SelectDropdown from '../Shared/SelectDropdown';
+import Input from '../Shared/Input';
+/*import LoadingScreen from '../Shared/LoadingScreen';*/
 
 function TimeSheetForm() {
   const [taskValue, setTaskValue] = useState([]);
@@ -14,6 +21,13 @@ function TimeSheetForm() {
   const [isLoading, setLoading] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
   const [showModal, setShowModal] = useState(false);
+  /*const [isOpen, setIsOpen] = useState(false);*/
+
+  const history = useHistory();
+  const routeChange = () => {
+    let path = `/TimeSheet`;
+    history.push(path);
+  };
 
   const statusOption = [
     { value: 'To do', label: 'To do' },
@@ -23,9 +37,6 @@ function TimeSheetForm() {
 
   const closeModal = () => {
     setShowModal(false);
-  };
-  const onChangeTotalHoursInput = (event) => {
-    setTotalHoursValue(event.target.value);
   };
   const onChangeStatusInput = (event) => {
     setStatusValue(event.target.value);
@@ -145,39 +156,24 @@ function TimeSheetForm() {
       <h2>Time Sheets Form</h2>
       <form onSubmit={onSubmit}>
         <div className="select">
-          <select
+          <SelectDropdown
             onChange={onChangeTaskInput}
             value={taskValue}
-            className={styles.input}
-            id="task"
-            name="task"
-            required
+            props="task"
+            required="true"
             type="text"
+            options={tasksOptions}
             disabled={isLoading}
-            multiple={true}
-          >
-            <option value="" disabled>
-              Select a task
-            </option>
-            {tasksOptions.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </select>
+          />
         </div>
 
         <div className="input">
-          <input
+          <Input
             placeholder="Total Hours"
-            className={styles.input}
-            id="totalHours"
             name="totalHours"
-            required
             type="number"
-            min="0"
             value={totalHoursValue}
-            onChange={onChangeTotalHoursInput}
+            onChange={setTotalHoursValue}
             disabled={isLoading}
           />
         </div>
@@ -251,19 +247,12 @@ function TimeSheetForm() {
             ))}
           </select>
         </div>
-        <button type="submit" disabled={isLoading}>
-          Save
-        </button>
-        {showModal && (
-          <div className={styles.modalContainer}>
-            <div className={styles.modal}>
-              <h3>{modalMessage}</h3>
-              <button disabled={isLoading} onClick={closeModal} className={styles.button}>
-                OK
-              </button>
-            </div>
+        <Button text="Submit" handler={onSubmit} />
+        <Modal isOpen={showModal} modalTitle={modalMessage} handleClose={closeModal}>
+          <div>
+            <Button text="Accept" handler={routeChange} />
           </div>
-        )}
+        </Modal>
         <div className={styles.error}>{error}</div>
       </form>
     </div>
