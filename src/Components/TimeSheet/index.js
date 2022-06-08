@@ -1,12 +1,10 @@
 import { useState, useEffect } from 'react';
 import styles from './form.module.css';
-/*import Input from '../Shared/Input';*/
 import Modal from '../Shared/Modal';
 import Button from '../Shared/Button';
 import { useHistory } from 'react-router-dom';
 import SelectDropdown from '../Shared/SelectDropdown';
 import Input from '../Shared/Input';
-/*import LoadingScreen from '../Shared/LoadingScreen';*/
 
 function TimeSheetForm() {
   const [taskValue, setTaskValue] = useState([]);
@@ -21,7 +19,6 @@ function TimeSheetForm() {
   const [isLoading, setLoading] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
   const [showModal, setShowModal] = useState(false);
-  /*const [isOpen, setIsOpen] = useState(false);*/
 
   const history = useHistory();
   const routeChange = () => {
@@ -41,12 +38,7 @@ function TimeSheetForm() {
   const onChangeStatusInput = (event) => {
     setStatusValue(event.target.value);
   };
-  const onChangeStartDateInput = (event) => {
-    setStartDateValue(event.target.value);
-  };
-  const onChangeEndDateInput = (event) => {
-    setEndDateValue(event.target.value);
-  };
+
   const onChangeTaskInput = (event) => {
     if (taskValue.indexOf(event.target.value) > -1) {
       setTaskValue(taskValue.filter((task) => task !== event.target.value));
@@ -178,74 +170,46 @@ function TimeSheetForm() {
           />
         </div>
         <div className="select">
-          <select
+          <SelectDropdown
             onChange={onChangeStatusInput}
             value={statusValue}
-            className={styles.input}
-            id="status"
-            name="status"
-            required
+            props="status"
+            required="true"
             type="status"
-            disabled={isLoading}
-            option={statusOption}
-          >
-            <option value=" " disabled>
-              Select an status
-            </option>
-            {statusOption.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div className="input">
-          <input
-            placeholder="Start Date"
-            className={styles.input}
-            id="startDate"
-            name="startDate"
-            required
-            type="date"
-            value={startDateValue}
-            onChange={onChangeStartDateInput}
+            options={statusOption}
             disabled={isLoading}
           />
         </div>
         <div className="input">
-          <input
+          <Input
+            placeholder="Start Date"
+            name="startDate"
+            type="date"
+            value={startDateValue}
+            onChange={setStartDateValue}
+            disabled={isLoading}
+          />
+        </div>
+        <div className="input">
+          <Input
             placeholder="End Date"
-            className={styles.input}
-            id="endDate"
             name="endDate"
-            required
             type="date"
             value={endDateValue}
-            onChange={onChangeEndDateInput}
+            onChange={setEndDateValue}
             disabled={isLoading}
           />
         </div>
         <div className="select">
-          <select
-            placeholder="Employee"
+          <SelectDropdown
             onChange={onChangeEmployeeIdInput}
             value={employeeIdValue}
-            className={styles.input}
-            id="employeeId"
-            name="employeeId"
-            required
+            props="employeeId"
+            required="true"
             type="text"
+            options={employeeOptions}
             disabled={isLoading}
-          >
-            <option value="" disabled>
-              Select an employee
-            </option>
-            {employeeOptions.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </select>
+          />
         </div>
         <Button text="Submit" handler={onSubmit} />
         <Modal isOpen={showModal} modalTitle={modalMessage} handleClose={closeModal}>
