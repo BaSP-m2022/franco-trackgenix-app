@@ -29,7 +29,6 @@ const Admins = () => {
         const response = await fetch(`${URL}`);
         const { message, data, error } = await response.json();
         if (!error) {
-          console.log('data', data);
           setAdmins(data);
         } else {
           throw new Error(message);
