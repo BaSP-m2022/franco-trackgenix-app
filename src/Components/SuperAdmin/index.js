@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { useState, useEffect } from 'react';
 import styles from './superAdmin.module.css';
 import Input from '../Shared/Input';
@@ -130,7 +129,13 @@ function SuperAdminForm() {
           onChange={setLastName}
           value={lastName}
         />
-        <Input name={'Email'} placeholder={'Enter the Email'} onChange={setEmail} value={email} />
+        <Input
+          name={'Email'}
+          type={'email'}
+          placeholder={'Enter the Email'}
+          onChange={setEmail}
+          value={email}
+        />
         <Input
           name={'Password'}
           type={'password'}
@@ -139,8 +144,8 @@ function SuperAdminForm() {
           value={password}
         />
         <div className={styles.superAdminDiv}>
-          <Button text={buttonText} handler={handleSubmit} />
           <Button text={'Return'} handler={routeChange} />
+          <Button text={buttonText} handler={handleSubmit} />
         </div>
       </form>
     </section>

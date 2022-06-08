@@ -21,5 +21,3 @@ function Input({ name, type, value, placeholder, error, onChange }) {
   );
 }
 export default Input;
-
-//
