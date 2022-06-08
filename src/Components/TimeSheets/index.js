@@ -1,43 +1,108 @@
 import styles from './time-sheets.module.css';
 import { useState, useEffect } from 'react';
-import List from './List/TimeSheetsList.jsx';
+
+import Table from '../Shared/Table';
+import LoadingScreen from '../Shared/LoadingScreen';
+import Modal from '../Shared/Modal';
+import Button from '../Shared/Button';
+import Search from '../Shared/Search-bar';
 
 const TimeSheets = () => {
-  const [list, setList] = useState([]);
-  const [loading, setLoading] = useState([]);
+  const [timesheets, setTimesheets] = useState([]);
+  const [untouchedData, setUntouchedData] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [deleteId, setDeleteId] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
+
   const URL = `${process.env.REACT_APP_API_URL}/time-sheets`;
 
-  useEffect(async () => {
-    try {
-      setLoading(true);
-      const response = await fetch(URL, {
-        method: 'GET'
-      });
-      const responseJson = await response.json();
-      setList(responseJson.data);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
+  const column = [
+    { heading: 'Employee', value: 'employeeId' },
+    { heading: 'Tasks', value: 'tasks.name' },
+    { heading: 'Total hours', value: 'totalHours' },
+    { heading: 'Status', value: 'status' },
+    { heading: 'Start date', value: 'startDate' },
+    { heading: 'End date', value: 'endDate' },
+    { heading: 'Id', value: '_id' }
+  ];
+
+  useEffect(() => {
+    async function fetchAdmins() {
+      try {
+        setLoading(true);
+        const response = await fetch(`${URL}`);
+        const { message, data, error } = await response.json();
+        if (!error) {
+          setTimesheets(data);
+          setUntouchedData(data);
+        } else {
+          throw new Error(message);
+        }
+      } catch (error) {
+        console.log('error', error);
+      } finally {
+        setLoading(false);
+      }
     }
+    fetchAdmins();
   }, []);
 
-  const deleteTimeSheet = async (_id) => {
-    await fetch(`${process.env.REACT_APP_API_URL}/time-sheets`, { method: 'DELETE' });
-    setList([...list.filter((timeSheet) => timeSheet._id !== _id)]);
-  };
+  function handleDeleteTimesheet(id) {
+    setDeleteId(id);
+    setIsOpen(true);
+  }
 
-  if (loading) {
-    return <p>Data is loading...</p>;
+  async function deleteTimesheet(id) {
+    const response = await fetch(`${URL}/${id}`, { method: 'DELETE' });
+    const responseJson = await response.json();
+    if (responseJson.error) {
+      alert('error');
+    } else {
+      setTimesheets(timesheets.filter((item) => item._id !== id));
+      setIsOpen(false);
+    }
+  }
+
+  function search(value) {
+    setSearchQuery(value);
+    const result = untouchedData.filter((employee) => employee._id.includes(value));
+    setTimesheets(result);
   }
 
   return (
     <section className={styles.container}>
-      <h2 className={styles.title}>TimeSheets</h2>
-      <List list={list} setList={setList} deleteTimeSheet={deleteTimeSheet} />
-      <a className={styles.btn} href="/time-sheets/form">
-        Add New Time Sheet
-      </a>
+      {loading ? (
+        <LoadingScreen />
+      ) : (
+        <>
+          <Modal
+            modalTitle="Are you sure you want to delete?"
+            isOpen={isOpen}
+            handleClose={() => {
+              setIsOpen(!isOpen);
+            }}
+          >
+            <Button text="Yes" type="delete" handler={() => deleteTimesheet(deleteId)} />
+            <Button text="No" handler={() => setIsOpen(false)} />
+          </Modal>
+          <h2>Admins</h2>
+          <div className={styles.buttonContainer}>
+            <Button text="Add Task" link={'/admins/form'} />
+            <Search
+              placeholder="Search timesheet"
+              searchQuery={searchQuery}
+              setSearchQuery={search}
+            />
+          </div>
+          <Table
+            data={timesheets}
+            column={column}
+            deleteItem={handleDeleteTimesheet}
+            entity="admins"
+          />
+        </>
+      )}
     </section>
   );
 };
