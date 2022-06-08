@@ -91,9 +91,9 @@ function SuperAdminForm() {
   }
   if (loading) {
     return (
-      <section className={styles.sectionSuperAdmin}>
+      <div className={styles.loadingDiv}>
         <LoadingScreen loading={loading} />
-      </section>
+      </div>
     );
   }
 

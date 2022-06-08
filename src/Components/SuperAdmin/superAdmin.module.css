@@ -1,9 +1,19 @@
+.loadingDiv {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: 100vh;
+  margin-left: 30%;
+}
+
 .sectionSuperAdmin {
   flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  margin-top: 6%;
   margin-right: 28%;
   padding: 0 20% 10% 20%;
 }
@@ -12,7 +22,7 @@
   margin: 15px 20px;
   font-size: 1.5em;
   font-weight: bold;
-  color: #373867;
+  color: #2f2f31;
 }
 .form {
   width: 100%;
