@@ -22,6 +22,8 @@ const EmployeeForm = () => {
 
   const [msg, setMsg] = useState('');
   const [isOpen, setIsOpen] = useState(false);
+  const [modalTitle, setModalTitle] = useState('');
+  const [redirect, setRedirect] = useState(false);
 
   useEffect(() => {
     async function fetchEmployee(id) {
@@ -78,7 +80,10 @@ const EmployeeForm = () => {
       const data = await response.json();
       setLoading(false);
       if (data.error) {
-        setErrorMessage(data.message);
+        setMsg(data.message);
+        setModalTitle('Validation Error');
+        setRedirect(false);
+        setIsOpen(true);
       } else {
         const msg = requestType === 'POST' ? 'Employee created' : 'Employee updated';
         setErrorMessage('');
@@ -89,10 +94,14 @@ const EmployeeForm = () => {
         setPassword('');
         setDni('');
         setMsg(msg);
+        setRedirect(true);
         setIsOpen(!isOpen);
       }
     } catch (error) {
-      setErrorMessage(error.toString());
+      setMsg(error.toString());
+      setModalTitle('Validation Error');
+      setRedirect(false);
+      setIsOpen(true);
     }
   }
 
@@ -132,7 +141,7 @@ const EmployeeForm = () => {
             name="Dni"
             type="number"
             value={dni}
-            placeholder="Enter your IDN"
+            placeholder="Enter your DNI"
             onChange={setDni}
           />
           <Input
@@ -159,11 +168,11 @@ const EmployeeForm = () => {
             handler={handleSubmit}
           />
           <Modal
-            modalTitle={!loading && requestType === 'POST' ? 'Add Employee' : 'Update Employee'}
+            modalTitle={modalTitle}
             isOpen={isOpen}
-            handleClose={() => setIsOpen(!isOpen)}
+            handleClose={redirect ? routeChange : () => setIsOpen(!isOpen)}
           >
-            {msg}
+            <p>{msg}</p>
             <div>
               <Button text="OK" handler={routeChange} />
             </div>
