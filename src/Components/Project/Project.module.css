@@ -6,23 +6,11 @@
   text-align: center;
   flex-direction: column;
 }
-
-.btn {
-  align-self: flex-end;
-  padding: 5px 8px;
-  margin: 5px 4px;
-  border: 1px solid #181818;
-  border-radius: 5px;
-  color: #181818;
-  background-color: #f0f4f9;
-  font-size: 16px;
-  text-decoration: none;
-}
-
-.btn:hover {
-  background-color: #ffffff;
-  transform: scale(1.05);
-  transition: all 0.2s ease-in-out;
+.form{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .label {
   font-size: 1.1em;
@@ -33,12 +21,10 @@
   display: flex;
   justify-content: space-around;
 }
-
 .select{
   display: flex;
   flex-direction: column;
 }
-
 .table {
   width: 80%;
 }

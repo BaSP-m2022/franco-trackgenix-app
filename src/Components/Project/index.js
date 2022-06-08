@@ -6,6 +6,7 @@ import Button from '../Shared/Button';
 import Modal from '../Shared/Modal';
 import LoadingScreen from '../Shared/LoadingScreen';
 import Select from '../Shared/SelectDropdown';
+import { useHistory } from 'react-router-dom';
 
 function EmployeeItem({ employee }) {
   return (
@@ -29,6 +30,15 @@ function ProjectForm() {
   const [roleValue, setRoleValue] = useState('');
   const [employeesValue, setEmployeesValue] = useState([]);
 
+  const [msg, setMsg] = useState('');
+  const [isOpen, setIsOpen] = useState(false);
+
+  const [loading, setLoading] = useState(false);
+
+  const onChangeEmployeeIdInput = (event) => {
+    setEmployeeIdValue(event.target.value);
+  };
+
   const onAddEmployee = (event) => {
     event.preventDefault();
     setEmployeesValue([
@@ -44,7 +54,6 @@ function ProjectForm() {
       if (projectId) {
         const data = await fetch(`${process.env.REACT_APP_API_URL}/projects/${projectId}`);
         const projectFetch = await data.json();
-        console.log(projectFetch);
         let startDate = projectFetch.data.startDate.slice(0, 10);
         let endDate = projectFetch.data.endDate ? projectFetch.data.endDate.slice(0, 10) : '';
         setNameValue(projectFetch.data.name);
@@ -61,7 +70,6 @@ function ProjectForm() {
           value: employee._id
         };
       });
-      console.log(newEmployees);
       setEmployeeOptions(newEmployees);
     } catch (error) {
       console.error(error);
@@ -70,9 +78,9 @@ function ProjectForm() {
 
   const onSubmit = async (event) => {
     event.preventDefault();
-
+    setLoading(true);
     let url = `${process.env.REACT_APP_API_URL}/projects/`;
-
+    setMsg('The Project was created.');
     const options = {
       method: 'POST',
       headers: {
@@ -98,113 +106,133 @@ function ProjectForm() {
     try {
       const response = await fetch(url, options);
       const data = await response.json();
+      setLoading(false);
       if (response.status === 200 || response.status === 201) {
         if (options.method === 'POST') {
-          window.alert('The Project was created.');
-          window.location.href = '/projects';
+          setIsOpen(!isOpen);
         } else {
-          window.alert('The Projects was changed.');
-          window.location.href = '/projects';
+          setMsg('The Projects was changed.');
+          setIsOpen(!isOpen);
         }
       } else {
-        window.alert(data.data);
+        setMsg(data.data);
+        setIsOpen(!isOpen);
       }
     } catch (error) {
       console.error(error);
     }
   };
 
-  return (
-    <div className={styles.container}>
-      <h2>Project Form</h2>
-      <form onSubmit={onSubmit}>
-        <Input
-          className={styles.label}
-          name="Name"
-          type="text"
-          value={nameValue}
-          placeholder="Name"
-          onChange={setNameValue}
-        />
-        <Input
-          className={styles.label}
-          name="Status"
-          type="text"
-          value={statusValue}
-          placeholder="Status"
-          onChange={setStatusValue}
-        />
-        <Input
-          className={styles.label}
-          name="Description"
-          type="text"
-          value={descriptionValue}
-          placeholder="Description"
-          onChange={setDescriptionValue}
-        />
-        <div className={styles.employee}>
-          <div className={styles.select}>
-            <label className={styles.label}>Employee</label>
-            <Select
+  const history = useHistory();
+  const routeChange = () => {
+    let path = `/projects`;
+    history.push(path);
+  };
+
+  const ls = LoadingScreen();
+  if (loading) {
+    return ls;
+  } else {
+    return (
+      <div className={styles.container}>
+        <h2>Project Form</h2>
+        <form className={styles.form}>
+          <Input
+            className={styles.label}
+            name="Name"
+            type="text"
+            value={nameValue}
+            placeholder="Name"
+            onChange={setNameValue}
+          />
+          <Input
+            className={styles.label}
+            name="Status"
+            type="text"
+            value={statusValue}
+            placeholder="Status"
+            onChange={setStatusValue}
+          />
+          <Input
+            className={styles.label}
+            name="Description"
+            type="text"
+            value={descriptionValue}
+            placeholder="Description"
+            onChange={setDescriptionValue}
+          />
+          <div className={styles.employee}>
+            <div className={styles.select}>
+              <label className={styles.label}>Employee</label>
+              <Select
+                className={styles.label}
+                value={employeeIdValue}
+                onChange={onChangeEmployeeIdInput}
+                options={employeeOptions}
+                required={true}
+              />
+            </div>
+            <Input
               className={styles.label}
-              value={employeeIdValue}
-              onChange={setEmployeesValue}
-              options={employeeOptions}
-              required={true}
+              name="Rate"
+              type="number"
+              value={rateValue}
+              placeholder="Rate"
+              onChange={setRateValue}
             />
+            <Input
+              className={styles.label}
+              name="Role"
+              type="text"
+              value={roleValue}
+              placeholder="Role"
+              onChange={setRoleValue}
+            />
+          </div>
+          <Button text="Add" handler={onAddEmployee} />
+          <div className={styles.table}>
+            <table>
+              <thead>
+                <tr>
+                  <th id="employeeId">ID</th>
+                  <th id="role">Role</th>
+                  <th id="rate">Rate</th>
+                </tr>
+              </thead>
+              <tbody>
+                {console.log(employeesValue, 'empleados')}
+                {employeesValue.map((employee) => (
+                  <EmployeeItem key={employee.employeeId} employee={employee} />
+                ))}
+              </tbody>
+            </table>
           </div>
           <Input
             className={styles.label}
-            name="Rate"
-            type="number"
-            value={rateValue}
-            placeholder="Rate"
-            onChange={setRateValue}
+            name="Start Date"
+            type="date"
+            value={startDateValue}
+            onChange={setStartDateValue}
           />
           <Input
             className={styles.label}
-            name="Role"
-            type="text"
-            value={roleValue}
-            placeholder="Role"
-            onChange={setRoleValue}
+            name="End Date"
+            type="date"
+            value={endDateValue}
+            onChange={setEndDateValue}
           />
-        </div>
-        <Button text="Add" handler={onAddEmployee} />
-        <div className={styles.table}>
-          <table>
-            <thead>
-              <tr>
-                <th id="employeeId">ID</th>
-                <th id="role">Role</th>
-                <th id="rate">Rate</th>
-              </tr>
-            </thead>
-            <tbody>
-              {employeesValue.map((employee) => (
-                <EmployeeItem key={employee.employeeId} employee={employee} />
-              ))}
-            </tbody>
-          </table>
-        </div>
-        <Input
-          className={styles.label}
-          name="Start Date"
-          type="date"
-          value={startDateValue}
-          onChange={setStartDateValue}
-        />
-        <Input
-          className={styles.label}
-          name="End Date"
-          type="date"
-          value={endDateValue}
-          onChange={setEndDateValue}
-        />
-        <Button text="Submit" handler={onSubmit} />
-      </form>
-    </div>
-  );
+          <Button text="Submit" handler={onSubmit} />
+          {console.log(msg, 'mensaje')}
+          <Modal modalTitle="Project" isOpen={isOpen} handleClose={() => setIsOpen(!isOpen)}>
+            {msg}
+            <div>
+              <Button text="OK" handler={routeChange} />
+            </div>
+          </Modal>
+        </form>
+      </div>
+    );
+  }
 }
 
 export default ProjectForm;
