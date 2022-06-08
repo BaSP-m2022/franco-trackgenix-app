@@ -14,12 +14,14 @@ const TaskForm = () => {
   const [projectNameValue, setProjectNameValue] = useState('');
 
   const [isLoading, setLoading] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
 
   const [projectId, setProjectId] = useState('');
   const [projects, setProjects] = useState([]);
 
   const [isOpen, setIsOpen] = useState(false);
+  const [requestType, setRequestType] = useState('POST');
+  const [modalTitle, setModalTitle] = useState('');
+  const [message, setMessage] = useState('');
 
   useEffect(() => {
     setLoading(true);
@@ -36,11 +38,9 @@ const TaskForm = () => {
         })
         .then((response) => {
           setDescriptionValue(response.data.description);
-          let date = response.data.date.slice(0, 10);
-          setDateValue(date);
+          setDateValue(response.data.date.slice(0, 10));
           setWorkedHoursValue(response.data.workedHours);
           setProjectNameValue(response.data.projectId.name);
-          console.log(projectNameValue);
           setProjectId(response.data.projectId._id);
         })
         .catch((error) => {
@@ -89,17 +89,23 @@ const TaskForm = () => {
       };
       if (tasksId) {
         options.method = 'PUT';
+        setRequestType('PUT');
         url = `${process.env.REACT_APP_API_URL}/tasks/${tasksId}`;
       } else {
         options.method = 'POST';
+        setRequestType('POST');
         url = `${process.env.REACT_APP_API_URL}/tasks`;
       }
       const response = await fetch(url, options);
       const data = await response.json();
       {
         if (data.error) {
-          setErrorMessage(data.message);
+          setModalTitle('An error validation has ocurred.');
+          setMessage('Check the fields.');
+          setIsOpen(!isOpen);
         } else {
+          setModalTitle(requestType === 'POST' ? 'Task Created' : 'Task Updated');
+          setMessage(requestType === 'POST' ? 'Task Created' : 'Task Updated');
           setIsOpen(!isOpen);
         }
       }
@@ -113,6 +119,14 @@ const TaskForm = () => {
     let path = `/tasks`;
     history.push(path);
   };
+
+  if (isLoading) {
+    return (
+      <section className={styles.sectionSuperAdmin}>
+        <LoadingScreen loading={isLoading} />
+      </section>
+    );
+  }
 
   return (
     <div className={styles.container}>
@@ -138,16 +152,15 @@ const TaskForm = () => {
           onChange={(e) => setProjectId(e.target.value)}
           options={projects}
         />
-        {console.log(projectId)}
         <Input name="Date" type="date" value={dateValue} onChange={setDateValue} />
-        <span>
-          {errorMessage && <p className={styles.errorMessage}>{errorMessage}</p>}
-          {isLoading && <LoadingScreen />}
-        </span>
         <div className={styles.buttonContainer}>
           <Button text="Return" handler={routeChange} />
-          <Button text="Submit" handler={onSubmit} />
-          <Modal isOpen={isOpen} handleClose={() => setIsOpen(!isOpen)}>
+          <Button
+            text={!isLoading && requestType === 'POST' ? 'Save Task' : 'Update Task'}
+            handler={onSubmit}
+          />
+          <Modal modalTitle={modalTitle} isOpen={isOpen} handleClose={() => setIsOpen(!isOpen)}>
+            <p>{message}</p>
             <div>
               <Button text="Accept" handler={routeChange} />
             </div>
