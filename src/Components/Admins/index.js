@@ -5,6 +5,7 @@ import Table from '../Shared/Table';
 import LoadingScreen from '../Shared/LoadingScreen';
 import Modal from '../Shared/Modal';
 import Button from '../Shared/Button';
+import Search from '../Shared/Search-bar';
 
 const Admins = () => {
   const [admins, setAdmins] = useState([]);
@@ -74,6 +75,10 @@ const Admins = () => {
             <Button text="Yes" type="delete" handler={() => deleteAdmin(deleteId)} />
           </Modal>
           <h2>Admins</h2>
+          <div className={styles.buttonContainer}>
+            <Button text="Add Task" link={'/admins/form'} />
+            <Search placeholder="Search admin" />
+          </div>
           <Table data={admins} column={column} deleteItem={handleDeleteAdmin} entity="admins" />
         </>
       )}
