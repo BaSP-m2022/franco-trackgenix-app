@@ -1,33 +1,30 @@
-.container {
-  flex: 1;
+.containerTask {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  text-align: center;
-}
-.h2_task {
-  width: 100%;
-}
-.btn_div {
-  width: 100%;
-  margin-bottom: 20px;
+  margin-top: 7%;
+  margin-bottom: 7%;
 }
 
-.button {
-  align-self: center;
-  padding: 5px 8px;
-  margin: 5px 4px;
-  border: 1px solid #181818;
-  border-radius: 5px;
-  color: #181818;
-  background-color: #f0f4f9;
-  font-size: 16px;
+.loadingScreen {
+  margin: auto;
+  padding: 20%;
+}
+
+.search {
+  margin-left: auto;
+}
+
+.h2Task {
+  font-size: 30px;
+  color: #373867;
+}
+
+.btnTask a {
   text-decoration: none;
 }
-
-.button:hover {
-  background-color: #ffffff;
-  transform: scale(1.05);
-  transition: all 0.2s ease-in-out;
+.btnTask {
+  padding-bottom: 3%;
+  margin-right: auto;
 }
