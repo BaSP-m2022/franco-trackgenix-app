@@ -31,11 +31,13 @@
 }
 
 .add {
-  padding-top: 60px;
-  margin-left: auto;
+  width: 95%;
+  display: flex;
+  justify-content: space-between;
+  padding-top: 120px;
 }
 
-.add:hover {
+.add button:hover {
   cursor: pointer;
   transform: scale(1.21);
 }
@@ -43,4 +45,9 @@
 .flex {
   display: flex;
   flex-direction: column;
+  margin-right: 50px;
+}
+
+.search {
+  border-color: #373867;
 }

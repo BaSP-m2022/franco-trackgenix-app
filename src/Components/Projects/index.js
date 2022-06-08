@@ -34,7 +34,7 @@ function Projects() {
     }
   }, []);
 
-  const deleteItem = async (_id) => {
+  const deleteItem = (_id) => {
     try {
       setLoading(true);
       setIsModalOpen(true);
@@ -47,6 +47,9 @@ function Projects() {
 
   async function deleteProject() {
     try {
+      setLoading(true);
+      setIsModalOpen(true);
+      setLoading(false);
       await fetch(`${process.env.REACT_APP_API_URL}/projects/${idToDelete}`, {
         method: 'DELETE'
       });
@@ -63,13 +66,15 @@ function Projects() {
 
   return (
     <section className={styles.container}>
-      <Search
-        searchQuery={search}
-        setSearchQuery={setSearchProject}
-        placeholder="Search for Projects"
-      />
       <div className={styles.add}>
-        <Button link={'/projects/form'} text={'Add Form'}></Button>
+        <Button link={'/projects/form'} text={'Add Project'}></Button>
+        <div className={styles.search}>
+          <Search
+            searchQuery={search}
+            setSearchQuery={setSearchProject}
+            placeholder="Search for Projects"
+          />
+        </div>
       </div>
       <Modal
         modalTitle={'Delete Project'}
