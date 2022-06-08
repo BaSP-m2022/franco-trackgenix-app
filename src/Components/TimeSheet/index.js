@@ -22,7 +22,7 @@ function TimeSheetForm() {
 
   const history = useHistory();
   const routeChange = () => {
-    let path = `/TimeSheet`;
+    let path = `/time-sheets`;
     history.push(path);
   };
 
@@ -148,10 +148,10 @@ function TimeSheetForm() {
       <h2>Time Sheets Form</h2>
       <form onSubmit={onSubmit}>
         <div className="select">
+          <label className={styles.label}>Task</label>
           <SelectDropdown
             onChange={onChangeTaskInput}
             value={taskValue}
-            props="task"
             required="true"
             type="text"
             options={tasksOptions}
@@ -160,9 +160,9 @@ function TimeSheetForm() {
         </div>
 
         <div className="input">
+          <label className={styles.label}>Total Hours</label>
           <Input
             placeholder="Total Hours"
-            name="totalHours"
             type="number"
             value={totalHoursValue}
             onChange={setTotalHoursValue}
@@ -170,6 +170,7 @@ function TimeSheetForm() {
           />
         </div>
         <div className="select">
+          <label className={styles.label}>Status</label>
           <SelectDropdown
             onChange={onChangeStatusInput}
             value={statusValue}
@@ -181,9 +182,9 @@ function TimeSheetForm() {
           />
         </div>
         <div className="input">
+          <label className={styles.label}>Start Date</label>
           <Input
             placeholder="Start Date"
-            name="startDate"
             type="date"
             value={startDateValue}
             onChange={setStartDateValue}
@@ -191,9 +192,9 @@ function TimeSheetForm() {
           />
         </div>
         <div className="input">
+          <label className={styles.label}>End Date</label>
           <Input
             placeholder="End Date"
-            name="endDate"
             type="date"
             value={endDateValue}
             onChange={setEndDateValue}
@@ -201,6 +202,7 @@ function TimeSheetForm() {
           />
         </div>
         <div className="select">
+          <label className={styles.label}>Employees</label>
           <SelectDropdown
             onChange={onChangeEmployeeIdInput}
             value={employeeIdValue}
