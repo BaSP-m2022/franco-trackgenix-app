@@ -19,7 +19,6 @@ function Tasks() {
       setLoading(true);
       const response = await fetch(`${process.env.REACT_APP_API_URL}/tasks`);
       const responseJson = await response.json();
-      console.log(responseJson.data);
       setDataTable(responseJson.data);
       setUntouchedData(responseJson.data);
     } catch (error) {
