@@ -9,7 +9,7 @@ const TableRow = ({ item, column, deleteItem, entity }) => (
       if (columnItem.value.includes('.')) {
         const itemSplit = columnItem.value.split('.');
         if (item[itemSplit[0]]) {
-          return <td>{item[itemSplit[0]][itemSplit[1]]}</td>;
+          return <td key={index}>{item[itemSplit[0]][itemSplit[1]]}</td>;
         }
         return <td key={index}>No {columnItem.heading}</td>;
       }
