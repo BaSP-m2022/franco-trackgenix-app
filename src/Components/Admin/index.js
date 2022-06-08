@@ -11,21 +11,20 @@ function AdminForm() {
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
-  const [errorMessage, setErrorMessage] = useState('');
   const [loading, setLoading] = useState(false);
-
   const [requestType, setRequestType] = useState('POST');
   const [editAdminId, setEditAdminId] = useState('');
   const [msg, setMsg] = useState('');
   const [isOpen, setIsOpen] = useState(false);
+  const [modalTitle, setModalTitle] = useState('');
+  const [redirect, setRedirect] = useState(false);
 
   useEffect(() => {
     async function fetchAdmin(id) {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/admins/${id}`);
       const { message, data, error } = await response.json();
       if (error) {
-        setErrorMessage(message);
+        setMsg(message);
       } else {
         setEditAdminId(id);
         setFirstName(data.firstName);
@@ -48,7 +47,10 @@ function AdminForm() {
   async function handleSubmit(e) {
     e.preventDefault();
     if (firstName === '' || lastName === '' || email === '' || password === '') {
-      setErrorMessage('Please fill in all fields');
+      setModalTitle('There was an error');
+      setMsg('Please fill in all fields');
+      setIsOpen(!isOpen);
+      setRedirect(false);
     } else {
       try {
         setLoading(true);
@@ -71,14 +73,18 @@ function AdminForm() {
         setLoading(false);
 
         if (data.error) {
-          setErrorMessage(data.message);
-        } else {
-          const msg = requestType === 'POST' ? 'Admin created' : 'Admin updated';
-          setMsg(msg);
+          setModalTitle('There was an error');
+          setMsg(data.message);
           setIsOpen(!isOpen);
+          setRedirect(false);
+        } else {
+          setModalTitle('Success');
+          setMsg(requestType === 'POST' ? 'Admin created' : 'Admin updated');
+          setIsOpen(!isOpen);
+          setRedirect(true);
         }
       } catch (error) {
-        setErrorMessage(error.toString());
+        setMsg(error.toString());
       }
     }
   }
@@ -128,20 +134,15 @@ function AdminForm() {
             />
           </div>
           <div className={styles.buttonContainer}>
-            {errorMessage && <p className={styles.error}>{errorMessage}</p>}
             <Button text="Return" handler={routeChange} />
             <Button
               text={!loading && requestType === 'POST' ? 'Add Admin' : 'Update Admin'}
               handler={handleSubmit}
             />
-            <Modal
-              modalTitle={!loading && requestType === 'POST' ? 'Add Admin' : 'Update Admin'}
-              isOpen={isOpen}
-              handleClose={() => setIsOpen(!isOpen)}
-            >
-              {msg}
+            <Modal modalTitle={modalTitle} isOpen={isOpen} handleClose={() => setIsOpen(!isOpen)}>
+              <p className={styles.message}>{msg}</p>
               <div>
-                <Button text="OK" handler={routeChange} />
+                <Button text="OK" handler={redirect ? routeChange : () => setIsOpen(!isOpen)} />
               </div>
             </Modal>
           </div>
