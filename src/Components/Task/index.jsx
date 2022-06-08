@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import styles from './Task.module.css';
 import Input from '../Shared/Input';
 import Select from '../Shared/SelectDropdown';
 import Button from '../Shared/Button';
-import { useHistory } from 'react-router-dom';
 import Modal from '../Shared/Modal';
 import LoadingScreen from '../Shared/LoadingScreen';
 
@@ -72,7 +72,6 @@ const TaskForm = () => {
 
   const onSubmit = async (event) => {
     event.preventDefault();
-    // setLoading(true);
     try {
       const params = new URLSearchParams(window.location.search);
       const tasksId = params.get('id');
@@ -141,9 +140,11 @@ const TaskForm = () => {
         />
         {console.log(projectId)}
         <Input name="Date" type="date" value={dateValue} onChange={setDateValue} />
-        <div>
-          {errorMessage && <p>{errorMessage}</p>}
+        <span>
+          {errorMessage && <p className={styles.errorMessage}>{errorMessage}</p>}
           {isLoading && <LoadingScreen />}
+        </span>
+        <div className={styles.buttonContainer}>
           <Button text="Return" handler={routeChange} />
           <Button text="Submit" handler={onSubmit} />
           <Modal isOpen={isOpen} handleClose={() => setIsOpen(!isOpen)}>
