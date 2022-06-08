@@ -13,6 +13,7 @@ function Tasks() {
   const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [untouchedData, setUntouchedData] = useState([]);
+  const entity = 'tasks';
 
   useEffect(async () => {
     try {
@@ -62,8 +63,6 @@ function Tasks() {
     { heading: 'Project', value: 'projectId.name' },
     { heading: 'Date', value: 'date' }
   ];
-
-  const entity = 'tasks';
 
   if (loading) {
     return (
