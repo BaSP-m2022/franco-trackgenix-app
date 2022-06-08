@@ -5,17 +5,21 @@ import Select from '../Shared/SelectDropdown';
 import Button from '../Shared/Button';
 import { useHistory } from 'react-router-dom';
 import Modal from '../Shared/Modal';
-// import LoadingScreen from '../Shared/LoadingScreen';
+import LoadingScreen from '../Shared/LoadingScreen';
 
 const TaskForm = () => {
   const [descriptionValue, setDescriptionValue] = useState('');
   const [workedHoursValue, setWorkedHoursValue] = useState('');
   const [dateValue, setDateValue] = useState('');
   const [projectNameValue, setProjectNameValue] = useState('');
+
   const [isLoading, setLoading] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+
   const [projectId, setProjectId] = useState('');
   const [projects, setProjects] = useState([]);
-  let errorAlert = '';
+
+  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     setLoading(true);
@@ -23,11 +27,10 @@ const TaskForm = () => {
     const taskId = params.get('id');
     if (taskId) {
       fetch(`${process.env.REACT_APP_API_URL}/tasks/${taskId}`)
-        .then((response) => {
+        .then(async (response) => {
           if (response.status !== 200) {
-            return response.json().then(({ message }) => {
-              throw new Error(message);
-            });
+            const { message } = await response.json();
+            throw new Error(message);
           }
           return response.json();
         })
@@ -37,6 +40,7 @@ const TaskForm = () => {
           setDateValue(date);
           setWorkedHoursValue(response.data.workedHours);
           setProjectNameValue(response.data.projectId.name);
+          console.log(projectNameValue);
           setProjectId(response.data.projectId._id);
         })
         .catch((error) => {
@@ -45,11 +49,10 @@ const TaskForm = () => {
         .finally(() => setLoading(false));
     }
     fetch(`${process.env.REACT_APP_API_URL}/projects/`)
-      .then((response) => {
+      .then(async (response) => {
         if (response.status !== 200) {
-          return response.json().then(({ message }) => {
-            throw new Error(message);
-          });
+          const { message } = await response.json();
+          throw new Error(message);
         }
         return response.json();
       })
@@ -67,23 +70,9 @@ const TaskForm = () => {
       .finally(() => setLoading(false));
   }, []);
 
-  // const onChangeDescriptionValue = (event) => {
-  //   setDescriptionValue(event.target.value);
-  // };
-  // const onChangeWorkedHoursValue = (event) => {
-  //   setWorkedHoursValue(event.target.value);
-  // };
-  // const onChangeDateValue = (event) => {
-  //   setDateValue(event.target.value);
-  // };
-  // const onChangeProjectNameValue = (event) => {
-  //   setProjectNameValue(event.target.value);
-  //   setProjectId(event.target.value);
-  // };
-
   const onSubmit = async (event) => {
     event.preventDefault();
-    setLoading(true);
+    // setLoading(true);
     try {
       const params = new URLSearchParams(window.location.search);
       const tasksId = params.get('id');
@@ -110,17 +99,9 @@ const TaskForm = () => {
       const data = await response.json();
       {
         if (data.error) {
-          errorAlert += data.error;
-          window.alert(errorAlert);
-          setLoading(false);
+          setErrorMessage(data.message);
         } else {
-          if (tasksId) {
-            window.alert('Task modified.');
-          } else {
-            window.alert('Task created.');
-          }
-          setLoading(false);
-          window.location.href = '/tasks';
+          setIsOpen(!isOpen);
         }
       }
     } catch (error) {
@@ -143,33 +124,29 @@ const TaskForm = () => {
           type="text"
           value={descriptionValue}
           placeholder="Description here..."
-          // onChange={onChangeDescriptionValue}
           onChange={setDescriptionValue}
-          disabled={isLoading}
         />
         <Input
           name="Worked hours"
           type="text"
           value={workedHoursValue}
           placeholder="Hours here..."
-          // onChange={onChangeWorkedHoursValue}
           onChange={setWorkedHoursValue}
-          disabled={isLoading}
         />
         <Select
           name="Projects"
           value={projectNameValue}
-          // onChange={onChangeProjectNameValue}
-          onChange={setProjectNameValue}
+          onChange={(e) => setProjectId(e.target.value)}
           options={projects}
-          required={true}
-          disabled={isLoading}
         />
+        {console.log(projectId)}
         <Input name="Date" type="date" value={dateValue} onChange={setDateValue} />
         <div>
+          {errorMessage && <p>{errorMessage}</p>}
+          {isLoading && <LoadingScreen />}
           <Button text="Return" handler={routeChange} />
           <Button text="Submit" handler={onSubmit} />
-          <Modal>
+          <Modal isOpen={isOpen} handleClose={() => setIsOpen(!isOpen)}>
             <div>
               <Button text="Accept" handler={routeChange} />
             </div>
