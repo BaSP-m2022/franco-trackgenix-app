@@ -104,7 +104,7 @@ const EmployeeForm = () => {
 
   return (
     <div className={styles.containerSec}>
-      <h3>Add admin</h3>
+      <h3>Add Employee</h3>
       <form className={styles.form}>
         <div>
           <Input
