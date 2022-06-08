@@ -18,8 +18,9 @@ const TimeSheets = () => {
   const URL = `${process.env.REACT_APP_API_URL}/time-sheets`;
 
   const column = [
-    { heading: 'Employee', value: 'employeeId' },
-    { heading: 'Tasks', value: 'tasks.name' },
+    { heading: 'First name', value: 'employeeId.firstName' },
+    { heading: 'Last name', value: 'employeeId.lastName' },
+    { heading: 'Tasks', value: 'tasks[0].description' },
     { heading: 'Total hours', value: 'totalHours' },
     { heading: 'Status', value: 'status' },
     { heading: 'Start date', value: 'startDate' },
@@ -36,6 +37,7 @@ const TimeSheets = () => {
         if (!error) {
           setTimesheets(data);
           setUntouchedData(data);
+          console.log('data', data);
         } else {
           throw new Error(message);
         }
@@ -86,9 +88,9 @@ const TimeSheets = () => {
             <Button text="Yes" type="delete" handler={() => deleteTimesheet(deleteId)} />
             <Button text="No" handler={() => setIsOpen(false)} />
           </Modal>
-          <h2>Admins</h2>
+          <h2>Timesheets</h2>
           <div className={styles.buttonContainer}>
-            <Button text="Add Task" link={'/admins/form'} />
+            <Button text="Add timesheet" link={'/time-sheetS/form'} />
             <Search
               placeholder="Search timesheet"
               searchQuery={searchQuery}
@@ -99,7 +101,7 @@ const TimeSheets = () => {
             data={timesheets}
             column={column}
             deleteItem={handleDeleteTimesheet}
-            entity="admins"
+            entity="time-sheets"
           />
         </>
       )}
