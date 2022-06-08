@@ -72,6 +72,7 @@ const Admins = () => {
             }}
           >
             <Button text="Yes" type="delete" handler={() => deleteAdmin(deleteId)} />
+            <Button text="No" handler={() => setIsOpen(false)} />
           </Modal>
           <h2>Admins</h2>
           <div className={styles.buttonContainer}>
