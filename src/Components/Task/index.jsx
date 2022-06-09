@@ -22,6 +22,7 @@ const TaskForm = () => {
   const [requestType, setRequestType] = useState('POST');
   const [modalTitle, setModalTitle] = useState('');
   const [message, setMessage] = useState('');
+  const [redirect, setRedirect] = useState(false);
 
   useEffect(() => {
     setLoading(true);
@@ -101,12 +102,13 @@ const TaskForm = () => {
       {
         if (data.error) {
           setModalTitle('An error validation has ocurred.');
-          setMessage('Check the fields.');
+          setMessage(data.message);
           setIsOpen(!isOpen);
         } else {
           setModalTitle(requestType === 'POST' ? 'Task Created' : 'Task Updated');
           setMessage(requestType === 'POST' ? 'Task Created' : 'Task Updated');
           setIsOpen(!isOpen);
+          setRedirect(true);
         }
       }
     } catch (error) {
@@ -115,6 +117,7 @@ const TaskForm = () => {
   };
 
   const history = useHistory();
+
   const routeChange = () => {
     let path = `/tasks`;
     history.push(path);
@@ -131,7 +134,7 @@ const TaskForm = () => {
   return (
     <div className={styles.container}>
       <form className={styles.form} onSubmit={onSubmit}>
-        <h2>Task</h2>
+        <h2 className={styles.task}>Task</h2>
         <Input
           name="Description"
           type="text"
@@ -164,7 +167,16 @@ const TaskForm = () => {
           <Modal modalTitle={modalTitle} isOpen={isOpen} handleClose={() => setIsOpen(!isOpen)}>
             <p>{message}</p>
             <div>
-              <Button text="Accept" handler={routeChange} />
+              <Button
+                text="Accept"
+                handler={
+                  redirect
+                    ? routeChange
+                    : () => {
+                        setIsOpen(!isOpen);
+                      }
+                }
+              />
             </div>
           </Modal>
         </div>
