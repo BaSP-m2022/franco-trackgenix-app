@@ -82,11 +82,9 @@ function Tasks() {
         </div>
       </Modal>
       <h2 className={styles.h2Task}>Tasks</h2>
-      <div className={styles.search}>
-        <Search searchQuery={searchQuery} setSearchQuery={search} placeholder="Search by ID" />
-      </div>
-      <div className={styles.btnTask}>
+      <div className={styles.containerTaskBS}>
         <Button text={'Add Task'} link={'/tasks/form'} />
+        <Search searchQuery={searchQuery} setSearchQuery={search} placeholder="Search by ID" />
       </div>
       <div>
         <Table data={dataTable} column={column} deleteItem={handleDeleteTask} entity={entity} />
