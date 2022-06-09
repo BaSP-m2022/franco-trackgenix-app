@@ -8,10 +8,12 @@ import Button from '../Shared/Button';
 import Search from '../Shared/Search-bar';
 
 const Admins = () => {
-  const [admins, setAdmins] = useState([]);
+  const [data, setData] = useState([]);
+  const [untouchedData, setUntouchedData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [deleteId, setDeleteId] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
 
   const URL = `${process.env.REACT_APP_API_URL}/admins`;
 
@@ -29,7 +31,7 @@ const Admins = () => {
         const response = await fetch(`${URL}`);
         const { message, data, error } = await response.json();
         if (!error) {
-          setAdmins(data);
+          setBothDatas(data);
         } else {
           throw new Error(message);
         }
@@ -47,13 +49,24 @@ const Admins = () => {
     setIsOpen(true);
   }
 
+  function setBothDatas(data) {
+    setData(data);
+    setUntouchedData(data);
+  }
+
+  function search(value) {
+    setSearchQuery(value);
+    const result = untouchedData.filter((employee) => employee._id.includes(value));
+    setData(result);
+  }
+
   async function deleteAdmin(id) {
     const response = await fetch(`${URL}/${id}`, { method: 'DELETE' });
     const responseJson = await response.json();
     if (responseJson.error) {
       alert('error');
     } else {
-      setAdmins(admins.filter((adminsItem) => adminsItem._id !== id));
+      setBothDatas(data.filter((item) => item._id !== id));
       setIsOpen(false);
     }
   }
@@ -61,25 +74,30 @@ const Admins = () => {
   return (
     <section className={styles.container}>
       {loading ? (
-        <LoadingScreen />
+        <div>
+          <LoadingScreen />
+        </div>
       ) : (
         <>
           <Modal
-            modalTitle="Are you sure you want to delete?"
+            modalTitle="Admin Delete"
             isOpen={isOpen}
             handleClose={() => {
               setIsOpen(!isOpen);
             }}
           >
+            <div>
+              <p>Are you sure you want to delete admin?</p>
+            </div>
             <Button text="Yes" type="delete" handler={() => deleteAdmin(deleteId)} />
             <Button text="No" handler={() => setIsOpen(false)} />
           </Modal>
           <h2>Admins</h2>
           <div className={styles.buttonContainer}>
-            <Button text="Add Task" link={'/admins/form'} />
-            <Search placeholder="Search admin" />
+            <Button text="Add Admin" link={'/admins/form'} />
+            <Search placeholder="Search admin" searchQuery={searchQuery} setSearchQuery={search} />
           </div>
-          <Table data={admins} column={column} deleteItem={handleDeleteAdmin} entity="admins" />
+          <Table data={data} column={column} deleteItem={handleDeleteAdmin} entity="admins" />
         </>
       )}
     </section>
