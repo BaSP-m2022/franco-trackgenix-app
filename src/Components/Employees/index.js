@@ -19,7 +19,6 @@ const Employees = () => {
     { heading: 'LastName', value: 'lastName' },
     { heading: 'Dni', value: 'dni' },
     { heading: 'Email', value: 'email' },
-    { heading: 'Password', value: 'password' },
     { heading: 'DateOfBirth', value: 'dateOfBirth' }
   ];
   const entity = 'employees';
