@@ -85,16 +85,13 @@ const EmployeeForm = () => {
         setRedirect(false);
         setIsOpen(true);
       } else {
-        const msg = requestType === 'POST' ? 'Employee created' : 'Employee updated';
-        setErrorMessage('');
-        setFirstName('');
-        setLastName('');
-        setDateOfBirth('');
-        setEmail('');
-        setPassword('');
-        setDni('');
-        setMsg(msg);
+        setMsg(
+          requestType === 'POST'
+            ? 'Employee created successfully!'
+            : 'Employee updated successfully!'
+        );
         setRedirect(true);
+        setModalTitle(requestType === 'POST' ? 'Employee created' : 'Employee updated');
         setIsOpen(!isOpen);
       }
     } catch (error) {
@@ -174,7 +171,7 @@ const EmployeeForm = () => {
           >
             <p>{msg}</p>
             <div>
-              <Button text="OK" handler={routeChange} />
+              <Button text="OK" handler={redirect ? routeChange : () => setIsOpen(!isOpen)} />
             </div>
           </Modal>
         </div>
