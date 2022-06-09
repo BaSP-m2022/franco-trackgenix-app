@@ -64,7 +64,11 @@ function SuperAdmins() {
     { heading: 'Password', value: 'password' }
   ];
   if (loading) {
-    return <LoadingScreen />;
+    return (
+      <div className={styles.loadingDiv}>
+        <LoadingScreen />;
+      </div>
+    );
   }
   return (
     <section className={styles.containerSuperAdmin}>
@@ -79,16 +83,14 @@ function SuperAdmins() {
           <Button handler={() => setIsOpen(!isOpen)} text={'No'} />
         </div>
       </Modal>
-      <h2>SuperAdmins</h2>
-      <div className={styles.searchDiv}>
+      <h2>Super Admins</h2>
+      <div className={styles.btnSearchDiv}>
+        <Button link={'/super-admins/form'} text={'Add Super Admin'} />
         <Search
           searchQuery={search}
           setSearchQuery={setSearchQuery}
           placeholder={'Insert Super Admin Name'}
         />
-      </div>
-      <div className={styles.buttonDiv}>
-        <Button link={'/super-admins/form'} text={'Add Super Admin'} />
       </div>
       <Table data={dataTable} column={column} deleteItem={openModal} entity={entity} />
     </section>

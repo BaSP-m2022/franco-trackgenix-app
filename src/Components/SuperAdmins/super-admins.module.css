@@ -1,10 +1,20 @@
+.loadingDiv {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin-top: 20%;
+  margin-left: 30%;
+}
+
 .containerSuperAdmin {
   flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  padding: 0 20%;
+  margin-right: 10%;
+  padding-right: 20%;
   margin-right: auto;
 }
 
@@ -12,9 +22,8 @@
   color: #373867;
 }
 
-.buttonDiv {
-  margin-right: auto;
-}
-.searchDiv {
-  margin-left: auto;
+.btnSearchDiv {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
 }
