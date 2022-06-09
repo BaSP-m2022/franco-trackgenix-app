@@ -25,6 +25,8 @@ const EmployeeForm = () => {
   const [modalTitle, setModalTitle] = useState('');
   const [redirect, setRedirect] = useState(false);
 
+  const [title, setTitle] = useState('Add Employee');
+
   useEffect(() => {
     async function fetchEmployee(id) {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/employees/${id}`);
@@ -50,6 +52,7 @@ const EmployeeForm = () => {
       setEditEmployeeId(employeeId);
       setRequestType('PUT');
       fetchEmployee(employeeId);
+      setTitle('Edit Employee');
     } else {
       setRequestType('POST');
     }
@@ -110,7 +113,7 @@ const EmployeeForm = () => {
 
   return (
     <div className={styles.containerSec}>
-      <h3>Add Employee</h3>
+      <h3 className={styles.formTitle}>{title}</h3>
       <form className={styles.form}>
         <div>
           <Input
