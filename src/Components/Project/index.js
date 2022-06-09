@@ -1,6 +1,5 @@
-/* eslint-disable no-unused-vars */
 import { useState, useEffect } from 'react';
-import styles from './Project.module.css';
+import styles from './project.module.css';
 import Input from '../Shared/Input';
 import Button from '../Shared/Button';
 import Modal from '../Shared/Modal';
@@ -22,18 +21,21 @@ function ProjectForm() {
   const [nameValue, setNameValue] = useState('');
   const [statusValue, setStatusValue] = useState('');
   const [descriptionValue, setDescriptionValue] = useState('');
-  const [employeeIdValue, setEmployeeIdValue] = useState({});
+  const [employeeIdValue, setEmployeeIdValue] = useState('');
   const [employeeOptions, setEmployeeOptions] = useState([]);
   const [startDateValue, setStartDateValue] = useState('');
   const [endDateValue, setEndDateValue] = useState('');
+  const [title, setTitle] = useState('Add Project');
   const [rateValue, setRateValue] = useState('');
   const [roleValue, setRoleValue] = useState('');
   const [employeesValue, setEmployeesValue] = useState([]);
 
   const [msg, setMsg] = useState('');
   const [isOpen, setIsOpen] = useState(false);
-
+  const [modalTitle, setModalTitle] = useState('Add Project');
+  const [redirect, setRedirect] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [buttonText, setButtonText] = useState('Add Project');
 
   const onChangeEmployeeIdInput = (event) => {
     setEmployeeIdValue(event.target.value);
@@ -61,6 +63,26 @@ function ProjectForm() {
         setDescriptionValue(projectFetch.data.description);
         setStartDateValue(startDate);
         setEndDateValue(endDate);
+        setTitle('Edit Project');
+        setButtonText('Update Project');
+        const dataEmployees = await fetch(`${process.env.REACT_APP_API_URL}/employees/`);
+        const employees = await dataEmployees.json();
+        employees.data.map((employee) => {
+          if (
+            projectFetch.data.employees != [] &&
+            projectFetch.data.employees[0].employeeId._id === employee._id
+          ) {
+            let ep = [];
+            for (let i = 0; i < projectFetch.data.employees.length; i++) {
+              ep.push({
+                employeeId: employee._id,
+                rate: projectFetch.data.employees[i].rate,
+                role: projectFetch.data.employees[i].role
+              });
+            }
+            setEmployeesValue(ep);
+          }
+        });
       }
       const data = await fetch(`${process.env.REACT_APP_API_URL}/employees/`);
       const employees = await data.json();
@@ -78,48 +100,64 @@ function ProjectForm() {
 
   const onSubmit = async (event) => {
     event.preventDefault();
-    setLoading(true);
-    let url = `${process.env.REACT_APP_API_URL}/projects/`;
-    setMsg('The Project was created.');
-    const options = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        name: nameValue,
-        status: statusValue,
-        description: descriptionValue,
-        employees: employeesValue,
-        startDate: startDateValue,
-        endDate: endDateValue
-      })
-    };
+    if (
+      nameValue === '' ||
+      statusValue === '' ||
+      descriptionValue === '' ||
+      startDateValue === '' ||
+      endDateValue === ''
+    ) {
+      setMsg('Please enter all fields');
+      setIsOpen(true);
+    } else {
+      setLoading(true);
+      let url = `${process.env.REACT_APP_API_URL}/projects/`;
+      setMsg('The Project was created.');
+      const options = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          name: nameValue,
+          status: statusValue,
+          description: descriptionValue,
+          employees: employeesValue,
+          startDate: startDateValue,
+          endDate: endDateValue
+        })
+      };
 
-    const params = new URLSearchParams(window.location.search);
-    const projectId2 = params.get('id');
+      const params = new URLSearchParams(window.location.search);
+      const projectId2 = params.get('id');
 
-    if (projectId2) {
-      options.method = 'PUT';
-      url = `${process.env.REACT_APP_API_URL}/projects/${projectId2}`;
-    }
-    try {
-      const response = await fetch(url, options);
-      const data = await response.json();
-      setLoading(false);
-      if (response.status === 200 || response.status === 201) {
-        if (options.method === 'POST') {
-          setIsOpen(!isOpen);
-        } else {
-          setMsg('The Projects was changed.');
-          setIsOpen(!isOpen);
-        }
-      } else {
-        setMsg(data.data);
-        setIsOpen(!isOpen);
+      if (projectId2) {
+        options.method = 'PUT';
+        url = `${process.env.REACT_APP_API_URL}/projects/${projectId2}`;
       }
-    } catch (error) {
-      console.error(error);
+      try {
+        const response = await fetch(url, options);
+        const data = await response.json();
+        setLoading(false);
+        if (response.status === 200 || response.status === 201) {
+          if (options.method === 'POST') {
+            setMsg('The Projects was created.');
+            setIsOpen(true);
+            setRedirect(true);
+          } else {
+            setMsg('The project was edited');
+            setModalTitle('Edit Project');
+            setIsOpen(true);
+            setRedirect(true);
+          }
+        } else {
+          setMsg(data.message);
+          setIsOpen(true);
+          setRedirect(false);
+        }
+      } catch (error) {
+        console.error(error);
+      }
     }
   };
 
@@ -135,63 +173,73 @@ function ProjectForm() {
   } else {
     return (
       <div className={styles.container}>
-        <h2>Project Form</h2>
+        <Modal modalTitle={modalTitle} isOpen={isOpen} handleClose={() => setIsOpen(!isOpen)}>
+          <p>{msg}</p>
+          <div>
+            <Button text="OK" handler={redirect ? routeChange : () => setIsOpen(!isOpen)} />
+          </div>
+        </Modal>
+        <h2>{title}</h2>
         <form className={styles.form}>
-          <Input
-            className={styles.label}
-            name="Name"
-            type="text"
-            value={nameValue}
-            placeholder="Name"
-            onChange={setNameValue}
-          />
-          <Input
-            className={styles.label}
-            name="Status"
-            type="text"
-            value={statusValue}
-            placeholder="Status"
-            onChange={setStatusValue}
-          />
-          <Input
-            className={styles.label}
-            name="Description"
-            type="text"
-            value={descriptionValue}
-            placeholder="Description"
-            onChange={setDescriptionValue}
-          />
-          <div className={styles.employee}>
-            <div className={styles.select}>
-              <label className={styles.label}>Employee</label>
-              <Select
-                className={styles.label}
-                value={employeeIdValue}
-                onChange={onChangeEmployeeIdInput}
-                options={employeeOptions}
-                required={true}
-              />
-            </div>
+          <div className={styles.projects}>
             <Input
               className={styles.label}
-              name="Rate"
-              type="number"
-              value={rateValue}
-              placeholder="Rate"
-              onChange={setRateValue}
+              name="Name"
+              type="text"
+              value={nameValue}
+              placeholder="Name"
+              onChange={setNameValue}
             />
             <Input
               className={styles.label}
-              name="Role"
+              name="Status"
               type="text"
-              value={roleValue}
-              placeholder="Role"
-              onChange={setRoleValue}
+              value={statusValue}
+              placeholder="Status"
+              onChange={setStatusValue}
+            />
+            <Input
+              className={styles.label}
+              name="Description"
+              type="text"
+              value={descriptionValue}
+              placeholder="Description"
+              onChange={setDescriptionValue}
             />
           </div>
-          <Button text="Add" handler={onAddEmployee} />
-          <div className={styles.table}>
-            <table>
+          <div className={styles.inputsContainer}>
+            <div className={styles.employee}>
+              <div className={styles.select}>
+                <label className={styles.label}>Employee</label>
+                <Select
+                  className={styles.label}
+                  value={employeeIdValue}
+                  onChange={onChangeEmployeeIdInput}
+                  options={employeeOptions}
+                  required={true}
+                />
+              </div>
+              <Input
+                className={styles.label}
+                name="Rate"
+                type="number"
+                value={rateValue}
+                placeholder="Rate"
+                onChange={setRateValue}
+              />
+              <Input
+                className={styles.label}
+                name="Role"
+                type="text"
+                value={roleValue}
+                placeholder="Role"
+                onChange={setRoleValue}
+              />
+              <Button text="Add employee" handler={onAddEmployee} />
+            </div>
+          </div>
+          <div className={styles.containerTable}>
+            <table className={styles.table}>
               <thead>
                 <tr>
                   <th id="employeeId">ID</th>
@@ -200,35 +248,37 @@ function ProjectForm() {
                 </tr>
               </thead>
               <tbody>
-                {console.log(employeesValue, 'empleados')}
-                {employeesValue.map((employee) => (
-                  <EmployeeItem key={employee.employeeId} employee={employee} />
+                {employeesValue.map((employee, index) => (
+                  <EmployeeItem key={index} employee={employee} />
                 ))}
               </tbody>
             </table>
           </div>
-          <Input
-            className={styles.label}
-            name="Start Date"
-            type="date"
-            value={startDateValue}
-            onChange={setStartDateValue}
-          />
-          <Input
-            className={styles.label}
-            name="End Date"
-            type="date"
-            value={endDateValue}
-            onChange={setEndDateValue}
-          />
-          <Button text="Submit" handler={onSubmit} />
-          {console.log(msg, 'mensaje')}
-          <Modal modalTitle="Project" isOpen={isOpen} handleClose={() => setIsOpen(!isOpen)}>
-            {msg}
-            <div>
-              <Button text="OK" handler={routeChange} />
+
+          <div className={styles.dates}>
+            <div className={styles.date}>
+              <Input
+                className={styles.label}
+                name="Start Date"
+                type="date"
+                value={startDateValue}
+                onChange={setStartDateValue}
+              />
             </div>
-          </Modal>
+            <div className={styles.date}>
+              <Input
+                className={styles.label}
+                name="End Date"
+                type="date"
+                value={endDateValue}
+                onChange={setEndDateValue}
+              />
+            </div>
+          </div>
+          <div>
+            <Button text="Return" handler={routeChange} />
+            <Button text={buttonText} handler={onSubmit} />
+          </div>
         </form>
       </div>
     );
