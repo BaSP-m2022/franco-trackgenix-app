@@ -75,9 +75,6 @@ const Employees = () => {
   return (
     <section className={styles.container}>
       <h2 className={styles.title}>Employees</h2>
-      <div className={styles.search}>
-        <Search searchQuery={search} setSearchQuery={setSearchQuery} placeholder="Search by ID" />
-      </div>
       <Modal modalTitle={'Delete employee'} isOpen={isOpen} handleClose={() => setIsOpen(false)}>
         <p>Are you sure you want to delete this employee?</p>
         <div>
@@ -87,6 +84,7 @@ const Employees = () => {
       </Modal>
       <div className={styles.addEmployee}>
         <Button text=" + Add new employee" link={'/employees/form'} />
+        <Search searchQuery={search} setSearchQuery={setSearchQuery} placeholder="Search by ID" />
       </div>
       {<Table data={data} deleteItem={deleteItem} column={column} entity={entity} />}
     </section>
