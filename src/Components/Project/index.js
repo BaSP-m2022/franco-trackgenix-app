@@ -112,7 +112,6 @@ function ProjectForm() {
     } else {
       setLoading(true);
       let url = `${process.env.REACT_APP_API_URL}/projects/`;
-      setMsg('The Project was created.');
       const options = {
         method: 'POST',
         headers: {
