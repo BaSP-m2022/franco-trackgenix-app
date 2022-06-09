@@ -149,7 +149,7 @@ const TaskForm = () => {
           placeholder="Hours here..."
           onChange={setWorkedHoursValue}
         />
-        <div>
+        <div className={styles.select}>
           <Select
             name="Projects"
             value={projectNameValue}
@@ -164,7 +164,17 @@ const TaskForm = () => {
         <div className={styles.buttonContainer}>
           <Button text="Return" handler={routeChange} />
           <Button text={requestType === 'POST' ? 'Save Task' : 'Update Task'} handler={onSubmit} />
-          <Modal modalTitle={modalTitle} isOpen={isOpen} handleClose={() => setIsOpen(!isOpen)}>
+          <Modal
+            modalTitle={modalTitle}
+            isOpen={isOpen}
+            handleClose={
+              redirect
+                ? routeChange
+                : () => {
+                    setIsOpen(!isOpen);
+                  }
+            }
+          >
             <p>{message}</p>
             <div>
               <Button
