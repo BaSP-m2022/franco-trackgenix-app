@@ -83,7 +83,7 @@ function Tasks() {
       </Modal>
       <h2 className={styles.h2Task}>Tasks</h2>
       <div className={styles.search}>
-        <Search searchQuery={searchQuery} setSearchQuery={search} placeholder="Search by name" />
+        <Search searchQuery={searchQuery} setSearchQuery={search} placeholder="Search by ID" />
       </div>
       <div className={styles.btnTask}>
         <Button text={'Add Task'} link={'/tasks/form'} />
