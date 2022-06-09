@@ -32,7 +32,6 @@ function Projects() {
       setProjects(data.data);
       setData(data.data);
       setUntouchedData(data.data);
-      setLoading(false);
     } catch (error) {
       console.log(error);
     } finally {
