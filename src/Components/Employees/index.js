@@ -13,6 +13,16 @@ const Employees = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [idToDelete, setIdToDelete] = useState();
   const [search, setSearch] = useState();
+  const column = [
+    { heading: 'Id', value: '_id' },
+    { heading: 'FirstName', value: 'firstName' },
+    { heading: 'LastName', value: 'lastName' },
+    { heading: 'Dni', value: 'dni' },
+    { heading: 'Email', value: 'email' },
+    { heading: 'Password', value: 'password' },
+    { heading: 'DateOfBirth', value: 'dateOfBirth' }
+  ];
+  const entity = 'employees';
 
   useEffect(async () => {
     try {
@@ -51,32 +61,20 @@ const Employees = () => {
     setUntouchedData(untouchedData.filter((employee) => employee._id !== idToDelete));
   };
 
-  const column = [
-    { heading: 'Id', value: '_id' },
-    { heading: 'FirstName', value: 'firstName' },
-    { heading: 'LastName', value: 'lastName' },
-    { heading: 'Dni', value: 'dni' },
-    { heading: 'Email', value: 'email' },
-    { heading: 'Password', value: 'password' },
-    { heading: 'DateOfBirth', value: 'dateOfBirth' }
-  ];
-  const entity = 'employees';
-
   const setSearchQuery = (value) => {
     setSearch(value);
     setData(untouchedData.filter((employee) => employee._id.includes(value)));
   };
-
+  if (loading) {
+    return (
+      <div className={styles.loading}>
+        <LoadingScreen />
+      </div>
+    );
+  }
   return (
     <section className={styles.container}>
       <h2 className={styles.title}>Employees</h2>
-      {loading ? (
-        <div className={styles.loading}>
-          <LoadingScreen />
-        </div>
-      ) : (
-        ''
-      )}
       <div className={styles.search}>
         <Search searchQuery={search} setSearchQuery={setSearchQuery} placeholder="Search by ID" />
       </div>
@@ -88,7 +86,7 @@ const Employees = () => {
         </div>
       </Modal>
       <div className={styles.addEmployee}>
-        <Button text=" + Add new employee" />
+        <Button text=" + Add new employee" link={'/employees/form'} />
       </div>
       {<Table data={data} deleteItem={deleteItem} column={column} entity={entity} />}
     </section>
