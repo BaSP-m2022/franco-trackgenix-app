@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import styles from './project.module.css';
+import styles from './Project.module.css';
 import Input from '../Shared/Input';
 import Button from '../Shared/Button';
 import Modal from '../Shared/Modal';
