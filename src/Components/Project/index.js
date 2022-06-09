@@ -43,10 +43,15 @@ function ProjectForm() {
 
   const onAddEmployee = (event) => {
     event.preventDefault();
-    setEmployeesValue([
-      ...employeesValue,
-      { employeeId: employeeIdValue, rate: rateValue, role: roleValue }
-    ]);
+    if (employeeIdValue != '' && rateValue != '' && roleValue != '') {
+      setEmployeesValue([
+        ...employeesValue,
+        { employeeId: employeeIdValue, rate: rateValue, role: roleValue }
+      ]);
+    } else {
+      setMsg('Complete the rate and role');
+      setIsOpen(true);
+    }
   };
 
   useEffect(async () => {
@@ -100,63 +105,52 @@ function ProjectForm() {
 
   const onSubmit = async (event) => {
     event.preventDefault();
-    if (
-      nameValue === '' ||
-      statusValue === '' ||
-      descriptionValue === '' ||
-      startDateValue === '' ||
-      endDateValue === ''
-    ) {
-      setMsg('Please enter all fields');
-      setIsOpen(true);
-    } else {
-      setLoading(true);
-      let url = `${process.env.REACT_APP_API_URL}/projects/`;
-      const options = {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          name: nameValue,
-          status: statusValue,
-          description: descriptionValue,
-          employees: employeesValue,
-          startDate: startDateValue,
-          endDate: endDateValue
-        })
-      };
+    setLoading(true);
+    let url = `${process.env.REACT_APP_API_URL}/projects/`;
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        name: nameValue,
+        status: statusValue,
+        description: descriptionValue,
+        employees: employeesValue,
+        startDate: startDateValue,
+        endDate: endDateValue
+      })
+    };
 
-      const params = new URLSearchParams(window.location.search);
-      const projectId2 = params.get('id');
+    const params = new URLSearchParams(window.location.search);
+    const projectId2 = params.get('id');
 
-      if (projectId2) {
-        options.method = 'PUT';
-        url = `${process.env.REACT_APP_API_URL}/projects/${projectId2}`;
-      }
-      try {
-        const response = await fetch(url, options);
-        const data = await response.json();
-        setLoading(false);
-        if (response.status === 200 || response.status === 201) {
-          if (options.method === 'POST') {
-            setMsg('The Projects was created.');
-            setIsOpen(true);
-            setRedirect(true);
-          } else {
-            setMsg('The project was edited');
-            setModalTitle('Edit Project');
-            setIsOpen(true);
-            setRedirect(true);
-          }
-        } else {
-          setMsg(data.message);
+    if (projectId2) {
+      options.method = 'PUT';
+      url = `${process.env.REACT_APP_API_URL}/projects/${projectId2}`;
+    }
+    try {
+      const response = await fetch(url, options);
+      const data = await response.json();
+      setLoading(false);
+      if (response.status === 200 || response.status === 201) {
+        if (options.method === 'POST') {
+          setMsg('The Projects was created.');
           setIsOpen(true);
-          setRedirect(false);
+          setRedirect(true);
+        } else {
+          setMsg('The project was edited');
+          setModalTitle('Edit Project');
+          setIsOpen(true);
+          setRedirect(true);
         }
-      } catch (error) {
-        console.error(error);
+      } else {
+        setMsg(data.message);
+        setIsOpen(true);
+        setRedirect(false);
       }
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -178,7 +172,7 @@ function ProjectForm() {
             <Button text="OK" handler={redirect ? routeChange : () => setIsOpen(!isOpen)} />
           </div>
         </Modal>
-        <h2>{title}</h2>
+        <h2 className={styles.h2}>{title}</h2>
         <form className={styles.form}>
           <div className={styles.projects}>
             <Input
@@ -194,7 +188,7 @@ function ProjectForm() {
               name="Status"
               type="text"
               value={statusValue}
-              placeholder="Status"
+              placeholder="Status: active or inactive"
               onChange={setStatusValue}
             />
             <Input
