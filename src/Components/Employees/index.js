@@ -27,7 +27,7 @@ const Employees = () => {
     }
   }, []);
 
-  const deleteItem = async (_id) => {
+  const deleteItem = (_id) => {
     try {
       setLoading(true);
       setIsOpen(true);
@@ -69,7 +69,7 @@ const Employees = () => {
 
   return (
     <section className={styles.container}>
-      <h2 className={styles.h2}>Employees</h2>
+      <h2 className={styles.title}>Employees</h2>
       {loading ? (
         <div className={styles.loading}>
           <LoadingScreen />
