@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './sidebar.module.css';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 function Sidebar() {
   return (
@@ -11,39 +11,39 @@ function Sidebar() {
       <div>
         <ul className={styles.routes}>
           <li className={styles.items}>
-            <Link to={'/'} className={styles.links}>
+            <NavLink to={'home'} className={styles.links}>
               Home
-            </Link>
+            </NavLink>
           </li>
           <li className={styles.items}>
-            <Link to={'/admins'} className={styles.links}>
+            <NavLink to={'/admins'} className={styles.links}>
               Admins
-            </Link>
+            </NavLink>
           </li>
           <li className={styles.items}>
-            <Link to={'/super-admins'} className={styles.links}>
+            <NavLink to={'/super-admins'} className={styles.links}>
               Super admins
-            </Link>
+            </NavLink>
           </li>
           <li className={styles.items}>
-            <Link to={'/employees'} className={styles.links}>
+            <NavLink to={'/employees'} className={styles.links}>
               Employees
-            </Link>
+            </NavLink>
           </li>
           <li className={styles.items}>
-            <Link to={'/projects'} className={styles.links}>
+            <NavLink to={'/projects'} className={styles.links}>
               Projects
-            </Link>
+            </NavLink>
           </li>
           <li className={styles.items}>
-            <Link to={'/time-sheets'} className={styles.links}>
+            <NavLink to={'/time-sheets'} className={styles.links}>
               Timesheets
-            </Link>
+            </NavLink>
           </li>
           <li className={styles.items}>
-            <Link to={'/tasks'} className={styles.links}>
+            <NavLink to={'/tasks'} className={styles.links}>
               Tasks
-            </Link>
+            </NavLink>
           </li>
           <li>
             <p className={styles.contact}> Contact Us</p>
