@@ -18,6 +18,7 @@ function AdminForm() {
   const [isOpen, setIsOpen] = useState(false);
   const [modalTitle, setModalTitle] = useState('');
   const [redirect, setRedirect] = useState(false);
+  const [title, setTitle] = useState('Add Admin');
 
   useEffect(() => {
     async function fetchAdmin(id) {
@@ -39,6 +40,7 @@ function AdminForm() {
       setEditAdminId(adminId);
       setRequestType('PUT');
       fetchAdmin(adminId);
+      setTitle('Edit Admin');
     } else {
       setRequestType('POST');
     }
@@ -101,7 +103,7 @@ function AdminForm() {
   } else {
     return (
       <div className={styles.container}>
-        <h3 className={styles.h3}>Admin form</h3>
+        <h3 className={styles.h3}>{title}</h3>
         <form className={styles.form}>
           <div className={styles.inputs}>
             <Input
