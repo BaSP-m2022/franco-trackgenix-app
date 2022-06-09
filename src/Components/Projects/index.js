@@ -8,6 +8,8 @@ import Search from '../Shared/Search-bar';
 
 function Projects() {
   const [projects, setProjects] = useState([]);
+  const [data, setData] = useState([]);
+  const [untouchedData, setUntouchedData] = useState([]);
   const [isLoading, setLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [idToDelete, setIdToDelete] = useState();
@@ -21,12 +23,16 @@ function Projects() {
     { heading: 'Start date', value: 'startDate' },
     { heading: 'End date', value: 'endDate' }
   ];
+
   useEffect(async () => {
     try {
       setLoading(true);
       const response = await fetch(`${process.env.REACT_APP_API_URL}/projects`);
       const data = await response.json();
       setProjects(data.data);
+      setData(data.data);
+      setUntouchedData(data.data);
+      setLoading(false);
     } catch (error) {
       console.log(error);
     } finally {
@@ -58,21 +64,30 @@ function Projects() {
       console.error(error);
     }
     setProjects(projects.filter((projectItem) => projectItem._id !== idToDelete));
+    setData(data.filter((projects) => projects._id !== idToDelete));
+    setUntouchedData(untouchedData.filter((projects) => projects._id !== idToDelete));
   }
 
-  const setSearchProject = (value) => {
+  const setSearchQuery = (value) => {
     setSearch(value);
+    setData(untouchedData.filter((project) => project._id.includes(value)));
   };
-
+  if (isLoading) {
+    return (
+      <div className={styles.loading}>
+        <LoadingScreen />
+      </div>
+    );
+  }
   return (
     <section className={styles.container}>
-      <h2>Projects</h2>
+      <h2 className={styles.title}>Projects</h2>
       <div className={styles.add}>
         <Button link={'/projects/form'} text={'Add Project'}></Button>
         <div className={styles.search}>
           <Search
             searchQuery={search}
-            setSearchQuery={setSearchProject}
+            setSearchQuery={setSearchQuery}
             placeholder="Search for Projects"
           />
         </div>
@@ -90,7 +105,7 @@ function Projects() {
       </Modal>
       {isLoading && <LoadingScreen />}
       <div className={styles.flex}>
-        <Table column={column} data={projects} entity={'project'} deleteItem={deleteItem}></Table>
+        <Table column={column} data={data} entity={'project'} deleteItem={deleteItem}></Table>
       </div>
     </section>
   );
