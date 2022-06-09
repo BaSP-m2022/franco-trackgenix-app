@@ -28,6 +28,7 @@ const TaskForm = () => {
     const params = new URLSearchParams(window.location.search);
     const taskId = params.get('id');
     if (taskId) {
+      setRequestType('PUT');
       fetch(`${process.env.REACT_APP_API_URL}/tasks/${taskId}`)
         .then(async (response) => {
           if (response.status !== 200) {
@@ -89,7 +90,6 @@ const TaskForm = () => {
       };
       if (tasksId) {
         options.method = 'PUT';
-        setRequestType('PUT');
         url = `${process.env.REACT_APP_API_URL}/tasks/${tasksId}`;
       } else {
         options.method = 'POST';
@@ -122,9 +122,9 @@ const TaskForm = () => {
 
   if (isLoading) {
     return (
-      <section className={styles.sectionSuperAdmin}>
-        <LoadingScreen loading={isLoading} />
-      </section>
+      <div className={styles.loadingDiv}>
+        <LoadingScreen />
+      </div>
     );
   }
 
@@ -146,19 +146,21 @@ const TaskForm = () => {
           placeholder="Hours here..."
           onChange={setWorkedHoursValue}
         />
-        <Select
-          name="Projects"
-          value={projectNameValue}
-          onChange={(e) => setProjectId(e.target.value)}
-          options={projects}
-        />
+        <div>
+          <Select
+            name="Projects"
+            value={projectNameValue}
+            onChange={(e) => {
+              setProjectId(e.target.value);
+              setProjectNameValue(e.target.value);
+            }}
+            options={projects}
+          />
+        </div>
         <Input name="Date" type="date" value={dateValue} onChange={setDateValue} />
         <div className={styles.buttonContainer}>
           <Button text="Return" handler={routeChange} />
-          <Button
-            text={!isLoading && requestType === 'POST' ? 'Save Task' : 'Update Task'}
-            handler={onSubmit}
-          />
+          <Button text={requestType === 'POST' ? 'Save Task' : 'Update Task'} handler={onSubmit} />
           <Modal modalTitle={modalTitle} isOpen={isOpen} handleClose={() => setIsOpen(!isOpen)}>
             <p>{message}</p>
             <div>
