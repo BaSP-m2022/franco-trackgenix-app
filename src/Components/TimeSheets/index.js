@@ -8,7 +8,7 @@ import Button from '../Shared/Button';
 import Search from '../Shared/Search-bar';
 
 const TimeSheets = () => {
-  const [timesheets, setTimesheets] = useState([]);
+  const [data, setData] = useState([]);
   const [untouchedData, setUntouchedData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -35,9 +35,7 @@ const TimeSheets = () => {
         const response = await fetch(`${URL}`);
         const { message, data, error } = await response.json();
         if (!error) {
-          setTimesheets(data);
-          setUntouchedData(data);
-          console.log('data', data);
+          setBothDatas(data);
         } else {
           throw new Error(message);
         }
@@ -55,36 +53,48 @@ const TimeSheets = () => {
     setIsOpen(true);
   }
 
-  async function deleteTimesheet(id) {
-    const response = await fetch(`${URL}/${id}`, { method: 'DELETE' });
-    const responseJson = await response.json();
-    if (responseJson.error) {
-      alert('error');
-    } else {
-      setTimesheets(timesheets.filter((item) => item._id !== id));
-      setIsOpen(false);
-    }
+  function setBothDatas(data) {
+    setData(data);
+    setUntouchedData(data);
   }
 
   function search(value) {
     setSearchQuery(value);
     const result = untouchedData.filter((employee) => employee._id.includes(value));
-    setTimesheets(result);
+    setData(result);
+  }
+
+  async function deleteTimesheet(id) {
+    setLoading(true);
+    const response = await fetch(`${URL}/${id}`, { method: 'DELETE' });
+    const responseJson = await response.json();
+    if (responseJson.error) {
+      alert('error');
+    } else {
+      setBothDatas(data.filter((item) => item._id !== id));
+      setIsOpen(false);
+    }
+    setLoading(false);
   }
 
   return (
     <section className={styles.container}>
       {loading ? (
-        <LoadingScreen />
+        <div className={styles.loadingDiv}>
+          <LoadingScreen />
+        </div>
       ) : (
         <>
           <Modal
-            modalTitle="Are you sure you want to delete?"
+            modalTitle="Timesheet delete"
             isOpen={isOpen}
             handleClose={() => {
               setIsOpen(!isOpen);
             }}
           >
+            <div>
+              <p>Are you sure you want to delete timesheet?</p>
+            </div>
             <Button text="Yes" type="delete" handler={() => deleteTimesheet(deleteId)} />
             <Button text="No" handler={() => setIsOpen(false)} />
           </Modal>
@@ -98,7 +108,7 @@ const TimeSheets = () => {
             />
           </div>
           <Table
-            data={timesheets}
+            data={data}
             column={column}
             deleteItem={handleDeleteTimesheet}
             entity="time-sheets"
