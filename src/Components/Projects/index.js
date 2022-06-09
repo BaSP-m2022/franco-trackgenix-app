@@ -66,6 +66,7 @@ function Projects() {
 
   return (
     <section className={styles.container}>
+      <h2>Projects</h2>
       <div className={styles.add}>
         <Button link={'/projects/form'} text={'Add Project'}></Button>
         <div className={styles.search}>
