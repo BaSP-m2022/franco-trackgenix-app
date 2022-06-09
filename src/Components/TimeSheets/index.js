@@ -95,17 +95,13 @@ const TimeSheets = () => {
             <div>
               <p>Are you sure you want to delete timesheet?</p>
             </div>
-            <Button text="Yes" type="delete" handler={() => deleteTimesheet(deleteId)} />
-            <Button text="No" handler={() => setIsOpen(false)} />
+            <Button text="Go back" handler={() => setIsOpen(false)} />
+            <Button text="Delete" type="delete" handler={() => deleteTimesheet(deleteId)} />
           </Modal>
           <h2>Timesheets</h2>
           <div className={styles.buttonContainer}>
             <Button text="Add timesheet" link={'/time-sheetS/form'} />
-            <Search
-              placeholder="Search timesheet"
-              searchQuery={searchQuery}
-              setSearchQuery={search}
-            />
+            <Search placeholder="Search by id" searchQuery={searchQuery} setSearchQuery={search} />
           </div>
           <Table
             data={data}
