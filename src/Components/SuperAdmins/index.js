@@ -12,13 +12,15 @@ function SuperAdmins() {
   const [loading, setLoading] = useState(false);
   const [toBeDeleted, setToBeDeleted] = useState('');
   const [isOpen, setIsOpen] = useState(false);
-  const entity = 'Super Admins';
+  const entity = 'super-admins';
   const [search, setSearch] = useState();
 
   const setSearchQuery = (value) => {
     setSearch(value);
     setDataTable(
-      untouchedData.filter((superAdmin) => superAdmin.firstName.toLowerCase().includes(value))
+      untouchedData.filter((superAdmin) =>
+        superAdmin.firstName.toLowerCase().includes(value.toLowerCase())
+      )
     );
   };
 
@@ -60,8 +62,7 @@ function SuperAdmins() {
     { heading: 'Id', value: '_id' },
     { heading: 'First Name', value: 'firstName' },
     { heading: 'Last Name', value: 'lastName' },
-    { heading: 'Email', value: 'email' },
-    { heading: 'Password', value: 'password' }
+    { heading: 'Email', value: 'email' }
   ];
   if (loading) {
     return (
