@@ -151,7 +151,7 @@ function TimeSheetForm() {
       <form onSubmit={onSubmit}>
         <div className="select">
           <SelectDropdown
-            nanme="Task"
+            name="Task"
             onChange={onChangeTaskInput}
             value={taskValue}
             required="true"
@@ -216,7 +216,7 @@ function TimeSheetForm() {
           />
         </div>
         <div className={styles.buttomDiv}>
-          <Button text="Submit" handler={onSubmit} />
+          <Button text="Update" handler={onSubmit} />
           <Button text={'Return'} handler={routeChange} />
         </div>
         <Modal
