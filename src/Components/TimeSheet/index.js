@@ -6,7 +6,6 @@ import { useHistory } from 'react-router-dom';
 import SelectDropdown from '../Shared/SelectDropdown';
 import Input from '../Shared/Input';
 import { Children } from 'react';
-/*import { Children } from 'react';*/
 
 function TimeSheetForm() {
   const [taskValue, setTaskValue] = useState([]);
@@ -22,6 +21,7 @@ function TimeSheetForm() {
   const [isLoading, setLoading] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
   const [showModal, setShowModal] = useState(false);
+  const [isPutRequest, setIsPutRequest] = useState(false);
 
   const history = useHistory();
 
@@ -78,6 +78,7 @@ function TimeSheetForm() {
     const params = new URLSearchParams(window.location.search);
     const timeSheetId = params.get('id');
     if (timeSheetId) {
+      setIsPutRequest(true);
       fetch(`${process.env.REACT_APP_API_URL}/time-sheets/${timeSheetId}`)
         .then((response) => {
           if (response.status !== 200) {
@@ -149,7 +150,7 @@ function TimeSheetForm() {
     <div className={styles.container}>
       <h2>Time Sheets Form</h2>
       <form onSubmit={onSubmit}>
-        <div className="select">
+        <div className={styles.select}>
           <SelectDropdown
             name="Task"
             onChange={onChangeTaskInput}
@@ -161,7 +162,7 @@ function TimeSheetForm() {
           />
         </div>
 
-        <div className="input">
+        <div className={styles.input}>
           <Input
             name="Total Hours"
             placeholder="Total Hours"
@@ -171,7 +172,7 @@ function TimeSheetForm() {
             disabled={isLoading}
           />
         </div>
-        <div className="select">
+        <div className={styles.select}>
           <SelectDropdown
             name="status"
             onChange={onChangeStatusInput}
@@ -183,7 +184,7 @@ function TimeSheetForm() {
             disabled={isLoading}
           />
         </div>
-        <div className="input">
+        <div className={styles.input}>
           <Input
             name="Start Date"
             placeholder="Start Date"
@@ -193,7 +194,7 @@ function TimeSheetForm() {
             disabled={isLoading}
           />
         </div>
-        <div className="input">
+        <div className={styles.input}>
           <Input
             name="End Date"
             placeholder="End Date"
@@ -203,7 +204,7 @@ function TimeSheetForm() {
             disabled={isLoading}
           />
         </div>
-        <div className="select">
+        <div className={styles.select}>
           <SelectDropdown
             name="Employees"
             onChange={onChangeEmployeeIdInput}
@@ -216,7 +217,10 @@ function TimeSheetForm() {
           />
         </div>
         <div className={styles.buttomDiv}>
-          <Button text="Update" handler={onSubmit} />
+          <Button
+            text={isPutRequest ? 'Update Time-Sheet' : 'save Time-Sheet'}
+            handler={onSubmit}
+          />
           <Button text={'Return'} handler={routeChange} />
         </div>
         <Modal
