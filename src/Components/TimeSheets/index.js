@@ -105,7 +105,7 @@ const TimeSheets = () => {
           <div className={styles.buttonContainer}>
             <Button text="Add timesheet" link={'/time-sheetS/form'} />
             <Search
-              placeholder="Search by id"
+              placeholder="Search by last name"
               searchQuery={searchQuery}
               setSearchQuery={searchByLastName}
             />
