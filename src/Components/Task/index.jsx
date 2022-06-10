@@ -1,36 +1,46 @@
 import { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import styles from './Task.module.css';
-import Input from './Input';
-import Select from './Select';
+import Input from '../Shared/Input';
+import Select from '../Shared/SelectDropdown';
+import Button from '../Shared/Button';
+import Modal from '../Shared/Modal';
+import LoadingScreen from '../Shared/LoadingScreen';
 
-const Form = () => {
+const TaskForm = () => {
   const [descriptionValue, setDescriptionValue] = useState('');
   const [workedHoursValue, setWorkedHoursValue] = useState('');
   const [dateValue, setDateValue] = useState('');
   const [projectNameValue, setProjectNameValue] = useState('');
+
   const [isLoading, setLoading] = useState('');
+
   const [projectId, setProjectId] = useState('');
   const [projects, setProjects] = useState([]);
-  let errorAlert = '';
+
+  const [isOpen, setIsOpen] = useState(false);
+  const [requestType, setRequestType] = useState('POST');
+  const [modalTitle, setModalTitle] = useState('');
+  const [message, setMessage] = useState('');
+  const [redirect, setRedirect] = useState(false);
 
   useEffect(() => {
     setLoading(true);
     const params = new URLSearchParams(window.location.search);
     const taskId = params.get('id');
     if (taskId) {
+      setRequestType('PUT');
       fetch(`${process.env.REACT_APP_API_URL}/tasks/${taskId}`)
-        .then((response) => {
+        .then(async (response) => {
           if (response.status !== 200) {
-            return response.json().then(({ message }) => {
-              throw new Error(message);
-            });
+            const { message } = await response.json();
+            throw new Error(message);
           }
           return response.json();
         })
         .then((response) => {
           setDescriptionValue(response.data.description);
-          let date = response.data.date.slice(0, 10);
-          setDateValue(date);
+          setDateValue(response.data.date.slice(0, 10));
           setWorkedHoursValue(response.data.workedHours);
           setProjectNameValue(response.data.projectId.name);
           setProjectId(response.data.projectId._id);
@@ -41,11 +51,10 @@ const Form = () => {
         .finally(() => setLoading(false));
     }
     fetch(`${process.env.REACT_APP_API_URL}/projects/`)
-      .then((response) => {
+      .then(async (response) => {
         if (response.status !== 200) {
-          return response.json().then(({ message }) => {
-            throw new Error(message);
-          });
+          const { message } = await response.json();
+          throw new Error(message);
         }
         return response.json();
       })
@@ -62,23 +71,9 @@ const Form = () => {
       })
       .finally(() => setLoading(false));
   }, []);
-  const onChangeDescriptionValue = (event) => {
-    setDescriptionValue(event.target.value);
-  };
-  const onChangeWorkedHoursValue = (event) => {
-    setWorkedHoursValue(event.target.value);
-  };
-  const onChangeDateValue = (event) => {
-    setDateValue(event.target.value);
-  };
-  const onChangeProjectNameValue = (event) => {
-    setProjectNameValue(event.target.value);
-    setProjectId(event.target.value);
-  };
 
   const onSubmit = async (event) => {
     event.preventDefault();
-    setLoading(true);
     try {
       const params = new URLSearchParams(window.location.search);
       const tasksId = params.get('id');
@@ -99,23 +94,21 @@ const Form = () => {
         url = `${process.env.REACT_APP_API_URL}/tasks/${tasksId}`;
       } else {
         options.method = 'POST';
+        setRequestType('POST');
         url = `${process.env.REACT_APP_API_URL}/tasks`;
       }
       const response = await fetch(url, options);
       const data = await response.json();
       {
         if (data.error) {
-          errorAlert += data.error;
-          window.alert(errorAlert);
-          setLoading(false);
+          setModalTitle('An error validation has ocurred.');
+          setMessage(data.message);
+          setIsOpen(!isOpen);
         } else {
-          if (tasksId) {
-            window.alert('Task modified.');
-          } else {
-            window.alert('Task created.');
-          }
-          setLoading(false);
-          window.location.href = '/tasks';
+          setModalTitle(requestType === 'POST' ? 'Task Created' : 'Task Updated');
+          setMessage(requestType === 'POST' ? 'Task Created' : 'Task Updated');
+          setIsOpen(!isOpen);
+          setRedirect(true);
         }
       }
     } catch (error) {
@@ -123,59 +116,83 @@ const Form = () => {
     }
   };
 
+  const history = useHistory();
+
+  const routeChange = () => {
+    let path = `/tasks`;
+    history.push(path);
+  };
+
+  if (isLoading) {
+    return (
+      <div className={styles.loadingDiv}>
+        <LoadingScreen />
+      </div>
+    );
+  }
+
   return (
     <div className={styles.container}>
       <form className={styles.form} onSubmit={onSubmit}>
-        <h2>task</h2>
-        <div>
-          <label className={styles.label}>Description</label>
-          <Input
-            name="description"
-            value={descriptionValue}
-            onChange={onChangeDescriptionValue}
-            type="text"
-            required
-            disabled={isLoading}
-          />
-        </div>
-        <div>
-          <label className={styles.label}>Worked Hours</label>
-          <Input
-            name="workedHours"
-            value={workedHoursValue}
-            onChange={onChangeWorkedHoursValue}
-            type="text"
-            required
-            disabled={isLoading}
-          />
-        </div>
-        <div>
-          <label className={styles.label}>Project Name</label>
+        <h2 className={styles.task}>Task</h2>
+        <Input
+          name="Description"
+          type="text"
+          value={descriptionValue}
+          placeholder="Description here..."
+          onChange={setDescriptionValue}
+        />
+        <Input
+          name="Worked hours"
+          type="text"
+          value={workedHoursValue}
+          placeholder="Hours here..."
+          onChange={setWorkedHoursValue}
+        />
+        <div className={styles.select}>
           <Select
-            name="projects"
+            name="Projects"
             value={projectNameValue}
-            onChange={onChangeProjectNameValue}
+            onChange={(e) => {
+              setProjectId(e.target.value);
+              setProjectNameValue(e.target.value);
+            }}
             options={projects}
-            disabled={isLoading}
           />
         </div>
-        <div>
-          <label className={styles.label}>Date</label>
-          <Input
-            name="date"
-            value={dateValue}
-            onChange={onChangeDateValue}
-            type="date"
-            required
-            disabled={isLoading}
-          />
+        <Input name="Date" type="date" value={dateValue} onChange={setDateValue} />
+        <div className={styles.buttonContainer}>
+          <Button text="Return" handler={routeChange} />
+          <Button text={requestType === 'POST' ? 'Save Task' : 'Update Task'} handler={onSubmit} />
+          <Modal
+            modalTitle={modalTitle}
+            isOpen={isOpen}
+            handleClose={
+              redirect
+                ? routeChange
+                : () => {
+                    setIsOpen(!isOpen);
+                  }
+            }
+          >
+            <p>{message}</p>
+            <div>
+              <Button
+                text="Accept"
+                handler={
+                  redirect
+                    ? routeChange
+                    : () => {
+                        setIsOpen(!isOpen);
+                      }
+                }
+              />
+            </div>
+          </Modal>
         </div>
-        <button className={styles.btn} disabled={isLoading} type="submit">
-          Save
-        </button>
       </form>
     </div>
   );
 };
 
-export default Form;
+export default TaskForm;
