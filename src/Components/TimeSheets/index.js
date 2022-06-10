@@ -58,9 +58,12 @@ const TimeSheets = () => {
     setUntouchedData(data);
   }
 
-  function search(value) {
+  function searchByLastName(value) {
     setSearchQuery(value);
-    const result = untouchedData.filter((employee) => employee._id.includes(value));
+    console.log(untouchedData);
+    const result = untouchedData.filter((item) =>
+      item.employeeId.lastName.toLowerCase().includes(value)
+    );
     setData(result);
   }
 
@@ -101,7 +104,11 @@ const TimeSheets = () => {
           <h2>Timesheets</h2>
           <div className={styles.buttonContainer}>
             <Button text="Add timesheet" link={'/time-sheetS/form'} />
-            <Search placeholder="Search by id" searchQuery={searchQuery} setSearchQuery={search} />
+            <Search
+              placeholder="Search by id"
+              searchQuery={searchQuery}
+              setSearchQuery={searchByLastName}
+            />
           </div>
           <Table
             data={data}
