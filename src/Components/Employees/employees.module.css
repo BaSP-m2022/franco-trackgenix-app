@@ -1,9 +1,9 @@
 .container {
-  flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-top: 7%;
 }
 
 .button {
@@ -18,8 +18,23 @@
   text-decoration: none;
 }
 
-.button:hover {
-  background-color: #ffffff;
-  transform: scale(1.05);
-  transition: all 0.2s ease-in-out;
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: 100vh;
+  margin-left: 40%;
+}
+
+.addEmployee {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 30px;
+}
+
+.title {
+  color: #373867;
+  font-size: 30px;
 }

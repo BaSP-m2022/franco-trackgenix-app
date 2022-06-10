@@ -1,5 +1,11 @@
 import { useState, useEffect } from 'react';
 import styles from './Project.module.css';
+import Input from '../Shared/Input';
+import Button from '../Shared/Button';
+import Modal from '../Shared/Modal';
+import LoadingScreen from '../Shared/LoadingScreen';
+import Select from '../Shared/SelectDropdown';
+import { useHistory } from 'react-router-dom';
 
 function EmployeeItem({ employee }) {
   return (
@@ -12,48 +18,40 @@ function EmployeeItem({ employee }) {
 }
 
 function ProjectForm() {
-  const [nameValue, setnameValue] = useState('');
-  const [statusValue, setstatusValue] = useState('');
-  const [descriptionValue, setdescriptionValue] = useState('');
-  const [employeeIdValue, setemployeeIdValue] = useState({});
+  const [nameValue, setNameValue] = useState('');
+  const [statusValue, setStatusValue] = useState('');
+  const [descriptionValue, setDescriptionValue] = useState('');
+  const [employeeIdValue, setEmployeeIdValue] = useState('');
   const [employeeOptions, setEmployeeOptions] = useState([]);
-  const [startDateValue, setstartDateValue] = useState('');
-  const [endDateValue, setendDateValue] = useState('');
+  const [startDateValue, setStartDateValue] = useState('');
+  const [endDateValue, setEndDateValue] = useState('');
+  const [title, setTitle] = useState('Add Project');
   const [rateValue, setRateValue] = useState('');
   const [roleValue, setRoleValue] = useState('');
   const [employeesValue, setEmployeesValue] = useState([]);
 
-  const onChangeNameInput = (event) => {
-    setnameValue(event.target.value);
-  };
-  const onChangeStatusInput = (event) => {
-    setstatusValue(event.target.value);
-  };
-  const onChangeDescriptionInput = (event) => {
-    setdescriptionValue(event.target.value);
-  };
+  const [msg, setMsg] = useState('');
+  const [isOpen, setIsOpen] = useState(false);
+  const [modalTitle, setModalTitle] = useState('Add Project');
+  const [redirect, setRedirect] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [buttonText, setButtonText] = useState('Add Project');
+
   const onChangeEmployeeIdInput = (event) => {
-    setemployeeIdValue(event.target.value);
-  };
-  const onChangeStartDateInput = (event) => {
-    setstartDateValue(event.target.value);
-  };
-  const onChangeEndDateInput = (event) => {
-    setendDateValue(event.target.value);
-  };
-  const onChangeRateInput = (event) => {
-    setRateValue(event.target.value);
-  };
-  const onChangeRoleInput = (event) => {
-    setRoleValue(event.target.value);
+    setEmployeeIdValue(event.target.value);
   };
 
   const onAddEmployee = (event) => {
     event.preventDefault();
-    setEmployeesValue([
-      ...employeesValue,
-      { employeeId: employeeIdValue, rate: rateValue, role: roleValue }
-    ]);
+    if (employeeIdValue != '' && rateValue != '' && roleValue != '') {
+      setEmployeesValue([
+        ...employeesValue,
+        { employeeId: employeeIdValue, rate: rateValue, role: roleValue }
+      ]);
+    } else {
+      setMsg('Complete the rate and role');
+      setIsOpen(true);
+    }
   };
 
   useEffect(async () => {
@@ -62,14 +60,34 @@ function ProjectForm() {
       const projectId = params.get('id');
       if (projectId) {
         const data = await fetch(`${process.env.REACT_APP_API_URL}/projects/${projectId}`);
-        const projectfetch = await data.json();
-        let startDate = projectfetch.data.startDate.slice(0, 10);
-        let endDate = projectfetch.data.endDate.slice(0, 10);
-        setnameValue(projectfetch.data.name);
-        setstatusValue(projectfetch.data.status);
-        setdescriptionValue(projectfetch.data.description);
-        setstartDateValue(startDate);
-        setendDateValue(endDate);
+        const projectFetch = await data.json();
+        let startDate = projectFetch.data.startDate.slice(0, 10);
+        let endDate = projectFetch.data.endDate ? projectFetch.data.endDate.slice(0, 10) : '';
+        setNameValue(projectFetch.data.name);
+        setStatusValue(projectFetch.data.status);
+        setDescriptionValue(projectFetch.data.description);
+        setStartDateValue(startDate);
+        setEndDateValue(endDate);
+        setTitle('Edit Project');
+        setButtonText('Update Project');
+        const dataEmployees = await fetch(`${process.env.REACT_APP_API_URL}/employees/`);
+        const employees = await dataEmployees.json();
+        employees.data.map((employee) => {
+          if (
+            projectFetch.data.employees != [] &&
+            projectFetch.data.employees[0].employeeId._id === employee._id
+          ) {
+            let ep = [];
+            for (let i = 0; i < projectFetch.data.employees.length; i++) {
+              ep.push({
+                employeeId: employee._id,
+                rate: projectFetch.data.employees[i].rate,
+                role: projectFetch.data.employees[i].role
+              });
+            }
+            setEmployeesValue(ep);
+          }
+        });
       }
       const data = await fetch(`${process.env.REACT_APP_API_URL}/employees/`);
       const employees = await data.json();
@@ -87,9 +105,8 @@ function ProjectForm() {
 
   const onSubmit = async (event) => {
     event.preventDefault();
-
+    setLoading(true);
     let url = `${process.env.REACT_APP_API_URL}/projects/`;
-
     const options = {
       method: 'POST',
       headers: {
@@ -115,140 +132,150 @@ function ProjectForm() {
     try {
       const response = await fetch(url, options);
       const data = await response.json();
+      setLoading(false);
       if (response.status === 200 || response.status === 201) {
         if (options.method === 'POST') {
-          window.alert('The Project was created.');
-          window.location.href = '/projects';
+          setMsg('The Projects was created.');
+          setIsOpen(true);
+          setRedirect(true);
         } else {
-          window.alert('The Projects was changed.');
-          window.location.href = '/projects';
+          setMsg('The project was edited');
+          setModalTitle('Edit Project');
+          setIsOpen(true);
+          setRedirect(true);
         }
       } else {
-        window.alert(data.data);
+        setMsg(data.message);
+        setIsOpen(true);
+        setRedirect(false);
       }
     } catch (error) {
       console.error(error);
     }
   };
 
-  return (
-    <div className={styles.container}>
-      <h2>Project Form</h2>
-      <form onSubmit={onSubmit}>
-        <label className={styles.label}>Name</label>
-        <input
-          className={styles.input}
-          id="name"
-          name="name"
-          required
-          type="text"
-          value={nameValue}
-          onChange={onChangeNameInput}
-        />
-        <label className={styles.label}>Status</label>
-        <input
-          className={styles.input}
-          id="status"
-          name="status"
-          required
-          type="text"
-          value={statusValue}
-          onChange={onChangeStatusInput}
-        />
-        <label className={styles.label}>Description</label>
-        <input
-          className={styles.input}
-          id="description"
-          name="description"
-          required
-          type="text"
-          value={descriptionValue}
-          onChange={onChangeDescriptionInput}
-        />
-        <label className={styles.label}>Employee</label>
-        <div className={styles.container}>
-          <select
-            onChange={onChangeEmployeeIdInput}
-            value={employeeIdValue}
-            className={styles.input}
-            id="employeeId"
-            name="employeeId"
-            required
-            type="text"
-          >
-            <option value="" disabled>
-              Select a Employee
-            </option>
-            {employeeOptions.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </select>
-          <label className={styles.label}>Rate</label>
-          <input
-            className={styles.input}
-            id="rate"
-            name="rate"
-            required
-            type="number"
-            value={rateValue}
-            onChange={onChangeRateInput}
-          />
-          <label className={styles.label}>Role</label>
-          <input
-            className={styles.input}
-            id="role"
-            name="role"
-            required
-            type="text"
-            value={roleValue}
-            onChange={onChangeRoleInput}
-          />
-          <button className={styles.btn} onClick={onAddEmployee} type="submit">
-            Add
-          </button>
-          <table>
-            <thead>
-              <tr>
-                <th id="employeeId">ID</th>
-                <th id="role">Role</th>
-                <th id="rate">Rate</th>
-              </tr>
-            </thead>
-            <tbody>
-              {employeesValue.map((employee) => (
-                <EmployeeItem key={employee.employeeId} employee={employee} />
-              ))}
-            </tbody>
-          </table>
-        </div>
-        <label className={styles.label}>Start Date</label>
-        <input
-          className={styles.input}
-          id="startDate"
-          name="startDate"
-          required
-          type="date"
-          value={startDateValue}
-          onChange={onChangeStartDateInput}
-        />
-        <label className={styles.label}>End Date</label>
-        <input
-          className={styles.input}
-          id="endDate"
-          name="endDate"
-          required
-          type="date"
-          value={endDateValue}
-          onChange={onChangeEndDateInput}
-        />
-        <button className={styles.btn} type="submit">
-          Submit
-        </button>
-      </form>
-    </div>
-  );
+  const history = useHistory();
+  const routeChange = () => {
+    let path = `/projects`;
+    history.push(path);
+  };
+
+  const ls = LoadingScreen();
+  if (loading) {
+    return ls;
+  } else {
+    return (
+      <div className={styles.container}>
+        <Modal modalTitle={modalTitle} isOpen={isOpen} handleClose={() => setIsOpen(!isOpen)}>
+          <p>{msg}</p>
+          <div>
+            <Button text="OK" handler={redirect ? routeChange : () => setIsOpen(!isOpen)} />
+          </div>
+        </Modal>
+        <h2 className={styles.h2}>{title}</h2>
+        <form className={styles.form}>
+          <div className={styles.projects}>
+            <Input
+              className={styles.label}
+              name="Name"
+              type="text"
+              value={nameValue}
+              placeholder="Name"
+              onChange={setNameValue}
+            />
+            <Input
+              className={styles.label}
+              name="Status"
+              type="text"
+              value={statusValue}
+              placeholder="Status: active or inactive"
+              onChange={setStatusValue}
+            />
+            <Input
+              className={styles.label}
+              name="Description"
+              type="text"
+              value={descriptionValue}
+              placeholder="Description"
+              onChange={setDescriptionValue}
+            />
+          </div>
+          <div className={styles.inputsContainer}>
+            <div className={styles.employee}>
+              <div className={styles.select}>
+                <label className={styles.label}>Employee</label>
+                <Select
+                  className={styles.label}
+                  value={employeeIdValue}
+                  onChange={onChangeEmployeeIdInput}
+                  options={employeeOptions}
+                  required={true}
+                />
+              </div>
+              <Input
+                className={styles.label}
+                name="Rate"
+                type="number"
+                value={rateValue}
+                placeholder="Rate"
+                onChange={setRateValue}
+              />
+              <Input
+                className={styles.label}
+                name="Role"
+                type="text"
+                value={roleValue}
+                placeholder="Role"
+                onChange={setRoleValue}
+              />
+              <Button text="Add employee" handler={onAddEmployee} />
+            </div>
+          </div>
+          <div className={styles.containerTable}>
+            <table className={styles.table}>
+              <thead>
+                <tr>
+                  <th id="employeeId">ID</th>
+                  <th id="role">Role</th>
+                  <th id="rate">Rate</th>
+                </tr>
+              </thead>
+              <tbody>
+                {employeesValue.map((employee, index) => (
+                  <EmployeeItem key={index} employee={employee} />
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <div className={styles.dates}>
+            <div className={styles.date}>
+              <Input
+                className={styles.label}
+                name="Start Date"
+                type="date"
+                value={startDateValue}
+                onChange={setStartDateValue}
+              />
+            </div>
+            <div className={styles.date}>
+              <Input
+                className={styles.label}
+                name="End Date"
+                type="date"
+                value={endDateValue}
+                onChange={setEndDateValue}
+              />
+            </div>
+          </div>
+          <div>
+            <Button text="Return" handler={routeChange} />
+            <Button text={buttonText} handler={onSubmit} />
+          </div>
+        </form>
+      </div>
+    );
+  }
 }
 
 export default ProjectForm;
