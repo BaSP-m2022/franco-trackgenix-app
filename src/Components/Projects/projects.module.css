@@ -4,6 +4,12 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  margin-top: 7%;
+}
+
+.title {
+  color: #373867;
+  font-size: 30px;
 }
 
 #projects_list_table {
@@ -31,18 +37,13 @@
 }
 
 .add {
-  margin-left: auto;
-  border-radius: 10px;
-  border: 2px solid #070707;
-  padding: 5px;
-  text-decoration: none;
-  font-size: 18px;
-  color: #FFF;
-  background-color: #EA3354;
-  transition: all 0.2s;
+  width: 95%;
+  display: flex;
+  justify-content: space-between;
+  padding-top: 50px;
 }
 
-.add:hover {
+.add button:hover {
   cursor: pointer;
   transform: scale(1.21);
 }
@@ -50,4 +51,18 @@
 .flex {
   display: flex;
   flex-direction: column;
+  margin-right: 50px;
+}
+
+.search {
+  border-color: #373867;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: 100vh;
+  margin-left: 40%;
 }
