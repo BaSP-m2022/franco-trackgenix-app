@@ -5,6 +5,8 @@ import Button from '../Shared/Button';
 import { useHistory } from 'react-router-dom';
 import SelectDropdown from '../Shared/SelectDropdown';
 import Input from '../Shared/Input';
+import { Children } from 'react';
+/*import { Children } from 'react';*/
 
 function TimeSheetForm() {
   const [taskValue, setTaskValue] = useState([]);
@@ -16,11 +18,13 @@ function TimeSheetForm() {
   const [employeeOptions, setEmployeeOptions] = useState([]);
   const [tasksOptions, setTasksOptions] = useState([]);
   const [error, setError] = useState('');
+  const [redirect, setRedirect] = useState(false);
   const [isLoading, setLoading] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
   const [showModal, setShowModal] = useState(false);
 
   const history = useHistory();
+
   const routeChange = () => {
     let path = `/time-sheets`;
     history.push(path);
@@ -31,10 +35,6 @@ function TimeSheetForm() {
     { value: 'In progress', label: 'In progress' },
     { value: 'Done', label: 'Done' }
   ];
-
-  const closeModal = () => {
-    setShowModal(false);
-  };
   const onChangeStatusInput = (event) => {
     setStatusValue(event.target.value);
   };
@@ -108,6 +108,7 @@ function TimeSheetForm() {
     const params = new URLSearchParams(window.location.search);
     const timeSheetId = params.get('id');
     setModalMessage('Timesheet created correctly!');
+    setRedirect(true);
     let url = `${process.env.REACT_APP_API_URL}/time-sheets/`;
     const options = {
       method: 'POST',
@@ -125,6 +126,7 @@ function TimeSheetForm() {
     };
     if (timeSheetId) {
       setModalMessage('Timesheet edited correctly!');
+      setRedirect(true);
       options.method = 'PUT';
       url = `${process.env.REACT_APP_API_URL}/time-sheets/${timeSheetId}`;
     }
@@ -133,13 +135,13 @@ function TimeSheetForm() {
       const data = await response.json();
       if (data.error) {
         setModalMessage('There was an error');
+        setRedirect(false);
       }
       console.log(data);
     } catch (error) {
       console.error(error);
     } finally {
       setShowModal(true);
-      setLoading(false);
     }
   };
 
@@ -148,8 +150,8 @@ function TimeSheetForm() {
       <h2>Time Sheets Form</h2>
       <form onSubmit={onSubmit}>
         <div className="select">
-          <label className={styles.label}>Task</label>
           <SelectDropdown
+            nanme="Task"
             onChange={onChangeTaskInput}
             value={taskValue}
             required="true"
@@ -160,8 +162,8 @@ function TimeSheetForm() {
         </div>
 
         <div className="input">
-          <label className={styles.label}>Total Hours</label>
           <Input
+            name="Total Hours"
             placeholder="Total Hours"
             type="number"
             value={totalHoursValue}
@@ -170,8 +172,8 @@ function TimeSheetForm() {
           />
         </div>
         <div className="select">
-          <label className={styles.label}>Status</label>
           <SelectDropdown
+            name="status"
             onChange={onChangeStatusInput}
             value={statusValue}
             props="status"
@@ -182,8 +184,8 @@ function TimeSheetForm() {
           />
         </div>
         <div className="input">
-          <label className={styles.label}>Start Date</label>
           <Input
+            name="Start Date"
             placeholder="Start Date"
             type="date"
             value={startDateValue}
@@ -192,8 +194,8 @@ function TimeSheetForm() {
           />
         </div>
         <div className="input">
-          <label className={styles.label}>End Date</label>
           <Input
+            name="End Date"
             placeholder="End Date"
             type="date"
             value={endDateValue}
@@ -202,8 +204,8 @@ function TimeSheetForm() {
           />
         </div>
         <div className="select">
-          <label className={styles.label}>Employees</label>
           <SelectDropdown
+            name="Employees"
             onChange={onChangeEmployeeIdInput}
             value={employeeIdValue}
             props="employeeId"
@@ -213,10 +215,24 @@ function TimeSheetForm() {
             disabled={isLoading}
           />
         </div>
-        <Button text="Submit" handler={onSubmit} />
-        <Modal isOpen={showModal} modalTitle={modalMessage} handleClose={closeModal}>
+        <div className={styles.buttomDiv}>
+          <Button text="Submit" handler={onSubmit} />
+          <Button text={'Return'} handler={routeChange} />
+        </div>
+        <Modal
+          isOpen={showModal}
+          modalTitle={modalMessage}
+          handleClose={
+            redirect
+              ? showModal
+              : () => {
+                  setShowModal(!showModal);
+                }
+          }
+          setModalMessage={Children}
+        >
           <div>
-            <Button text="Accept" handler={routeChange} />
+            <Button text={'Ok'} handler={redirect ? routeChange : () => setShowModal(!showModal)} />
           </div>
         </Modal>
         <div className={styles.error}>{error}</div>
