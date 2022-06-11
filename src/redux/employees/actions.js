@@ -1,6 +1,6 @@
 import * as ACTIONS from './constants';
 
-export const getEmployeesPending = () => {
+export const getEmployeesLoading = () => {
   return {
     type: ACTIONS.GET_EMPLOYEES_LOADING
   };

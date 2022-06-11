@@ -1,15 +1,17 @@
 import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styles from './employees.module.css';
 import Table from '../Shared/Table';
 import LoadingScreen from '../Shared/LoadingScreen';
 import Modal from '../Shared/Modal';
 import Button from '../Shared/Button';
 import Search from '../Shared/Search-bar';
+import { getEmployees } from '../../redux/employees/thunks';
 
 const Employees = () => {
   const [data, setData] = useState([]);
   const [untouchedData, setUntouchedData] = useState([]);
-  const [loading, setLoading] = useState();
+  // const [loading, setLoading] = useState();
   const [isOpen, setIsOpen] = useState(false);
   const [idToDelete, setIdToDelete] = useState();
   const [search, setSearch] = useState();
@@ -23,25 +25,26 @@ const Employees = () => {
   ];
   const entity = 'employees';
 
-  useEffect(async () => {
-    try {
-      setLoading(true);
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/employees`);
-      const data = await response.json();
-      setData(data.data);
-      setUntouchedData(data.data);
-      setLoading(false);
-    } catch (error) {
-      console.error(error);
-    }
+  const dispatch = useDispatch();
+  const employees = useSelector((state) => state.employees.list);
+  const loading = useSelector((state) => state.employees.loading);
+  // const error = useSelector((state) => state.employees.error);
+
+  // THE NEXT 3 LINES ARE FOR PAGE TO WORK CORRECTLY, THEN SHOULD DELETE WHEN CODING CORRECTLY
+  if (data !== employees) {
+    setData(employees);
+  }
+
+  useEffect(() => {
+    dispatch(getEmployees());
   }, []);
 
   const deleteItem = (_id) => {
     try {
-      setLoading(true);
+      // setLoading(true);
       setIsOpen(true);
       setIdToDelete(_id);
-      setLoading(false);
+      // setLoading(false);
     } catch (error) {
       console.error(error);
     }
@@ -64,6 +67,7 @@ const Employees = () => {
     setSearch(value);
     setData(untouchedData.filter((employee) => employee._id.includes(value)));
   };
+
   if (loading) {
     return (
       <div className={styles.loading}>
@@ -71,6 +75,7 @@ const Employees = () => {
       </div>
     );
   }
+
   return (
     <section className={styles.container}>
       <h2 className={styles.title}>Employees</h2>
@@ -85,7 +90,7 @@ const Employees = () => {
         <Button text="Add new employee" link={'/employees/form'} />
         <Search searchQuery={search} setSearchQuery={setSearchQuery} placeholder="Search by ID" />
       </div>
-      {<Table data={data} deleteItem={deleteItem} column={column} entity={entity} />}
+      {<Table data={employees} deleteItem={deleteItem} column={column} entity={entity} />}
     </section>
   );
 };
