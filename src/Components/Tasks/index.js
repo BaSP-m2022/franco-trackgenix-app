@@ -86,9 +86,7 @@ function Tasks() {
         <Button text={'Add Task'} link={'/tasks/form'} />
         <Search searchQuery={searchQuery} setSearchQuery={search} placeholder="Search by ID" />
       </div>
-      <div>
-        <Table data={dataTable} column={column} deleteItem={handleDeleteTask} entity={entity} />
-      </div>
+      <Table data={dataTable} column={column} deleteItem={handleDeleteTask} entity={entity} />
     </section>
   );
 }
