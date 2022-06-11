@@ -62,7 +62,7 @@ const TimeSheets = () => {
     setSearchQuery(value);
     console.log(untouchedData);
     const result = untouchedData.filter((item) =>
-      item.employeeId.lastName.toLowerCase().includes(value)
+      item.employeeId.lastName.toString().toLowerCase().includes(value.toString().toLowerCase())
     );
     setData(result);
   }
@@ -103,7 +103,7 @@ const TimeSheets = () => {
           </Modal>
           <h2>Timesheets</h2>
           <div className={styles.buttonContainer}>
-            <Button text="Add timesheet" link={'/time-sheetS/form'} />
+            <Button text="Add timesheet" link={'/time-sheets/form'} />
             <Search
               placeholder="Search by last name"
               searchQuery={searchQuery}
