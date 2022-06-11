@@ -1,26 +1,29 @@
 .container {
-  flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  padding: 0 20%;
   text-align: center;
+  width: 100%;
 }
 
-.btn {
-  padding: 5px 8px;
-  border: 1px solid #181818;
-  border-radius: 5px;
-  color: #181818;
-  background-color: #F0F4F9;
-  font-size: 16px;
-  text-decoration: none;
-  text-align: center;
-  margin-bottom: 40px;
+.buttonContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 30px;
 }
-.btn:hover {
-  background-color: #FFFFFF;
-  transform: scale(1.05);
-  transition: all .2s ease-in-out;
+
+.buttonContainer a {
+  text-decoration: none;
+}
+
+.loadingDiv {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin-right: 14vw;
+  min-height: 100vh;
 }

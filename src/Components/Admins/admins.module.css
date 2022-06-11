@@ -1,23 +1,23 @@
 .container {
-  flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  padding: 0 20%;
+  text-align: center;
 }
-.add {
-  align-self: flex-end;
-  padding: 5px 8px;
-  border: 1px solid #181818;
-  border-radius: 5px;
-  color: #181818;
-  background-color: #F0F4F9;
-  font-size: 16px;
+
+.buttonContainer {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 30px;
 }
-.add:hover {
-  color: #181818;
-  background-color: #FFFFFF;
-  transform: scale(1.05);
-  transition: all .2s ease-in-out;
+
+.loadingDiv {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin-right: 14vw;
+  min-height: 100vh;
 }
