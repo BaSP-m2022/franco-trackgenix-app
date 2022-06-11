@@ -1,5 +1,11 @@
 import { useState, useEffect } from 'react';
 import styles from './form.module.css';
+import Modal from '../Shared/Modal';
+import Button from '../Shared/Button';
+import { useHistory } from 'react-router-dom';
+import SelectDropdown from '../Shared/SelectDropdown';
+import Input from '../Shared/Input';
+import { Children } from 'react';
 
 function TimeSheetForm() {
   const [taskValue, setTaskValue] = useState([]);
@@ -11,31 +17,28 @@ function TimeSheetForm() {
   const [employeeOptions, setEmployeeOptions] = useState([]);
   const [tasksOptions, setTasksOptions] = useState([]);
   const [error, setError] = useState('');
+  const [redirect, setRedirect] = useState(false);
   const [isLoading, setLoading] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
   const [showModal, setShowModal] = useState(false);
+  const [isPutRequest, setIsPutRequest] = useState(false);
+
+  const history = useHistory();
+
+  const routeChange = () => {
+    let path = `/time-sheets`;
+    history.push(path);
+  };
 
   const statusOption = [
     { value: 'To do', label: 'To do' },
     { value: 'In progress', label: 'In progress' },
     { value: 'Done', label: 'Done' }
   ];
-
-  const closeModal = () => {
-    setShowModal(false);
-  };
-  const onChangeTotalHoursInput = (event) => {
-    setTotalHoursValue(event.target.value);
-  };
   const onChangeStatusInput = (event) => {
     setStatusValue(event.target.value);
   };
-  const onChangeStartDateInput = (event) => {
-    setStartDateValue(event.target.value);
-  };
-  const onChangeEndDateInput = (event) => {
-    setEndDateValue(event.target.value);
-  };
+
   const onChangeTaskInput = (event) => {
     if (taskValue.indexOf(event.target.value) > -1) {
       setTaskValue(taskValue.filter((task) => task !== event.target.value));
@@ -75,6 +78,7 @@ function TimeSheetForm() {
     const params = new URLSearchParams(window.location.search);
     const timeSheetId = params.get('id');
     if (timeSheetId) {
+      setIsPutRequest(true);
       fetch(`${process.env.REACT_APP_API_URL}/time-sheets/${timeSheetId}`)
         .then((response) => {
           if (response.status !== 200) {
@@ -105,6 +109,7 @@ function TimeSheetForm() {
     const params = new URLSearchParams(window.location.search);
     const timeSheetId = params.get('id');
     setModalMessage('Timesheet created correctly!');
+    setRedirect(true);
     let url = `${process.env.REACT_APP_API_URL}/time-sheets/`;
     const options = {
       method: 'POST',
@@ -122,6 +127,7 @@ function TimeSheetForm() {
     };
     if (timeSheetId) {
       setModalMessage('Timesheet edited correctly!');
+      setRedirect(true);
       options.method = 'PUT';
       url = `${process.env.REACT_APP_API_URL}/time-sheets/${timeSheetId}`;
     }
@@ -130,13 +136,13 @@ function TimeSheetForm() {
       const data = await response.json();
       if (data.error) {
         setModalMessage('There was an error');
+        setRedirect(false);
       }
       console.log(data);
     } catch (error) {
       console.error(error);
     } finally {
       setShowModal(true);
-      setLoading(false);
     }
   };
 
@@ -144,126 +150,95 @@ function TimeSheetForm() {
     <div className={styles.container}>
       <h2>Time Sheets Form</h2>
       <form onSubmit={onSubmit}>
-        <div className="select">
-          <select
+        <div className={styles.select}>
+          <SelectDropdown
+            name="Task"
             onChange={onChangeTaskInput}
             value={taskValue}
-            className={styles.input}
-            id="task"
-            name="task"
-            required
+            required="true"
             type="text"
+            options={tasksOptions}
             disabled={isLoading}
-            multiple={true}
-          >
-            <option value="" disabled>
-              Select a task
-            </option>
-            {tasksOptions.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </select>
+          />
         </div>
 
-        <div className="input">
-          <input
+        <div className={styles.input}>
+          <Input
+            name="Total Hours"
             placeholder="Total Hours"
-            className={styles.input}
-            id="totalHours"
-            name="totalHours"
-            required
             type="number"
-            min="0"
             value={totalHoursValue}
-            onChange={onChangeTotalHoursInput}
+            onChange={setTotalHoursValue}
             disabled={isLoading}
           />
         </div>
-        <div className="select">
-          <select
+        <div className={styles.select}>
+          <SelectDropdown
+            name="status"
             onChange={onChangeStatusInput}
             value={statusValue}
-            className={styles.input}
-            id="status"
-            name="status"
-            required
+            props="status"
+            required="true"
             type="status"
+            options={statusOption}
             disabled={isLoading}
-            option={statusOption}
-          >
-            <option value=" " disabled>
-              Select an status
-            </option>
-            {statusOption.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </select>
+          />
         </div>
-        <div className="input">
-          <input
+        <div className={styles.input}>
+          <Input
+            name="Start Date"
             placeholder="Start Date"
-            className={styles.input}
-            id="startDate"
-            name="startDate"
-            required
             type="date"
             value={startDateValue}
-            onChange={onChangeStartDateInput}
+            onChange={setStartDateValue}
             disabled={isLoading}
           />
         </div>
-        <div className="input">
-          <input
+        <div className={styles.input}>
+          <Input
+            name="End Date"
             placeholder="End Date"
-            className={styles.input}
-            id="endDate"
-            name="endDate"
-            required
             type="date"
             value={endDateValue}
-            onChange={onChangeEndDateInput}
+            onChange={setEndDateValue}
             disabled={isLoading}
           />
         </div>
-        <div className="select">
-          <select
-            placeholder="Employee"
+        <div className={styles.select}>
+          <SelectDropdown
+            name="Employees"
             onChange={onChangeEmployeeIdInput}
             value={employeeIdValue}
-            className={styles.input}
-            id="employeeId"
-            name="employeeId"
-            required
+            props="employeeId"
+            required="true"
             type="text"
+            options={employeeOptions}
             disabled={isLoading}
-          >
-            <option value="" disabled>
-              Select an employee
-            </option>
-            {employeeOptions.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </select>
+          />
         </div>
-        <button type="submit" disabled={isLoading}>
-          Save
-        </button>
-        {showModal && (
-          <div className={styles.modalContainer}>
-            <div className={styles.modal}>
-              <h3>{modalMessage}</h3>
-              <button disabled={isLoading} onClick={closeModal} className={styles.button}>
-                OK
-              </button>
-            </div>
+        <div className={styles.buttomDiv}>
+          <Button
+            text={isPutRequest ? 'Update Time-Sheet' : 'save Time-Sheet'}
+            handler={onSubmit}
+          />
+          <Button text={'Return'} handler={routeChange} />
+        </div>
+        <Modal
+          isOpen={showModal}
+          modalTitle={modalMessage}
+          handleClose={
+            redirect
+              ? showModal
+              : () => {
+                  setShowModal(!showModal);
+                }
+          }
+          setModalMessage={Children}
+        >
+          <div>
+            <Button text={'Ok'} handler={redirect ? routeChange : () => setShowModal(!showModal)} />
           </div>
-        )}
+        </Modal>
         <div className={styles.error}>{error}</div>
       </form>
     </div>

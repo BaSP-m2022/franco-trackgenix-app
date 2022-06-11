@@ -3,82 +3,35 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin: 3% 10% 0% 0%;
+}
+
+h2 {
+  padding: 0% 12% 0% 10%;
+  color: #373867;
 }
 
 .container form {
   display: flex;
   padding: 30px;
   flex-direction: column;
-  margin-bottom: 5px;
+  margin-bottom: 13%;
+}
+
+.input {
+  width: 100%;
+}
+.select {
+  width: 260px;
 }
 
 .container h2 {
   margin-bottom: 1px;
   margin-left: 25px;
 }
-
-.container input{
-  padding: 3px 20px;
-  margin: 5px;
-  width: 100%;
-  font-size: 16px;
-  text-align: center;
-}
-
-.container select {
-  padding: 3px 40px;
-  margin: 5px;
-  width: 117%;
-  font-size: 16px;
-  text-align: center;
-}
-
-.container button {
-  margin: 5px;
-  margin-left: 25px;
-  background-color: #c94157;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  padding: 5px 40px;
-  width: 100%;
-  text-align: center;
- align-items: center;
- font-size: 18px;
- font-style: bold;
-}
-
-.modalContainer {
-  position: absolute;
+.buttomDiv {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  top: 0;
-  left: 0;
-  min-height: 100vh;
-  width: 100%;
-  background-color: rgba(255, 255, 255, 0.8);
-}
-
-.modal {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 500px;
-  height: 200px;
-  border-radius: 4px;
-  background-color: #FFF;
-}
-
-.button {
-  margin: 20px;
-  height: 56px;
-  border: 5px;
-  padding: 0 20px;
-  background: #f8758b;
-  font-size: 18px;
-  font-weight: bold;
-  border-radius: 4px;
-  cursor: pointer;
+  flex-direction: row;
+  justify-content: space-between;
+  padding-top: 10%;
 }
