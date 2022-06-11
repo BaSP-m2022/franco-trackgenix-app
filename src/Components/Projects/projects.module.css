@@ -4,7 +4,6 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  margin-top: 7%;
 }
 
 .title {
@@ -16,7 +15,8 @@
   text-align: center;
 }
 
-#projects_list_table td, #projects_list_table th {
+#projects_list_table td,
+#projects_list_table th {
   padding: 7px;
 }
 
@@ -43,13 +43,13 @@
   padding-top: 50px;
 }
 
-.add button:hover {
-  cursor: pointer;
-  transform: scale(1.21);
+.add a {
+  text-decoration: none;
 }
 
 .flex {
   display: flex;
+  width: 95%;
   flex-direction: column;
   margin-right: 50px;
 }

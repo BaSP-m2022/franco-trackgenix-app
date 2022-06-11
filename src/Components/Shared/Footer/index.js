@@ -7,7 +7,10 @@ const Footer = () => {
       <div className={styles.greenLine}></div>
       <div className={styles.content}>
         <nav className={styles.rowLinks}>
-          <Link to={{ pathname: '#' }} target="_blank">
+          <Link
+            to={{ pathname: 'https://www.linkedin.com/company/radium-rocket/' }}
+            target="_blank"
+          >
             <svg
               width="35"
               height="35"
@@ -79,7 +82,7 @@ const Footer = () => {
               />
             </svg>
           </Link>
-          <Link to={{ pathname: '#' }} target="_blank">
+          <Link to={{ pathname: 'https://github.com/radiumrocketapps' }} target="_blank">
             <svg
               width="31"
               height="34"

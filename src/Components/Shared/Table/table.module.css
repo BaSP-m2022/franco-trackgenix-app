@@ -1,24 +1,29 @@
 .tableMain {
   width: 100%;
-  border: 1px solid #BEBEC8;
+  margin: 40px 25px;
+  border: 1px solid #bebec8;
   border-radius: 5px;
   border-spacing: 0px;
+  table-layout: auto;
+  border-collapse: collapse;
 }
 
-.containerTable tr, .tableMain tr {
+.containerTable tr,
+.tableMain tr {
   text-align: left;
   color: #373867;
   border-radius: 20px;
 }
 
 .containerTable td {
-  border-bottom: 1px solid #BEBEC8;
+  border-bottom: 1px solid #bebec8;
   padding: 1px 8px;
 }
 
-.headTable, .tableMain th{
+.headTable,
+.tableMain th {
   padding: 12px;
-  background-color: #D9DBE2;
+  background-color: #d9dbe2;
 }
 
 .containerTable svg {
@@ -29,7 +34,7 @@
 }
 
 .tableMain tbody tr:hover {
-  background: #EEF5EB;
+  background: #eef5eb;
 }
 
 .buttonTable:hover {
@@ -37,7 +42,8 @@
   transition: all 0.2s ease-in-out;
 }
 
-.containerTable a, .containerTable button {
+.containerTable a,
+.containerTable button {
   text-align: center;
   background: none;
   border: 0;
