@@ -1,25 +1,29 @@
 import { useState, useEffect } from 'react';
 import styles from './superAdmin.module.css';
 import Input from '../Shared/Input';
-import Button from '../Shared/Button';
 import Modal from '../Shared/Modal';
-import LoadingScreen from '../Shared/LoadingScreen';
+import Button from '../Shared/Button';
 import { useHistory } from 'react-router-dom';
+import LoadingScreen from '../Shared/LoadingScreen';
 
-function SuperAdminForm() {
+const SuperAdminForm = () => {
+  const [loading, setLoading] = useState(false);
+
+  const [requestType, setRequestType] = useState('POST');
+
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
   const [isOpen, setIsOpen] = useState(false);
   const [redirect, setRedirect] = useState(false);
   const [message, setMessage] = useState('');
-  const [modalTitle, setModalTitle] = useState('');
   const [buttonText, setButtonText] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [requestType, setRequestType] = useState('POST');
   const [editSuperAdminId, setEditSuperAdminId] = useState('');
   const history = useHistory();
+
+  const [modalTitle, setModalTitle] = useState('');
 
   const routeChange = () => {
     let path = `/super-admins`;
@@ -150,5 +154,5 @@ function SuperAdminForm() {
       </form>
     </section>
   );
-}
+};
 export default SuperAdminForm;

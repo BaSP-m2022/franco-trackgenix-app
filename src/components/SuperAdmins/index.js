@@ -1,27 +1,40 @@
 import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styles from './super-admins.module.css';
 import Table from '../Shared/Table';
 import LoadingScreen from '../Shared/LoadingScreen';
 import Modal from '../Shared/Modal';
 import Button from '../Shared/Button';
 import Search from '../Shared/Search-bar';
+import { getSuperAdmins } from '../../redux/superAdmins/thunks';
 
 function SuperAdmins() {
-  const [dataTable, setDataTable] = useState([]);
   const [untouchedData, setUntouchedData] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [toBeDeleted, setToBeDeleted] = useState('');
   const [isOpen, setIsOpen] = useState(false);
-  const entity = 'super-admins';
+  const [toBeDeleted, setToBeDeleted] = useState('');
   const [search, setSearch] = useState();
+  const column = [
+    { heading: 'Id', value: '_id' },
+    { heading: 'First Name', value: 'firstName' },
+    { heading: 'Last Name', value: 'lastName' },
+    { heading: 'Email', value: 'email' }
+  ];
+  const entity = 'super-admins';
+
+  const dispatch = useDispatch();
+  const superAdmins = useSelector((state) => state.superAdmins.list);
+  const loading = useSelector((state) => state.superAdmins.loading);
+  const error = useSelector((state) => state.superAdmins.error);
+
+  useEffect(() => {
+    dispatch(getSuperAdmins());
+    if (error) {
+      setIsOpen(true);
+    }
+  }, [error]);
 
   const setSearchQuery = (value) => {
     setSearch(value);
-    setDataTable(
-      untouchedData.filter((superAdmin) =>
-        superAdmin.firstName.toLowerCase().includes(value.toLowerCase())
-      )
-    );
   };
 
   const openModal = (id) => {
@@ -29,41 +42,18 @@ function SuperAdmins() {
     setIsOpen(true);
   };
 
-  useEffect(async () => {
+  const deleteSuperAdmin = async (id) => {
     try {
-      setLoading(true);
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/super-admins`);
-      const data = await response.json();
-      setDataTable(data.data);
-      setUntouchedData(data.data);
-      setLoading(false);
+      await fetch(`${process.env.REACT_APP_API_URL}/super-admins/${id}`, {
+        method: 'DELETE'
+      });
+      setIsOpen(false);
     } catch (error) {
       console.error(error);
     }
-  }, []);
-
-  const deleteSuperAdmin = async (id) => {
-    setLoading(true);
-    const response = await fetch(`${process.env.REACT_APP_API_URL}/super-admins/${id}`, {
-      method: 'DELETE'
-    });
-    const res = await response.json();
-    if (res.data.error) {
-      setIsOpen(false);
-      setLoading(false);
-    } else {
-      setDataTable([...dataTable.filter((admin) => admin._id !== id)]);
-      setIsOpen(false);
-      setLoading(false);
-    }
+    setUntouchedData(untouchedData.filter((superAdmin) => superAdmin._id !== toBeDeleted));
   };
 
-  const column = [
-    { heading: 'Id', value: '_id' },
-    { heading: 'First Name', value: 'firstName' },
-    { heading: 'Last Name', value: 'lastName' },
-    { heading: 'Email', value: 'email' }
-  ];
   if (loading) {
     return (
       <div className={styles.loadingDiv}>
@@ -90,10 +80,10 @@ function SuperAdmins() {
         <Search
           searchQuery={search}
           setSearchQuery={setSearchQuery}
-          placeholder={'Insert Super Admin Name'}
+          placeholder={'Insert Super-Admin Name'}
         />
       </div>
-      <Table data={dataTable} column={column} deleteItem={openModal} entity={entity} />
+      {<Table data={superAdmins} deleteItem={openModal} column={column} entity={entity} />}
     </section>
   );
 }
