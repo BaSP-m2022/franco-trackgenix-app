@@ -1,4 +1,4 @@
-import * as ACTIONS from './constants';
+import * as CONSTANTS from './constants';
 
 const initialStore = {
   list: [],
@@ -8,18 +8,18 @@ const initialStore = {
 
 export const employeesReducer = (state = initialStore, actions) => {
   switch (actions.type) {
-    case ACTIONS.GET_EMPLOYEES_LOADING:
+    case CONSTANTS.GET_EMPLOYEES_LOADING:
       return {
         ...state,
         loading: true
       };
-    case ACTIONS.GET_EMPLOYEES_SUCCESS:
+    case CONSTANTS.GET_EMPLOYEES_SUCCESS:
       return {
         ...state,
         list: actions.payload,
         loading: false
       };
-    case ACTIONS.GET_EMPLOYEES_ERROR:
+    case CONSTANTS.GET_EMPLOYEES_ERROR:
       return {
         ...state,
         error: actions.payload,

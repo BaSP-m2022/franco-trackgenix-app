@@ -1,21 +1,21 @@
-import * as ACTIONS from './constants';
+import * as CONSTANTS from './constants';
 
 export const getEmployeesLoading = () => {
   return {
-    type: ACTIONS.GET_EMPLOYEES_LOADING
+    type: CONSTANTS.GET_EMPLOYEES_LOADING
   };
 };
 
 export const getEmployeesSuccess = (data) => {
   return {
-    type: ACTIONS.GET_EMPLOYEES_SUCCESS,
+    type: CONSTANTS.GET_EMPLOYEES_SUCCESS,
     payload: data
   };
 };
 
 export const getEmployeesError = (error) => {
   return {
-    type: ACTIONS.GET_EMPLOYEES_ERROR,
+    type: CONSTANTS.GET_EMPLOYEES_ERROR,
     payload: error
   };
 };
