@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styles from './employees.module.css';
 import Table from '../Shared/Table';
 import LoadingScreen from '../Shared/LoadingScreen';
 import Modal from '../Shared/Modal';
 import Button from '../Shared/Button';
 import Search from '../Shared/Search-bar';
+import { getEmployees } from '../../redux/employees/thunks';
 
 const Employees = () => {
-  const [data, setData] = useState([]);
   const [untouchedData, setUntouchedData] = useState([]);
-  const [loading, setLoading] = useState();
   const [isOpen, setIsOpen] = useState(false);
   const [idToDelete, setIdToDelete] = useState();
   const [search, setSearch] = useState();
@@ -23,25 +23,22 @@ const Employees = () => {
   ];
   const entity = 'employees';
 
-  useEffect(async () => {
-    try {
-      setLoading(true);
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/employees`);
-      const data = await response.json();
-      setData(data.data);
-      setUntouchedData(data.data);
-      setLoading(false);
-    } catch (error) {
-      console.error(error);
+  const dispatch = useDispatch();
+  const employees = useSelector((state) => state.employees.list);
+  const loading = useSelector((state) => state.employees.loading);
+  const error = useSelector((state) => state.employees.error);
+
+  useEffect(() => {
+    dispatch(getEmployees());
+    if (error) {
+      setIsOpen(true);
     }
-  }, []);
+  }, [error]);
 
   const deleteItem = (_id) => {
     try {
-      setLoading(true);
       setIsOpen(true);
       setIdToDelete(_id);
-      setLoading(false);
     } catch (error) {
       console.error(error);
     }
@@ -56,14 +53,13 @@ const Employees = () => {
     } catch (error) {
       console.error(error);
     }
-    setData(data.filter((employee) => employee._id !== idToDelete));
     setUntouchedData(untouchedData.filter((employee) => employee._id !== idToDelete));
   };
 
   const setSearchQuery = (value) => {
     setSearch(value);
-    setData(untouchedData.filter((employee) => employee._id.includes(value)));
   };
+
   if (loading) {
     return (
       <div className={styles.loading}>
@@ -71,21 +67,30 @@ const Employees = () => {
       </div>
     );
   }
+
   return (
     <section className={styles.container}>
       <h2 className={styles.title}>Employees</h2>
-      <Modal modalTitle={'Delete employee'} isOpen={isOpen} handleClose={() => setIsOpen(false)}>
-        <p>Are you sure you want to delete this employee?</p>
+      <Modal modalTitle={'Employees'} isOpen={isOpen} handleClose={() => setIsOpen(false)}>
+        <p>{error ? error : 'Are you sure to delete an employee?'}</p>
         <div>
-          <Button text="Yes" type="delete" handler={() => deleteEmployee(idToDelete)} />
-          <Button text="No" handler={() => setIsOpen(false)} />
+          {error ? (
+            <div>
+              <Button text="Close" handler={() => setIsOpen(false)} />
+            </div>
+          ) : (
+            <div>
+              <Button text="Yes" type="delete" handler={() => deleteEmployee(idToDelete)} />
+              <Button text="No" handler={() => setIsOpen(false)} />
+            </div>
+          )}
         </div>
       </Modal>
       <div className={styles.addEmployee}>
         <Button text="Add new employee" link={'/employees/form'} />
         <Search searchQuery={search} setSearchQuery={setSearchQuery} placeholder="Search by ID" />
       </div>
-      {<Table data={data} deleteItem={deleteItem} column={column} entity={entity} />}
+      {<Table data={employees} deleteItem={deleteItem} column={column} entity={entity} />}
     </section>
   );
 };
