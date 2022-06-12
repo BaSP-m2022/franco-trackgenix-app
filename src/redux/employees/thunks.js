@@ -5,9 +5,13 @@ export const getEmployees = () => {
     dispatch(actions.getEmployeesLoading());
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/employees`);
-      const response_1 = await response.json();
-      dispatch(actions.getEmployeesSuccess(response_1.data));
-      return response_1.data;
+      const jsonResponse = await response.json();
+      if (jsonResponse.error) {
+        dispatch(actions.getEmployeesError(jsonResponse.message));
+      } else {
+        dispatch(actions.getEmployeesSuccess(jsonResponse.data));
+      }
+      return jsonResponse.data;
     } catch (error) {
       dispatch(actions.getEmployeesError(error.toString()));
     }
