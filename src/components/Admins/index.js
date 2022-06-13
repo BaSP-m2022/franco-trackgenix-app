@@ -14,6 +14,7 @@ const Admins = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [idDel, setIdDel] = useState('');
+  const [filteredList, setFilteredList] = useState(admins);
 
   const column = [
     { heading: 'First name', value: 'firstName' },
@@ -27,7 +28,6 @@ const Admins = () => {
   const admins = useSelector((state) => state.admins.list);
   const loading = useSelector((state) => state.admins.loading);
   const error = useSelector((state) => state.admins.error);
-  const [filteredList, setFilteredList] = useState(admins);
 
   const handleSetAdmin = (id) => {
     dispatch(setAdmin(id));
