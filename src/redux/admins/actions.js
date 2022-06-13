@@ -40,3 +40,43 @@ export const deleteAdminsError = (error) => {
     payload: error
   };
 };
+// PUT
+export const putAdminsLoading = () => {
+  return {
+    type: CONSTANTS.PUT_ADMINS_LOADING
+  };
+};
+
+export const putAdminsSuccess = (data) => {
+  return {
+    type: CONSTANTS.PUT_ADMINS_SUCCESS,
+    payload: data
+  };
+};
+
+export const putAdminsError = (error) => {
+  return {
+    type: CONSTANTS.PUT_ADMINS_ERROR,
+    payload: error
+  };
+};
+// ADD
+export const addAdminsLoading = () => {
+  return {
+    type: CONSTANTS.ADD_ADMINS_LOADING
+  };
+};
+
+export const addAdminsSuccess = (data) => {
+  return {
+    type: CONSTANTS.ADD_ADMINS_SUCCESS,
+    payload: data
+  };
+};
+
+export const addAdminsError = (error) => {
+  return {
+    type: CONSTANTS.ADD_ADMINS_ERROR,
+    payload: error
+  };
+};
