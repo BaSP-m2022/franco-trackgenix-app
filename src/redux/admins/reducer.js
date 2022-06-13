@@ -71,9 +71,7 @@ export const adminsReducer = (state = initialStore, actions) => {
     case CONSTANTS.SET_ADMIN:
       return {
         ...state,
-        admin: actions.payload
-          ? state.list.find((admin) => admin._id === actions.payload)
-          : undefined,
+        admin: actions.payload ? state.list.find((admin) => admin._id === actions.payload) : {},
         loading: false
       };
 
