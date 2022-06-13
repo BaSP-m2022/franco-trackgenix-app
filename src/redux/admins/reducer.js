@@ -3,7 +3,8 @@ import * as CONSTANTS from './constants';
 const initialStore = {
   list: [],
   loading: false,
-  error: ''
+  error: '',
+  admin: {}
 };
 
 export const adminsReducer = (state = initialStore, actions) => {
@@ -52,13 +53,22 @@ export const adminsReducer = (state = initialStore, actions) => {
     case CONSTANTS.PUT_ADMINS_SUCCESS:
       return {
         ...state,
-        list: state.list.filter((admins) => admins._id !== actions.payload._id),
+        list: [...state.list, actions.payload],
+        error: '',
         loading: false
       };
     case CONSTANTS.PUT_ADMINS_ERROR:
       return {
         ...state,
         error: actions.payload,
+        loading: false
+      };
+    case CONSTANTS.SET_ADMIN:
+      return {
+        ...state,
+        admin: actions.payload
+          ? state.list.find((admin) => admin._id === actions.payload)
+          : undefined,
         loading: false
       };
     //ADD-----------------------------------------------------
@@ -71,6 +81,7 @@ export const adminsReducer = (state = initialStore, actions) => {
       return {
         ...state,
         list: [...state.list, actions.payload],
+        error: '',
         loading: false
       };
     case CONSTANTS.ADD_ADMINS_ERROR:

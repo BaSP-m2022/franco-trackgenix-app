@@ -38,12 +38,14 @@ export const deleteAdmins = (id) => {
   };
 };
 
-export const putAdmins = (id) => {
+export const putAdmins = (id, body) => {
   return async (dispatch) => {
     dispatch(actions.putAdminsLoading());
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/admins/${id}`, {
-        method: 'PUT'
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: body
       });
       const jsonResponse = await response.json();
       if (jsonResponse.error) {

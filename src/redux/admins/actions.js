@@ -60,6 +60,13 @@ export const putAdminsError = (error) => {
     payload: error
   };
 };
+
+export const setAdmin = (data) => {
+  return {
+    type: CONSTANTS.SET_ADMIN,
+    payload: data
+  };
+};
 // ADD
 export const addAdminsLoading = () => {
   return {
