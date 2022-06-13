@@ -9,6 +9,14 @@ import LoadingScreen from '../Shared/LoadingScreen';
 import styles from './admin.module.css';
 
 const AdminForm = () => {
+  const history = useHistory();
+
+  const dispatch = useDispatch();
+
+  const admin = useSelector((state) => state.admins.admin);
+  const loading = useSelector((state) => state.admins.loading);
+  const error = useSelector((state) => state.admins.error);
+
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
@@ -17,11 +25,6 @@ const AdminForm = () => {
   const [requestType, setRequestType] = useState('POST');
   const [modalTitle, setModalTitle] = useState('');
   const [modalText, setModalText] = useState('');
-
-  const dispatch = useDispatch();
-  const admin = useSelector((state) => state.admins.admin);
-  const loading = useSelector((state) => state.admins.loading);
-  const error = useSelector((state) => state.admins.error);
 
   useEffect(() => {
     if (admin._id) {
@@ -39,6 +42,11 @@ const AdminForm = () => {
 
   const handleEditAdmin = (id, admin) => {
     dispatch(putAdmin(id, admin));
+  };
+
+  const routeChange = () => {
+    let path = `/admins`;
+    history.push(path);
   };
 
   async function handleSubmit(e) {
@@ -65,12 +73,6 @@ const AdminForm = () => {
       console.log(error);
     }
   }
-
-  const history = useHistory();
-  const routeChange = () => {
-    let path = `/admins`;
-    history.push(path);
-  };
 
   if (loading) {
     return (

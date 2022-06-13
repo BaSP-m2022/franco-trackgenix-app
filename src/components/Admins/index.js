@@ -1,16 +1,24 @@
 import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { getAdmins, deleteAdmin } from '../../redux/admins/thunks';
+import { setAdmin } from '../../redux/admins/actions';
 import Table from '../Shared/Table';
 import LoadingScreen from '../Shared/LoadingScreen';
 import Modal from '../Shared/Modal';
 import Button from '../Shared/Button';
 import Search from '../Shared/Search-bar';
 import styles from './admins.module.css';
-import { getAdmins, deleteAdmin } from '../../redux/admins/thunks';
-import { setAdmin } from '../../redux/admins/actions';
 
 const Admins = () => {
+  const history = useHistory();
+
+  const dispatch = useDispatch();
+
+  const admins = useSelector((state) => state.admins.list);
+  const loading = useSelector((state) => state.admins.loading);
+  const error = useSelector((state) => state.admins.error);
+
   const [isOpen, setIsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [idDel, setIdDel] = useState('');
@@ -23,11 +31,12 @@ const Admins = () => {
     { heading: 'Id', value: '_id' }
   ];
 
-  const dispatch = useDispatch();
-  const history = useHistory();
-  const admins = useSelector((state) => state.admins.list);
-  const loading = useSelector((state) => state.admins.loading);
-  const error = useSelector((state) => state.admins.error);
+  useEffect(() => {
+    dispatch(getAdmins());
+    if (error) {
+      setIsOpen(true);
+    }
+  }, [error]);
 
   const handleSetAdmin = (id) => {
     dispatch(setAdmin(id));
@@ -39,15 +48,13 @@ const Admins = () => {
     setIsOpen(!isOpen);
   };
 
-  useEffect(() => {
-    dispatch(getAdmins());
-    if (error) {
-      setIsOpen(true);
-    }
-  }, [error]);
-
   const handleDeleteAdmin = (admin) => {
     dispatch(deleteAdmin(admin));
+  };
+
+  const search = (value) => {
+    setSearchQuery(value);
+    setFilteredList(admins.filter((employee) => employee._id.includes(searchQuery)));
   };
 
   if (loading) {
@@ -57,11 +64,6 @@ const Admins = () => {
       </div>
     );
   }
-
-  const search = (value) => {
-    setSearchQuery(value);
-    setFilteredList(admins.filter((employee) => employee._id.includes(searchQuery)));
-  };
 
   return (
     <section className={styles.container}>
