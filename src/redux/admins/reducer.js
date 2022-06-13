@@ -1,0 +1,50 @@
+import * as CONSTANTS from './constants';
+
+const initialStore = {
+  list: [],
+  loading: false,
+  error: ''
+};
+
+export const adminsReducer = (state = initialStore, actions) => {
+  switch (actions.type) {
+    case CONSTANTS.GET_ADMINS_LOADING:
+      return {
+        ...state,
+        loading: true
+      };
+    case CONSTANTS.GET_ADMINS_SUCCESS:
+      return {
+        ...state,
+        list: actions.payload,
+        loading: false
+      };
+    case CONSTANTS.GET_ADMINS_ERROR:
+      return {
+        ...state,
+        error: actions.payload,
+        loading: false
+      };
+    //DELETE-----------------------------------------------------
+    case CONSTANTS.DELETE_ADMINS_LOADING:
+      return {
+        ...state,
+        loading: true
+      };
+    case CONSTANTS.DELETE_ADMINS_SUCCESS:
+      return {
+        ...state,
+        list: state.list.filter((admins) => admins._id !== actions.payload._id),
+        loading: false
+      };
+    case CONSTANTS.DELETE_ADMINS_ERROR:
+      return {
+        ...state,
+        error: actions.payload,
+        loading: false
+      };
+
+    default:
+      return state;
+  }
+};
