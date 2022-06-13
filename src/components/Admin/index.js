@@ -36,43 +36,39 @@ const AdminForm = () => {
     }
   }, [error]);
 
-  const handleAddAdmin = (newAdmin) => {
-    dispatch(postAdmin(newAdmin));
-  };
-
-  const handleEditAdmin = (id, admin) => {
-    dispatch(putAdmin(id, admin));
-  };
-
   const routeChange = () => {
     let path = `/admins`;
     history.push(path);
   };
 
-  async function handleSubmit(e) {
+  const openModal = () => {
+    setIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsOpen(false);
+  };
+
+  const handleSubmit = (e) => {
     e.preventDefault();
-    try {
-      const body = JSON.stringify({
-        firstName,
-        lastName,
-        email,
-        password
-      });
-      if (requestType === 'PUT') {
-        setModalTitle('Admin Updated');
-        setModalText('Admin has been updated');
-        handleEditAdmin(admin._id, body);
-        setIsOpen(!isOpen);
-      } else {
-        setModalTitle('Admin Created');
-        setModalText('Admin has been created');
-        handleAddAdmin(body);
-        setIsOpen(!isOpen);
-      }
-    } catch (error) {
-      console.log(error);
+    const body = JSON.stringify({
+      firstName,
+      lastName,
+      email,
+      password
+    });
+    if (requestType === 'PUT') {
+      setModalTitle('Admin Updated');
+      setModalText('Admin has been updated');
+      dispatch(putAdmin(admin._id, body));
+      openModal();
+    } else {
+      setModalTitle('Admin Created');
+      setModalText('Admin has been created');
+      dispatch(postAdmin(body));
+      openModal();
     }
-  }
+  };
 
   if (loading) {
     return (
@@ -119,14 +115,10 @@ const AdminForm = () => {
         <div className={styles.buttonContainer}>
           <Button text="Return" handler={routeChange} />
           <Button handler={handleSubmit} text={requestType === 'PUT' ? 'Update' : 'Save'} />
-          <Modal
-            modalTitle={error ? 'error' : modalTitle}
-            isOpen={isOpen}
-            handleClose={() => setIsOpen(!isOpen)}
-          >
+          <Modal modalTitle={error ? 'error' : modalTitle} isOpen={isOpen} handleClose={closeModal}>
             <p className={styles.message}>{error ? error : modalText}</p>
             <div>
-              <Button text="OK" handler={!error ? routeChange : () => setIsOpen(!isOpen)} />
+              <Button text="OK" handler={!error ? routeChange : closeModal} />
             </div>
           </Modal>
         </div>

@@ -21,7 +21,7 @@ const Admins = () => {
 
   const [isOpen, setIsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const [idDel, setIdDel] = useState('');
+  const [adminId, setAdminId] = useState('');
   const [filteredList, setFilteredList] = useState(admins);
 
   const column = [
@@ -36,7 +36,7 @@ const Admins = () => {
       dispatch(getAdmins());
     }
     if (error) {
-      setIsOpen(true);
+      openModal();
     }
   }, [error]);
 
@@ -46,17 +46,23 @@ const Admins = () => {
   };
 
   const buttonDelete = (id) => {
-    setIdDel(id);
-    setIsOpen(!isOpen);
-  };
-
-  const handleDeleteAdmin = (admin) => {
-    dispatch(deleteAdmin(admin));
+    setAdminId(id);
+    openModal();
   };
 
   const search = (value) => {
     setSearchQuery(value);
-    setFilteredList(admins.filter((employee) => employee._id.includes(searchQuery)));
+    setFilteredList(
+      admins.filter((item) => item.firstName.toLowerCase().includes(value.toLowerCase()))
+    );
+  };
+
+  const openModal = () => {
+    setIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsOpen(false);
   };
 
   if (loading) {
@@ -73,14 +79,14 @@ const Admins = () => {
         modalTitle={'Admins'}
         isOpen={isOpen}
         handleClose={() => {
-          setIsOpen(!isOpen);
+          openModal();
         }}
       >
         <p>{error ? error : 'Are you sure to delete an admin?'}</p>
         <div>
           {error ? (
             <div>
-              <Button text="Close" handler={() => setIsOpen(false)} />
+              <Button text="Close" handler={closeModal} />
             </div>
           ) : (
             <div>
@@ -88,11 +94,11 @@ const Admins = () => {
                 text="Yes"
                 type="delete"
                 handler={() => {
-                  handleDeleteAdmin(idDel);
-                  setIsOpen(!isOpen);
+                  dispatch(deleteAdmin(adminId));
+                  closeModal();
                 }}
               />
-              <Button text="No" handler={() => setIsOpen(false)} />
+              <Button text="No" handler={closeModal} />
             </div>
           )}
         </div>
@@ -105,10 +111,14 @@ const Admins = () => {
             history.push('/admins/form');
           }}
         />
-        <Search searchQuery={searchQuery} setSearchQuery={search} placeholder={'Search admin'} />
+        <Search
+          searchQuery={searchQuery}
+          setSearchQuery={search}
+          placeholder={'Search by first name'}
+        />
       </div>
       <Table
-        data={searchQuery.length == 0 ? admins : filteredList}
+        data={searchQuery.length ? filteredList : admins}
         column={column}
         deleteItem={buttonDelete}
         editItem={handleSetAdmin}
