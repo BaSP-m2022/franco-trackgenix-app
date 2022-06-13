@@ -85,7 +85,6 @@ export const adminsReducer = (state = initialStore, actions) => {
       return {
         ...state,
         list: [...state.list, actions.payload],
-        admin: {},
         error: '',
         loading: false
       };
