@@ -19,3 +19,10 @@ export const getEmployeesError = (error) => {
     payload: error
   };
 };
+
+export const setEmployee = (id) => {
+  return {
+    type: 'SET_EMPLOYEE',
+    payload: id
+  };
+};

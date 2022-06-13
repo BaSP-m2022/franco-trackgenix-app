@@ -3,7 +3,8 @@ import * as CONSTANTS from './constants';
 const initialStore = {
   list: [],
   loading: false,
-  error: ''
+  error: '',
+  employee: undefined
 };
 
 export const employeesReducer = (state = initialStore, actions) => {
@@ -24,6 +25,13 @@ export const employeesReducer = (state = initialStore, actions) => {
         ...state,
         error: actions.payload,
         loading: false
+      };
+    case 'SET_EMPLOYEE':
+      return {
+        ...state,
+        employee: actions.payload
+          ? state.list.find((employee) => employee._id === actions.payload)
+          : undefined
       };
     default:
       return state;

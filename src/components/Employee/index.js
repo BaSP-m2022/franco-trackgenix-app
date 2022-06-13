@@ -5,10 +5,11 @@ import Modal from '../Shared/Modal';
 import Button from '../Shared/Button';
 import { useHistory } from 'react-router-dom';
 import LoadingScreen from '../Shared/LoadingScreen';
+import { useSelector } from 'react-redux';
 
 const EmployeeForm = () => {
   const [loading, setLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
+  // const [errorMessage, setErrorMessage] = useState('');
 
   const [requestType, setRequestType] = useState('POST');
   const [editEmployeeId, setEditEmployeeId] = useState('');
@@ -27,31 +28,19 @@ const EmployeeForm = () => {
 
   const [title, setTitle] = useState('Add Employee');
 
+  const employee = useSelector((state) => state.employees.employee);
+
   useEffect(() => {
-    async function fetchEmployee(id) {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/employees/${id}`);
-      const { message, data, error } = await response.json();
-      if (error) {
-        setErrorMessage(message);
-      } else {
-        setEditEmployeeId(id);
-        setFirstName(data.firstName);
-        setLastName(data.lastName);
-        let date = data.dateOfBirth.slice(0, 10);
-        setDateOfBirth(date);
-        setEmail(data.email);
-        setPassword(data.password);
-        setDni(data.dni);
-      }
-    }
-
-    const params = new URLSearchParams(window.location.search);
-    const employeeId = params.get('id');
-
-    if (employeeId) {
-      setEditEmployeeId(employeeId);
+    if (typeof employee === 'object' && employee._id) {
+      setEditEmployeeId(employee._id);
+      setFirstName(employee.firstName);
+      setLastName(employee.lastName);
+      let date = employee.dateOfBirth.slice(0, 10);
+      setDateOfBirth(date);
+      setEmail(employee.email);
+      setPassword(employee.password);
+      setDni(employee.dni);
       setRequestType('PUT');
-      fetchEmployee(employeeId);
       setTitle('Edit Employee');
     } else {
       setRequestType('POST');
@@ -160,7 +149,7 @@ const EmployeeForm = () => {
           />
         </div>
         <div className={styles.buttonContainer}>
-          {errorMessage && <p className={styles.error}>{errorMessage}</p>}
+          {/* {errorMessage && <p className={styles.error}>{errorMessage}</p>} */}
           {loading && <LoadingScreen />}
           <Button text="Return" handler={routeChange} />
           <Button

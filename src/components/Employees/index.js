@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import styles from './employees.module.css';
 import Table from '../Shared/Table';
 import LoadingScreen from '../Shared/LoadingScreen';
@@ -7,6 +8,7 @@ import Modal from '../Shared/Modal';
 import Button from '../Shared/Button';
 import Search from '../Shared/Search-bar';
 import { getEmployees } from '../../redux/employees/thunks';
+import { setEmployee } from '../../redux/employees/actions';
 
 const Employees = () => {
   const [untouchedData, setUntouchedData] = useState([]);
@@ -21,12 +23,12 @@ const Employees = () => {
     { heading: 'Email', value: 'email' },
     { heading: 'DateOfBirth', value: 'dateOfBirth' }
   ];
-  const entity = 'employees';
 
   const dispatch = useDispatch();
   const employees = useSelector((state) => state.employees.list);
   const loading = useSelector((state) => state.employees.loading);
   const error = useSelector((state) => state.employees.error);
+  const history = useHistory();
 
   useEffect(() => {
     dispatch(getEmployees());
@@ -36,12 +38,13 @@ const Employees = () => {
   }, [error]);
 
   const deleteItem = (_id) => {
-    try {
-      setIsOpen(true);
-      setIdToDelete(_id);
-    } catch (error) {
-      console.error(error);
-    }
+    setIsOpen(true);
+    setIdToDelete(_id);
+  };
+
+  const editItem = (id) => {
+    dispatch(setEmployee(id));
+    history.push('/employees/form');
   };
 
   const deleteEmployee = async () => {
@@ -90,7 +93,7 @@ const Employees = () => {
         <Button text="Add new employee" link={'/employees/form'} />
         <Search searchQuery={search} setSearchQuery={setSearchQuery} placeholder="Search by ID" />
       </div>
-      {<Table data={employees} deleteItem={deleteItem} column={column} entity={entity} />}
+      {<Table data={employees} deleteItem={deleteItem} column={column} editItem={editItem} />}
     </section>
   );
 };
