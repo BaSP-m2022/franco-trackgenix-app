@@ -7,7 +7,7 @@ import LoadingScreen from '../Shared/LoadingScreen';
 import Modal from '../Shared/Modal';
 import Button from '../Shared/Button';
 import Search from '../Shared/Search-bar';
-import { getEmployees, deleteEmployees } from '../../redux/employees/thunks';
+import { getEmployees, deleteEmployee } from '../../redux/employees/thunks';
 import { setEmployee } from '../../redux/employees/actions';
 
 const Employees = () => {
@@ -37,24 +37,32 @@ const Employees = () => {
 
   const buttonDelete = (id) => {
     setIdToDelete(id);
-    setIsOpen(true);
+    openModal();
   };
 
   useEffect(() => {
     dispatch(getEmployees());
     if (error) {
-      setIsOpen(true);
+      openModal();
     }
   }, [error]);
 
-  const deleteEmployee = (employee) => {
-    dispatch(deleteEmployees(employee));
-    setIsOpen(false);
+  const delEmployee = (employee) => {
+    dispatch(deleteEmployee(employee));
+    closeModal();
   };
 
   const setSearchQuery = (value) => {
     setSearch(value);
     setFilteredList(employees.filter((employee) => employee._id.includes(search)));
+  };
+
+  const openModal = () => {
+    setIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsOpen(false);
   };
 
   if (loading) {
@@ -67,17 +75,17 @@ const Employees = () => {
   return (
     <section className={styles.container}>
       <h2 className={styles.title}>Employees</h2>
-      <Modal modalTitle={'Employees'} isOpen={isOpen} handleClose={() => setIsOpen(false)}>
+      <Modal modalTitle={'Employees'} isOpen={isOpen} handleClose={closeModal}>
         <p>{error ? error : 'Are you sure you want to delete an employee?'}</p>
         <div>
           {error ? (
             <div>
-              <Button text="Close" handler={() => setIsOpen(false)} />
+              <Button text="Close" handler={closeModal} />
             </div>
           ) : (
             <div>
-              <Button text="Yes" type="delete" handler={() => deleteEmployee(idToDelete)} />
-              <Button text="No" handler={() => setIsOpen(false)} />
+              <Button text="Yes" type="delete" handler={delEmployee(idToDelete)} />
+              <Button text="No" handler={closeModal} />
             </div>
           )}
         </div>

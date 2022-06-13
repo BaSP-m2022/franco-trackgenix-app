@@ -5,8 +5,8 @@ import Button from '../Shared/Button';
 import LoadingScreen from '../Shared/LoadingScreen';
 import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { addEmployees, putEmployees } from '../../redux/admins/thunks';
+import { useDispatch, useSelector } from 'react-redux';
+import { addEmployee, putEmployee } from '../../redux/employees/thunks';
 
 const EmployeeForm = () => {
   const history = useHistory();
@@ -45,27 +45,35 @@ const EmployeeForm = () => {
     const body = JSON.stringify({
       firstName,
       lastName,
-      dateOfBirth,
+      dni,
       email,
       password,
-      dni
+      dateOfBirth
     });
     if (requestType === 'PUT') {
-      dispatch(putEmployees(employee._id, body));
+      dispatch(putEmployee(employee._id, body));
       setModalTitle('Employee updated');
       setMsg('Employee updated successfully!');
-      setIsOpen(true);
+      openModal();
     } else {
-      dispatch(addEmployees(body));
+      dispatch(addEmployee(body));
       setModalTitle('Employee created');
       setMsg('Employee created successfully!');
-      setIsOpen(true);
+      openModal();
     }
   }
 
   const routeChange = () => {
     let path = `/employees`;
     history.push(path);
+  };
+
+  const openModal = () => {
+    setIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsOpen(false);
   };
 
   if (loading) {
@@ -129,14 +137,16 @@ const EmployeeForm = () => {
             text={!loading && requestType === 'POST' ? 'Add Employee' : 'Update Employee'}
             handler={handleSubmit}
           />
-          <Modal
-            modalTitle={error ? error : modalTitle}
-            isOpen={isOpen}
-            handleClose={() => setIsOpen(false)}
-          >
-            <p>{msg}</p>
+          <Modal modalTitle={error ? 'Error' : modalTitle} isOpen={isOpen} handleClose={closeModal}>
+            <p>{error ? error : msg}</p>
             <div>
-              <Button text="OK" handler={() => setIsOpen(false)} />
+              <Button
+                text="OK"
+                handler={() => {
+                  closeModal();
+                  routeChange();
+                }}
+              />
             </div>
           </Modal>
         </div>

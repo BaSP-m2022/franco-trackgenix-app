@@ -18,30 +18,29 @@ export const getEmployees = () => {
   };
 };
 
-export const deleteEmployees = (id) => {
+export const deleteEmployee = (id) => {
   return async (dispatch) => {
-    dispatch(actions.deleteEmployeesLoading());
+    dispatch(actions.deleteEmployeeLoading());
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/employees/${id}`, {
         method: 'DELETE'
       });
       const jsonResponse = await response.json();
       if (jsonResponse.error) {
-        dispatch(actions.deleteEmployeesError(jsonResponse.message));
+        dispatch(actions.deleteEmployeeError(jsonResponse.message));
       } else {
-        dispatch(actions.deleteEmployeesSuccess(jsonResponse.data));
+        dispatch(actions.deleteEmployeeSuccess(jsonResponse.data));
       }
       return jsonResponse.data;
     } catch (error) {
-      dispatch(actions.deleteEmployeesError(error.toString()));
+      dispatch(actions.deleteEmployeeError(error.toString()));
     }
   };
 };
 
-export const putEmployees = (id, body) => {
+export const putEmployee = (id, body) => {
   return async (dispatch) => {
-    dispatch(actions.putEmployeesLoading());
-    console.log(id, body, 'en put');
+    dispatch(actions.putEmployeeLoading());
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/employees/${id}`, {
         method: 'PUT',
@@ -50,20 +49,20 @@ export const putEmployees = (id, body) => {
       });
       const jsonResponse = await response.json();
       if (jsonResponse.error) {
-        dispatch(actions.putEmployeesError(jsonResponse.message));
+        dispatch(actions.putEmployeeError(jsonResponse.message));
       } else {
-        dispatch(actions.putEmployeesSuccess(jsonResponse.data));
+        dispatch(actions.putEmployeeSuccess(jsonResponse.data));
       }
       return jsonResponse.data;
     } catch (error) {
-      dispatch(actions.putEmployeesError(error.toString()));
+      dispatch(actions.putEmployeeError(error.toString()));
     }
   };
 };
 
-export const addEmployees = (body) => {
+export const addEmployee = (body) => {
   return async (dispatch) => {
-    dispatch(actions.addEmployeesLoading());
+    dispatch(actions.addEmployeeLoading());
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/employees`, {
         method: 'POST',
@@ -72,13 +71,13 @@ export const addEmployees = (body) => {
       });
       const jsonResponse = await response.json();
       if (jsonResponse.error) {
-        dispatch(actions.addEmployeesError(jsonResponse.message));
+        dispatch(actions.addEmployeeError(jsonResponse.message));
       } else {
-        dispatch(actions.addEmployeesSuccess(jsonResponse.data));
+        dispatch(actions.addEmployeeSuccess(jsonResponse.data));
       }
       return jsonResponse.data;
     } catch (error) {
-      dispatch(actions.addEmployeesError(error.toString()));
+      dispatch(actions.addEmployeeError(error.toString()));
     }
   };
 };

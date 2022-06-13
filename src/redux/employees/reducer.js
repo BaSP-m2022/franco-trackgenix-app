@@ -26,33 +26,33 @@ export const employeesReducer = (state = initialStore, actions) => {
         loading: false
       };
 
-    case CONSTANTS.DELETE_EMPLOYEES_LOADING:
+    case CONSTANTS.DELETE_EMPLOYEE_LOADING:
       return {
         ...state,
         loading: true
       };
 
-    case CONSTANTS.DELETE_EMPLOYEES_SUCCESS:
+    case CONSTANTS.DELETE_EMPLOYEE_SUCCESS:
       return {
         ...state,
         list: state.list.filter((employee) => employee._id !== actions.payload._id),
         loading: false
       };
 
-    case CONSTANTS.DELETE_EMPLOYEES_ERROR:
+    case CONSTANTS.DELETE_EMPLOYEE_ERROR:
       return {
         ...state,
         error: actions.payload,
         loading: false
       };
 
-    case CONSTANTS.PUT_EMPLOYEES_LOADING:
+    case CONSTANTS.PUT_EMPLOYEE_LOADING:
       return {
         ...state,
         loading: true
       };
 
-    case CONSTANTS.PUT_EMPLOYEES_SUCCESS:
+    case CONSTANTS.PUT_EMPLOYEE_SUCCESS:
       return {
         ...state,
         list: state.list.map((item) => {
@@ -62,10 +62,11 @@ export const employeesReducer = (state = initialStore, actions) => {
           return item;
         }),
         error: '',
-        loading: false
+        loading: false,
+        employee: {}
       };
 
-    case CONSTANTS.PUT_EMPLOYEES_ERROR:
+    case CONSTANTS.PUT_EMPLOYEE_ERROR:
       return {
         ...state,
         error: actions.payload,
@@ -77,23 +78,23 @@ export const employeesReducer = (state = initialStore, actions) => {
         ...state,
         employee: actions.payload
           ? state.list.find((employee) => employee._id === actions.payload)
-          : undefined,
+          : {},
         loading: false
       };
 
-    case CONSTANTS.ADD_EMPLOYEES_LOADING:
+    case CONSTANTS.ADD_EMPLOYEE_LOADING:
       return {
         ...state,
         loading: true
       };
-    case CONSTANTS.ADD_EMPLOYEES_SUCCESS:
+    case CONSTANTS.ADD_EMPLOYEE_SUCCESS:
       return {
         ...state,
         list: [...state.list, actions.payload],
         error: '',
         loading: false
       };
-    case CONSTANTS.ADD_EMPLOYEES_ERROR:
+    case CONSTANTS.ADD_EMPLOYEE_ERROR:
       return {
         ...state,
         error: actions.payload,

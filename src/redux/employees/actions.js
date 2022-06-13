@@ -20,22 +20,22 @@ export const getEmployeesError = (error) => {
   };
 };
 
-export const deleteEmployeesLoading = () => {
+export const deleteEmployeeLoading = () => {
   return {
-    type: CONSTANTS.DELETE_EMPLOYEES_LOADING
+    type: CONSTANTS.DELETE_EMPLOYEE_LOADING
   };
 };
 
-export const deleteEmployeesError = (error) => {
+export const deleteEmployeeError = (error) => {
   return {
-    type: CONSTANTS.DELETE_EMPLOYEES_ERROR,
+    type: CONSTANTS.DELETE_EMPLOYEE_ERROR,
     payload: error
   };
 };
 
-export const deleteEmployeesSuccess = (data) => {
+export const deleteEmployeeSuccess = (data) => {
   return {
-    type: CONSTANTS.DELETE_EMPLOYEES_SUCCESS,
+    type: CONSTANTS.DELETE_EMPLOYEE_SUCCESS,
     payload: data
   };
 };
@@ -47,42 +47,42 @@ export const setEmployee = (data) => {
   };
 };
 
-export const putEmployeesLoading = () => {
+export const putEmployeeLoading = () => {
   return {
-    type: CONSTANTS.PUT_EMPLOYEES_LOADING
+    type: CONSTANTS.PUT_EMPLOYEE_LOADING
   };
 };
 
-export const putEmployeesError = (error) => {
+export const putEmployeeError = (error) => {
   return {
-    type: CONSTANTS.PUT_EMPLOYEES_ERROR,
+    type: CONSTANTS.PUT_EMPLOYEE_ERROR,
     payload: error
   };
 };
 
-export const putEmployeesSuccess = (data) => {
+export const putEmployeeSuccess = (data) => {
   return {
-    type: CONSTANTS.PUT_EMPLOYEES_SUCCESS,
+    type: CONSTANTS.PUT_EMPLOYEE_SUCCESS,
     payload: data
   };
 };
 
-export const addEmployeesLoading = () => {
+export const addEmployeeLoading = () => {
   return {
-    type: CONSTANTS.ADD_EMPLOYEES_LOADING
+    type: CONSTANTS.ADD_EMPLOYEE_LOADING
   };
 };
 
-export const addEmployeesError = (error) => {
+export const addEmployeeError = (error) => {
   return {
-    type: CONSTANTS.ADD_EMPLOYEES_ERROR,
+    type: CONSTANTS.ADD_EMPLOYEE_ERROR,
     payload: error
   };
 };
 
-export const addEmployeesSuccess = (data) => {
+export const addEmployeeSuccess = (data) => {
   return {
-    type: CONSTANTS.ADD_EMPLOYEES_SUCCESS,
+    type: CONSTANTS.ADD_EMPLOYEE_SUCCESS,
     payload: data
   };
 };
