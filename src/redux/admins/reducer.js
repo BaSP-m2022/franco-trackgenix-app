@@ -27,30 +27,30 @@ export const adminsReducer = (state = initialStore, actions) => {
         loading: false
       };
 
-    case CONSTANTS.DELETE_ADMINS_LOADING:
+    case CONSTANTS.DELETE_ADMIN_LOADING:
       return {
         ...state,
         loading: true
       };
-    case CONSTANTS.DELETE_ADMINS_SUCCESS:
+    case CONSTANTS.DELETE_ADMIN_SUCCESS:
       return {
         ...state,
         list: state.list.filter((admins) => admins._id !== actions.payload._id),
         loading: false
       };
-    case CONSTANTS.DELETE_ADMINS_ERROR:
+    case CONSTANTS.DELETE_ADMIN_ERROR:
       return {
         ...state,
         error: actions.payload,
         loading: false
       };
 
-    case CONSTANTS.PUT_ADMINS_LOADING:
+    case CONSTANTS.PUT_ADMIN_LOADING:
       return {
         ...state,
         loading: true
       };
-    case CONSTANTS.PUT_ADMINS_SUCCESS:
+    case CONSTANTS.PUT_ADMIN_SUCCESS:
       return {
         ...state,
         list: state.list.map((item) => {
@@ -59,10 +59,11 @@ export const adminsReducer = (state = initialStore, actions) => {
           }
           return item;
         }),
+        admin: {},
         error: '',
         loading: false
       };
-    case CONSTANTS.PUT_ADMINS_ERROR:
+    case CONSTANTS.PUT_ADMIN_ERROR:
       return {
         ...state,
         error: actions.payload,
@@ -75,19 +76,20 @@ export const adminsReducer = (state = initialStore, actions) => {
         loading: false
       };
 
-    case CONSTANTS.ADD_ADMINS_LOADING:
+    case CONSTANTS.ADD_ADMIN_LOADING:
       return {
         ...state,
         loading: true
       };
-    case CONSTANTS.ADD_ADMINS_SUCCESS:
+    case CONSTANTS.ADD_ADMIN_SUCCESS:
       return {
         ...state,
         list: [...state.list, actions.payload],
+        admin: {},
         error: '',
         loading: false
       };
-    case CONSTANTS.ADD_ADMINS_ERROR:
+    case CONSTANTS.ADD_ADMIN_ERROR:
       return {
         ...state,
         error: actions.payload,

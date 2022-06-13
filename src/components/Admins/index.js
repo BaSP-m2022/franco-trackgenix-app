@@ -75,13 +75,7 @@ const Admins = () => {
 
   return (
     <section className={styles.container}>
-      <Modal
-        modalTitle={'Admins'}
-        isOpen={isOpen}
-        handleClose={() => {
-          openModal();
-        }}
-      >
+      <Modal modalTitle={'Admins'} isOpen={isOpen} handleClose={closeModal}>
         <p>{error ? error : 'Are you sure to delete an admin?'}</p>
         <div>
           {error ? (
