@@ -1,158 +1,132 @@
-import { useState, useEffect } from 'react';
-import styles from './superAdmin.module.css';
+import { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { postSuperAdmin, putSuperAdmin } from '../../redux/superAdmins/thunks';
 import Input from '../Shared/Input';
 import Modal from '../Shared/Modal';
 import Button from '../Shared/Button';
-import { useHistory } from 'react-router-dom';
 import LoadingScreen from '../Shared/LoadingScreen';
+import styles from './superAdmin.module.css';
 
 const SuperAdminForm = () => {
-  const [loading, setLoading] = useState(false);
+  const history = useHistory();
 
-  const [requestType, setRequestType] = useState('POST');
+  const dispatch = useDispatch();
+
+  const superAdmin = useSelector((state) => state.superAdmins.superAdmin);
+  const loading = useSelector((state) => state.superAdmins.loading);
+  const error = useSelector((state) => state.superAdmins.error);
 
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
   const [isOpen, setIsOpen] = useState(false);
-  const [redirect, setRedirect] = useState(false);
-  const [message, setMessage] = useState('');
-  const [buttonText, setButtonText] = useState('');
-  const [editSuperAdminId, setEditSuperAdminId] = useState('');
-  const history = useHistory();
-
+  const [requestType, setRequestType] = useState('POST');
   const [modalTitle, setModalTitle] = useState('');
+  const [modalText, setModalText] = useState('');
+
+  useEffect(() => {
+    if (superAdmin._id) {
+      setFirstName(superAdmin.firstName);
+      setLastName(superAdmin.lastName);
+      setEmail(superAdmin.email);
+      setPassword(superAdmin.password);
+      setRequestType('PUT');
+    }
+  }, [error]);
 
   const routeChange = () => {
     let path = `/super-admins`;
     history.push(path);
   };
 
-  useEffect(() => {
-    async function fetchId(id) {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/super-admins/${id}`);
-      const { message, data, error } = await response.json();
-      if (error) {
-        setMessage(message);
-      } else {
-        setFirstName(data.firstName);
-        setLastName(data.lastName);
-        setEmail(data.email);
-        setPassword(data.password);
-        setButtonText('Update Super Admin');
-      }
-    }
-    const params = new URLSearchParams(window.location.search);
-    const superAdminId = params.get('id');
-    if (superAdminId) {
-      setEditSuperAdminId(superAdminId);
-      setRequestType('PUT');
-      fetchId(superAdminId);
-    } else {
-      setRequestType('POST');
-      setButtonText('Save Super Admin');
-    }
-  }, []);
+  const openModal = () => {
+    setIsOpen(true);
+  };
 
-  async function handleSubmit(e) {
+  const closeModal = () => {
+    setIsOpen(false);
+  };
+
+  const handleSubmit = (e) => {
     e.preventDefault();
-    setLoading(true);
-    const URL =
-      process.env.REACT_APP_API_URL +
-      `/super-admins${requestType === 'POST' ? '' : `/${editSuperAdminId}`}`;
-
-    const response = await fetch(URL, {
-      method: requestType,
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        firstName,
-        lastName,
-        email,
-        password
-      })
+    const body = JSON.stringify({
+      firstName,
+      lastName,
+      email,
+      password
     });
-    const data = await response.json();
-    setLoading(false);
-
-    if (data.error) {
-      setModalTitle('Validation Error');
-      setMessage(data.message);
-      setIsOpen(true);
+    if (requestType === 'PUT') {
+      setModalTitle('Super Admin Updated');
+      setModalText('Super Admin has been updated');
+      dispatch(putSuperAdmin(superAdmin._id, body));
+      openModal();
     } else {
-      setModalTitle(requestType === 'POST' ? 'Super Admin Created' : 'Super Admin Updated');
-      setMessage(
-        requestType === 'POST'
-          ? ' The Super Admin has been created'
-          : 'The Super Admin has been updated'
-      );
-      setRedirect(true);
-      setIsOpen(true);
+      setModalTitle('Super Admin Created');
+      setModalText('Super Admin has been created');
+      dispatch(postSuperAdmin(body));
+      openModal();
     }
-  }
+  };
+
   if (loading) {
     return (
-      <div className={styles.loadingDiv}>
-        <LoadingScreen loading={loading} />
+      <div className={styles.loading}>
+        <LoadingScreen />
       </div>
     );
   }
 
   return (
-    <section className={styles.sectionSuperAdmin}>
-      <Modal
-        isOpen={isOpen}
-        handleClose={
-          redirect
-            ? routeChange
-            : () => {
-                setIsOpen(!isOpen);
-              }
-        }
-        modalTitle={modalTitle}
-      >
-        <p>{message}</p>
-        <div>
-          <Button text={'Ok'} handler={redirect ? routeChange : () => setIsOpen(!isOpen)} />
-        </div>
-      </Modal>
-      <h2>Add Super admin</h2>
+    <div className={styles.container}>
+      <h3 className={styles.h3}>
+        {requestType === 'PUT' ? 'Update Super Admin' : 'Add Super Admin'}
+      </h3>
       <form className={styles.form}>
-        <Input
-          name={'First Name'}
-          placeholder={'Enter your first name'}
-          onChange={setFirstName}
-          value={firstName}
-        />
-        <Input
-          name={'Last Name'}
-          placeholder={'Enter your last name'}
-          onChange={setLastName}
-          value={lastName}
-        />
-        <Input
-          name={'Email'}
-          type={'email'}
-          placeholder={'Enter the Email'}
-          onChange={setEmail}
-          value={email}
-        />
-        <Input
-          name={'Password'}
-          type={'password'}
-          placeholder={'Enter the Password'}
-          onChange={setPassword}
-          value={password}
-        />
-        <div className={styles.superAdminDiv}>
-          <Button text={'Return'} handler={routeChange} />
-          <Button text={buttonText} handler={handleSubmit} />
+        <div className={styles.inputs}>
+          <Input
+            name="First Name"
+            type="text"
+            placeholder="First Name"
+            value={firstName}
+            onChange={setFirstName}
+          />
+          <Input
+            name="Last Name"
+            type="text"
+            placeholder="Last Name"
+            value={lastName}
+            onChange={setLastName}
+          />
+          <Input
+            name="Email"
+            type="email"
+            placeholder="mail@example.com"
+            value={email}
+            onChange={setEmail}
+          />
+          <Input
+            name="Password"
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={setPassword}
+          />
+        </div>
+        <div className={styles.buttonContainer}>
+          <Button text="Return" handler={routeChange} />
+          <Button handler={handleSubmit} text={requestType === 'PUT' ? 'Update' : 'Save'} />
+          <Modal modalTitle={error ? 'error' : modalTitle} isOpen={isOpen} handleClose={closeModal}>
+            <p className={styles.message}>{error ? error : modalText}</p>
+            <div>
+              <Button text="OK" handler={!error ? routeChange : closeModal} />
+            </div>
+          </Modal>
         </div>
       </form>
-    </section>
+    </div>
   );
 };
+
 export default SuperAdminForm;

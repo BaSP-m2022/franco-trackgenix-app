@@ -1,91 +1,129 @@
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import styles from './super-admins.module.css';
+import { getSuperAdmins, deleteSuperAdmin } from '../../redux/superAdmins/thunks';
+import { setSuperAdmin, cleanSuperAdmin } from '../../redux/superAdmins/actions';
 import Table from '../Shared/Table';
 import LoadingScreen from '../Shared/LoadingScreen';
 import Modal from '../Shared/Modal';
 import Button from '../Shared/Button';
 import Search from '../Shared/Search-bar';
-import { getSuperAdmins } from '../../redux/superAdmins/thunks';
+import styles from './super-admins.module.css';
 
-function SuperAdmins() {
-  const [untouchedData, setUntouchedData] = useState([]);
-  const [isOpen, setIsOpen] = useState(false);
-  const [toBeDeleted, setToBeDeleted] = useState('');
-  const [search, setSearch] = useState();
-  const column = [
-    { heading: 'Id', value: '_id' },
-    { heading: 'First Name', value: 'firstName' },
-    { heading: 'Last Name', value: 'lastName' },
-    { heading: 'Email', value: 'email' }
-  ];
-  const entity = 'super-admins';
-
+const SuperAdmins = () => {
+  const history = useHistory();
   const dispatch = useDispatch();
+
   const superAdmins = useSelector((state) => state.superAdmins.list);
   const loading = useSelector((state) => state.superAdmins.loading);
   const error = useSelector((state) => state.superAdmins.error);
 
+  const [isOpen, setIsOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [superAdminId, setSuperAdminId] = useState('');
+  const [filteredList, setFilteredList] = useState(superAdmins);
+
+  const column = [
+    { heading: 'First name', value: 'firstName' },
+    { heading: 'Last name', value: 'lastName' },
+    { heading: 'Email', value: 'email' },
+    { heading: 'Id', value: '_id' }
+  ];
+
   useEffect(() => {
-    dispatch(getSuperAdmins());
+    if (!superAdmins.length) {
+      dispatch(getSuperAdmins());
+    }
     if (error) {
-      setIsOpen(true);
+      openModal();
     }
   }, [error]);
 
-  const setSearchQuery = (value) => {
-    setSearch(value);
+  const handleSetSuperAdmin = (id) => {
+    dispatch(setSuperAdmin(id));
+    history.push('/super-admins/form');
   };
 
-  const openModal = (id) => {
-    setToBeDeleted(id);
+  const buttonDelete = (id) => {
+    setSuperAdminId(id);
+    openModal();
+  };
+
+  const search = (value) => {
+    setSearchQuery(value);
+    setFilteredList(
+      superAdmins.filter((item) => item.firstName.toLowerCase().includes(value.toLowerCase()))
+    );
+  };
+
+  const openModal = () => {
     setIsOpen(true);
   };
 
-  const deleteSuperAdmin = async (id) => {
-    try {
-      await fetch(`${process.env.REACT_APP_API_URL}/super-admins/${id}`, {
-        method: 'DELETE'
-      });
-      setIsOpen(false);
-    } catch (error) {
-      console.error(error);
-    }
-    setUntouchedData(untouchedData.filter((superAdmin) => superAdmin._id !== toBeDeleted));
+  const closeModal = () => {
+    setIsOpen(false);
   };
 
   if (loading) {
     return (
       <div className={styles.loadingDiv}>
-        <LoadingScreen />;
+        <LoadingScreen />
       </div>
     );
   }
   return (
     <section className={styles.containerSuperAdmin}>
       <Modal
+        modalTitle={'Super Admins'}
         isOpen={isOpen}
-        handleClose={() => setIsOpen(!isOpen)}
-        modalTitle={'Delete Super Admin'}
+        handleClose={() => {
+          openModal();
+        }}
       >
-        <p>Do you Wish to delete the Super Admin?</p>
+        <p>{error ? error : 'Are you sure to delete a Super Admin?'}</p>
         <div>
-          <Button type={'delete'} handler={() => deleteSuperAdmin(toBeDeleted)} text={'Yes'} />
-          <Button handler={() => setIsOpen(!isOpen)} text={'No'} />
+          {error ? (
+            <div>
+              <Button text="Close" handler={closeModal} />
+            </div>
+          ) : (
+            <div>
+              <Button
+                text="Yes"
+                type="delete"
+                handler={() => {
+                  dispatch(deleteSuperAdmin(superAdminId));
+                  closeModal();
+                }}
+              />
+              <Button text="No" handler={closeModal} />
+            </div>
+          )}
         </div>
       </Modal>
       <h2>Super Admins</h2>
       <div className={styles.btnSearchDiv}>
-        <Button link={'/super-admins/form'} text={'Add Super Admin'} />
+        <Button
+          text={'Add Super Admin'}
+          handler={() => {
+            dispatch(cleanSuperAdmin());
+            history.push('/super-admins/form');
+          }}
+        />
         <Search
-          searchQuery={search}
-          setSearchQuery={setSearchQuery}
-          placeholder={'Insert Super-Admin Name'}
+          searchQuery={searchQuery}
+          setSearchQuery={search}
+          placeholder={'Search by first name'}
         />
       </div>
-      {<Table data={superAdmins} deleteItem={openModal} column={column} entity={entity} />}
+      <Table
+        data={searchQuery.length ? filteredList : superAdmins}
+        column={column}
+        deleteItem={buttonDelete}
+        editItem={handleSetSuperAdmin}
+      />
     </section>
   );
-}
+};
 
 export default SuperAdmins;
