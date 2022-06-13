@@ -20,41 +20,40 @@ export const getAdminsError = (error) => {
   };
 };
 
-// DELETE
-export const deleteAdminsLoading = () => {
+export const deleteAdminLoading = () => {
   return {
     type: CONSTANTS.DELETE_ADMINS_LOADING
   };
 };
 
-export const deleteAdminsSuccess = (data) => {
+export const deleteAdminSuccess = (data) => {
   return {
     type: CONSTANTS.DELETE_ADMINS_SUCCESS,
     payload: data
   };
 };
 
-export const deleteAdminsError = (error) => {
+export const deleteAdminError = (error) => {
   return {
     type: CONSTANTS.DELETE_ADMINS_ERROR,
     payload: error
   };
 };
-// PUT
-export const putAdminsLoading = () => {
+
+export const putAdminLoading = () => {
   return {
     type: CONSTANTS.PUT_ADMINS_LOADING
   };
 };
 
-export const putAdminsSuccess = (data) => {
+export const putAdminSuccess = (data) => {
   return {
     type: CONSTANTS.PUT_ADMINS_SUCCESS,
     payload: data
   };
 };
 
-export const putAdminsError = (error) => {
+export const putAdminError = (error) => {
   return {
     type: CONSTANTS.PUT_ADMINS_ERROR,
     payload: error
@@ -67,21 +66,21 @@ export const setAdmin = (data) => {
     payload: data
   };
 };
-// ADD
-export const addAdminsLoading = () => {
+
+export const postAdminLoading = () => {
   return {
     type: CONSTANTS.ADD_ADMINS_LOADING
   };
 };
 
-export const addAdminsSuccess = (data) => {
+export const postAdminSuccess = (data) => {
   return {
     type: CONSTANTS.ADD_ADMINS_SUCCESS,
     payload: data
   };
 };
 
-export const addAdminsError = (error) => {
+export const postAdminError = (error) => {
   return {
     type: CONSTANTS.ADD_ADMINS_ERROR,
     payload: error

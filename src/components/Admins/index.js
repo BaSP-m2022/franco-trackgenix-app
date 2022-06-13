@@ -7,7 +7,7 @@ import Modal from '../Shared/Modal';
 import Button from '../Shared/Button';
 import Search from '../Shared/Search-bar';
 import styles from './admins.module.css';
-import { getAdmins, deleteAdmins } from '../../redux/admins/thunks';
+import { getAdmins, deleteAdmin } from '../../redux/admins/thunks';
 import { setAdmin } from '../../redux/admins/actions';
 
 const Admins = () => {
@@ -47,7 +47,7 @@ const Admins = () => {
   }, [error]);
 
   const handleDeleteAdmin = (admin) => {
-    dispatch(deleteAdmins(admin));
+    dispatch(deleteAdmin(admin));
   };
 
   if (loading) {

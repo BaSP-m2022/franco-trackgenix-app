@@ -18,29 +18,29 @@ export const getAdmins = () => {
   };
 };
 
-export const deleteAdmins = (id) => {
+export const deleteAdmin = (id) => {
   return async (dispatch) => {
-    dispatch(actions.deleteAdminsLoading());
+    dispatch(actions.deleteAdminLoading());
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/admins/${id}`, {
         method: 'DELETE'
       });
       const jsonResponse = await response.json();
       if (jsonResponse.error) {
-        dispatch(actions.deleteAdminsError(jsonResponse.message));
+        dispatch(actions.deleteAdminError(jsonResponse.message));
       } else {
-        dispatch(actions.deleteAdminsSuccess(jsonResponse.data));
+        dispatch(actions.deleteAdminSuccess(jsonResponse.data));
       }
       return jsonResponse.data;
     } catch (error) {
-      dispatch(actions.deleteAdminsError(error.toString()));
+      dispatch(actions.deleteAdminError(error.toString()));
     }
   };
 };
 
-export const putAdmins = (id, body) => {
+export const putAdmin = (id, body) => {
   return async (dispatch) => {
-    dispatch(actions.putAdminsLoading());
+    dispatch(actions.putAdminLoading());
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/admins/${id}`, {
         method: 'PUT',
@@ -49,20 +49,20 @@ export const putAdmins = (id, body) => {
       });
       const jsonResponse = await response.json();
       if (jsonResponse.error) {
-        dispatch(actions.putAdminsError(jsonResponse.message));
+        dispatch(actions.putAdminError(jsonResponse.message));
       } else {
-        dispatch(actions.putAdminsSuccess(jsonResponse.data));
+        dispatch(actions.putAdminSuccess(jsonResponse.data));
       }
       return jsonResponse.data;
     } catch (error) {
-      dispatch(actions.putAdminsError(error.toString()));
+      dispatch(actions.putAdminError(error.toString()));
     }
   };
 };
 
-export const addAdmins = (body) => {
+export const postAdmin = (body) => {
   return async (dispatch) => {
-    dispatch(actions.addAdminsLoading());
+    dispatch(actions.postAdminLoading());
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/admins`, {
         method: 'POST',
@@ -71,13 +71,13 @@ export const addAdmins = (body) => {
       });
       const jsonResponse = await response.json();
       if (jsonResponse.error) {
-        dispatch(actions.addAdminsError(jsonResponse.message));
+        dispatch(actions.postAdminError(jsonResponse.message));
       } else {
-        dispatch(actions.addAdminsSuccess(jsonResponse.data));
+        dispatch(actions.postAdminSuccess(jsonResponse.data));
       }
       return jsonResponse.data;
     } catch (error) {
-      dispatch(actions.addAdminsError(error.toString()));
+      dispatch(actions.postAdminError(error.toString()));
     }
   };
 };

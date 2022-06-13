@@ -26,7 +26,7 @@ export const adminsReducer = (state = initialStore, actions) => {
         error: actions.payload,
         loading: false
       };
-    //DELETE-----------------------------------------------------
+
     case CONSTANTS.DELETE_ADMINS_LOADING:
       return {
         ...state,
@@ -44,7 +44,7 @@ export const adminsReducer = (state = initialStore, actions) => {
         error: actions.payload,
         loading: false
       };
-    //PUT-----------------------------------------------------
+
     case CONSTANTS.PUT_ADMINS_LOADING:
       return {
         ...state,
@@ -71,7 +71,7 @@ export const adminsReducer = (state = initialStore, actions) => {
           : undefined,
         loading: false
       };
-    //ADD-----------------------------------------------------
+
     case CONSTANTS.ADD_ADMINS_LOADING:
       return {
         ...state,

@@ -1,8 +1,7 @@
-/* eslint-disable no-unused-vars */
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { addAdmins, putAdmins } from '../../redux/admins/thunks';
+import { postAdmin, putAdmin } from '../../redux/admins/thunks';
 import Input from '../Shared/Input';
 import Button from '../Shared/Button';
 import Modal from '../Shared/Modal';
@@ -35,11 +34,11 @@ const AdminForm = () => {
   }, [error]);
 
   const handleAddAdmin = (newAdmin) => {
-    dispatch(addAdmins(newAdmin));
+    dispatch(postAdmin(newAdmin));
   };
 
   const handleEditAdmin = (id, admin) => {
-    dispatch(putAdmins(id, admin));
+    dispatch(putAdmin(id, admin));
   };
 
   async function handleSubmit(e) {
