@@ -32,7 +32,9 @@ const Admins = () => {
   ];
 
   useEffect(() => {
-    dispatch(getAdmins());
+    if (!admins.length) {
+      dispatch(getAdmins());
+    }
     if (error) {
       setIsOpen(true);
     }
@@ -97,7 +99,12 @@ const Admins = () => {
       </Modal>
       <h2>Admins</h2>
       <div className={styles.buttonContainer}>
-        <Button text={'Add Admin'} link={'/admins/form'} />
+        <Button
+          text={'Add Admin'}
+          handler={() => {
+            history.push('/admins/form');
+          }}
+        />
         <Search searchQuery={searchQuery} setSearchQuery={search} placeholder={'Search admin'} />
       </div>
       <Table

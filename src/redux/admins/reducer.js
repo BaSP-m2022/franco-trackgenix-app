@@ -53,7 +53,12 @@ export const adminsReducer = (state = initialStore, actions) => {
     case CONSTANTS.PUT_ADMINS_SUCCESS:
       return {
         ...state,
-        list: [...state.list, actions.payload],
+        list: state.list.map((item) => {
+          if (item._id === actions.payload._id) {
+            return actions.payload;
+          }
+          return item;
+        }),
         error: '',
         loading: false
       };
