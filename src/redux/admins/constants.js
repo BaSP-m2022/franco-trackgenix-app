@@ -14,3 +14,5 @@ export const SET_ADMIN = 'SET_ADMIN';
 export const ADD_ADMIN_LOADING = 'ADD_ADMIN_LOADING';
 export const ADD_ADMIN_SUCCESS = 'ADD_ADMIN_SUCCESS';
 export const ADD_ADMIN_ERROR = 'ADD_ADMIN_ERROR';
+
+export const CLEAN_ADMIN = 'CLEAN_ADMIN';
