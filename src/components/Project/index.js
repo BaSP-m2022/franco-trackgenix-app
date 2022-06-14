@@ -80,8 +80,6 @@ function ProjectForm() {
       setRequestType('PUT');
       setTitle('Edit Project');
       setButtonText('Update Project');
-      console.log(employees);
-      console.log(project);
       employees.map((employee) => {
         if (project.employees != [] && project.employees[0].employeeId === employee._id) {
           let ep = [];
