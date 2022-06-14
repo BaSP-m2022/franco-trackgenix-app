@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getSuperAdmins, deleteSuperAdmin } from '../../redux/superAdmins/thunks';
-import { setSuperAdmin, cleanSuperAdmin } from '../../redux/superAdmins/actions';
+import { setSuperAdmin } from '../../redux/superAdmins/actions';
 import Table from '../Shared/Table';
 import LoadingScreen from '../Shared/LoadingScreen';
 import Modal from '../Shared/Modal';
@@ -106,7 +106,7 @@ const SuperAdmins = () => {
         <Button
           text={'Add Super Admin'}
           handler={() => {
-            dispatch(cleanSuperAdmin());
+            dispatch(setSuperAdmin());
             history.push('/super-admins/form');
           }}
         />
