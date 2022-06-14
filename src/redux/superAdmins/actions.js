@@ -86,3 +86,8 @@ export const postSuperAdminError = (error) => {
     payload: error
   };
 };
+export const clearError = () => {
+  return {
+    type: CONSTANTS.CLEAR_ERROR
+  };
+};

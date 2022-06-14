@@ -39,6 +39,12 @@ const SuperAdmins = () => {
     }
   }, [error]);
 
+  useEffect(() => {
+    setFilteredList(
+      superAdmins.filter((item) => item.firstName.toLowerCase().includes(searchQuery.toLowerCase()))
+    );
+  }, [superAdmins, searchQuery]);
+
   const handleSetSuperAdmin = (id) => {
     dispatch(setSuperAdmin(id));
     history.push('/super-admins/form');
@@ -47,13 +53,6 @@ const SuperAdmins = () => {
   const buttonDelete = (id) => {
     setSuperAdminId(id);
     openModal();
-  };
-
-  const search = (value) => {
-    setSearchQuery(value);
-    setFilteredList(
-      superAdmins.filter((item) => item.firstName.toLowerCase().includes(value.toLowerCase()))
-    );
   };
 
   const openModal = () => {
@@ -112,7 +111,7 @@ const SuperAdmins = () => {
         />
         <Search
           searchQuery={searchQuery}
-          setSearchQuery={search}
+          setSearchQuery={setSearchQuery}
           placeholder={'Search by first name'}
         />
       </div>

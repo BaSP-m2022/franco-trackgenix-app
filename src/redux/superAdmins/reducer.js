@@ -96,6 +96,11 @@ export const superAdminsReducer = (state = initialStore, actions) => {
         error: actions.payload,
         loading: false
       };
+    case CONSTANTS.CLEAR_ERROR:
+      return {
+        ...state,
+        error: ''
+      };
 
     default:
       return state;

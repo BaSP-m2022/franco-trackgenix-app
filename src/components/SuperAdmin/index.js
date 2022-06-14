@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { postSuperAdmin, putSuperAdmin } from '../../redux/superAdmins/thunks';
+import { clearError } from '../../redux/superAdmins/actions';
+
 import Input from '../Shared/Input';
 import Modal from '../Shared/Modal';
 import Button from '../Shared/Button';
@@ -115,7 +117,13 @@ const SuperAdminForm = () => {
           />
         </div>
         <div className={styles.buttonContainer}>
-          <Button text="Return" handler={routeChange} />
+          <Button
+            text="Return"
+            handler={() => {
+              dispatch(clearError());
+              routeChange();
+            }}
+          />
           <Button handler={handleSubmit} text={requestType === 'PUT' ? 'Update' : 'Save'} />
           <Modal modalTitle={error ? 'error' : modalTitle} isOpen={isOpen} handleClose={closeModal}>
             <p className={styles.message}>{error ? error : modalText}</p>
