@@ -1,60 +1,26 @@
-import { useEffect, useState } from 'react';
-import styles from './tasks.module.css';
+import { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { getTasks, deleteTask } from '../../redux/tasks/thunks';
 import Table from '../Shared/Table';
-import Button from '../Shared/Button';
-import Modal from '../Shared/Modal';
 import LoadingScreen from '../Shared/LoadingScreen';
+import Modal from '../Shared/Modal';
+import Button from '../Shared/Button';
 import Search from '../Shared/Search-bar';
+import styles from './tasks.module.css';
 
-function Tasks() {
-  const [dataTable, setDataTable] = useState([]);
+const Tasks = () => {
+  const history = useHistory();
+  const dispatch = useDispatch();
+
+  const tasks = useSelector((state) => state.tasks.list);
+  const loading = useSelector((state) => state.tasks.loading);
+  const error = useSelector((state) => state.tasks.error);
+
   const [isOpen, setIsOpen] = useState(false);
-  const [deleteId, setDeleteId] = useState('');
-  const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const [untouchedData, setUntouchedData] = useState([]);
-  const entity = 'tasks';
-
-  useEffect(async () => {
-    try {
-      setLoading(true);
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/tasks`);
-      const responseJson = await response.json();
-      setDataTable(responseJson.data);
-      setUntouchedData(responseJson.data);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  const search = (id) => {
-    setSearchQuery(id);
-    const result = untouchedData.filter((task) => task._id.includes(id));
-    setDataTable(result);
-  };
-
-  const handleDeleteTask = (id) => {
-    setDeleteId(id);
-    setIsOpen(true);
-  };
-
-  const deleteItem = async (id) => {
-    try {
-      setLoading(true);
-      await fetch(`${process.env.REACT_APP_API_URL}/tasks/${id}`, {
-        method: 'DELETE'
-      });
-      const result = dataTable.filter((task) => task._id !== id);
-      setDataTable(result);
-      setIsOpen(false);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const [taskId, setTaskId] = useState('');
+  const [filteredList, setFilteredList] = useState(tasks);
 
   const column = [
     { heading: 'Id', value: '_id' },
@@ -64,9 +30,39 @@ function Tasks() {
     { heading: 'Date', value: 'date' }
   ];
 
+  useEffect(() => {
+    if (!tasks.length) {
+      dispatch(getTasks());
+    }
+    if (error) {
+      openModal();
+    }
+  }, [error]);
+
+  useEffect(() => {
+    setFilteredList(tasks.filter((item) => item._id.includes(searchQuery)));
+  }, [tasks, searchQuery]);
+
+  const handleSetTask = () => {
+    history.push('/tasks/form');
+  };
+
+  const buttonDelete = (id) => {
+    setTaskId(id);
+    openModal();
+  };
+
+  const openModal = () => {
+    setIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsOpen(false);
+  };
+
   if (loading) {
     return (
-      <div className={styles.loadingScreen}>
+      <div className={styles.loadingDiv}>
         <LoadingScreen />
       </div>
     );
@@ -74,21 +70,56 @@ function Tasks() {
 
   return (
     <section className={styles.containerTask}>
-      <Modal modalTitle={'Delete Task'} isOpen={isOpen} handleClose={() => setIsOpen(!isOpen)}>
-        <p>Do you wish to eliminate the task?</p>
+      <Modal
+        modalTitle={'Tasks'}
+        isOpen={isOpen}
+        handleClose={() => {
+          openModal();
+        }}
+      >
+        <p>{error ? error : 'Are you sure to delete a Task?'}</p>
         <div>
-          <Button text="DELETE" type="delete" handler={() => deleteItem(deleteId)} />
-          <Button text="CANCEL" handler={() => setIsOpen(!isOpen)} />
+          {error ? (
+            <div>
+              <Button text="Close" handler={closeModal} />
+            </div>
+          ) : (
+            <div>
+              <Button
+                text="Yes"
+                type="delete"
+                handler={() => {
+                  dispatch(deleteTask(taskId));
+                  closeModal();
+                }}
+              />
+              <Button text="No" handler={closeModal} />
+            </div>
+          )}
         </div>
       </Modal>
       <h2 className={styles.h2Task}>Tasks</h2>
       <div className={styles.containerTaskBS}>
-        <Button text={'Add Task'} link={'/tasks/form'} />
-        <Search searchQuery={searchQuery} setSearchQuery={search} placeholder="Search by ID" />
+        <Button
+          text={'Add Task'}
+          handler={() => {
+            history.push('/tasks/form');
+          }}
+        />
+        <Search
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+          placeholder={'Search by Id'}
+        />
       </div>
-      <Table data={dataTable} column={column} deleteItem={handleDeleteTask} entity={entity} />
+      <Table
+        data={searchQuery.length ? filteredList : tasks}
+        column={column}
+        deleteItem={buttonDelete}
+        editItem={handleSetTask}
+      />
     </section>
   );
-}
+};
 
 export default Tasks;
