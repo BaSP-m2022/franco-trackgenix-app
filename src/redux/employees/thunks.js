@@ -1,4 +1,4 @@
-import * as actions from '../../redux/employees/actions';
+import * as actions from './actions';
 
 export const getEmployees = () => {
   return async (dispatch) => {

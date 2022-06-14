@@ -47,8 +47,8 @@ const Employees = () => {
     }
   }, [error]);
 
-  const delEmployee = (employee) => {
-    dispatch(deleteEmployee(employee));
+  const delEmployee = () => {
+    dispatch(deleteEmployee(idToDelete));
     closeModal();
   };
 
@@ -84,7 +84,7 @@ const Employees = () => {
             </div>
           ) : (
             <div>
-              <Button text="Yes" type="delete" handler={delEmployee(idToDelete)} />
+              <Button text="Yes" type="delete" handler={delEmployee} />
               <Button text="No" handler={closeModal} />
             </div>
           )}

@@ -50,8 +50,8 @@ const Table = ({ data, column, deleteItem, editItem }) => {
             key={index}
             item={item}
             deleteItem={deleteItem}
-            editItem={editItem}
             column={column}
+            editItem={editItem}
           />
         ))}
       </tbody>
