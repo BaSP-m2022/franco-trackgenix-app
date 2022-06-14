@@ -3,10 +3,12 @@ import { createStore, applyMiddleware, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
 import { employeesReducer } from './employees/reducer';
 import { superAdminsReducer } from './superAdmins/reducer';
+import { projectsReducer } from './projects/reducer';
 
 const rootReducer = combineReducers({
   employees: employeesReducer,
-  superAdmins: superAdminsReducer
+  superAdmins: superAdminsReducer,
+  projects: projectsReducer
 });
 
 const configureStore = () => {
