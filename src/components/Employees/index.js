@@ -41,7 +41,9 @@ const Employees = () => {
   };
 
   useEffect(() => {
-    dispatch(getEmployees());
+    if (!employees.length) {
+      dispatch(getEmployees());
+    }
     if (error) {
       openModal();
     }
@@ -94,14 +96,12 @@ const Employees = () => {
         <Button text="Add new employee" link={'/employees/form'} />
         <Search searchQuery={search} setSearchQuery={setSearchQuery} placeholder="Search by ID" />
       </div>
-      {
-        <Table
-          data={search.length ? filteredList : employees}
-          deleteItem={buttonDelete}
-          column={column}
-          editItem={handleSetEmployee}
-        />
-      }
+      <Table
+        data={search.length ? filteredList : employees}
+        deleteItem={buttonDelete}
+        column={column}
+        editItem={handleSetEmployee}
+      />
     </section>
   );
 };
