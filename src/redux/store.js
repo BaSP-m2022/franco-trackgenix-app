@@ -5,12 +5,14 @@ import { employeesReducer } from './employees/reducer';
 import { superAdminsReducer } from './superAdmins/reducer';
 import { projectsReducer } from './projects/reducer';
 import { adminsReducer } from './admins/reducer';
+import { timeSheetsReducer } from './timeSheets/reducer';
 
 const rootReducer = combineReducers({
   employees: employeesReducer,
   superAdmins: superAdminsReducer,
   projects: projectsReducer,
-  admins: adminsReducer
+  admins: adminsReducer,
+  timeSheets: timeSheetsReducer
 });
 
 const configureStore = () => {
