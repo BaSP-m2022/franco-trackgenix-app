@@ -89,6 +89,6 @@ export const postAdminError = (error) => {
 
 export const clearError = () => {
   return {
-    type: CONSTANTS.CLEAR_ADMIN
+    type: CONSTANTS.CLEAR_ERROR
   };
 };

@@ -15,4 +15,4 @@ export const ADD_ADMIN_LOADING = 'ADD_ADMIN_LOADING';
 export const ADD_ADMIN_SUCCESS = 'ADD_ADMIN_SUCCESS';
 export const ADD_ADMIN_ERROR = 'ADD_ADMIN_ERROR';
 
-export const CLEAR_ADMIN = 'CLEAR_ADMIN';
+export const CLEAR_ERROR = 'CLEAR_ERROR';
