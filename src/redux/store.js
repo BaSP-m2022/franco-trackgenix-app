@@ -4,11 +4,15 @@ import thunk from 'redux-thunk';
 import { employeesReducer } from './employees/reducer';
 import { superAdminsReducer } from './superAdmins/reducer';
 import { timeSheetsReducer } from './timeSheets/reducer';
+import { projectsReducer } from './projects/reducer';
+import { adminsReducer } from './admins/reducer';
 
 const rootReducer = combineReducers({
   employees: employeesReducer,
   superAdmins: superAdminsReducer,
-  timeSheets: timeSheetsReducer
+  timeSheets: timeSheetsReducer,
+  projects: projectsReducer,
+  admins: adminsReducer
 });
 
 const configureStore = () => {

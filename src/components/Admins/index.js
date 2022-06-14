@@ -1,21 +1,28 @@
-import styles from './admins.module.css';
 import { useState, useEffect } from 'react';
-
+import { useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAdmins, deleteAdmin } from '../../redux/admins/thunks';
+import { setAdmin } from '../../redux/admins/actions';
 import Table from '../Shared/Table';
 import LoadingScreen from '../Shared/LoadingScreen';
 import Modal from '../Shared/Modal';
 import Button from '../Shared/Button';
 import Search from '../Shared/Search-bar';
+import styles from './admins.module.css';
 
 const Admins = () => {
-  const [data, setData] = useState([]);
-  const [untouchedData, setUntouchedData] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
-  const [deleteId, setDeleteId] = useState('');
-  const [searchQuery, setSearchQuery] = useState('');
+  const history = useHistory();
 
-  const URL = `${process.env.REACT_APP_API_URL}/admins`;
+  const dispatch = useDispatch();
+
+  const admins = useSelector((state) => state.admins.list);
+  const loading = useSelector((state) => state.admins.loading);
+  const error = useSelector((state) => state.admins.error);
+
+  const [isOpen, setIsOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [adminId, setAdminId] = useState('');
+  const [filteredList, setFilteredList] = useState(admins);
 
   const column = [
     { heading: 'First name', value: 'firstName' },
@@ -25,81 +32,91 @@ const Admins = () => {
   ];
 
   useEffect(() => {
-    async function fetchAdmins() {
-      try {
-        setLoading(true);
-        const response = await fetch(`${URL}`);
-        const { message, data, error } = await response.json();
-        if (!error) {
-          setBothDatas(data);
-        } else {
-          throw new Error(message);
-        }
-      } catch (error) {
-        console.log('error', error);
-      } finally {
-        setLoading(false);
-      }
+    if (!admins.length) {
+      dispatch(getAdmins());
     }
-    fetchAdmins();
-  }, []);
+    if (error) {
+      openModal();
+    }
+  }, [error]);
 
-  function handleDeleteAdmin(id) {
-    setDeleteId(id);
+  useEffect(() => {
+    setFilteredList(
+      admins.filter((item) => item.firstName.toLowerCase().includes(searchQuery.toLowerCase()))
+    );
+  }, [admins, searchQuery]);
+
+  const handleSetAdmin = (id) => {
+    dispatch(setAdmin(id));
+    history.push('/admins/form');
+  };
+
+  const buttonDelete = (id) => {
+    setAdminId(id);
+    openModal();
+  };
+
+  const openModal = () => {
     setIsOpen(true);
-  }
+  };
 
-  function setBothDatas(data) {
-    setData(data);
-    setUntouchedData(data);
-  }
+  const closeModal = () => {
+    setIsOpen(false);
+  };
 
-  function search(value) {
-    setSearchQuery(value);
-    const result = untouchedData.filter((employee) => employee._id.includes(value));
-    setData(result);
-  }
-
-  async function deleteAdmin(id) {
-    const response = await fetch(`${URL}/${id}`, { method: 'DELETE' });
-    const responseJson = await response.json();
-    if (responseJson.error) {
-      alert('error');
-    } else {
-      setBothDatas(data.filter((item) => item._id !== id));
-      setIsOpen(false);
-    }
+  if (loading) {
+    return (
+      <div className={styles.loading}>
+        <LoadingScreen />
+      </div>
+    );
   }
 
   return (
     <section className={styles.container}>
-      {loading ? (
+      <Modal modalTitle={'Admins'} isOpen={isOpen} handleClose={closeModal}>
+        <p>{error ? error : 'Are you sure to delete an admin?'}</p>
         <div>
-          <LoadingScreen />
-        </div>
-      ) : (
-        <>
-          <Modal
-            modalTitle="Admin Delete"
-            isOpen={isOpen}
-            handleClose={() => {
-              setIsOpen(!isOpen);
-            }}
-          >
+          {error ? (
             <div>
-              <p>Are you sure you want to delete admin?</p>
+              <Button text="Close" handler={closeModal} />
             </div>
-            <Button text="Yes" type="delete" handler={() => deleteAdmin(deleteId)} />
-            <Button text="No" handler={() => setIsOpen(false)} />
-          </Modal>
-          <h2>Admins</h2>
-          <div className={styles.buttonContainer}>
-            <Button text="Add Admin" link={'/admins/form'} />
-            <Search placeholder="Search admin" searchQuery={searchQuery} setSearchQuery={search} />
-          </div>
-          <Table data={data} column={column} deleteItem={handleDeleteAdmin} entity="admins" />
-        </>
-      )}
+          ) : (
+            <div>
+              <Button
+                text="Yes"
+                type="delete"
+                handler={() => {
+                  dispatch(deleteAdmin(adminId));
+                  closeModal();
+                }}
+              />
+              <Button text="No" handler={closeModal} />
+            </div>
+          )}
+        </div>
+      </Modal>
+      <h2>Admins</h2>
+      <div className={styles.buttonContainer}>
+        <Button
+          text={'Add Admin'}
+          handler={() => {
+            dispatch(setAdmin());
+            history.push('/admins/form');
+          }}
+        />
+        <Search
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+          placeholder={'Search by first name'}
+        />
+      </div>
+      <Table
+        data={searchQuery.length ? filteredList : admins}
+        column={column}
+        deleteItem={buttonDelete}
+        editItem={handleSetAdmin}
+      />
     </section>
   );
 };
