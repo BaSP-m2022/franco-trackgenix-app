@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getTasks, deleteTask } from '../../redux/tasks/thunks';
+import { setTask } from '../../redux/tasks/actions';
 import Table from '../Shared/Table';
 import LoadingScreen from '../Shared/LoadingScreen';
 import Modal from '../Shared/Modal';
@@ -40,10 +41,13 @@ const Tasks = () => {
   }, [error]);
 
   useEffect(() => {
-    setFilteredList(tasks.filter((item) => item._id.includes(searchQuery)));
+    setFilteredList(
+      tasks.filter((item) => item.description.toLowerCase().includes(searchQuery.toLowerCase()))
+    );
   }, [tasks, searchQuery]);
 
-  const handleSetTask = () => {
+  const handleSetTask = (id) => {
+    dispatch(setTask(id));
     history.push('/tasks/form');
   };
 
@@ -74,7 +78,7 @@ const Tasks = () => {
         modalTitle={'Tasks'}
         isOpen={isOpen}
         handleClose={() => {
-          openModal();
+          closeModal();
         }}
       >
         <p>{error ? error : 'Are you sure to delete a Task?'}</p>
@@ -103,6 +107,7 @@ const Tasks = () => {
         <Button
           text={'Add Task'}
           handler={() => {
+            dispatch(setTask());
             history.push('/tasks/form');
           }}
         />

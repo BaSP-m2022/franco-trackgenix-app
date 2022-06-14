@@ -49,6 +49,12 @@ export const tasksReducer = (state = initialStore, actions) => {
         ...state,
         error: ''
       };
+    case CONSTANTS.SET_TASK:
+      return {
+        ...state,
+        task: actions.payload ? state.list.find((task) => task._id === actions.payload) : {},
+        loading: false
+      };
 
     default:
       return state;

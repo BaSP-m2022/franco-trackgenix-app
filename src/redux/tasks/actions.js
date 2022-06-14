@@ -39,3 +39,10 @@ export const deleteTaskError = (error) => {
     payload: error
   };
 };
+
+export const setTask = (data) => {
+  return {
+    type: CONSTANTS.SET_TASK,
+    payload: data
+  };
+};
