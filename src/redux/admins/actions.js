@@ -86,9 +86,3 @@ export const postAdminError = (error) => {
     payload: error
   };
 };
-
-export const cleanAdmin = () => {
-  return {
-    type: CONSTANTS.CLEAN_ADMIN
-  };
-};

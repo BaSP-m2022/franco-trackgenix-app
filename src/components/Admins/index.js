@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAdmins, deleteAdmin } from '../../redux/admins/thunks';
-import { cleanAdmin, setAdmin } from '../../redux/admins/actions';
+import { setAdmin } from '../../redux/admins/actions';
 import Table from '../Shared/Table';
 import LoadingScreen from '../Shared/LoadingScreen';
 import Modal from '../Shared/Modal';
@@ -102,7 +102,7 @@ const Admins = () => {
         <Button
           text={'Add Admin'}
           handler={() => {
-            dispatch(cleanAdmin());
+            dispatch(setAdmin());
             history.push('/admins/form');
           }}
         />
