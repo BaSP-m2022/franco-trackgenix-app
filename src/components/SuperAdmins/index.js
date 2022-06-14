@@ -1,101 +1,128 @@
-import { useEffect, useState } from 'react';
-import styles from './super-admins.module.css';
+import { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { getSuperAdmins, deleteSuperAdmin } from '../../redux/superAdmins/thunks';
+import { setSuperAdmin } from '../../redux/superAdmins/actions';
 import Table from '../Shared/Table';
 import LoadingScreen from '../Shared/LoadingScreen';
 import Modal from '../Shared/Modal';
 import Button from '../Shared/Button';
 import Search from '../Shared/Search-bar';
+import styles from './super-admins.module.css';
 
-function SuperAdmins() {
-  const [dataTable, setDataTable] = useState([]);
-  const [untouchedData, setUntouchedData] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [toBeDeleted, setToBeDeleted] = useState('');
+const SuperAdmins = () => {
+  const history = useHistory();
+  const dispatch = useDispatch();
+
+  const superAdmins = useSelector((state) => state.superAdmins.list);
+  const loading = useSelector((state) => state.superAdmins.loading);
+  const error = useSelector((state) => state.superAdmins.error);
+
   const [isOpen, setIsOpen] = useState(false);
-  const entity = 'super-admins';
-  const [search, setSearch] = useState();
+  const [searchQuery, setSearchQuery] = useState('');
+  const [superAdminId, setSuperAdminId] = useState('');
+  const [filteredList, setFilteredList] = useState(superAdmins);
 
-  const setSearchQuery = (value) => {
-    setSearch(value);
-    setDataTable(
-      untouchedData.filter((superAdmin) =>
-        superAdmin.firstName.toLowerCase().includes(value.toLowerCase())
-      )
+  const column = [
+    { heading: 'First name', value: 'firstName' },
+    { heading: 'Last name', value: 'lastName' },
+    { heading: 'Email', value: 'email' },
+    { heading: 'Id', value: '_id' }
+  ];
+
+  useEffect(() => {
+    if (!superAdmins.length) {
+      dispatch(getSuperAdmins());
+    }
+    if (error) {
+      openModal();
+    }
+  }, [error]);
+
+  useEffect(() => {
+    setFilteredList(
+      superAdmins.filter((item) => item.firstName.toLowerCase().includes(searchQuery.toLowerCase()))
     );
+  }, [superAdmins, searchQuery]);
+
+  const handleSetSuperAdmin = (id) => {
+    dispatch(setSuperAdmin(id));
+    history.push('/super-admins/form');
   };
 
-  const openModal = (id) => {
-    setToBeDeleted(id);
+  const buttonDelete = (id) => {
+    setSuperAdminId(id);
+    openModal();
+  };
+
+  const openModal = () => {
     setIsOpen(true);
   };
 
-  useEffect(async () => {
-    try {
-      setLoading(true);
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/super-admins`);
-      const data = await response.json();
-      setDataTable(data.data);
-      setUntouchedData(data.data);
-      setLoading(false);
-    } catch (error) {
-      console.error(error);
-    }
-  }, []);
-
-  const deleteSuperAdmin = async (id) => {
-    setLoading(true);
-    const response = await fetch(`${process.env.REACT_APP_API_URL}/super-admins/${id}`, {
-      method: 'DELETE'
-    });
-    const res = await response.json();
-    if (res.data.error) {
-      setIsOpen(false);
-      setLoading(false);
-    } else {
-      setDataTable([...dataTable.filter((admin) => admin._id !== id)]);
-      setIsOpen(false);
-      setLoading(false);
-    }
+  const closeModal = () => {
+    setIsOpen(false);
   };
 
-  const column = [
-    { heading: 'Id', value: '_id' },
-    { heading: 'First Name', value: 'firstName' },
-    { heading: 'Last Name', value: 'lastName' },
-    { heading: 'Email', value: 'email' }
-  ];
   if (loading) {
     return (
       <div className={styles.loadingDiv}>
-        <LoadingScreen />;
+        <LoadingScreen />
       </div>
     );
   }
   return (
     <section className={styles.containerSuperAdmin}>
       <Modal
+        modalTitle={'Super Admins'}
         isOpen={isOpen}
-        handleClose={() => setIsOpen(!isOpen)}
-        modalTitle={'Delete Super Admin'}
+        handleClose={() => {
+          openModal();
+        }}
       >
-        <p>Do you Wish to delete the Super Admin?</p>
+        <p>{error ? error : 'Are you sure to delete a Super Admin?'}</p>
         <div>
-          <Button type={'delete'} handler={() => deleteSuperAdmin(toBeDeleted)} text={'Yes'} />
-          <Button handler={() => setIsOpen(!isOpen)} text={'No'} />
+          {error ? (
+            <div>
+              <Button text="Close" handler={closeModal} />
+            </div>
+          ) : (
+            <div>
+              <Button
+                text="Yes"
+                type="delete"
+                handler={() => {
+                  dispatch(deleteSuperAdmin(superAdminId));
+                  closeModal();
+                }}
+              />
+              <Button text="No" handler={closeModal} />
+            </div>
+          )}
         </div>
       </Modal>
       <h2>Super Admins</h2>
       <div className={styles.btnSearchDiv}>
-        <Button link={'/super-admins/form'} text={'Add Super Admin'} />
+        <Button
+          text={'Add Super Admin'}
+          handler={() => {
+            dispatch(setSuperAdmin());
+            history.push('/super-admins/form');
+          }}
+        />
         <Search
-          searchQuery={search}
+          searchQuery={searchQuery}
           setSearchQuery={setSearchQuery}
-          placeholder={'Insert Super Admin Name'}
+          placeholder={'Search by first name'}
         />
       </div>
-      <Table data={dataTable} column={column} deleteItem={openModal} entity={entity} />
+      <Table
+        data={searchQuery.length ? filteredList : superAdmins}
+        column={column}
+        deleteItem={buttonDelete}
+        editItem={handleSetSuperAdmin}
+      />
     </section>
   );
-}
+};
 
 export default SuperAdmins;

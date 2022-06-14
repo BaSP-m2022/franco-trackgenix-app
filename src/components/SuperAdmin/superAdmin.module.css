@@ -1,37 +1,60 @@
-.loadingDiv {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  min-height: 100vh;
-  margin-left: 30%;
-}
-
-.sectionSuperAdmin {
+.container{
   flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  margin-top: 6%;
-  margin-right: 28%;
-  padding: 0 20% 10% 20%;
+  padding: 0 20% 10% 0;
+  margin-top: 75px;
 }
-.sectionSuperAdmin h2 {
+.a{
+  display: inline-block;
+  text-decoration: none;
+  color: #000;
+  cursor: pointer;
+  padding: 5px 10px;
+  margin-bottom: 20px;
+}
+.a:hover {
+  text-decoration: underline;
+background-color: #f1f1f1;
+}
+.a:link {
+    text-decoration: inherit;
+    color: inherit;
+}
+.a:visited {
+    text-decoration: inherit;
+    color: inherit;
+}
+.h3{
+  color: #373867;
   display: block;
   margin: 15px 20px;
   font-size: 1.5em;
   font-weight: bold;
-  color: #2f2f31;
 }
-.form {
+.form{
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-
-.superAdminDiv {
+.buttonContainer{
+  width: 100%;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  padding: 0 25px;
+}
+.error{
+  color: red;
+  font-size: 16px;
+  margin-right: 25px;
+}
+.inputs{
+  display: flex;
+  flex-direction: column;
+}
+.message{
+  text-align: center;
 }
