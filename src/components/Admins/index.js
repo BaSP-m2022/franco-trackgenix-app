@@ -40,6 +40,12 @@ const Admins = () => {
     }
   }, [error]);
 
+  useEffect(() => {
+    setFilteredList(
+      admins.filter((item) => item.firstName.toLowerCase().includes(searchQuery.toLowerCase()))
+    );
+  }, [admins, searchQuery]);
+
   const handleSetAdmin = (id) => {
     dispatch(setAdmin(id));
     history.push('/admins/form');
@@ -48,13 +54,6 @@ const Admins = () => {
   const buttonDelete = (id) => {
     setAdminId(id);
     openModal();
-  };
-
-  const search = (value) => {
-    setSearchQuery(value);
-    setFilteredList(
-      admins.filter((item) => item.firstName.toLowerCase().includes(value.toLowerCase()))
-    );
   };
 
   const openModal = () => {
@@ -108,7 +107,7 @@ const Admins = () => {
         />
         <Search
           searchQuery={searchQuery}
-          setSearchQuery={search}
+          setSearchQuery={setSearchQuery}
           placeholder={'Search by first name'}
         />
       </div>

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { postAdmin, putAdmin } from '../../redux/admins/thunks';
+import { clearError } from '../../redux/admins/actions';
 import Input from '../Shared/Input';
 import Button from '../Shared/Button';
 import Modal from '../Shared/Modal';
@@ -113,7 +114,13 @@ const AdminForm = () => {
           />
         </div>
         <div className={styles.buttonContainer}>
-          <Button text="Return" handler={routeChange} />
+          <Button
+            text="Return"
+            handler={() => {
+              dispatch(clearError());
+              routeChange();
+            }}
+          />
           <Button handler={handleSubmit} text={requestType === 'PUT' ? 'Update' : 'Save'} />
           <Modal modalTitle={error ? 'error' : modalTitle} isOpen={isOpen} handleClose={closeModal}>
             <p className={styles.message}>{error ? error : modalText}</p>

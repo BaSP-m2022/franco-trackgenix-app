@@ -86,3 +86,9 @@ export const postAdminError = (error) => {
     payload: error
   };
 };
+
+export const clearError = () => {
+  return {
+    type: CONSTANTS.CLEAR_ADMIN
+  };
+};

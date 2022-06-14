@@ -95,6 +95,12 @@ export const adminsReducer = (state = initialStore, actions) => {
         loading: false
       };
 
+    case CONSTANTS.CLEAR_ADMIN:
+      return {
+        ...state,
+        error: ''
+      };
+
     default:
       return state;
   }
