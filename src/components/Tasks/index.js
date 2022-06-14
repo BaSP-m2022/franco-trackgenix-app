@@ -114,7 +114,7 @@ const Tasks = () => {
         <Search
           searchQuery={searchQuery}
           setSearchQuery={setSearchQuery}
-          placeholder={'Search by Id'}
+          placeholder={'Search by description'}
         />
       </div>
       <Table
