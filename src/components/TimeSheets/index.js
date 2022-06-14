@@ -42,14 +42,6 @@ const TimeSheets = () => {
     }
   }, [error]);
 
-  /*useEffect(() => {
-    setFilteredList(
-      tiImeSheets.filter((item) =>
-        item.employeeId._d.toLowerCase().includes(searchQuery.toLowerCase())
-      )
-    );
-  }, [timeSheets, searchQuery]);*/
-
   useEffect(() => {
     setFilteredList(timeSheets);
   }, [timeSheets, searchQuery]);
