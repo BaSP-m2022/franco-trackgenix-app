@@ -93,7 +93,13 @@ const Employees = () => {
         </div>
       </Modal>
       <div className={styles.addEmployee}>
-        <Button text="Add new employee" link={'/employees/form'} />
+        <Button
+          text="Add new employee"
+          handler={() => {
+            dispatch(setEmployee());
+            history.push('/employees/form');
+          }}
+        />
         <Search searchQuery={search} setSearchQuery={setSearchQuery} placeholder="Search by ID" />
       </div>
       <Table

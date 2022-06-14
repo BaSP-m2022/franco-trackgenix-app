@@ -6,6 +6,7 @@ import LoadingScreen from '../Shared/LoadingScreen';
 import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { cleanError } from '../../redux/employees/actions';
 import { addEmployee, putEmployee } from '../../redux/employees/thunks';
 
 const EmployeeForm = () => {
@@ -132,7 +133,13 @@ const EmployeeForm = () => {
           />
         </div>
         <div className={styles.buttonContainer}>
-          <Button text="Return" handler={routeChange} />
+          <Button
+            text="Return"
+            handler={() => {
+              dispatch(cleanError());
+              routeChange();
+            }}
+          />
           <Button
             text={!loading && requestType === 'POST' ? 'Add Employee' : 'Update Employee'}
             handler={handleSubmit}

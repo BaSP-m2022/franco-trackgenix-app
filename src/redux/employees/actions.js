@@ -86,3 +86,9 @@ export const addEmployeeSuccess = (data) => {
     payload: data
   };
 };
+
+export const cleanError = () => {
+  return {
+    type: CONSTANTS.CLEAN_ERROR
+  };
+};
