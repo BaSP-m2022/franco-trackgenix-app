@@ -1,6 +1,8 @@
 import styles from './time-sheets.module.css';
 import { useState, useEffect } from 'react';
-
+import { useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { getTimeSheets, deleteTimeSheet } from '../../redux/timeSheets/thunks';
 import Table from '../Shared/Table';
 import LoadingScreen from '../Shared/LoadingScreen';
 import Modal from '../Shared/Modal';
@@ -8,14 +10,17 @@ import Button from '../Shared/Button';
 import Search from '../Shared/Search-bar';
 
 const TimeSheets = () => {
-  const [data, setData] = useState([]);
-  const [untouchedData, setUntouchedData] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const history = useHistory();
+  const dispatch = useDispatch();
+
+  const timeSheets = useSelector((state) => state.timeSheets.list);
+  const loading = useSelector((state) => state.timeSheets.loading);
+  const error = useSelector((state) => state.timeSheets.error);
+
   const [isOpen, setIsOpen] = useState(false);
   const [deleteId, setDeleteId] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
-
-  const URL = `${process.env.REACT_APP_API_URL}/time-sheets`;
+  const [filteredList, setFilteredList] = useState(timeSheets);
 
   const column = [
     { heading: 'First name', value: 'employeeId.firstName' },
@@ -29,56 +34,42 @@ const TimeSheets = () => {
   ];
 
   useEffect(() => {
-    async function fetchAdmins() {
-      try {
-        setLoading(true);
-        const response = await fetch(`${URL}`);
-        const { message, data, error } = await response.json();
-        if (!error) {
-          setBothDatas(data);
-        } else {
-          throw new Error(message);
-        }
-      } catch (error) {
-        console.log('error', error);
-      } finally {
-        setLoading(false);
-      }
+    if (!timeSheets.length) {
+      dispatch(getTimeSheets());
     }
-    fetchAdmins();
-  }, []);
+    if (error) {
+      openModal();
+    }
+  }, [error]);
 
-  function handleDeleteTimesheet(id) {
-    setDeleteId(id);
-    setIsOpen(true);
-  }
-
-  function setBothDatas(data) {
-    setData(data);
-    setUntouchedData(data);
-  }
-
-  function searchByLastName(value) {
-    setSearchQuery(value);
-    console.log(untouchedData);
-    const result = untouchedData.filter((item) =>
-      item.employeeId.lastName.toString().toLowerCase().includes(value.toString().toLowerCase())
+  /*useEffect(() => {
+    setFilteredList(
+      tiImeSheets.filter((item) =>
+        item.employeeId._d.toLowerCase().includes(searchQuery.toLowerCase())
+      )
     );
-    setData(result);
+  }, [timeSheets, searchQuery]);*/
+
+  useEffect(() => {
+    setFilteredList(timeSheets);
+  }, [timeSheets, searchQuery]);
+
+  const handleSetTimeSheet = () => {
+    history.push('/time-sheet/form');
+  };
+
+  function buttonDelete(id) {
+    setDeleteId(id);
+    openModal();
   }
 
-  async function deleteTimesheet(id) {
-    setLoading(true);
-    const response = await fetch(`${URL}/${id}`, { method: 'DELETE' });
-    const responseJson = await response.json();
-    if (responseJson.error) {
-      alert('error');
-    } else {
-      setBothDatas(data.filter((item) => item._id !== id));
-      setIsOpen(false);
-    }
-    setLoading(false);
-  }
+  const openModal = () => {
+    setIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsOpen(false);
+  };
 
   return (
     <section className={styles.container}>
@@ -89,17 +80,32 @@ const TimeSheets = () => {
       ) : (
         <>
           <Modal
-            modalTitle="Timesheet delete"
+            modalTitle={'Time Sheets'}
             isOpen={isOpen}
             handleClose={() => {
-              setIsOpen(!isOpen);
+              openModal();
             }}
           >
+            <p>{error ? error : 'Are you sure to delete a Time Sheet?'}</p>
             <div>
-              <p>Are you sure you want to delete timesheet?</p>
+              {error ? (
+                <div>
+                  <Button text="Close" handler={closeModal} />
+                </div>
+              ) : (
+                <div>
+                  <Button
+                    text="Yes"
+                    type="delete"
+                    handler={() => {
+                      dispatch(deleteTimeSheet(deleteId));
+                      closeModal();
+                    }}
+                  />
+                  <Button text="No" handler={closeModal} />
+                </div>
+              )}
             </div>
-            <Button text="Go back" handler={() => setIsOpen(false)} />
-            <Button text="Delete" type="delete" handler={() => deleteTimesheet(deleteId)} />
           </Modal>
           <h2>Timesheets</h2>
           <div className={styles.buttonContainer}>
@@ -107,14 +113,14 @@ const TimeSheets = () => {
             <Search
               placeholder="Search by last name"
               searchQuery={searchQuery}
-              setSearchQuery={searchByLastName}
+              setSearchQuery={setSearchQuery}
             />
           </div>
           <Table
-            data={data}
+            data={searchQuery.length ? filteredList : timeSheets}
             column={column}
-            deleteItem={handleDeleteTimesheet}
-            entity="time-sheets"
+            deleteItem={buttonDelete}
+            editItem={handleSetTimeSheet}
           />
         </>
       )}
