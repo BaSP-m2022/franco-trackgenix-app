@@ -101,7 +101,7 @@ export const employeesReducer = (state = initialStore, actions) => {
         error: actions.payload,
         loading: false
       };
-    case CONSTANTS.CLEAN_ERROR:
+    case CONSTANTS.CLEAR_ERROR:
       return {
         ...state,
         error: ''

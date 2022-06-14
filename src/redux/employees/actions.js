@@ -87,8 +87,8 @@ export const addEmployeeSuccess = (data) => {
   };
 };
 
-export const cleanError = () => {
+export const clearError = () => {
   return {
-    type: CONSTANTS.CLEAN_ERROR
+    type: CONSTANTS.CLEAR_ERROR
   };
 };

@@ -18,7 +18,7 @@ const Employees = () => {
   const error = useSelector((state) => state.employees.error);
   const [isOpen, setIsOpen] = useState(false);
   const [idToDelete, setIdToDelete] = useState();
-  const [search, setSearch] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
   const [filteredList, setFilteredList] = useState(employees);
 
   const column = [
@@ -49,14 +49,17 @@ const Employees = () => {
     }
   }, [error]);
 
+  useEffect(() => {
+    setFilteredList(
+      employees.filter((employee) =>
+        employee.firstName.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+    );
+  }, [employees, searchQuery]);
+
   const delEmployee = () => {
     dispatch(deleteEmployee(idToDelete));
     closeModal();
-  };
-
-  const setSearchQuery = (value) => {
-    setSearch(value);
-    setFilteredList(employees.filter((employee) => employee._id.includes(search)));
   };
 
   const openModal = () => {
@@ -100,10 +103,14 @@ const Employees = () => {
             history.push('/employees/form');
           }}
         />
-        <Search searchQuery={search} setSearchQuery={setSearchQuery} placeholder="Search by ID" />
+        <Search
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+          placeholder={'Search by first name'}
+        />
       </div>
       <Table
-        data={search.length ? filteredList : employees}
+        data={searchQuery.length ? filteredList : employees}
         deleteItem={buttonDelete}
         column={column}
         editItem={handleSetEmployee}
