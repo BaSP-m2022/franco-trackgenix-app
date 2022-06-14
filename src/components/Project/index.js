@@ -6,6 +6,10 @@ import Modal from '../Shared/Modal';
 import LoadingScreen from '../Shared/LoadingScreen';
 import Select from '../Shared/SelectDropdown';
 import { useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { clearError } from '../../redux/projects/actions';
+import { postProject, putProject } from '../../redux/projects/thunks';
+import { getEmployees } from '../../redux/employees/thunks';
 
 function EmployeeItem({ employee }) {
   return (
@@ -18,6 +22,13 @@ function EmployeeItem({ employee }) {
 }
 
 function ProjectForm() {
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const employees = useSelector((state) => state.employees.list);
+  const project = useSelector((state) => state.projects.project);
+  const loading = useSelector((state) => state.projects.isLoading);
+  const error = useSelector((state) => state.projects.error);
+
   const [nameValue, setNameValue] = useState('');
   const [statusValue, setStatusValue] = useState('');
   const [descriptionValue, setDescriptionValue] = useState('');
@@ -29,12 +40,11 @@ function ProjectForm() {
   const [rateValue, setRateValue] = useState('');
   const [roleValue, setRoleValue] = useState('');
   const [employeesValue, setEmployeesValue] = useState([]);
+  const [requestType, setRequestType] = useState('POST');
 
   const [msg, setMsg] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const [modalTitle, setModalTitle] = useState('Add Project');
-  const [redirect, setRedirect] = useState(false);
-  const [loading, setLoading] = useState(false);
   const [buttonText, setButtonText] = useState('Add Project');
 
   const onChangeEmployeeIdInput = (event) => {
@@ -54,107 +64,70 @@ function ProjectForm() {
     }
   };
 
-  useEffect(async () => {
-    try {
-      const params = new URLSearchParams(window.location.search);
-      const projectId = params.get('id');
-      if (projectId) {
-        const data = await fetch(`${process.env.REACT_APP_API_URL}/projects/${projectId}`);
-        const projectFetch = await data.json();
-        let startDate = projectFetch.data.startDate.slice(0, 10);
-        let endDate = projectFetch.data.endDate ? projectFetch.data.endDate.slice(0, 10) : '';
-        setNameValue(projectFetch.data.name);
-        setStatusValue(projectFetch.data.status);
-        setDescriptionValue(projectFetch.data.description);
-        setStartDateValue(startDate);
-        setEndDateValue(endDate);
-        setTitle('Edit Project');
-        setButtonText('Update Project');
-        const dataEmployees = await fetch(`${process.env.REACT_APP_API_URL}/employees/`);
-        const employees = await dataEmployees.json();
-        employees.data.map((employee) => {
-          if (
-            projectFetch.data.employees != [] &&
-            projectFetch.data.employees[0].employeeId._id === employee._id
-          ) {
-            let ep = [];
-            for (let i = 0; i < projectFetch.data.employees.length; i++) {
-              ep.push({
-                employeeId: employee._id,
-                rate: projectFetch.data.employees[i].rate,
-                role: projectFetch.data.employees[i].role
-              });
-            }
-            setEmployeesValue(ep);
-          }
-        });
-      }
-      const data = await fetch(`${process.env.REACT_APP_API_URL}/employees/`);
-      const employees = await data.json();
-      const newEmployees = employees.data.map((employee) => {
-        return {
-          label: `${employee.firstName} ${employee.lastName}`,
-          value: employee._id
-        };
-      });
-      setEmployeeOptions(newEmployees);
-    } catch (error) {
-      console.error(error);
-    }
+  useEffect(() => {
+    dispatch(getEmployees());
   }, []);
+
+  useEffect(() => {
+    if (typeof project === 'object' && project._id) {
+      let startDate = project.startDate.slice(0, 10);
+      let endDate = project.endDate ? project.endDate.slice(0, 10) : '';
+      setNameValue(project.name);
+      setStatusValue(project.status);
+      setDescriptionValue(project.description);
+      setStartDateValue(startDate);
+      setEndDateValue(endDate);
+      setRequestType('PUT');
+      setTitle('Edit Project');
+      setButtonText('Update Project');
+      console.log(employees);
+      console.log(project);
+      employees.map((employee) => {
+        if (project.employees != [] && project.employees[0].employeeId === employee._id) {
+          let ep = [];
+          for (let i = 0; i < project.employees.length; i++) {
+            ep.push({
+              employeeId: employee._id,
+              rate: project.employees[i].rate,
+              role: project.employees[i].role
+            });
+          }
+          setEmployeesValue(ep);
+        }
+      });
+    }
+    const newEmployees = employees.map((employee) => {
+      return {
+        label: `${employee.firstName} ${employee.lastName}`,
+        value: employee._id
+      };
+    });
+    setEmployeeOptions(newEmployees);
+  }, [error]);
 
   const onSubmit = async (event) => {
     event.preventDefault();
-    setLoading(true);
-    let url = `${process.env.REACT_APP_API_URL}/projects/`;
-    const options = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        name: nameValue,
-        status: statusValue,
-        description: descriptionValue,
-        employees: employeesValue,
-        startDate: startDateValue,
-        endDate: endDateValue
-      })
+    const body = {
+      name: nameValue,
+      status: statusValue,
+      description: descriptionValue,
+      employees: employeesValue,
+      startDate: startDateValue,
+      endDate: endDateValue
     };
-
-    const params = new URLSearchParams(window.location.search);
-    const projectId2 = params.get('id');
-
-    if (projectId2) {
-      options.method = 'PUT';
-      url = `${process.env.REACT_APP_API_URL}/projects/${projectId2}`;
-    }
-    try {
-      const response = await fetch(url, options);
-      const data = await response.json();
-      setLoading(false);
-      if (response.status === 200 || response.status === 201) {
-        if (options.method === 'POST') {
-          setMsg('The Projects was created.');
-          setIsOpen(true);
-          setRedirect(true);
-        } else {
-          setMsg('The project was edited');
-          setModalTitle('Edit Project');
-          setIsOpen(true);
-          setRedirect(true);
-        }
-      } else {
-        setMsg(data.message);
-        setIsOpen(true);
-        setRedirect(false);
-      }
-    } catch (error) {
-      console.error(error);
+    if (requestType === 'PUT') {
+      dispatch(putProject(project._id, body));
+      setModalTitle('Project updated');
+      setMsg('Project updated successfully!');
+      setIsOpen(true);
+    } else {
+      dispatch(postProject(body));
+      setModalTitle('Project created');
+      setMsg('Project created successfully!');
+      setIsOpen(true);
     }
   };
 
-  const history = useHistory();
   const routeChange = () => {
     let path = `/projects`;
     history.push(path);
@@ -169,7 +142,15 @@ function ProjectForm() {
         <Modal modalTitle={modalTitle} isOpen={isOpen} handleClose={() => setIsOpen(!isOpen)}>
           <p>{msg}</p>
           <div>
-            <Button text="OK" handler={redirect ? routeChange : () => setIsOpen(!isOpen)} />
+            <Button
+              text="OK"
+              handler={() => {
+                setIsOpen(!isOpen);
+                if (!error) {
+                  routeChange();
+                }
+              }}
+            />
           </div>
         </Modal>
         <h2 className={styles.h2}>{title}</h2>
@@ -269,7 +250,13 @@ function ProjectForm() {
             </div>
           </div>
           <div>
-            <Button text="Return" handler={routeChange} />
+            <Button
+              text="Return"
+              handler={() => {
+                dispatch(clearError());
+                routeChange();
+              }}
+            />
             <Button text={buttonText} handler={onSubmit} />
           </div>
         </form>

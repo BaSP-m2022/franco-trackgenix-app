@@ -50,10 +50,54 @@ export const projectsReducer = (state = initialStore, actions) => {
     case CONSTANTS.SET_PROJECT:
       return {
         ...state,
-        employee: actions.payload
-          ? state.list.find((employee) => employee._id === actions.payload)
+        project: actions.payload
+          ? state.list.find((project) => project._id === actions.payload)
           : {},
         loading: false
+      };
+    case CONSTANTS.ADD_PROJECT_LOADING:
+      return {
+        ...state,
+        isLoading: true
+      };
+    case CONSTANTS.ADD_PROJECT_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        list: [...state.list, actions.payload],
+        error: '',
+        project: actions.payload
+      };
+    case CONSTANTS.ADD_PROJECT_ERROR:
+      return {
+        ...state,
+        isLoading: false,
+        error: actions.error
+      };
+    case CONSTANTS.PUT_PROJECT_LOADING:
+      return {
+        ...state,
+        isLoading: true
+      };
+    case CONSTANTS.PUT_PROJECT_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        error: '',
+        list: state.list.map((projects) => {
+          return projects._id === actions.payload._id ? actions.payload : projects;
+        })
+      };
+    case CONSTANTS.PUT_PROJECT_ERROR:
+      return {
+        ...state,
+        isLoading: false,
+        error: actions.error
+      };
+    case CONSTANTS.CLEAR_ERROR:
+      return {
+        ...state,
+        error: ''
       };
     default:
       return state;

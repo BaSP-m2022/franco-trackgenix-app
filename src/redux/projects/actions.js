@@ -20,6 +20,26 @@ export const getProjectsError = (error) => {
   };
 };
 
+export const putProjectLoading = () => {
+  return {
+    type: CONSTANTS.PUT_PROJECT_LOADING
+  };
+};
+
+export const putProjectSuccess = (data) => {
+  return {
+    type: CONSTANTS.PUT_PROJECT_SUCCESS,
+    payload: data
+  };
+};
+
+export const putProjectError = (error) => {
+  return {
+    type: CONSTANTS.PUT_PROJECT_ERROR,
+    payload: error
+  };
+};
+
 export const deleteProjectLoading = () => {
   return {
     type: CONSTANTS.DELETE_PROJECT_LOADING
@@ -44,5 +64,31 @@ export const setProject = (data) => {
   return {
     type: CONSTANTS.SET_PROJECT,
     payload: data
+  };
+};
+
+export const postProjectLoading = () => {
+  return {
+    type: CONSTANTS.ADD_PROJECT_LOADING
+  };
+};
+
+export const postProjectSuccess = (data) => {
+  return {
+    type: CONSTANTS.ADD_PROJECT_SUCCESS,
+    payload: data
+  };
+};
+
+export const postProjectError = (error) => {
+  return {
+    type: CONSTANTS.ADD_PROJECT_ERROR,
+    payload: error
+  };
+};
+
+export const clearError = () => {
+  return {
+    type: CONSTANTS.CLEAR_ERROR
   };
 };
