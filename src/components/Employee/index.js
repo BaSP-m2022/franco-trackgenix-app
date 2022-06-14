@@ -85,7 +85,7 @@ const EmployeeForm = () => {
   }
   return (
     <div className={styles.containerSec}>
-      <h3 className={styles.formTitle}>{title}</h3>
+      <h2 className={styles.formTitle}>{title}</h2>
       <form className={styles.form}>
         <div>
           <Input
@@ -144,7 +144,9 @@ const EmployeeForm = () => {
                 text="OK"
                 handler={() => {
                   closeModal();
-                  routeChange();
+                  if (!error) {
+                    routeChange();
+                  }
                 }}
               />
             </div>
