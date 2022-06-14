@@ -1,18 +1,26 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import styles from './employees.module.css';
 import Table from '../Shared/Table';
 import LoadingScreen from '../Shared/LoadingScreen';
 import Modal from '../Shared/Modal';
 import Button from '../Shared/Button';
 import Search from '../Shared/Search-bar';
-import { getEmployees } from '../../redux/employees/thunks';
+import { getEmployees, deleteEmployee } from '../../redux/employees/thunks';
+import { setEmployee } from '../../redux/employees/actions';
 
 const Employees = () => {
-  const [untouchedData, setUntouchedData] = useState([]);
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const employees = useSelector((state) => state.employees.list);
+  const loading = useSelector((state) => state.employees.loading);
+  const error = useSelector((state) => state.employees.error);
   const [isOpen, setIsOpen] = useState(false);
   const [idToDelete, setIdToDelete] = useState();
-  const [search, setSearch] = useState();
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filteredList, setFilteredList] = useState(employees);
+
   const column = [
     { heading: 'Id', value: '_id' },
     { heading: 'FirstName', value: 'firstName' },
@@ -21,43 +29,45 @@ const Employees = () => {
     { heading: 'Email', value: 'email' },
     { heading: 'DateOfBirth', value: 'dateOfBirth' }
   ];
-  const entity = 'employees';
 
-  const dispatch = useDispatch();
-  const employees = useSelector((state) => state.employees.list);
-  const loading = useSelector((state) => state.employees.loading);
-  const error = useSelector((state) => state.employees.error);
+  const handleSetEmployee = (id) => {
+    dispatch(setEmployee(id));
+    history.push('/employees/form');
+  };
+
+  const buttonDelete = (id) => {
+    setIdToDelete(id);
+    openModal();
+  };
 
   useEffect(() => {
-    dispatch(getEmployees());
+    if (!employees.length) {
+      dispatch(getEmployees());
+    }
     if (error) {
-      setIsOpen(true);
+      openModal();
     }
   }, [error]);
 
-  const deleteItem = (_id) => {
-    try {
-      setIsOpen(true);
-      setIdToDelete(_id);
-    } catch (error) {
-      console.error(error);
-    }
+  useEffect(() => {
+    setFilteredList(
+      employees.filter((employee) =>
+        employee.firstName.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+    );
+  }, [employees, searchQuery]);
+
+  const delEmployee = () => {
+    dispatch(deleteEmployee(idToDelete));
+    closeModal();
   };
 
-  const deleteEmployee = async () => {
-    try {
-      await fetch(`${process.env.REACT_APP_API_URL}/employees/${idToDelete}`, {
-        method: 'DELETE'
-      });
-      setIsOpen(false);
-    } catch (error) {
-      console.error(error);
-    }
-    setUntouchedData(untouchedData.filter((employee) => employee._id !== idToDelete));
+  const openModal = () => {
+    setIsOpen(true);
   };
 
-  const setSearchQuery = (value) => {
-    setSearch(value);
+  const closeModal = () => {
+    setIsOpen(false);
   };
 
   if (loading) {
@@ -67,30 +77,44 @@ const Employees = () => {
       </div>
     );
   }
-
   return (
     <section className={styles.container}>
       <h2 className={styles.title}>Employees</h2>
-      <Modal modalTitle={'Employees'} isOpen={isOpen} handleClose={() => setIsOpen(false)}>
-        <p>{error ? error : 'Are you sure to delete an employee?'}</p>
+      <Modal modalTitle={'Employees'} isOpen={isOpen} handleClose={closeModal}>
+        <p>{error ? error : 'Are you sure you want to delete an employee?'}</p>
         <div>
           {error ? (
             <div>
-              <Button text="Close" handler={() => setIsOpen(false)} />
+              <Button text="Close" handler={closeModal} />
             </div>
           ) : (
             <div>
-              <Button text="Yes" type="delete" handler={() => deleteEmployee(idToDelete)} />
-              <Button text="No" handler={() => setIsOpen(false)} />
+              <Button text="Yes" type="delete" handler={delEmployee} />
+              <Button text="No" handler={closeModal} />
             </div>
           )}
         </div>
       </Modal>
       <div className={styles.addEmployee}>
-        <Button text="Add new employee" link={'/employees/form'} />
-        <Search searchQuery={search} setSearchQuery={setSearchQuery} placeholder="Search by ID" />
+        <Button
+          text="Add new employee"
+          handler={() => {
+            dispatch(setEmployee());
+            history.push('/employees/form');
+          }}
+        />
+        <Search
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+          placeholder={'Search by first name'}
+        />
       </div>
-      {<Table data={employees} deleteItem={deleteItem} column={column} entity={entity} />}
+      <Table
+        data={searchQuery.length ? filteredList : employees}
+        deleteItem={buttonDelete}
+        column={column}
+        editItem={handleSetEmployee}
+      />
     </section>
   );
 };

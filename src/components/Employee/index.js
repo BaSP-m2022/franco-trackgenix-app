@@ -1,119 +1,92 @@
-import { useState, useEffect } from 'react';
 import styles from './employee.module.css';
 import Input from '../Shared/Input';
 import Modal from '../Shared/Modal';
 import Button from '../Shared/Button';
-import { useHistory } from 'react-router-dom';
 import LoadingScreen from '../Shared/LoadingScreen';
+import { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { clearError } from '../../redux/employees/actions';
+import { addEmployee, putEmployee } from '../../redux/employees/thunks';
 
 const EmployeeForm = () => {
-  const [loading, setLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
-
+  const history = useHistory();
+  const dispatch = useDispatch();
   const [requestType, setRequestType] = useState('POST');
-  const [editEmployeeId, setEditEmployeeId] = useState('');
-
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [dateOfBirth, setDateOfBirth] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [dni, setDni] = useState('');
-
   const [msg, setMsg] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const [modalTitle, setModalTitle] = useState('');
-  const [redirect, setRedirect] = useState(false);
-
   const [title, setTitle] = useState('Add Employee');
 
+  const employee = useSelector((state) => state.employees.employee);
+  const loading = useSelector((state) => state.employees.loading);
+  const error = useSelector((state) => state.employees.error);
+
   useEffect(() => {
-    async function fetchEmployee(id) {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/employees/${id}`);
-      const { message, data, error } = await response.json();
-      if (error) {
-        setErrorMessage(message);
-      } else {
-        setEditEmployeeId(id);
-        setFirstName(data.firstName);
-        setLastName(data.lastName);
-        let date = data.dateOfBirth.slice(0, 10);
-        setDateOfBirth(date);
-        setEmail(data.email);
-        setPassword(data.password);
-        setDni(data.dni);
-      }
-    }
-
-    const params = new URLSearchParams(window.location.search);
-    const employeeId = params.get('id');
-
-    if (employeeId) {
-      setEditEmployeeId(employeeId);
+    if (typeof employee === 'object' && employee._id) {
+      setFirstName(employee.firstName);
+      setLastName(employee.lastName);
+      setDateOfBirth(employee.dateOfBirth.slice(0, 10));
+      setEmail(employee.email);
+      setPassword(employee.password);
+      setDni(employee.dni);
       setRequestType('PUT');
-      fetchEmployee(employeeId);
       setTitle('Edit Employee');
-    } else {
-      setRequestType('POST');
     }
-  }, []);
+  }, [error]);
 
-  async function handleSubmit(e) {
+  function handleSubmit(e) {
     e.preventDefault();
-    try {
-      setLoading(true);
-      const URL =
-        process.env.REACT_APP_API_URL +
-        `/employees${requestType === 'POST' ? '' : `/${editEmployeeId}`}`;
-
-      const response = await fetch(URL, {
-        method: requestType,
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          firstName,
-          lastName,
-          dateOfBirth,
-          email,
-          password,
-          dni
-        })
-      });
-      const data = await response.json();
-      setLoading(false);
-      if (data.error) {
-        setMsg(data.message);
-        setModalTitle('Validation Error');
-        setRedirect(false);
-        setIsOpen(true);
-      } else {
-        setMsg(
-          requestType === 'POST'
-            ? 'Employee created successfully!'
-            : 'Employee updated successfully!'
-        );
-        setRedirect(true);
-        setModalTitle(requestType === 'POST' ? 'Employee created' : 'Employee updated');
-        setIsOpen(!isOpen);
-      }
-    } catch (error) {
-      setMsg(error.toString());
-      setModalTitle('Validation Error');
-      setRedirect(false);
-      setIsOpen(true);
+    const body = JSON.stringify({
+      firstName,
+      lastName,
+      dni,
+      email,
+      password,
+      dateOfBirth
+    });
+    if (requestType === 'PUT') {
+      dispatch(putEmployee(employee._id, body));
+      setModalTitle('Employee updated');
+      setMsg('Employee updated successfully!');
+      openModal();
+    } else {
+      dispatch(addEmployee(body));
+      setModalTitle('Employee created');
+      setMsg('Employee created successfully!');
+      openModal();
     }
   }
 
-  const history = useHistory();
   const routeChange = () => {
     let path = `/employees`;
     history.push(path);
   };
 
+  const openModal = () => {
+    setIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsOpen(false);
+  };
+
+  if (loading) {
+    return (
+      <div className={styles.loading}>
+        <LoadingScreen />
+      </div>
+    );
+  }
   return (
     <div className={styles.containerSec}>
-      <h3 className={styles.formTitle}>{title}</h3>
+      <h2 className={styles.formTitle}>{title}</h2>
       <form className={styles.form}>
         <div>
           <Input
@@ -160,21 +133,29 @@ const EmployeeForm = () => {
           />
         </div>
         <div className={styles.buttonContainer}>
-          {errorMessage && <p className={styles.error}>{errorMessage}</p>}
-          {loading && <LoadingScreen />}
-          <Button text="Return" handler={routeChange} />
+          <Button
+            text="Return"
+            handler={() => {
+              dispatch(clearError());
+              routeChange();
+            }}
+          />
           <Button
             text={!loading && requestType === 'POST' ? 'Add Employee' : 'Update Employee'}
             handler={handleSubmit}
           />
-          <Modal
-            modalTitle={modalTitle}
-            isOpen={isOpen}
-            handleClose={redirect ? routeChange : () => setIsOpen(!isOpen)}
-          >
-            <p>{msg}</p>
+          <Modal modalTitle={error ? 'Error' : modalTitle} isOpen={isOpen} handleClose={closeModal}>
+            <p>{error ? error : msg}</p>
             <div>
-              <Button text="OK" handler={redirect ? routeChange : () => setIsOpen(!isOpen)} />
+              <Button
+                text="OK"
+                handler={() => {
+                  closeModal();
+                  if (!error) {
+                    routeChange();
+                  }
+                }}
+              />
             </div>
           </Modal>
         </div>
