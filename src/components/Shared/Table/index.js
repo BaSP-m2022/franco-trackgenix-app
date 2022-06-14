@@ -34,7 +34,6 @@ const TableRow = ({ item, column, deleteItem, editItem }) => (
 );
 
 const Table = ({ data, column, deleteItem, editItem }) => {
-  console.log(data);
   return (
     <table className={styles.tableMain}>
       <thead>
