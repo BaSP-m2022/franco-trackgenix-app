@@ -3,6 +3,8 @@ import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { postTimeSheet, putTimeSheet } from '../../redux/timeSheets/thunks';
 import { clearError } from '../../redux/timeSheets/actions';
+import { getEmployees } from '../../redux/employees/thunks';
+import { getTasks } from '../../redux/tasks/thunks';
 import Modal from '../Shared/Modal';
 import Button from '../Shared/Button';
 import Input from '../Shared/Input';
@@ -59,14 +61,23 @@ const TimeSheetForm = () => {
   };
 
   useEffect(() => {
+    if (!employees.length) {
+      dispatch(getEmployees());
+    }
     setEmployeeOptions(
       employees.map(({ _id, firstName, lastName }) => ({
         value: _id,
         label: `${firstName} ${lastName}`
       }))
     );
+  }, [employees]);
+
+  useEffect(() => {
+    if (!tasks.length) {
+      dispatch(getTasks());
+    }
     setTasksOptions(tasks.map(({ _id, description }) => ({ value: _id, label: description })));
-  }, []);
+  }, [tasks]);
 
   useEffect(() => {
     if (timeSheet._id) {
@@ -81,7 +92,7 @@ const TimeSheetForm = () => {
   }, [error]);
 
   const routeChange = () => {
-    let path = `/time-sheets`;
+    const path = `/time-sheets`;
     history.push(path);
   };
 
@@ -152,7 +163,7 @@ const TimeSheetForm = () => {
           </div>
           <div className={styles.select}>
             <SelectDropdown
-              name="status"
+              name="Status"
               onChange={onChangeStatusInput}
               value={statusValue}
               props="status"
