@@ -3,6 +3,7 @@ import { createStore, applyMiddleware, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
 import { employeesReducer } from './employees/reducer';
 import { superAdminsReducer } from './superAdmins/reducer';
+import { tasksReducer } from './tasks/reducer';
 import { projectsReducer } from './projects/reducer';
 import { adminsReducer } from './admins/reducer';
 import { timeSheetsReducer } from './timeSheets/reducer';
@@ -10,6 +11,7 @@ import { timeSheetsReducer } from './timeSheets/reducer';
 const rootReducer = combineReducers({
   employees: employeesReducer,
   superAdmins: superAdminsReducer,
+  tasks: tasksReducer,
   projects: projectsReducer,
   admins: adminsReducer,
   timeSheets: timeSheetsReducer
