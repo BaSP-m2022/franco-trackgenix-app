@@ -6,7 +6,7 @@ export const getProjects = () => {
   return async (dispatch) => {
     dispatch(actions.getProjectsLoading());
     try {
-      const response = await fetch(`${URL}`);
+      const response = await fetch(URL);
       const jsonResponse = await response.json();
       if (jsonResponse.error) {
         dispatch(actions.getProjectsError(jsonResponse.message));

@@ -51,6 +51,13 @@ function ProjectForm() {
     setEmployeeIdValue(event.target.value);
   };
 
+  const openModal = () => {
+    setIsOpen(true);
+  };
+  const closeModal = () => {
+    setIsOpen(false);
+  };
+
   const onAddEmployee = (event) => {
     event.preventDefault();
     if (employeeIdValue != '' && rateValue != '' && roleValue != '') {
@@ -60,12 +67,19 @@ function ProjectForm() {
       ]);
     } else {
       setMsg('Complete the rate and role');
-      setIsOpen(true);
+      openModal();
     }
   };
 
   useEffect(() => {
     dispatch(getEmployees());
+    const newEmployees = employees.map((employee) => {
+      return {
+        label: `${employee.firstName} ${employee.lastName}`,
+        value: employee._id
+      };
+    });
+    setEmployeeOptions(newEmployees);
   }, []);
 
   useEffect(() => {
@@ -81,8 +95,8 @@ function ProjectForm() {
       setTitle('Edit Project');
       setButtonText('Update Project');
       employees.map((employee) => {
+        let ep = [];
         if (project.employees != [] && project.employees[0].employeeId === employee._id) {
-          let ep = [];
           for (let i = 0; i < project.employees.length; i++) {
             ep.push({
               employeeId: employee._id,
@@ -90,17 +104,11 @@ function ProjectForm() {
               role: project.employees[i].role
             });
           }
-          setEmployeesValue(ep);
+          return ep;
         }
+        setEmployeesValue(ep);
       });
     }
-    const newEmployees = employees.map((employee) => {
-      return {
-        label: `${employee.firstName} ${employee.lastName}`,
-        value: employee._id
-      };
-    });
-    setEmployeeOptions(newEmployees);
   }, [error]);
 
   const onSubmit = async (event) => {
@@ -117,12 +125,12 @@ function ProjectForm() {
       dispatch(putProject(project._id, body));
       setModalTitle('Project updated');
       setMsg('Project updated successfully!');
-      setIsOpen(true);
+      openModal();
     } else {
       dispatch(postProject(body));
       setModalTitle('Project created');
       setMsg('Project created successfully!');
-      setIsOpen(true);
+      openModal();
     }
   };
 
@@ -137,13 +145,13 @@ function ProjectForm() {
   } else {
     return (
       <div className={styles.container}>
-        <Modal modalTitle={modalTitle} isOpen={isOpen} handleClose={() => setIsOpen(!isOpen)}>
+        <Modal modalTitle={modalTitle} isOpen={isOpen} handleClose={() => closeModal()}>
           <p>{msg}</p>
           <div>
             <Button
               text="OK"
               handler={() => {
-                setIsOpen(!isOpen);
+                closeModal();
                 if (!error) {
                   routeChange();
                 }
