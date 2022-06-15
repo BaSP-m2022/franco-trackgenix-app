@@ -80,8 +80,7 @@ const TaskForm = () => {
 
   const routeChange = () => {
     dispatch(getTasks());
-    let path = `/tasks`;
-    history.push(path);
+    history.push('/tasks');
   };
 
   const openModal = () => {
