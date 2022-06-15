@@ -71,7 +71,7 @@ function ProjectForm() {
     }
   };
 
-  useEffect(() => {
+  /* useEffect(() => {
     dispatch(getEmployees());
     const newEmployees = employees.map((employee) => {
       return {
@@ -80,7 +80,22 @@ function ProjectForm() {
       };
     });
     setEmployeeOptions(newEmployees);
-  }, []);
+  }, []); */
+  useEffect(() => {
+    if (!employees.length) {
+      dispatch(getEmployees());
+    }
+    const newEmployees = employees.map((employee) => {
+      return {
+        label: `${employee.firstName} ${employee.lastName}`,
+        value: employee._id
+      };
+    });
+    setEmployeeOptions(newEmployees);
+    if (error) {
+      openModal();
+    }
+  }, [error]);
 
   useEffect(() => {
     if (typeof project === 'object' && project._id) {
@@ -94,20 +109,7 @@ function ProjectForm() {
       setRequestType('PUT');
       setTitle('Edit Project');
       setButtonText('Update Project');
-      employees.map((employee) => {
-        let ep = [];
-        if (project.employees != [] && project.employees[0].employeeId === employee._id) {
-          for (let i = 0; i < project.employees.length; i++) {
-            ep.push({
-              employeeId: employee._id,
-              rate: project.employees[i].rate,
-              role: project.employees[i].role
-            });
-          }
-          return ep;
-        }
-        setEmployeesValue(ep);
-      });
+      setEmployeesValue(project.employees);
     }
   }, [error]);
 
