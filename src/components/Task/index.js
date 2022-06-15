@@ -26,6 +26,7 @@ const TaskForm = () => {
   const [date, setDate] = useState('');
 
   const [projectId, setProjectId] = useState('');
+  const [projectsOptions, setProjectsOptions] = useState([]);
 
   const [isOpen, setIsOpen] = useState(false);
   const [requestType, setRequestType] = useState('POST');
@@ -33,8 +34,11 @@ const TaskForm = () => {
   const [modalText, setModalText] = useState('');
 
   useEffect(() => {
-    dispatch(getProjects());
-  }, []);
+    if (!projects.length) {
+      dispatch(getProjects());
+    }
+    setProjectsOptions([...projects.map((item) => ({ value: item._id, label: item.name }))]);
+  }, [projects]);
 
   useEffect(() => {
     if (task._id) {
@@ -45,16 +49,6 @@ const TaskForm = () => {
       setRequestType('PUT');
     }
   }, [error]);
-
-  const formatDate = (date) => {
-    var d = new Date(date),
-      month = '' + (d.getMonth() + 1),
-      day = '' + d.getDate(),
-      year = d.getFullYear();
-    if (month.length < 2) month = '0' + month;
-    if (day.length < 2) day = '0' + day;
-    return [year, month, day].join('-');
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -81,6 +75,16 @@ const TaskForm = () => {
   const routeChange = () => {
     dispatch(getTasks());
     history.push('/tasks');
+  };
+
+  const formatDate = (date) => {
+    let d = new Date(date),
+      month = '' + (d.getMonth() + 1),
+      day = '' + d.getDate(),
+      year = d.getFullYear();
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+    return [year, month, day].join('-');
   };
 
   const openModal = () => {
@@ -124,10 +128,7 @@ const TaskForm = () => {
             onChange={(e) => {
               setProjectId(e.target.value);
             }}
-            options={projects.map((project) => ({
-              label: project.name,
-              value: project._id
-            }))}
+            options={projectsOptions}
           />
         </div>
         <Input name="Date" type="date" value={date} onChange={setDate} />
