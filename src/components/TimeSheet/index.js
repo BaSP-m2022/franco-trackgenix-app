@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { postTimeSheet, putTimeSheet } from '../../redux/timeSheets/thunks';
+import { getTimeSheets, postTimeSheet, putTimeSheet } from '../../redux/timeSheets/thunks';
 import { clearError } from '../../redux/timeSheets/actions';
 import { getEmployees } from '../../redux/employees/thunks';
 import { getTasks } from '../../redux/tasks/thunks';
@@ -10,16 +10,15 @@ import Button from '../Shared/Button';
 import Input from '../Shared/Input';
 import LoadingScreen from '../Shared/LoadingScreen';
 import SelectDropdown from '../Shared/SelectDropdown';
-
 import styles from './form.module.css';
 
 const TimeSheetForm = () => {
-  const [taskValue, setTaskValue] = useState([]);
+  const [taskValue, setTaskValue] = useState('');
   const [totalHoursValue, setTotalHoursValue] = useState('');
   const [statusValue, setStatusValue] = useState('');
   const [startDateValue, setStartDateValue] = useState('');
   const [endDateValue, setEndDateValue] = useState('');
-  const [employeeIdValue, setEmployeeIdValue] = useState({});
+  const [employeeIdValue, setEmployeeIdValue] = useState('');
 
   const [employeeOptions, setEmployeeOptions] = useState([]);
   const [tasksOptions, setTasksOptions] = useState([]);
@@ -56,6 +55,7 @@ const TimeSheetForm = () => {
       setTaskValue([...taskValue, event.target.value]);
     }
   };
+
   const onChangeEmployeeIdInput = (event) => {
     setEmployeeIdValue(event.target.value);
   };
@@ -81,17 +81,18 @@ const TimeSheetForm = () => {
 
   useEffect(() => {
     if (timeSheet._id) {
-      setTaskValue(timeSheet.taskValue);
-      setTotalHoursValue(timeSheet.totalHoursValue);
-      setStatusValue(timeSheet.startDateValue);
-      setStartDateValue(timeSheet.startDateValue);
-      setEndDateValue(timeSheet.endDateValue);
-      setEmployeeIdValue(timeSheet.employeeIdValue);
+      setTaskValue(timeSheet.task);
+      setTotalHoursValue(timeSheet.totalHours);
+      setStatusValue(timeSheet.status);
+      setStartDateValue(timeSheet.startDate.slice(0, 10));
+      setEndDateValue(timeSheet.endDate.slice(0, 10));
+      setEmployeeIdValue(timeSheet.employeeId);
       setRequestType('PUT');
     }
   }, [error]);
 
   const routeChange = () => {
+    dispatch(getTimeSheets());
     const path = `/time-sheets`;
     history.push(path);
   };
@@ -137,7 +138,7 @@ const TimeSheetForm = () => {
 
   return (
     <div className={styles.container}>
-      <h3 className={styles.h3}>{requestType === 'PUT' ? 'Update Admin' : 'Add Admin'}</h3>
+      <h3>{requestType === 'PUT' ? 'Update Time Sheet' : 'Add Time Sheet'}</h3>
       <form className={styles.form}>
         <div className={styles.inputs}>
           <div className={styles.select}>
@@ -163,7 +164,7 @@ const TimeSheetForm = () => {
           </div>
           <div className={styles.select}>
             <SelectDropdown
-              name="Status"
+              name="status"
               onChange={onChangeStatusInput}
               value={statusValue}
               props="status"
@@ -205,15 +206,17 @@ const TimeSheetForm = () => {
               disabled={loading}
             />
           </div>
-          <div className={styles.buttonDiv}>
-            <Button
-              text="Return"
-              handler={() => {
-                dispatch(clearError());
-                routeChange();
-              }}
-            />
-            <Button handler={handleSubmit} text={requestType === 'PUT' ? 'Update' : 'Save'} />
+          <div>
+            <div className={styles.buttonDiv}>
+              <Button
+                text="Return"
+                handler={() => {
+                  dispatch(clearError());
+                  routeChange();
+                }}
+              />
+              <Button handler={handleSubmit} text={requestType === 'PUT' ? 'Update' : 'Save'} />
+            </div>
             <Modal
               modalTitle={error ? 'error' : modalTitle}
               isOpen={isOpen}

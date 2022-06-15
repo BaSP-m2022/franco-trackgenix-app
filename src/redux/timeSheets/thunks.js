@@ -4,7 +4,7 @@ export const putTimeSheet = (id, body) => {
   return async (dispatch) => {
     dispatch(actions.putTimeSheetLoading());
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/timesheets/${id}`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/time-sheets/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: body
@@ -26,7 +26,7 @@ export const postTimeSheet = (body) => {
   return async (dispatch) => {
     dispatch(actions.postTimeSheetLoading());
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/timesheets`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/time-sheets`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: body
