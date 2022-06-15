@@ -51,9 +51,7 @@ export const timeSheetsReducer = (state = initialStore, actions) => {
     case CONSTANTS.SET_TIMESHEET:
       return {
         ...state,
-        employee: actions.payload
-          ? state.list.find((employee) => employee._id === actions.payload)
-          : {},
+        timesheet: actions.payload ? state.list.find((item) => item._id === actions.payload) : {},
         loading: false
       };
     default:

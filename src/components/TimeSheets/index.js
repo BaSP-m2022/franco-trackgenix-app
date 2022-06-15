@@ -1,4 +1,5 @@
 import styles from './time-sheets.module.css';
+import { setTimeSheet } from '../../redux/timeSheets/actions';
 import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -43,10 +44,13 @@ const TimeSheets = () => {
   }, [error]);
 
   useEffect(() => {
-    setFilteredList(timeSheets);
+    setFilteredList(
+      timeSheets.filter((item) => item._id.toLowerCase().includes(searchQuery.toLowerCase()))
+    );
   }, [timeSheets, searchQuery]);
 
-  const handleSetTimeSheet = () => {
+  const handleSetTimeSheet = (id) => {
+    dispatch(setTimeSheet(id));
     history.push('/time-sheet/form');
   };
 
@@ -71,13 +75,7 @@ const TimeSheets = () => {
         </div>
       ) : (
         <>
-          <Modal
-            modalTitle={'Time Sheets'}
-            isOpen={isOpen}
-            handleClose={() => {
-              openModal();
-            }}
-          >
+          <Modal modalTitle={'Time Sheets'} isOpen={isOpen} handleClose={closeModal}>
             <p>{error ? error : 'Are you sure to delete a Time Sheet?'}</p>
             <div>
               {error ? (
