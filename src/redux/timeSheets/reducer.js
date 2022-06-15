@@ -4,17 +4,17 @@ const initialStore = {
   list: [],
   loading: false,
   error: '',
-  employee: {}
+  timeSheet: {}
 };
 
-export const employeesReducer = (state = initialStore, actions) => {
+export const timeSheetsReducer = (state = initialStore, actions) => {
   switch (actions.type) {
-    case CONSTANTS.PUT_EMPLOYEE_LOADING:
+    case CONSTANTS.PUT_TIMESHEET_LOADING:
       return {
         ...state,
         loading: true
       };
-    case CONSTANTS.PUT_EMPLOYEE_SUCCESS:
+    case CONSTANTS.PUT_TIMESHEET_SUCCESS:
       return {
         ...state,
         list: state.list.map((item) => {
@@ -23,38 +23,38 @@ export const employeesReducer = (state = initialStore, actions) => {
           }
           return item;
         }),
-        employee: {},
+        timeSheet: {},
         error: '',
         loading: false
       };
-    case CONSTANTS.PUT_EMPLOYEE_ERROR:
+    case CONSTANTS.PUT_TIMESHEET_ERROR:
       return {
         ...state,
         error: actions.payload,
         loading: false
       };
-    case CONSTANTS.SET_EMPLOYEE:
+    case CONSTANTS.SET_TIMESHEET:
       return {
         ...state,
-        employee: actions.payload
-          ? state.list.find((employee) => employee._id === actions.payload)
+        timeSheet: actions.payload
+          ? state.list.find((timeSheet) => timeSheet._id === actions.payload)
           : {},
         loading: false
       };
 
-    case CONSTANTS.ADD_EMPLOYEE_LOADING:
+    case CONSTANTS.ADD_TIMESHEET_LOADING:
       return {
         ...state,
         loading: true
       };
-    case CONSTANTS.ADD_EMPLOYEE_SUCCESS:
+    case CONSTANTS.ADD_TIMESHEET_SUCCESS:
       return {
         ...state,
         list: [...state.list, actions.payload],
         error: '',
         loading: false
       };
-    case CONSTANTS.ADD_EMPLOYEE_ERROR:
+    case CONSTANTS.ADD_TIMESHEET_ERROR:
       return {
         ...state,
         error: actions.payload,
