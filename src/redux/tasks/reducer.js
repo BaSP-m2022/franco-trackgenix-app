@@ -19,6 +19,7 @@ export const tasksReducer = (state = initialStore, actions) => {
       return {
         ...state,
         list: actions.payload,
+        error: '',
         loading: false
       };
 

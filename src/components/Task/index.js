@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { clearError } from '../../redux/tasks/actions';
-import { postTask, putTask } from '../../redux/tasks/thunks';
+import { getTasks, postTask, putTask } from '../../redux/tasks/thunks';
 import { getProjects } from '../../redux/projects/thunks';
 
 import Input from '../Shared/Input';
@@ -24,7 +24,6 @@ const TaskForm = () => {
   const [description, setDescription] = useState('');
   const [workedHours, setWorkedHours] = useState('');
   const [date, setDate] = useState('');
-  // const [projectName, setProjectName] = useState('');
 
   const [projectId, setProjectId] = useState('');
 
@@ -39,11 +38,10 @@ const TaskForm = () => {
 
   useEffect(() => {
     if (task._id) {
-      console.log('task', task);
       setDescription(task.description);
       setDate(formatDate(task.date));
       setWorkedHours(task.workedHours);
-      setProjectId(task.projectId);
+      setProjectId(task.projectId._id);
       setRequestType('PUT');
     }
   }, [error]);
@@ -68,19 +66,20 @@ const TaskForm = () => {
       projectId
     });
 
-    if (requestType === 'POST') {
-      dispatch(postTask(body));
-      setModalTitle('Task Added');
-      setModalText('Task has been added');
-    } else {
+    if (requestType === 'PUT') {
       dispatch(putTask(task._id, body));
       setModalTitle('Task Updated');
       setModalText('Task has been updated');
+    } else {
+      dispatch(postTask(body));
+      setModalTitle('Task Added');
+      setModalText('Task has been added');
     }
     openModal();
   };
 
   const routeChange = () => {
+    dispatch(getTasks());
     let path = `/tasks`;
     history.push(path);
   };
