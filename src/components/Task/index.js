@@ -1,129 +1,99 @@
 import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import styles from './Task.module.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { clearError } from '../../redux/tasks/actions';
+import { postTask, putTask } from '../../redux/tasks/thunks';
+import { getProjects } from '../../redux/projects/thunks';
+
 import Input from '../Shared/Input';
-import Select from '../Shared/SelectDropdown';
+import SelectDropdown from '../Shared/SelectDropdown';
 import Button from '../Shared/Button';
 import Modal from '../Shared/Modal';
 import LoadingScreen from '../Shared/LoadingScreen';
+import styles from './Task.module.css';
 
 const TaskForm = () => {
-  const [descriptionValue, setDescriptionValue] = useState('');
-  const [workedHoursValue, setWorkedHoursValue] = useState('');
-  const [dateValue, setDateValue] = useState('');
-  const [projectNameValue, setProjectNameValue] = useState('');
+  const history = useHistory();
+  const dispatch = useDispatch();
 
-  const [isLoading, setLoading] = useState('');
+  const task = useSelector((state) => state.tasks.task);
+  const loading = useSelector((state) => state.tasks.loading);
+  const error = useSelector((state) => state.tasks.error);
+  const projects = useSelector((state) => state.projects.list);
+
+  const [description, setDescription] = useState('');
+  const [workedHours, setWorkedHours] = useState('');
+  const [date, setDate] = useState('');
+  // const [projectName, setProjectName] = useState('');
 
   const [projectId, setProjectId] = useState('');
-  const [projects, setProjects] = useState([]);
 
   const [isOpen, setIsOpen] = useState(false);
   const [requestType, setRequestType] = useState('POST');
   const [modalTitle, setModalTitle] = useState('');
-  const [message, setMessage] = useState('');
-  const [redirect, setRedirect] = useState(false);
+  const [modalText, setModalText] = useState('');
 
   useEffect(() => {
-    setLoading(true);
-    const params = new URLSearchParams(window.location.search);
-    const taskId = params.get('id');
-    if (taskId) {
-      setRequestType('PUT');
-      fetch(`${process.env.REACT_APP_API_URL}/tasks/${taskId}`)
-        .then(async (response) => {
-          if (response.status !== 200) {
-            const { message } = await response.json();
-            throw new Error(message);
-          }
-          return response.json();
-        })
-        .then((response) => {
-          setDescriptionValue(response.data.description);
-          setDateValue(response.data.date.slice(0, 10));
-          setWorkedHoursValue(response.data.workedHours);
-          setProjectNameValue(response.data.projectId.name);
-          setProjectId(response.data.projectId._id);
-        })
-        .catch((error) => {
-          console.log(error);
-        })
-        .finally(() => setLoading(false));
-    }
-    fetch(`${process.env.REACT_APP_API_URL}/projects/`)
-      .then(async (response) => {
-        if (response.status !== 200) {
-          const { message } = await response.json();
-          throw new Error(message);
-        }
-        return response.json();
-      })
-      .then((response) => {
-        setProjects(
-          response.data.map((project) => ({
-            value: project._id,
-            label: project.name
-          }))
-        );
-      })
-      .catch((error) => {
-        console.log(error);
-      })
-      .finally(() => setLoading(false));
+    dispatch(getProjects());
   }, []);
 
-  const onSubmit = async (event) => {
-    event.preventDefault();
-    try {
-      const params = new URLSearchParams(window.location.search);
-      const tasksId = params.get('id');
-      let url;
-      const options = {
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          description: descriptionValue,
-          workedHours: workedHoursValue,
-          date: dateValue,
-          projectId: projectId
-        })
-      };
-      if (tasksId) {
-        options.method = 'PUT';
-        url = `${process.env.REACT_APP_API_URL}/tasks/${tasksId}`;
-      } else {
-        options.method = 'POST';
-        setRequestType('POST');
-        url = `${process.env.REACT_APP_API_URL}/tasks`;
-      }
-      const response = await fetch(url, options);
-      const data = await response.json();
-      {
-        if (data.error) {
-          setModalTitle('An error validation has ocurred.');
-          setMessage(data.message);
-          setIsOpen(!isOpen);
-        } else {
-          setModalTitle(requestType === 'POST' ? 'Task Created' : 'Task Updated');
-          setMessage(requestType === 'POST' ? 'Task Created' : 'Task Updated');
-          setIsOpen(!isOpen);
-          setRedirect(true);
-        }
-      }
-    } catch (error) {
-      console.log(error);
+  useEffect(() => {
+    if (task._id) {
+      console.log('task', task);
+      setDescription(task.description);
+      setDate(formatDate(task.date));
+      setWorkedHours(task.workedHours);
+      setProjectId(task.projectId);
+      setRequestType('PUT');
     }
+  }, [error]);
+
+  const formatDate = (date) => {
+    var d = new Date(date),
+      month = '' + (d.getMonth() + 1),
+      day = '' + d.getDate(),
+      year = d.getFullYear();
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+    return [year, month, day].join('-');
   };
 
-  const history = useHistory();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const body = JSON.stringify({
+      description,
+      date,
+      workedHours,
+      projectId
+    });
+
+    if (requestType === 'POST') {
+      dispatch(postTask(body));
+      setModalTitle('Task Added');
+      setModalText('Task has been added');
+    } else {
+      dispatch(putTask(task._id, body));
+      setModalTitle('Task Updated');
+      setModalText('Task has been updated');
+    }
+    openModal();
+  };
 
   const routeChange = () => {
     let path = `/tasks`;
     history.push(path);
   };
 
-  if (isLoading) {
+  const openModal = () => {
+    setIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsOpen(false);
+  };
+
+  if (loading) {
     return (
       <div className={styles.loadingDiv}>
         <LoadingScreen />
@@ -133,60 +103,49 @@ const TaskForm = () => {
 
   return (
     <div className={styles.container}>
-      <form className={styles.form} onSubmit={onSubmit}>
+      <form className={styles.form}>
         <h2 className={styles.task}>Task</h2>
         <Input
           name="Description"
           type="text"
-          value={descriptionValue}
+          value={description}
           placeholder="Description here..."
-          onChange={setDescriptionValue}
+          onChange={setDescription}
         />
         <Input
           name="Worked hours"
           type="text"
-          value={workedHoursValue}
+          value={workedHours}
           placeholder="Hours here..."
-          onChange={setWorkedHoursValue}
+          onChange={setWorkedHours}
         />
         <div className={styles.select}>
-          <Select
+          <SelectDropdown
             name="Projects"
-            value={projectNameValue}
+            value={projectId}
             onChange={(e) => {
               setProjectId(e.target.value);
-              setProjectNameValue(e.target.value);
             }}
-            options={projects}
+            options={projects.map((project) => ({
+              label: project.name,
+              value: project._id
+            }))}
           />
         </div>
-        <Input name="Date" type="date" value={dateValue} onChange={setDateValue} />
+        <Input name="Date" type="date" value={date} onChange={setDate} />
         <div className={styles.buttonContainer}>
-          <Button text="Return" handler={routeChange} />
-          <Button text={requestType === 'POST' ? 'Save Task' : 'Update Task'} handler={onSubmit} />
-          <Modal
-            modalTitle={modalTitle}
-            isOpen={isOpen}
-            handleClose={
-              redirect
-                ? routeChange
-                : () => {
-                    setIsOpen(!isOpen);
-                  }
-            }
-          >
-            <p>{message}</p>
+          <Button
+            text="Return"
+            handler={() => {
+              dispatch(clearError());
+              routeChange();
+            }}
+          />
+          <Button handler={handleSubmit} text={requestType === 'PUT' ? 'Update' : 'Save'} />
+          <Modal modalTitle={error ? 'error' : modalTitle} isOpen={isOpen} handleClose={closeModal}>
+            <p className={styles.message}>{error ? error : modalText}</p>
             <div>
-              <Button
-                text="Accept"
-                handler={
-                  redirect
-                    ? routeChange
-                    : () => {
-                        setIsOpen(!isOpen);
-                      }
-                }
-              />
+              <Button text="OK" handler={!error ? routeChange : closeModal} />
             </div>
           </Modal>
         </div>
