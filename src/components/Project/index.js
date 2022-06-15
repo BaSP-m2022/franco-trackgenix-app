@@ -71,16 +71,6 @@ function ProjectForm() {
     }
   };
 
-  /* useEffect(() => {
-    dispatch(getEmployees());
-    const newEmployees = employees.map((employee) => {
-      return {
-        label: `${employee.firstName} ${employee.lastName}`,
-        value: employee._id
-      };
-    });
-    setEmployeeOptions(newEmployees);
-  }, []); */
   useEffect(() => {
     if (!employees.length) {
       dispatch(getEmployees());
