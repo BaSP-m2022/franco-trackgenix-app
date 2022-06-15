@@ -10,6 +10,10 @@ export const ADD_TASK_LOADING = 'ADD_TASK_LOADING';
 export const ADD_TASK_SUCCESS = 'ADD_TASK_SUCCESS';
 export const ADD_TASK_ERROR = 'ADD_TASK_ERROR';
 
+export const PUT_TASK_LOADING = 'PUT_TASK_LOADING';
+export const PUT_TASK_SUCCESS = 'PUT_TASK_SUCCESS';
+export const PUT_TASK_ERROR = 'PUT_TASK_ERROR';
+
 export const SET_TASK = 'SET_TASK';
 
 export const CLEAR_ERROR = 'CLEAR_ERROR';
