@@ -1,10 +1,12 @@
-import * as actions from '../../redux/tasks/actions';
+import * as actions from './actions';
+
+const URL = `${process.env.REACT_APP_API_URL}/tasks`;
 
 export const getTasks = () => {
   return async (dispatch) => {
     dispatch(actions.getTasksLoading());
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/tasks`);
+      const response = await fetch(URL);
       const jsonResponse = await response.json();
       if (jsonResponse.error) {
         dispatch(actions.getTasksError(jsonResponse.message));
@@ -22,7 +24,7 @@ export const deleteTask = (id) => {
   return async (dispatch) => {
     dispatch(actions.deleteTaskLoading());
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/tasks/${id}`, {
+      const response = await fetch(`${URL}/${id}`, {
         method: 'DELETE'
       });
       const jsonResponse = await response.json();
@@ -34,6 +36,50 @@ export const deleteTask = (id) => {
       return jsonResponse.data;
     } catch (error) {
       dispatch(actions.deleteTaskError(error.toString()));
+    }
+  };
+};
+
+export const putTask = (id, body) => {
+  return async (dispatch) => {
+    dispatch(actions.putTaskLoading());
+    try {
+      const response = await fetch(`${URL}/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: body
+      });
+      const jsonResponse = await response.json();
+      if (jsonResponse.error) {
+        dispatch(actions.putTaskError(jsonResponse.message));
+      } else {
+        dispatch(actions.putTaskSuccess(jsonResponse.data));
+      }
+      return jsonResponse.data;
+    } catch (error) {
+      dispatch(actions.putTaskError(error.toString()));
+    }
+  };
+};
+
+export const postTask = (body) => {
+  return async (dispatch) => {
+    dispatch(actions.postTaskLoading());
+    try {
+      const response = await fetch(URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: body
+      });
+      const jsonResponse = await response.json();
+      if (jsonResponse.error) {
+        dispatch(actions.postTaskError(jsonResponse.message));
+      } else {
+        dispatch(actions.postTaskSuccess(jsonResponse.data));
+      }
+      return jsonResponse.data;
+    } catch (error) {
+      dispatch(actions.postTaskError(error.toString()));
     }
   };
 };
