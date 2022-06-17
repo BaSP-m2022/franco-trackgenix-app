@@ -29,6 +29,7 @@ function ProjectForm() {
   const loading = useSelector((state) => state.projects.isLoading);
   const error = useSelector((state) => state.projects.error);
 
+  const [redirect, setRedirect] = useState(false);
   const [nameValue, setNameValue] = useState('');
   const [statusValue, setStatusValue] = useState('');
   const [descriptionValue, setDescriptionValue] = useState('');
@@ -55,12 +56,10 @@ function ProjectForm() {
     setIsOpen(true);
   };
   const closeModal = () => {
+    if (redirect) {
+      routeChange();
+    }
     setIsOpen(false);
-  };
-
-  const routeStay = () => {
-    let path = `/projects/form`;
-    history.push(path);
   };
 
   const onAddEmployee = (event) => {
@@ -71,6 +70,7 @@ function ProjectForm() {
         { employeeId: employeeIdValue, rate: rateValue, role: roleValue }
       ]);
     } else {
+      setModalTitle('Error');
       setMsg('Role and rate are required and rate must be bigger than 0');
       openModal();
     }
@@ -110,25 +110,37 @@ function ProjectForm() {
 
   const onSubmit = async (event) => {
     event.preventDefault();
-    const body = {
-      name: nameValue,
-      status: statusValue,
-      description: descriptionValue,
-      employees: employeesValue,
-      startDate: startDateValue,
-      endDate: endDateValue
-    };
-    if (requestType === 'PUT') {
-      dispatch(putProject(project._id, body));
-      setModalTitle('Project updated');
-      setMsg('Project updated successfully!');
-      routeChange();
-      openModal();
+    if (
+      nameValue != '' &&
+      statusValue != '' &&
+      descriptionValue != '' &&
+      employeesValue.length > 0 &&
+      startDateValue != '' &&
+      endDateValue != ''
+    ) {
+      const body = {
+        name: nameValue,
+        status: statusValue,
+        description: descriptionValue,
+        employees: employeesValue,
+        startDate: startDateValue,
+        endDate: endDateValue
+      };
+      setRedirect(true);
+      if (requestType === 'PUT') {
+        dispatch(putProject(project._id, body));
+        setModalTitle('Project updated');
+        setMsg('Project updated successfully!');
+        openModal();
+      } else {
+        dispatch(postProject(body));
+        setModalTitle('Project created');
+        setMsg('Project created successfully!');
+        openModal();
+      }
     } else {
-      dispatch(postProject(body));
-      setModalTitle('Project created');
-      setMsg('Project created successfully!');
-      routeChange();
+      setModalTitle('Error');
+      setMsg('All fields are required');
       openModal();
     }
   };
@@ -151,9 +163,6 @@ function ProjectForm() {
               text="OK"
               handler={() => {
                 closeModal();
-                if (!error) {
-                  routeStay();
-                }
               }}
             />
           </div>
