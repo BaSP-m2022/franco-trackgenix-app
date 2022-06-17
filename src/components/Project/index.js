@@ -60,13 +60,13 @@ function ProjectForm() {
 
   const onAddEmployee = (event) => {
     event.preventDefault();
-    if (employeeIdValue != '' && rateValue != '' && roleValue != '') {
+    if (employeeIdValue != '' && rateValue != '' && rateValue >= 0 && roleValue != '') {
       setEmployeesValue([
         ...employeesValue,
         { employeeId: employeeIdValue, rate: rateValue, role: roleValue }
       ]);
     } else {
-      setMsg('Complete the rate and role');
+      setMsg('Role and rate are required and rate must be bigger than 0');
       openModal();
     }
   };
@@ -88,7 +88,7 @@ function ProjectForm() {
   }, [error]);
 
   useEffect(() => {
-    if (typeof project === 'object' && project._id) {
+    if (project._id) {
       let startDate = project.startDate.slice(0, 10);
       let endDate = project.endDate ? project.endDate.slice(0, 10) : '';
       setNameValue(project.name);
@@ -195,6 +195,7 @@ function ProjectForm() {
                 className={styles.label}
                 name="Rate"
                 type="number"
+                min={0}
                 value={rateValue}
                 placeholder="Rate"
                 onChange={setRateValue}
