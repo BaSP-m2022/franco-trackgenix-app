@@ -80,6 +80,7 @@ const TimeSheetForm = () => {
   }, [tasks]);
 
   useEffect(() => {
+    console.log(timeSheet);
     if (timeSheet._id) {
       setTaskValue(timeSheet.task);
       setTotalHoursValue(timeSheet.totalHours);

@@ -4,7 +4,7 @@ const initialStore = {
   list: [],
   loading: false,
   error: '',
-  timesheet: {}
+  timeSheet: {}
 };
 
 export const timeSheetsReducer = (state = initialStore, actions) => {
@@ -87,7 +87,7 @@ export const timeSheetsReducer = (state = initialStore, actions) => {
     case CONSTANTS.DELETE_TIMESHEET_SUCCESS:
       return {
         ...state,
-        list: state.list.filter((timesheet) => timesheet._id !== actions.payload._id),
+        list: state.list.filter((timeSheet) => timeSheet._id !== actions.payload._id),
         loading: false
       };
 

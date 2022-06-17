@@ -51,7 +51,7 @@ const TimeSheets = () => {
 
   const handleSetTimeSheet = (id) => {
     dispatch(setTimeSheet(id));
-    history.push('/time-sheet/form');
+    history.push('/time-sheets/form');
   };
 
   function buttonDelete(id) {
@@ -99,7 +99,7 @@ const TimeSheets = () => {
           </Modal>
           <h2>Timesheets</h2>
           <div className={styles.buttonContainer}>
-            <Button text="Add timesheet" link={'/time-sheets/form'} />
+            <Button text="Add timeSheet" link={'/time-sheets/form'} />
             <Search
               placeholder="Search by ID"
               searchQuery={searchQuery}
