@@ -58,6 +58,11 @@ function ProjectForm() {
     setIsOpen(false);
   };
 
+  const routeStay = () => {
+    let path = `/projects/form`;
+    history.push(path);
+  };
+
   const onAddEmployee = (event) => {
     event.preventDefault();
     if (employeeIdValue != '' && rateValue != '' && rateValue >= 0 && roleValue != '') {
@@ -117,11 +122,13 @@ function ProjectForm() {
       dispatch(putProject(project._id, body));
       setModalTitle('Project updated');
       setMsg('Project updated successfully!');
+      routeChange();
       openModal();
     } else {
       dispatch(postProject(body));
       setModalTitle('Project created');
       setMsg('Project created successfully!');
+      routeChange();
       openModal();
     }
   };
@@ -145,7 +152,7 @@ function ProjectForm() {
               handler={() => {
                 closeModal();
                 if (!error) {
-                  routeChange();
+                  routeStay();
                 }
               }}
             />
