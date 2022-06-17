@@ -4,7 +4,7 @@ const initialStore = {
   list: [],
   loading: false,
   error: '',
-  timeSheet: {}
+  timesheet: {}
 };
 
 export const timeSheetsReducer = (state = initialStore, actions) => {
@@ -14,6 +14,7 @@ export const timeSheetsReducer = (state = initialStore, actions) => {
         ...state,
         loading: true
       };
+
     case CONSTANTS.PUT_TIMESHEET_SUCCESS:
       return {
         ...state,
@@ -27,18 +28,32 @@ export const timeSheetsReducer = (state = initialStore, actions) => {
         error: '',
         loading: false
       };
+
     case CONSTANTS.PUT_TIMESHEET_ERROR:
       return {
         ...state,
         error: actions.payload,
         loading: false
       };
-    case CONSTANTS.SET_TIMESHEET:
+
+    case CONSTANTS.GET_TIMESHEETS_LOADING:
       return {
         ...state,
-        timeSheet: actions.payload
-          ? state.list.find((timeSheet) => timeSheet._id === actions.payload)
-          : {},
+        error: undefined,
+        loading: true
+      };
+
+    case CONSTANTS.GET_TIMESHEETS_SUCCESS:
+      return {
+        ...state,
+        list: actions.payload,
+        loading: false
+      };
+
+    case CONSTANTS.GET_TIMESHEETS_ERROR:
+      return {
+        ...state,
+        error: actions.payload,
         loading: false
       };
 
@@ -47,6 +62,7 @@ export const timeSheetsReducer = (state = initialStore, actions) => {
         ...state,
         loading: true
       };
+
     case CONSTANTS.ADD_TIMESHEET_SUCCESS:
       return {
         ...state,
@@ -54,10 +70,40 @@ export const timeSheetsReducer = (state = initialStore, actions) => {
         error: '',
         loading: false
       };
+
     case CONSTANTS.ADD_TIMESHEET_ERROR:
       return {
         ...state,
         error: actions.payload,
+        loading: false
+      };
+
+    case CONSTANTS.DELETE_TIMESHEET_LOADING:
+      return {
+        ...state,
+        loading: true
+      };
+
+    case CONSTANTS.DELETE_TIMESHEET_SUCCESS:
+      return {
+        ...state,
+        list: state.list.filter((timesheet) => timesheet._id !== actions.payload._id),
+        loading: false
+      };
+
+    case CONSTANTS.DELETE_TIMESHEET_ERROR:
+      return {
+        ...state,
+        error: actions.payload,
+        loading: false
+      };
+
+    case CONSTANTS.SET_TIMESHEET:
+      return {
+        ...state,
+        timeSheet: actions.payload
+          ? state.list.find((timeSheet) => timeSheet._id === actions.payload)
+          : {},
         loading: false
       };
 
