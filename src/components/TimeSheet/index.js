@@ -13,7 +13,7 @@ import SelectDropdown from '../Shared/SelectDropdown';
 import styles from './form.module.css';
 
 const TimeSheetForm = () => {
-  const [taskValue, setTaskValue] = useState('');
+  const [taskValue, setTaskValue] = useState([]);
   const [totalHoursValue, setTotalHoursValue] = useState('');
   const [statusValue, setStatusValue] = useState('');
   const [startDateValue, setStartDateValue] = useState('');
@@ -80,14 +80,13 @@ const TimeSheetForm = () => {
   }, [tasks]);
 
   useEffect(() => {
-    console.log(timeSheet);
     if (timeSheet._id) {
-      setTaskValue(timeSheet.task);
+      setTaskValue(timeSheet.tasks);
       setTotalHoursValue(timeSheet.totalHours);
       setStatusValue(timeSheet.status);
       setStartDateValue(timeSheet.startDate.slice(0, 10));
       setEndDateValue(timeSheet.endDate.slice(0, 10));
-      setEmployeeIdValue(timeSheet.employeeId);
+      setEmployeeIdValue(timeSheet.employeeId._id);
       setRequestType('PUT');
     }
   }, [error]);
@@ -147,7 +146,7 @@ const TimeSheetForm = () => {
               name="Task"
               onChange={onChangeTaskInput}
               value={taskValue}
-              required="true"
+              required={true}
               type="text"
               options={tasksOptions}
               disabled={loading}
@@ -169,7 +168,7 @@ const TimeSheetForm = () => {
               onChange={onChangeStatusInput}
               value={statusValue}
               props="status"
-              required="true"
+              required={true}
               type="status"
               options={statusOption}
               disabled={loading}
@@ -201,7 +200,7 @@ const TimeSheetForm = () => {
               onChange={onChangeEmployeeIdInput}
               value={employeeIdValue}
               props="employeeId"
-              required="true"
+              required={true}
               type="text"
               options={employeeOptions}
               disabled={loading}
