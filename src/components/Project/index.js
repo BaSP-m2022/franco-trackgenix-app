@@ -64,6 +64,7 @@ function ProjectForm() {
 
   const onAddEmployee = (event) => {
     event.preventDefault();
+    console.log(employeeIdValue);
     if (employeeIdValue != '' && rateValue != '' && rateValue >= 0 && roleValue != '') {
       setEmployeesValue([
         ...employeesValue,
@@ -74,6 +75,18 @@ function ProjectForm() {
       setMsg('Role and rate are required and rate must be bigger than 0');
       openModal();
     }
+  };
+
+  const mapEmployees = (employees) => {
+    return employees.map((employee) => {
+      const employeeId =
+        typeof employee.employeeId == 'object' ? employee.employeeId._id : employee.employeeId;
+      return {
+        employeeId,
+        rate: employee.rate,
+        role: employee.role
+      };
+    });
   };
 
   useEffect(() => {
@@ -93,6 +106,7 @@ function ProjectForm() {
   }, [error]);
 
   useEffect(() => {
+    console.log('esto me llega', project);
     if (project._id) {
       let startDate = project.startDate.slice(0, 10);
       let endDate = project.endDate ? project.endDate.slice(0, 10) : '';
@@ -104,19 +118,22 @@ function ProjectForm() {
       setRequestType('PUT');
       setTitle('Edit Project');
       setButtonText('Update Project');
-      setEmployeesValue(project.employees);
+      const projectEmployees = mapEmployees(project.employees);
+      setEmployeesValue(projectEmployees);
     }
   }, [error]);
 
   const onSubmit = async (event) => {
     event.preventDefault();
+    const dateNow = new Date().toISOString().slice(0, 10);
     if (
       nameValue != '' &&
       statusValue != '' &&
       descriptionValue != '' &&
-      employeesValue.length > 0 &&
+      employeesValue.length >= 0 &&
       startDateValue != '' &&
-      endDateValue != ''
+      startDateValue <= dateNow &&
+      (endDateValue == '' || endDateValue >= dateNow)
     ) {
       const body = {
         name: nameValue,
@@ -126,6 +143,7 @@ function ProjectForm() {
         startDate: startDateValue,
         endDate: endDateValue
       };
+      console.log('esto envio', body);
       setRedirect(true);
       if (requestType === 'PUT') {
         dispatch(putProject(project._id, body));
