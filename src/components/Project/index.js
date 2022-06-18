@@ -89,7 +89,7 @@ function ProjectForm() {
   };
 
   useEffect(() => {
-    if (!employees.length) {
+    if (!employees || employees.length <= 0) {
       dispatch(getEmployees());
     }
     const newEmployees = employees.map((employee) => {
@@ -102,7 +102,7 @@ function ProjectForm() {
     if (error) {
       openModal();
     }
-  }, [error]);
+  }, [employees]);
 
   useEffect(() => {
     if (project._id) {
