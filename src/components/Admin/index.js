@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { postAdmin, putAdmin } from '../../redux/admins/thunks';
-import { clearError } from '../../redux/admins/actions';
-import Input from '../Shared/Input';
-import Button from '../Shared/Button';
-import Modal from '../Shared/Modal';
-import LoadingScreen from '../Shared/LoadingScreen';
-import styles from './admin.module.css';
+import { postAdmin, putAdmin } from 'redux/admins/thunks';
+import { clearError } from 'redux/admins/actions';
+import Input from 'components/Shared/Input';
+import Button from 'components/Shared/Button';
+import Modal from 'components/Shared/Modal';
+import LoadingScreen from 'components/Shared/LoadingScreen';
+import styles from 'components/Admin/admin.module.css';
 
 const AdminForm = () => {
   const history = useHistory();
