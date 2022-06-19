@@ -107,7 +107,6 @@ const Projects = () => {
               <Button text="No" handler={closeModal} />
             </div>
           )}
-          ;
         </div>
       </Modal>
       <div className={styles.flex}>
