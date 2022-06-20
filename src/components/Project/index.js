@@ -1,15 +1,34 @@
+/* eslint-disable no-unused-vars */
 import { useState, useEffect } from 'react';
 import styles from './Project.module.css';
-import Input from '../Shared/Input';
-import Button from '../Shared/Button';
-import Modal from '../Shared/Modal';
-import LoadingScreen from '../Shared/LoadingScreen';
-import Select from '../Shared/SelectDropdown';
+import Input from 'components/Shared/Input';
+import Button from 'components/Shared/Button';
+import Modal from 'components/Shared/Modal';
+import LoadingScreen from 'components/Shared/LoadingScreen';
+import Select from 'components/Shared/SelectDropdown';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { clearError } from '../../redux/projects/actions';
-import { postProject, putProject } from '../../redux/projects/thunks';
-import { getEmployees } from '../../redux/employees/thunks';
+import { clearError } from 'redux/projects/actions';
+import { postProject, putProject } from 'redux/projects/thunks';
+import { getEmployees } from 'redux/employees/thunks';
+import { useForm, Controller, UseFieldArray } from 'react-hook-form';
+import { joiResolver } from '@hookform/resolvers/joi';
+import Joi from 'joi';
+
+const schema = Joi.object({
+  name: Joi.string().required().min(3),
+  status: Joi.string(),
+  description: Joi.string().min(10).max(100),
+  employees: Joi.array().items(
+    Joi.object({
+      rate: Joi.number().required().greater(0),
+      role: Joi.string().required(),
+      employeeId: Joi.string().required()
+    })
+  ),
+  startDate: Joi.date().less('now').required(),
+  endDate: Joi.date().greater('now').optional()
+});
 
 function EmployeeItem({ employee }) {
   return (
@@ -47,6 +66,16 @@ function ProjectForm() {
   const [isOpen, setIsOpen] = useState(false);
   const [modalTitle, setModalTitle] = useState('Add Project');
   const [buttonText, setButtonText] = useState('Add Project');
+
+  const { register, handleSubmit, control } = useForm({
+    defaultValues: {
+      name: '',
+      status: '',
+      description: '',
+      startDate: '',
+      endDate: ''
+    }
+  });
 
   const onChangeEmployeeIdInput = (event) => {
     setEmployeeIdValue(event.target.value);
@@ -122,42 +151,43 @@ function ProjectForm() {
   }, [error]);
 
   const onSubmit = async (event) => {
-    event.preventDefault();
-    const dateNow = new Date().toISOString().slice(0, 10);
-    if (
-      nameValue != '' &&
-      statusValue != '' &&
-      descriptionValue != '' &&
-      employeesValue.length >= 0 &&
-      startDateValue != '' &&
-      startDateValue <= dateNow &&
-      (endDateValue == '' || endDateValue >= dateNow)
-    ) {
-      const body = {
-        name: nameValue,
-        status: statusValue,
-        description: descriptionValue,
-        employees: employeesValue,
-        startDate: startDateValue,
-        endDate: endDateValue
-      };
-      setRedirect(true);
-      if (requestType === 'PUT') {
-        dispatch(putProject(project._id, body));
-        setModalTitle('Project updated');
-        setMsg('Project updated successfully!');
-        openModal();
-      } else {
-        dispatch(postProject(body));
-        setModalTitle('Project created');
-        setMsg('Project created successfully!');
-        openModal();
-      }
-    } else {
-      setModalTitle('Error');
-      setMsg('All fields are required');
-      openModal();
-    }
+    console.log(event);
+    // event.preventDefault();
+    // const dateNow = new Date().toISOString().slice(0, 10);
+    // if (
+    //   nameValue != '' &&
+    //   statusValue != '' &&
+    //   descriptionValue != '' &&
+    //   employeesValue.length >= 0 &&
+    //   startDateValue != '' &&
+    //   startDateValue <= dateNow &&
+    //   (endDateValue == '' || endDateValue >= dateNow)
+    // ) {
+    //   const body = {
+    //     name: nameValue,
+    //     status: statusValue,
+    //     description: descriptionValue,
+    //     employees: employeesValue,
+    //     startDate: startDateValue,
+    //     endDate: endDateValue
+    //   };
+    //   setRedirect(true);
+    //   if (requestType === 'PUT') {
+    //     dispatch(putProject(project._id, body));
+    //     setModalTitle('Project updated');
+    //     setMsg('Project updated successfully!');
+    //     openModal();
+    //   } else {
+    //     dispatch(postProject(body));
+    //     setModalTitle('Project created');
+    //     setMsg('Project created successfully!');
+    //     openModal();
+    //   }
+    // } else {
+    //   setModalTitle('Error');
+    //   setMsg('All fields are required');
+    //   openModal();
+    // }
   };
 
   const routeChange = () => {
@@ -183,32 +213,81 @@ function ProjectForm() {
           </div>
         </Modal>
         <h2 className={styles.h2}>{title}</h2>
-        <form className={styles.form}>
+        <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
           <div className={styles.projects}>
-            <Input
-              className={styles.label}
-              name="Name"
-              type="text"
-              value={nameValue}
-              placeholder="Name"
-              onChange={setNameValue}
+            <Controller
+              control={control}
+              name="name"
+              render={({ field: { value, onChange } }) => (
+                <Input
+                  className={styles.label}
+                  name="Name"
+                  value={value}
+                  placeholder="Name"
+                  onChange={onChange}
+                />
+              )}
             />
-            <Input
-              className={styles.label}
-              name="Status"
-              type="text"
-              value={statusValue}
-              placeholder="Status: active or inactive"
-              onChange={setStatusValue}
+            <Controller
+              control={control}
+              name="status"
+              render={({ field: { value, onChange } }) => (
+                <Input
+                  className={styles.label}
+                  name="Status"
+                  type="text"
+                  value={value}
+                  placeholder="Status: active or inactive"
+                  onChange={onChange}
+                />
+              )}
             />
-            <Input
-              className={styles.label}
-              name="Description"
-              type="text"
-              value={descriptionValue}
-              placeholder="Description"
-              onChange={setDescriptionValue}
+            <Controller
+              control={control}
+              name="description"
+              render={({ field: { value, onChange } }) => (
+                <Input
+                  className={styles.label}
+                  name="Description"
+                  type="text"
+                  value={value}
+                  placeholder="Description"
+                  onChange={onChange}
+                />
+              )}
             />
+          </div>
+          <div className={styles.dates}>
+            <div className={styles.date}>
+              <Controller
+                control={control}
+                name="startDate"
+                render={({ field: { value, onChange } }) => (
+                  <Input
+                    className={styles.label}
+                    name="Start Date"
+                    type="date"
+                    value={value}
+                    onChange={onChange}
+                  />
+                )}
+              />
+            </div>
+            <div className={styles.date}>
+              <Controller
+                control={control}
+                name="endDate"
+                render={({ field: { value, onChange } }) => (
+                  <Input
+                    className={styles.label}
+                    name="End Date"
+                    type="date"
+                    value={value}
+                    onChange={onChange}
+                  />
+                )}
+              />
+            </div>
           </div>
           <div className={styles.inputsContainer}>
             <div className={styles.employee}>
@@ -219,7 +298,6 @@ function ProjectForm() {
                   value={employeeIdValue}
                   onChange={onChangeEmployeeIdInput}
                   options={employeeOptions}
-                  required={true}
                 />
               </div>
               <Input
@@ -258,27 +336,6 @@ function ProjectForm() {
               </tbody>
             </table>
           </div>
-
-          <div className={styles.dates}>
-            <div className={styles.date}>
-              <Input
-                className={styles.label}
-                name="Start Date"
-                type="date"
-                value={startDateValue}
-                onChange={setStartDateValue}
-              />
-            </div>
-            <div className={styles.date}>
-              <Input
-                className={styles.label}
-                name="End Date"
-                type="date"
-                value={endDateValue}
-                onChange={setEndDateValue}
-              />
-            </div>
-          </div>
           <div>
             <Button
               text="Return"
@@ -287,7 +344,7 @@ function ProjectForm() {
                 routeChange();
               }}
             />
-            <Button text={buttonText} handler={onSubmit} />
+            <Button text={buttonText} />
           </div>
         </form>
       </div>
