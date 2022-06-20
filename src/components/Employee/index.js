@@ -1,17 +1,26 @@
-import styles from './employee.module.css';
-import Input from '../Shared/Input';
-import Modal from '../Shared/Modal';
-import Button from '../Shared/Button';
-import LoadingScreen from '../Shared/LoadingScreen';
 import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { clearError } from '../../redux/employees/actions';
-import { addEmployee, putEmployee } from '../../redux/employees/thunks';
+import { clearError } from 'redux/employees/actions';
+import { addEmployee, putEmployee } from 'redux/employees/thunks';
+import { useForm } from 'react-hook-form';
+import Input from 'components/Shared/Input';
+import Button from 'components/Shared/Button';
+import Modal from 'components/Shared/Modal';
+import LoadingScreen from 'components/Shared/LoadingScreen';
+import styles from 'components/Employee/employee.module.css';
 
 const EmployeeForm = () => {
   const history = useHistory();
+
   const dispatch = useDispatch();
+
+  const { handleSubmit } = useForm();
+
+  const employee = useSelector((state) => state.employees.employee);
+  const loading = useSelector((state) => state.employees.loading);
+  const error = useSelector((state) => state.employees.error);
+
   const [requestType, setRequestType] = useState('POST');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -23,10 +32,6 @@ const EmployeeForm = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [modalTitle, setModalTitle] = useState('');
   const [title, setTitle] = useState('Add Employee');
-
-  const employee = useSelector((state) => state.employees.employee);
-  const loading = useSelector((state) => state.employees.loading);
-  const error = useSelector((state) => state.employees.error);
 
   useEffect(() => {
     if (typeof employee === 'object' && employee._id) {
@@ -41,8 +46,20 @@ const EmployeeForm = () => {
     }
   }, [error]);
 
-  function handleSubmit(e) {
-    e.preventDefault();
+  const routeChange = () => {
+    let path = `/employees`;
+    history.push(path);
+  };
+
+  const openModal = () => {
+    setIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsOpen(false);
+  };
+
+  const onSubmit = () => {
     const body = JSON.stringify({
       firstName,
       lastName,
@@ -62,19 +79,6 @@ const EmployeeForm = () => {
       setMsg('Employee created successfully!');
       openModal();
     }
-  }
-
-  const routeChange = () => {
-    let path = `/employees`;
-    history.push(path);
-  };
-
-  const openModal = () => {
-    setIsOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsOpen(false);
   };
 
   if (loading) {
@@ -84,6 +88,7 @@ const EmployeeForm = () => {
       </div>
     );
   }
+
   return (
     <div className={styles.containerSec}>
       <h2 className={styles.formTitle}>{title}</h2>
@@ -95,6 +100,7 @@ const EmployeeForm = () => {
             value={firstName}
             placeholder="Enter your First Name"
             onChange={setFirstName}
+            // {...register('firstName')}
           />
           <Input
             name="Last Name"
@@ -142,7 +148,7 @@ const EmployeeForm = () => {
           />
           <Button
             text={!loading && requestType === 'POST' ? 'Add Employee' : 'Update Employee'}
-            handler={handleSubmit}
+            handler={handleSubmit(onSubmit)}
           />
           <Modal modalTitle={error ? 'Error' : modalTitle} isOpen={isOpen} handleClose={closeModal}>
             <p>{error ? error : msg}</p>
