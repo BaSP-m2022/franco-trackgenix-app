@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { clearError } from 'redux/projects/actions';
 import { postProject, putProject } from 'redux/projects/thunks';
 import { getEmployees } from 'redux/employees/thunks';
-import { useForm, Controller, UseFieldArray } from 'react-hook-form';
+import { useForm, Controller, useFieldArray } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
 import Joi from 'joi';
 
@@ -67,7 +67,7 @@ function ProjectForm() {
   const [modalTitle, setModalTitle] = useState('Add Project');
   const [buttonText, setButtonText] = useState('Add Project');
 
-  const { register, handleSubmit, control } = useForm({
+  const { register, handleSubmit, control, reset, watch } = useForm({
     defaultValues: {
       name: '',
       status: '',
@@ -75,6 +75,11 @@ function ProjectForm() {
       startDate: '',
       endDate: ''
     }
+  });
+
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: 'employee'
   });
 
   const onChangeEmployeeIdInput = (event) => {
@@ -149,7 +154,7 @@ function ProjectForm() {
       setEmployeesValue(projectEmployees);
     }
   }, [error]);
-
+  console.log(watch('employee'));
   const onSubmit = async (event) => {
     console.log(event);
     // event.preventDefault();
@@ -290,51 +295,60 @@ function ProjectForm() {
             </div>
           </div>
           <div className={styles.inputsContainer}>
-            <div className={styles.employee}>
-              <div className={styles.select}>
-                <label className={styles.label}>Employee</label>
-                <Select
-                  className={styles.label}
-                  value={employeeIdValue}
-                  onChange={onChangeEmployeeIdInput}
-                  options={employeeOptions}
-                />
-              </div>
-              <Input
-                className={styles.label}
-                name="Rate"
-                type="number"
-                min={0}
-                value={rateValue}
-                placeholder="Rate"
-                onChange={setRateValue}
-              />
-              <Input
-                className={styles.label}
-                name="Role"
-                type="text"
-                value={roleValue}
-                placeholder="Role"
-                onChange={setRoleValue}
-              />
-              <Button text="Add employee" handler={onAddEmployee} />
-            </div>
-          </div>
-          <div className={styles.containerTable}>
-            <table className={styles.table}>
-              <thead>
-                <tr>
-                  <th id="employeeId">ID</th>
-                  <th id="role">Role</th>
-                  <th id="rate">Rate</th>
-                </tr>
-              </thead>
-              <tbody>
-                {employeesValue.map((employee, index) => (
-                  <EmployeeItem key={index} employee={employee} />
-                ))}
-              </tbody>
-            </table>
+            <ul>
+              {fields.map((field, index) => (
+                <div key={field.id}>
+                  <Controller
+                    control={control}
+                    name={`employee[${index}].employeeId`}
+                    defaultValue={field.text}
+                    render={({ field: { value, onChange } }) => (
+                      <Select
+                        name={'Employee'}
+                        className={styles.label}
+                        value={value}
+                        onChange={onChange}
+                        options={employeeOptions}
+                      />
+                    )}
+                  />
+                  <Controller
+                    control={control}
+                    name={`employee[${index}].rate`}
+                    render={({ field: { value, onChange } }) => (
+                      <Input
+                        className={styles.label}
+                        name="Rate"
+                        type="number"
+                        value={value}
+                        placeholder="Rate"
+                        onChange={onChange}
+                      />
+                    )}
+                  />
+                  <Controller
+                    control={control}
+                    name={`employee[${index}].role`}
+                    render={({ field: { value, onChange } }) => (
+                      <Input
+                        className={styles.label}
+                        name="Role"
+                        type="text"
+                        value={value}
+                        placeholder="Role"
+                        onChange={onChange}
+                      />
+                    )}
+                  />
+                  <button type="button" onClick={() => remove(index)}>
+                    Delete
+                  </button>
+                </div>
+              ))}
+            </ul>
+            <button type="button" onClick={() => append({ employeeId: '', rate: 0, role: '' })}>
+              append
+            </button>
           </div>
           <div>
             <Button
