@@ -70,13 +70,7 @@ function ProjectForm() {
   const [modalTitle, setModalTitle] = useState('Add Project');
   const [buttonText, setButtonText] = useState('Add Project');
 
-  const {
-    handleSubmit,
-    control,
-    setValue,
-    formState: { errors }
-  } = useForm({
-    mode: 'onSubmit',
+  const { handleSubmit, control, setValue } = useForm({
     resolver: joiResolver(schema),
     defaultValues: {
       name: '',
@@ -122,7 +116,7 @@ function ProjectForm() {
       setValue('status', project.status);
       setValue('description', project.description);
       setValue('startDate', project.startDate.slice(0, 10));
-      setValue('endDate', project.endDate.slice(0, 10));
+      setValue('endDate', project.endDate?.slice(0, 10));
       setValue('employees', mapEmployees(project.employees));
       setRequestType('PUT');
       setButtonText('Update Project');
@@ -179,14 +173,14 @@ function ProjectForm() {
             <Controller
               control={control}
               name="name"
-              render={({ field: { value, onChange } }) => (
+              render={({ field: { value, onChange }, fieldState: { error } }) => (
                 <Input
                   className={styles.label}
                   name="Name"
                   value={value}
                   placeholder="Name"
                   onChange={onChange}
-                  error={errors.name?.message}
+                  error={error?.message}
                 />
               )}
             />
@@ -218,7 +212,7 @@ function ProjectForm() {
                   value={value}
                   placeholder="Description"
                   onChange={onChange}
-                  error={error.message}
+                  error={error?.message}
                 />
               )}
             />
