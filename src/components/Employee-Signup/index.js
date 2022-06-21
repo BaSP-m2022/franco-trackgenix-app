@@ -225,7 +225,7 @@ const EmployeeSignUp = () => {
           </Modal>
         </div>
         <div>
-          <Button text={'Already have an account? Log in'} handler={null} />
+          <Button text={'Already have an account? Log in '} handler={null} />
         </div>
       </form>
     </div>
