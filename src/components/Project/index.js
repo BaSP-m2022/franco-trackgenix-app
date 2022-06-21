@@ -88,8 +88,6 @@ function ProjectForm() {
     }
   });
 
-  console.log(errors, 'errors');
-
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'employees'
@@ -131,8 +129,8 @@ function ProjectForm() {
       setTitle('Update Project');
     }
   }, [errorDB]);
+
   const onSubmit = (data) => {
-    console.log(data, 'data');
     const body = {
       name: capitalizeFirstLetter(data.name),
       status: data.status,
