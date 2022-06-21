@@ -12,6 +12,7 @@ import styles from './layout.module.css';
 import Employees from '../Employees';
 import EmployeeForm from '../Employee';
 import Projects from '../Projects';
+import EmployeeHome from '../Employee/home';
 import ProjectForm from '../Project';
 import TimeSheets from '../TimeSheets';
 import TimeSheetForm from '../TimeSheet';
@@ -35,6 +36,7 @@ function Layout() {
             <Route exact path="/super-admins/form" component={SuperAdminForm} />
             <Route exact path="/employees" component={Employees} />
             <Route exact path="/employees/form" component={EmployeeForm} />
+            <Route exact path="/employees/home" component={EmployeeHome} />
             <Route exact path="/projects" component={Projects} />
             <Route exact path="/projects/form" component={ProjectForm} />
             <Route exact path="/time-sheets" component={TimeSheets} />
