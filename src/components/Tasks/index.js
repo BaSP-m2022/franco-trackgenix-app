@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getTasks, deleteTask } from '../../redux/tasks/thunks';
-import { setTask } from '../../redux/tasks/actions';
-import Table from '../Shared/Table';
-import LoadingScreen from '../Shared/LoadingScreen';
-import Modal from '../Shared/Modal';
-import Button from '../Shared/Button';
-import Search from '../Shared/Search-bar';
-import styles from './tasks.module.css';
+import { getTasks, deleteTask } from 'redux/tasks/thunks';
+import { setTask } from 'redux/tasks/actions';
+import Table from 'components/Shared/Table';
+import LoadingScreen from 'components/Shared/LoadingScreen';
+import Modal from 'components/Shared/Modal';
+import Button from 'components/Shared/Button';
+import Search from 'components/Shared/Search-bar';
+import styles from 'components/Tasks/tasks.module.css';
 
 const Tasks = () => {
   const history = useHistory();
