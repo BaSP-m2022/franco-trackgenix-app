@@ -149,7 +149,7 @@ const EmployeeForm = () => {
             name="dni"
             render={({ field: { value, onChange }, fieldState: { error } }) => (
               <Input
-                name="Dni"
+                name="DNI"
                 type="number"
                 value={value}
                 placeholder="Enter your DNI"
