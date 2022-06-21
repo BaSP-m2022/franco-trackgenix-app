@@ -7,6 +7,7 @@ import { getProjects } from 'redux/projects/thunks';
 import { useForm, Controller } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
 import Joi from 'joi';
+import { formatDate, capitalizeFirstLetter } from '../../utils/formatters';
 import Input from 'components/Shared/Input';
 import SelectDropdown from 'components/Shared/SelectDropdown';
 import Button from 'components/Shared/Button';
@@ -20,7 +21,7 @@ const TaskForm = () => {
 
   const task = useSelector((state) => state.tasks.task);
   const loading = useSelector((state) => state.tasks.loading);
-  const error = useSelector((state) => state.tasks.error);
+  const errorR = useSelector((state) => state.tasks.error);
   const projects = useSelector((state) => state.projects.list);
 
   const [projectsOptions, setProjectsOptions] = useState([]);
@@ -30,21 +31,22 @@ const TaskForm = () => {
   const [modalTitle, setModalTitle] = useState('');
   const [modalText, setModalText] = useState('');
 
-  const {
-    handleSubmit,
-    // formState: { errors },
-    reset,
-    control
-  } = useForm({
-    mode: 'onChange',
-    resolver: joiResolver(schema)
-  });
-
   const schema = Joi.object({
     description: Joi.string().min(3).max(50).required(),
     workedHours: Joi.number().min(1).required(),
     projectId: Joi.string().required(),
     date: Joi.date().required()
+  });
+
+  const { handleSubmit, setValue, control } = useForm({
+    mode: 'onChange',
+    defaultValues: {
+      description: '',
+      date: '',
+      workedHours: '',
+      projectId: ''
+    },
+    resolver: joiResolver(schema)
   });
 
   useEffect(() => {
@@ -56,15 +58,13 @@ const TaskForm = () => {
 
   useEffect(() => {
     if (task._id) {
-      reset({
-        description: task.description,
-        date: formatDate(task.date),
-        workedHours: task.workedHours,
-        projectId: task.projectId._id
-      });
+      setValue('description', capitalizeFirstLetter(task.description));
+      setValue('date', formatDate(task.date));
+      setValue('workedHours', task.workedHours);
+      setValue('projectId', task.projectId?._id);
       setRequestType('PUT');
     }
-  }, [error]);
+  }, [errorR]);
 
   const onSubmit = async (data) => {
     const body = JSON.stringify({
@@ -91,16 +91,6 @@ const TaskForm = () => {
     history.push('/tasks');
   };
 
-  const formatDate = (date) => {
-    let d = new Date(date),
-      month = '' + (d.getMonth() + 1),
-      day = '' + d.getDate(),
-      year = d.getFullYear();
-    if (month.length < 2) month = '0' + month;
-    if (day.length < 2) day = '0' + day;
-    return [year, month, day].join('-');
-  };
-
   const openModal = () => {
     setIsOpen(true);
   };
@@ -124,53 +114,49 @@ const TaskForm = () => {
         <Controller
           control={control}
           name="description"
-          render={({ field: { value, onChange }, fieldState: { errors } }) => (
+          render={({ field: { value, onChange }, fieldState: { error } }) => (
             <Input
               name="Description"
               type="text"
               value={value}
               placeholder="Description here..."
               onChange={onChange}
-              error={errors.description?.message}
+              error={error?.message}
             />
           )}
         />
         <Controller
           control={control}
           name="workedHours"
-          render={({ field: { value, onChange }, fieldState: { errors } }) => (
+          render={({ field: { value, onChange }, fieldState: { error } }) => (
             <Input
               name="Worked hours"
               type="text"
               value={value}
               placeholder="Hours here..."
               onChange={onChange}
-              error={errors.workedHours?.message}
+              error={error?.message}
             />
           )}
         />
         <div className={styles.select}>
           <Controller
             control={control}
-            name="firstName"
-            render={({ field: { value, onChange }, fieldState: { errors } }) => (
+            name="projectId"
+            render={({ field: { value, onChange }, fieldState: { error } }) => (
               <SelectDropdown
                 name="Projects"
                 value={value}
-                onChange={
-                  onChange /*(e) => {
-                setProjectId(e.target.value);
-              }*/
-                }
+                onChange={onChange}
                 options={projectsOptions}
-                error={errors.projectId?.message}
+                error={error?.message}
               />
             )}
           />
         </div>
         <Controller
           control={control}
-          name="firstName"
+          name="date"
           render={({ field: { value, onChange }, fieldState: { error } }) => (
             <Input
               name="Date"
@@ -193,10 +179,14 @@ const TaskForm = () => {
             handler={handleSubmit(onSubmit)}
             text={requestType === 'PUT' ? 'Update' : 'Save'}
           />
-          <Modal modalTitle={error ? 'error' : modalTitle} isOpen={isOpen} handleClose={closeModal}>
-            <p className={styles.message}>{error ? error : modalText}</p>
+          <Modal
+            modalTitle={errorR ? 'error' : modalTitle}
+            isOpen={isOpen}
+            handleClose={closeModal}
+          >
+            <p className={styles.message}>{errorR ? errorR : modalText}</p>
             <div>
-              <Button text="OK" handler={!error ? routeChange : closeModal} />
+              <Button text="OK" handler={!errorR ? routeChange : closeModal} />
             </div>
           </Modal>
         </div>
