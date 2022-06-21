@@ -15,6 +15,18 @@ import { useForm, Controller, useFieldArray, appendErrors } from 'react-hook-for
 import { joiResolver } from '@hookform/resolvers/joi';
 import Joi from 'joi';
 
+const mapEmployees = (employees) => {
+  return employees.map((employee) => {
+    const employeeId =
+      typeof employee.employeeId == 'object' ? employee.employeeId._id : employee.employeeId;
+    return {
+      employeeId,
+      rate: employee.rate,
+      role: employee.role
+    };
+  });
+};
+
 function ProjectForm() {
   const history = useHistory();
   const dispatch = useDispatch();
@@ -27,20 +39,25 @@ function ProjectForm() {
   const [employeeOptions, setEmployeeOptions] = useState([]);
   const [title, setTitle] = useState('Add Project');
   const [requestType, setRequestType] = useState('POST');
+  const [employeeIdValue, setEmployeeIdValue] = useState('');
 
   const [msg, setMsg] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const [modalTitle, setModalTitle] = useState('Add Project');
   const [buttonText, setButtonText] = useState('Add Project');
+  const onChangeEmployeeIdInput = (event) => {
+    setEmployeeIdValue(event.target.value);
+  };
 
   const schema = Joi.object({
     name: Joi.string().required().min(3),
     description: Joi.string().min(10).max(100),
+    status: Joi.string(),
     employees: Joi.array().items(
       Joi.object({
         rate: Joi.number().required().greater(0),
-        role: Joi.string().required().valid('QA', 'DEV', 'PM'),
-        _id: Joi.string().required()
+        role: Joi.string().required(),
+        employeeId: Joi.string().required()
       })
     ),
     startDate: Joi.date().less('now').required(),
@@ -48,17 +65,15 @@ function ProjectForm() {
   });
 
   const {
-    register,
     handleSubmit,
     control,
     setValue,
     formState: { errors }
   } = useForm({
-    mode: 'onChange',
+    mode: 'onSubmit',
     resolver: joiResolver(schema),
     defaultValues: {
       name: '',
-      status: 'active',
       description: '',
       startDate: '',
       endDate: '',
@@ -90,7 +105,7 @@ function ProjectForm() {
     const newEmployees = employees.map((employee) => {
       return {
         label: `${employee.firstName} ${employee.lastName}`,
-        value: employee._id
+        value: employee.employeeId?._id
       };
     });
     setEmployeeOptions(newEmployees);
@@ -99,8 +114,6 @@ function ProjectForm() {
     }
   }, [employees]);
 
-  console.log(project);
-
   useEffect(() => {
     if (project._id) {
       setValue('name', project.name);
@@ -108,15 +121,14 @@ function ProjectForm() {
       setValue('description', project.description);
       setValue('startDate', project.startDate.slice(0, 10));
       setValue('endDate', project.endDate.slice(0, 10));
-      project.employees.map((employee) => {
-        setValue('employeeId', employee._id);
-      });
-      console.log(project.employees);
-      setValue('employees', project.employees);
+      setValue('employees', mapEmployees(project.employees));
       setRequestType('PUT');
+      setButtonText('Update Employee');
+      setTitle('Update Project');
     }
   }, [error]);
   const onSubmit = (data) => {
+    console.log(data, 'data');
     const body = {
       name: data.name,
       status: data.status,
@@ -162,7 +174,7 @@ function ProjectForm() {
           </div>
         </Modal>
         <h2 className={styles.h2}>{title}</h2>
-        <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+        <form className={styles.form}>
           <div className={styles.projects}>
             <Controller
               control={control}
@@ -178,13 +190,23 @@ function ProjectForm() {
                 />
               )}
             />
-            <div>
-              <label htmlFor="">Project Status</label>
-              <input {...register('status')} type={'radio'} value={'active'} name={'status'} />
-              Active
-              <input {...register('status')} type="radio" value="inactive" name="status" />
-              Inactive
-            </div>
+            <Controller
+              control={control}
+              name={`status`}
+              render={({ field: { value, onChange } }) => (
+                <Select
+                  name={'Status'}
+                  className={styles.label}
+                  value={value}
+                  onChange={onChange}
+                  options={[
+                    { label: `Active`, value: 'active' },
+                    { label: `Inactive`, value: 'inactive' }
+                  ]}
+                  error={errors.employees?.employeeI}
+                />
+              )}
+            />
             <Controller
               control={control}
               name="description"
@@ -235,61 +257,71 @@ function ProjectForm() {
               />
             </div>
           </div>
-          <div className={styles.inputsContainer}>
-            <ul>
+          <div className={styles.addEmployeeDiv}>
+            <ul className={styles.employeeUl}>
               {fields.map((field, index) => (
-                <div key={field.id}>
+                <div key={field.id} className={styles.employeeDiv}>
                   <Controller
                     control={control}
                     name={`employees[${index}].employeeId`}
                     defaultValue={field.text}
-                    render={({ field: { value, onChange } }) => (
+                    render={({ field: { value, onChange }, fieldState: { error } }) => (
                       <Select
+                        className={styles.employeeMargin}
                         name={'Employee'}
-                        className={styles.label}
                         value={value}
                         onChange={onChange}
                         options={employeeOptions}
+                        error={error?.message}
                       />
                     )}
                   />
                   <Controller
                     control={control}
                     name={`employees[${index}].rate`}
-                    render={({ field: { value, onChange } }) => (
+                    render={({ field: { value, onChange }, fieldState: { error } }) => (
                       <Input
-                        className={styles.label}
+                        className={styles.employeeMargin}
                         name="Rate"
                         type="number"
                         value={value}
                         placeholder="Rate"
                         onChange={onChange}
+                        error={error?.message}
                       />
                     )}
                   />
                   <Controller
                     control={control}
                     name={`employees[${index}].role`}
-                    render={({ field: { value, onChange } }) => (
-                      <Input
+                    render={({ field: { value, onChange }, fieldState: { error } }) => (
+                      <Select
+                        name={'Role'}
                         className={styles.label}
-                        name="Role"
-                        type="text"
                         value={value}
-                        placeholder="Role"
                         onChange={onChange}
+                        options={[
+                          { label: `PM`, value: 'PM' },
+                          { label: `DEV`, value: 'DEV' },
+                          { label: `QA`, value: 'QA' },
+                          { label: `TL`, value: 'TL' }
+                        ]}
+                        error={error?.message}
                       />
                     )}
                   />
-                  <button type="button" onClick={() => remove(index)}>
-                    Delete
-                  </button>
+                  <Button type={'delete'} text={'Delete'} handler={() => remove(index)} />
                 </div>
               ))}
             </ul>
-            <button type="button" onClick={() => append({ employeeId: '', rate: 0, role: '' })}>
-              append
-            </button>
+            <Button
+              text={'Add new employee to Project'}
+              type="button"
+              handler={(e) => {
+                e.preventDefault();
+                append({ employeeId: '', rate: 0, role: '' });
+              }}
+            />
           </div>
           <div>
             <Button
@@ -299,7 +331,7 @@ function ProjectForm() {
                 routeChange();
               }}
             />
-            <Button text={buttonText} />
+            <Button text={buttonText} handler={handleSubmit(onSubmit)} />
           </div>
         </form>
       </div>
