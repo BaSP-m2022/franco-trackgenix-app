@@ -11,34 +11,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { clearError } from 'redux/projects/actions';
 import { postProject, putProject } from 'redux/projects/thunks';
 import { getEmployees } from 'redux/employees/thunks';
-import { useForm, Controller, useFieldArray } from 'react-hook-form';
+import { useForm, Controller, useFieldArray, appendErrors } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
 import Joi from 'joi';
-
-const schema = Joi.object({
-  name: Joi.string().required().min(3),
-  status: Joi.string(),
-  description: Joi.string().min(10).max(100),
-  employees: Joi.array().items(
-    Joi.object({
-      rate: Joi.number().required().greater(0),
-      role: Joi.string().required(),
-      employeeId: Joi.string().required()
-    })
-  ),
-  startDate: Joi.date().less('now').required(),
-  endDate: Joi.date().greater('now').optional()
-});
-
-function EmployeeItem({ employee }) {
-  return (
-    <tr>
-      <td>{employee.employeeId}</td>
-      <td>{employee.role}</td>
-      <td>{employee.rate}</td>
-    </tr>
-  );
-}
 
 function ProjectForm() {
   const history = useHistory();
@@ -49,17 +24,8 @@ function ProjectForm() {
   const error = useSelector((state) => state.projects.error);
 
   const [redirect, setRedirect] = useState(false);
-  const [nameValue, setNameValue] = useState('');
-  const [statusValue, setStatusValue] = useState('');
-  const [descriptionValue, setDescriptionValue] = useState('');
-  const [employeeIdValue, setEmployeeIdValue] = useState('');
   const [employeeOptions, setEmployeeOptions] = useState([]);
-  const [startDateValue, setStartDateValue] = useState('');
-  const [endDateValue, setEndDateValue] = useState('');
   const [title, setTitle] = useState('Add Project');
-  const [rateValue, setRateValue] = useState('');
-  const [roleValue, setRoleValue] = useState('');
-  const [employeesValue, setEmployeesValue] = useState([]);
   const [requestType, setRequestType] = useState('POST');
 
   const [msg, setMsg] = useState('');
@@ -67,24 +33,45 @@ function ProjectForm() {
   const [modalTitle, setModalTitle] = useState('Add Project');
   const [buttonText, setButtonText] = useState('Add Project');
 
-  const { register, handleSubmit, control, reset, watch } = useForm({
+  const schema = Joi.object({
+    name: Joi.string().required().min(3),
+    description: Joi.string().min(10).max(100),
+    employees: Joi.array().items(
+      Joi.object({
+        rate: Joi.number().required().greater(0),
+        role: Joi.string().required().valid('QA', 'DEV', 'PM'),
+        _id: Joi.string().required()
+      })
+    ),
+    startDate: Joi.date().less('now').required(),
+    endDate: Joi.date().greater('now').optional()
+  });
+
+  const {
+    register,
+    handleSubmit,
+    control,
+    setValue,
+    formState: { errors }
+  } = useForm({
+    mode: 'onChange',
+    resolver: joiResolver(schema),
     defaultValues: {
       name: '',
-      status: '',
+      status: 'active',
       description: '',
       startDate: '',
-      endDate: ''
+      endDate: '',
+      employees: []
     }
   });
 
+  console.log(errors, 'errors');
+
   const { fields, append, remove } = useFieldArray({
     control,
-    name: 'employee'
+    name: 'employees'
   });
-
-  const onChangeEmployeeIdInput = (event) => {
-    setEmployeeIdValue(event.target.value);
-  };
 
   const openModal = () => {
     setIsOpen(true);
@@ -94,32 +81,6 @@ function ProjectForm() {
       routeChange();
     }
     setIsOpen(false);
-  };
-
-  const onAddEmployee = (event) => {
-    event.preventDefault();
-    if (employeeIdValue != '' && rateValue != '' && rateValue >= 0 && roleValue != '') {
-      setEmployeesValue([
-        ...employeesValue,
-        { employeeId: employeeIdValue, rate: rateValue, role: roleValue }
-      ]);
-    } else {
-      setModalTitle('Error');
-      setMsg('Role and rate are required and rate must be bigger than 0');
-      openModal();
-    }
-  };
-
-  const mapEmployees = (employees) => {
-    return employees.map((employee) => {
-      const employeeId =
-        typeof employee.employeeId == 'object' ? employee.employeeId._id : employee.employeeId;
-      return {
-        employeeId,
-        rate: employee.rate,
-        role: employee.role
-      };
-    });
   };
 
   useEffect(() => {
@@ -138,61 +99,44 @@ function ProjectForm() {
     }
   }, [employees]);
 
+  console.log(project);
+
   useEffect(() => {
     if (project._id) {
-      let startDate = project.startDate.slice(0, 10);
-      let endDate = project.endDate ? project.endDate.slice(0, 10) : '';
-      setNameValue(project.name);
-      setStatusValue(project.status);
-      setDescriptionValue(project.description);
-      setStartDateValue(startDate);
-      setEndDateValue(endDate);
+      setValue('name', project.name);
+      setValue('status', project.status);
+      setValue('description', project.description);
+      setValue('startDate', project.startDate.slice(0, 10));
+      setValue('endDate', project.endDate.slice(0, 10));
+      project.employees.map((employee) => {
+        setValue('employeeId', employee._id);
+      });
+      console.log(project.employees);
+      setValue('employees', project.employees);
       setRequestType('PUT');
-      setTitle('Edit Project');
-      setButtonText('Update Project');
-      const projectEmployees = mapEmployees(project.employees);
-      setEmployeesValue(projectEmployees);
     }
   }, [error]);
-  console.log(watch('employee'));
-  const onSubmit = async (event) => {
-    console.log(event);
-    // event.preventDefault();
-    // const dateNow = new Date().toISOString().slice(0, 10);
-    // if (
-    //   nameValue != '' &&
-    //   statusValue != '' &&
-    //   descriptionValue != '' &&
-    //   employeesValue.length >= 0 &&
-    //   startDateValue != '' &&
-    //   startDateValue <= dateNow &&
-    //   (endDateValue == '' || endDateValue >= dateNow)
-    // ) {
-    //   const body = {
-    //     name: nameValue,
-    //     status: statusValue,
-    //     description: descriptionValue,
-    //     employees: employeesValue,
-    //     startDate: startDateValue,
-    //     endDate: endDateValue
-    //   };
-    //   setRedirect(true);
-    //   if (requestType === 'PUT') {
-    //     dispatch(putProject(project._id, body));
-    //     setModalTitle('Project updated');
-    //     setMsg('Project updated successfully!');
-    //     openModal();
-    //   } else {
-    //     dispatch(postProject(body));
-    //     setModalTitle('Project created');
-    //     setMsg('Project created successfully!');
-    //     openModal();
-    //   }
-    // } else {
-    //   setModalTitle('Error');
-    //   setMsg('All fields are required');
-    //   openModal();
-    // }
+  const onSubmit = (data) => {
+    const body = {
+      name: data.name,
+      status: data.status,
+      description: data.description,
+      employees: data.employees,
+      startDate: data.startDate,
+      endDate: data.endDate
+    };
+    setRedirect(true);
+    if (requestType === 'PUT') {
+      dispatch(putProject(project._id, body));
+      setModalTitle('Project updated');
+      setMsg('Project updated successfully!');
+      openModal();
+    } else {
+      dispatch(postProject(body));
+      setModalTitle('Project created');
+      setMsg('Project created successfully!');
+      openModal();
+    }
   };
 
   const routeChange = () => {
@@ -230,23 +174,17 @@ function ProjectForm() {
                   value={value}
                   placeholder="Name"
                   onChange={onChange}
+                  error={errors.name?.message}
                 />
               )}
             />
-            <Controller
-              control={control}
-              name="status"
-              render={({ field: { value, onChange } }) => (
-                <Input
-                  className={styles.label}
-                  name="Status"
-                  type="text"
-                  value={value}
-                  placeholder="Status: active or inactive"
-                  onChange={onChange}
-                />
-              )}
-            />
+            <div>
+              <label htmlFor="">Project Status</label>
+              <input {...register('status')} type={'radio'} value={'active'} name={'status'} />
+              Active
+              <input {...register('status')} type="radio" value="inactive" name="status" />
+              Inactive
+            </div>
             <Controller
               control={control}
               name="description"
@@ -258,6 +196,7 @@ function ProjectForm() {
                   value={value}
                   placeholder="Description"
                   onChange={onChange}
+                  error={errors.description?.message}
                 />
               )}
             />
@@ -276,6 +215,7 @@ function ProjectForm() {
                     onChange={onChange}
                   />
                 )}
+                error={errors.startDate?.message}
               />
             </div>
             <div className={styles.date}>
@@ -289,6 +229,7 @@ function ProjectForm() {
                     type="date"
                     value={value}
                     onChange={onChange}
+                    error={errors.endDate?.message}
                   />
                 )}
               />
@@ -300,7 +241,7 @@ function ProjectForm() {
                 <div key={field.id}>
                   <Controller
                     control={control}
-                    name={`employee[${index}].employeeId`}
+                    name={`employees[${index}].employeeId`}
                     defaultValue={field.text}
                     render={({ field: { value, onChange } }) => (
                       <Select
@@ -314,7 +255,7 @@ function ProjectForm() {
                   />
                   <Controller
                     control={control}
-                    name={`employee[${index}].rate`}
+                    name={`employees[${index}].rate`}
                     render={({ field: { value, onChange } }) => (
                       <Input
                         className={styles.label}
@@ -328,7 +269,7 @@ function ProjectForm() {
                   />
                   <Controller
                     control={control}
-                    name={`employee[${index}].role`}
+                    name={`employees[${index}].role`}
                     render={({ field: { value, onChange } }) => (
                       <Input
                         className={styles.label}
