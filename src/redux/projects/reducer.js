@@ -72,7 +72,7 @@ export const projectsReducer = (state = initialStore, actions) => {
       return {
         ...state,
         isLoading: false,
-        error: actions.error
+        error: actions.payload
       };
     case CONSTANTS.PUT_PROJECT_LOADING:
       return {
@@ -92,7 +92,7 @@ export const projectsReducer = (state = initialStore, actions) => {
       return {
         ...state,
         isLoading: false,
-        error: actions.error
+        error: actions.payload
       };
     case CONSTANTS.CLEAR_ERROR:
       return {

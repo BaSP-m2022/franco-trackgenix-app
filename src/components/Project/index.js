@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { useState, useEffect } from 'react';
 import styles from './Project.module.css';
 import Input from 'components/Shared/Input';
@@ -11,14 +10,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { clearError } from 'redux/projects/actions';
 import { postProject, putProject } from 'redux/projects/thunks';
 import { getEmployees } from 'redux/employees/thunks';
-import { useForm, Controller, useFieldArray, appendErrors } from 'react-hook-form';
+import { useForm, Controller, useFieldArray } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
+import { capitalizeFirstLetter } from '../../utils/formatters';
 import Joi from 'joi';
 
 const mapEmployees = (employees) => {
   return employees.map((employee) => {
     const employeeId =
-      typeof employee.employeeId == 'object' ? employee.employeeId._id : employee.employeeId;
+      typeof employee.employeeId == 'object' ? employee.employeeId?._id : employee.employeeId;
     return {
       employeeId,
       rate: employee.rate,
@@ -26,6 +26,32 @@ const mapEmployees = (employees) => {
     };
   });
 };
+const schema = Joi.object({
+  name: Joi.string().required().min(3).messages({ 'string.empty': 'You must add a Name.' }),
+  description: Joi.string().min(10).max(100).messages({
+    'string.empty': 'You must add a Description.',
+    'string.min': 'The description should be larger than 10 characters',
+    'string.max': 'The description should be shorter than 100 characters'
+  }),
+  status: Joi.string().required().messages({ 'string.empty': 'You must select a project Status.' }),
+  employees: Joi.array().items(
+    Joi.object({
+      rate: Joi.number()
+        .required()
+        .min(1)
+        .messages({ 'number.min': 'The rate must be greater than 0.' }),
+      role: Joi.string().required().messages({ 'string.empty': 'You must select a Role.' }),
+      employeeId: Joi.string()
+        .required()
+        .messages({ 'string.empty': 'You must select an Employee.' })
+    })
+  ),
+  startDate: Joi.date().required().messages({ 'date.base': 'You must add a Start Date.' }),
+  endDate: Joi.date()
+    .min(Joi.ref('startDate'))
+    .allow('')
+    .message('The End Date of the project must be greater than the Start Date')
+});
 
 function ProjectForm() {
   const history = useHistory();
@@ -33,36 +59,16 @@ function ProjectForm() {
   const employees = useSelector((state) => state.employees.list);
   const project = useSelector((state) => state.projects.project);
   const loading = useSelector((state) => state.projects.isLoading);
-  const error = useSelector((state) => state.projects.error);
+  const errorDB = useSelector((state) => state.projects.error);
 
-  const [redirect, setRedirect] = useState(false);
   const [employeeOptions, setEmployeeOptions] = useState([]);
   const [title, setTitle] = useState('Add Project');
   const [requestType, setRequestType] = useState('POST');
-  const [employeeIdValue, setEmployeeIdValue] = useState('');
 
   const [msg, setMsg] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const [modalTitle, setModalTitle] = useState('Add Project');
   const [buttonText, setButtonText] = useState('Add Project');
-  const onChangeEmployeeIdInput = (event) => {
-    setEmployeeIdValue(event.target.value);
-  };
-
-  const schema = Joi.object({
-    name: Joi.string().required().min(3),
-    description: Joi.string().min(10).max(100),
-    status: Joi.string(),
-    employees: Joi.array().items(
-      Joi.object({
-        rate: Joi.number().required().greater(0),
-        role: Joi.string().required(),
-        employeeId: Joi.string().required()
-      })
-    ),
-    startDate: Joi.date().less('now').required(),
-    endDate: Joi.date().greater('now').optional()
-  });
 
   const {
     handleSubmit,
@@ -74,6 +80,7 @@ function ProjectForm() {
     resolver: joiResolver(schema),
     defaultValues: {
       name: '',
+      status: '',
       description: '',
       startDate: '',
       endDate: '',
@@ -92,9 +99,6 @@ function ProjectForm() {
     setIsOpen(true);
   };
   const closeModal = () => {
-    if (redirect) {
-      routeChange();
-    }
     setIsOpen(false);
   };
 
@@ -109,7 +113,7 @@ function ProjectForm() {
       };
     });
     setEmployeeOptions(newEmployees);
-    if (error) {
+    if (errorDB) {
       openModal();
     }
   }, [employees]);
@@ -123,21 +127,20 @@ function ProjectForm() {
       setValue('endDate', project.endDate.slice(0, 10));
       setValue('employees', mapEmployees(project.employees));
       setRequestType('PUT');
-      setButtonText('Update Employee');
+      setButtonText('Update Project');
       setTitle('Update Project');
     }
-  }, [error]);
+  }, [errorDB]);
   const onSubmit = (data) => {
     console.log(data, 'data');
     const body = {
-      name: data.name,
+      name: capitalizeFirstLetter(data.name),
       status: data.status,
-      description: data.description,
+      description: capitalizeFirstLetter(data.description),
       employees: data.employees,
       startDate: data.startDate,
       endDate: data.endDate
     };
-    setRedirect(true);
     if (requestType === 'PUT') {
       dispatch(putProject(project._id, body));
       setModalTitle('Project updated');
@@ -162,15 +165,14 @@ function ProjectForm() {
   } else {
     return (
       <div className={styles.container}>
-        <Modal modalTitle={modalTitle} isOpen={isOpen} handleClose={() => closeModal()}>
-          <p>{msg}</p>
+        <Modal
+          modalTitle={errorDB ? 'ERROR' : modalTitle}
+          isOpen={isOpen}
+          handleClose={!errorDB ? routeChange : closeModal}
+        >
+          <p>{errorDB ? errorDB : msg}</p>
           <div>
-            <Button
-              text="OK"
-              handler={() => {
-                closeModal();
-              }}
-            />
+            <Button text="OK" handler={!errorDB ? routeChange : closeModal} />
           </div>
         </Modal>
         <h2 className={styles.h2}>{title}</h2>
@@ -193,24 +195,24 @@ function ProjectForm() {
             <Controller
               control={control}
               name={`status`}
-              render={({ field: { value, onChange } }) => (
+              render={({ field: { value, onChange }, fieldState: { error } }) => (
                 <Select
-                  name={'Status'}
                   className={styles.label}
+                  name="Status"
                   value={value}
                   onChange={onChange}
                   options={[
                     { label: `Active`, value: 'active' },
                     { label: `Inactive`, value: 'inactive' }
                   ]}
-                  error={errors.employees?.employeeI}
+                  error={error?.message}
                 />
               )}
             />
             <Controller
               control={control}
               name="description"
-              render={({ field: { value, onChange } }) => (
+              render={({ field: { value, onChange }, fieldState: { error } }) => (
                 <Input
                   className={styles.label}
                   name="Description"
@@ -218,7 +220,7 @@ function ProjectForm() {
                   value={value}
                   placeholder="Description"
                   onChange={onChange}
-                  error={errors.description?.message}
+                  error={error.message}
                 />
               )}
             />
@@ -228,30 +230,30 @@ function ProjectForm() {
               <Controller
                 control={control}
                 name="startDate"
-                render={({ field: { value, onChange } }) => (
+                render={({ field: { value, onChange }, fieldState: { error } }) => (
                   <Input
                     className={styles.label}
                     name="Start Date"
                     type="date"
                     value={value}
                     onChange={onChange}
+                    error={error?.message}
                   />
                 )}
-                error={errors.startDate?.message}
               />
             </div>
             <div className={styles.date}>
               <Controller
                 control={control}
                 name="endDate"
-                render={({ field: { value, onChange } }) => (
+                render={({ field: { value, onChange }, fieldState: { error } }) => (
                   <Input
                     className={styles.label}
                     name="End Date"
                     type="date"
                     value={value}
                     onChange={onChange}
-                    error={errors.endDate?.message}
+                    error={error?.message}
                   />
                 )}
               />
