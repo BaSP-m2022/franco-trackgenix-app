@@ -17,6 +17,7 @@ import TimeSheets from '../TimeSheets';
 import TimeSheetForm from '../TimeSheet';
 import Tasks from '../Tasks';
 import TaskForm from '../Task';
+import Profile from '../Shared/Profile';
 
 function Layout() {
   return (
@@ -35,6 +36,7 @@ function Layout() {
             <Route exact path="/super-admins/form" component={SuperAdminForm} />
             <Route exact path="/employees" component={Employees} />
             <Route exact path="/employees/form" component={EmployeeForm} />
+            <Route exact path="/employees/profile" component={Profile} />
             <Route exact path="/projects" component={Projects} />
             <Route exact path="/projects/form" component={ProjectForm} />
             <Route exact path="/time-sheets" component={TimeSheets} />
