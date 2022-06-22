@@ -162,7 +162,7 @@ const Profile = () => {
           />
         </div>
       </Modal>
-      <h2 className={styles.security}>Profile</h2>
+      <h2 className={styles.subtitle}>Profile</h2>
       <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
         <Controller
           control={control}
@@ -231,7 +231,7 @@ const Profile = () => {
             />
           )}
         />
-        <h2 className={styles.security}>Security</h2>
+        <h2 className={styles.subtitle}>Security</h2>
         {!changePassword ? (
           <div className={styles.changePasswordButton}>
             <Button
