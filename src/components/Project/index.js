@@ -101,7 +101,7 @@ function ProjectForm() {
     const newEmployees = employees.map((employee) => {
       return {
         label: `${employee.firstName} ${employee.lastName}`,
-        value: employee.employeeId?._id
+        value: employee._id
       };
     });
     setEmployeeOptions(newEmployees);
@@ -122,7 +122,7 @@ function ProjectForm() {
       setButtonText('Update Project');
       setTitle('Update Project');
     }
-  }, [errorDB]);
+  }, [project]);
 
   const onSubmit = (data) => {
     const body = {
