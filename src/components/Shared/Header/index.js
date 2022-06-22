@@ -14,7 +14,7 @@ const Header = () => {
 
   useEffect(() => {
     if (!employees.length) dispatch(getEmployees());
-    dispatch(setEmployee(employees[0]._id));
+    dispatch(setEmployee(employees[0]?._id));
   }, [employees]);
 
   return (
