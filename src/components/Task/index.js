@@ -39,7 +39,6 @@ const TaskForm = () => {
   });
 
   const { handleSubmit, setValue, control } = useForm({
-    mode: 'onChange',
     defaultValues: {
       description: '',
       date: '',
@@ -64,7 +63,7 @@ const TaskForm = () => {
       setValue('projectId', task.projectId?._id);
       setRequestType('PUT');
     }
-  }, [errorR]);
+  }, [task]);
 
   const onSubmit = async (data) => {
     const body = JSON.stringify({
