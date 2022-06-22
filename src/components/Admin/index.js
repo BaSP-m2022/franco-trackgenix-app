@@ -59,7 +59,7 @@ const AdminForm = () => {
       setValue('password', admin.password);
       setRequestType('PUT');
     }
-  }, [error]);
+  }, [admin]);
 
   const routeChange = () => {
     let path = `/admins`;
