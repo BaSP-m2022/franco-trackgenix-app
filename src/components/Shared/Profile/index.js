@@ -134,6 +134,7 @@ const Profile = () => {
 
   const onSubmit = (data) => {
     if (data.oldPassword === employee.password) {
+      console.log('asdasd');
       const body = JSON.stringify({
         firstName: capitalizeFirstLetter(data.firstName),
         lastName: capitalizeFirstLetter(data.lastName),
@@ -143,6 +144,7 @@ const Profile = () => {
         dateOfBirth: data.dateOfBirth
       });
       dispatch(putEmployee(employee._id, body));
+      setOldPasswordError('');
       setChangePassword(false);
       setModalTitle('Profile updated');
       setMsg('You have updated your profile successfully!');
@@ -251,14 +253,14 @@ const Profile = () => {
             <Controller
               control={control}
               name="oldPassword"
-              render={({ field: { value, onChange } }) => (
+              render={({ field: { value, onChange }, fieldState: { error } }) => (
                 <Input
                   type="password"
                   name="Old password"
                   value={value}
                   placeholder="Old password"
                   onChange={onChange}
-                  error={oldPasswordError}
+                  error={oldPasswordError ? oldPasswordError : error?.message}
                 />
               )}
             />
