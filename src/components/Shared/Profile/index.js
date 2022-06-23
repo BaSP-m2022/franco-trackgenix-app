@@ -134,7 +134,6 @@ const Profile = () => {
 
   const onSubmit = (data) => {
     if (data.oldPassword === employee.password) {
-      console.log('asdasd');
       const body = JSON.stringify({
         firstName: capitalizeFirstLetter(data.firstName),
         lastName: capitalizeFirstLetter(data.lastName),
