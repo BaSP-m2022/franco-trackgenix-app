@@ -52,7 +52,7 @@ const EmployeeForm = () => {
       setRequestType('PUT');
       setTitle('Edit Employee');
     }
-  }, [error]);
+  }, [employee]);
 
   const routeChange = () => {
     let path = `/employees`;
