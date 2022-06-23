@@ -21,7 +21,7 @@ const Header = () => {
 
   useEffect(() => {
     if (!loggedEmployee?._id) dispatch(setEmployee(idEmployee));
-  }, [loggedEmployee]);
+  }, [loggedEmployee, employees]);
 
   return (
     <header className={styles.header}>
