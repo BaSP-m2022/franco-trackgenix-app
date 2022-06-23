@@ -72,26 +72,17 @@ const schema = Joi.object({
 });
 
 const Profile = () => {
-  useEffect(() => {
-    if (employee._id) {
-      setValue('firstName', employee.firstName);
-      setValue('lastName', employee.lastName);
-      setValue('dateOfBirth', employee.dateOfBirth.slice(0, 10));
-      setValue('dni', employee.dni);
-      setValue('email', employee.email);
-    }
-  }, []);
-
   const { handleSubmit, control, setValue } = useForm({
     resolver: joiResolver(schema),
     defaultValues: {
       firstName: '',
       lastName: '',
+      dateOfBirth: '',
       dni: '',
       email: '',
       password: '',
       rpassword: '',
-      dateOfBirth: ''
+      oldPassword: ''
     }
   });
 
@@ -108,6 +99,19 @@ const Profile = () => {
   const loading = useSelector((state) => state.employees.loading);
   const error = useSelector((state) => state.employees.error);
 
+  useEffect(() => {
+    if (employee?._id) {
+      setValue('firstName', employee.firstName);
+      setValue('lastName', employee.lastName);
+      setValue('dateOfBirth', employee.dateOfBirth.slice(0, 10));
+      setValue('dni', employee.dni);
+      setValue('email', employee.email);
+      setValue('password', employee.password);
+      setValue('rpassword', employee.password);
+      setValue('oldPassword', employee.password);
+    }
+  }, [employee]);
+
   const openModal = () => {
     setIsOpen(true);
   };
@@ -121,9 +125,15 @@ const Profile = () => {
     history.push(path);
   };
 
+  const handleChangePassword = () => {
+    setChangePassword(true);
+    setValue('password', '');
+    setValue('rpassword', '');
+    setValue('oldPassword', '');
+  };
+
   const onSubmit = (data) => {
     if (data.oldPassword === employee.password) {
-      console.log(data);
       const body = JSON.stringify({
         firstName: capitalizeFirstLetter(data.firstName),
         lastName: capitalizeFirstLetter(data.lastName),
@@ -138,7 +148,7 @@ const Profile = () => {
       setMsg('You have updated your profile successfully!');
       openModal();
     } else {
-      setOldPasswordError('Password doesnt match');
+      setOldPasswordError('Password is incorrect');
     }
   };
 
@@ -234,12 +244,7 @@ const Profile = () => {
         <h2 className={styles.subtitle}>Security</h2>
         {!changePassword ? (
           <div className={styles.changePasswordButton}>
-            <Button
-              text="Change password"
-              handler={() => {
-                setChangePassword(true);
-              }}
-            />
+            <Button text="Change password" handler={handleChangePassword} />
           </div>
         ) : (
           <div className={styles.passwordInputs}>
