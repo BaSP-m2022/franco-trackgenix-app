@@ -22,27 +22,20 @@ const schema = Joi.object({
   startDate: Joi.date().required(),
   endDate: Joi.date().required(),
   employeeId: Joi.string().required(),
-  tasks: Joi.array().items(Joi.object({ taskId: Joi.string().required() }))
+  tasks: Joi.array().items(Joi.object({ _id: Joi.string().required() }))
 });
 
 const mapTasks = (tasks) => {
   return tasks.map((task) => {
-    const taskId = typeof task.taskId == 'object' ? task.taskId?._id : task.taskId;
-    return {
-      taskId
-    };
+    const _id = typeof task._id == 'object' ? task._id?._id : task._id;
+    return { _id };
   });
 };
 
 const TimeSheetForm = () => {
   const history = useHistory();
   const dispatch = useDispatch();
-  const {
-    handleSubmit,
-    control,
-    setValue,
-    formState: { errors }
-  } = useForm({
+  const { handleSubmit, control, setValue, watch } = useForm({
     mode: 'onSubmit',
     resolver: joiResolver(schema),
     defaultValues: {
@@ -53,12 +46,10 @@ const TimeSheetForm = () => {
       employeeId: ''
     }
   });
-
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'tasks'
   });
-
   const [employeeOptions, setEmployeeOptions] = useState([]);
   const [tasksOptions, setTasksOptions] = useState([]);
 
@@ -87,7 +78,7 @@ const TimeSheetForm = () => {
     const newEmployees = employees.map((employee) => {
       return {
         label: `${employee.firstName} ${employee.lastName}`,
-        value: employee.employeeId?._id
+        value: employee._id
       };
     });
     setEmployeeOptions(newEmployees);
@@ -100,19 +91,24 @@ const TimeSheetForm = () => {
     if (!tasks.length) {
       dispatch(getTasks());
     }
-    setTasksOptions(tasks.map(({ _id, description }) => ({ value: _id }, { label: description })));
+    setTasksOptions(
+      tasks.map((task) => {
+        return { value: task._id, label: task.description };
+      })
+    );
   }, [tasks]);
 
   useEffect(() => {
     if (timeSheet._id) {
-      setValue('task', timeSheet.tasks);
+      setValue('tasks', mapTasks(timeSheet.tasks));
       setValue('totalHours', timeSheet.totalHours);
       setValue('status', timeSheet.status);
       setValue('startDate', timeSheet.startDate.slice(0, 10));
       setValue('endDate', timeSheet.endDate.slice(0, 10));
-      setValue('employees', timeSheet.employees._id);
+      setValue('employeeId', timeSheet.employeeId._id);
+      setRequestType('PUT');
     }
-  }, [errorError]);
+  }, [timeSheet._id]);
 
   const routeChange = () => {
     dispatch(getTimeSheets());
@@ -238,7 +234,7 @@ const TimeSheetForm = () => {
           name="employeeId"
           render={({ field: { value, onChange }, fieldState: { error } }) => (
             <SelectDropdown
-              name="Employees"
+              name="Employee"
               onChange={onChange}
               value={value}
               props="employeeId"
@@ -251,12 +247,12 @@ const TimeSheetForm = () => {
         />
 
         <div className={styles.addEmployeeDiv}>
-          <ul className={styles.employeeUl}>
+          <ul className={styles.taskUl}>
             {fields.map((field, index) => (
-              <div key={field.id} className={styles.employeeDiv}>
+              <li key={field.id} className={styles.li}>
                 <Controller
                   control={control}
-                  name={`tasks[${index}.taskId]`}
+                  name={`tasks[${index}]._id`}
                   render={({ field: { value, onChange }, fieldState: { error } }) => (
                     <SelectDropdown
                       options={tasksOptions}
@@ -270,7 +266,7 @@ const TimeSheetForm = () => {
                   )}
                 />
                 <Button type={'delete'} text={'Delete'} handler={() => remove(index)} />
-              </div>
+              </li>
             ))}
           </ul>
           <Button
@@ -278,7 +274,7 @@ const TimeSheetForm = () => {
             type="button"
             handler={(e) => {
               e.preventDefault();
-              append({ taskId: '' });
+              append({ _id: '' });
             }}
           />
         </div>
