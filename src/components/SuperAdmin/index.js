@@ -3,14 +3,14 @@ import Joi from 'joi';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { postSuperAdmin, putSuperAdmin } from '../../redux/superAdmins/thunks';
+import { postSuperAdmin, putSuperAdmin } from 'redux/superAdmins/thunks';
 import { Controller, useForm } from 'react-hook-form';
-import { clearError } from '../../redux/superAdmins/actions';
+import { clearError } from 'redux/superAdmins/actions';
 import Input from 'components/Shared/Input';
 import Modal from 'components/Shared/Modal';
 import Button from 'components/Shared/Button';
 import LoadingScreen from 'components/Shared/LoadingScreen';
-import { capitalizeFirstLetter } from '../../utils/formatters';
+import { capitalizeFirstLetter } from 'utils/formatters';
 import styles from './superAdmin.module.css';
 
 const schema = Joi.object({
@@ -26,7 +26,6 @@ const schema = Joi.object({
 
 const SuperAdminForm = () => {
   const { handleSubmit, control, setValue } = useForm({
-    mode: 'onChange',
     resolver: joiResolver(schema),
     defaultValues: {
       firstName: '',
@@ -56,7 +55,7 @@ const SuperAdminForm = () => {
       setValue('password', superAdmin.password);
       setRequestType('PUT');
     }
-  }, [error]);
+  }, [superAdmin]);
 
   const routeChange = () => {
     let path = `/super-admins`;
@@ -104,7 +103,7 @@ const SuperAdminForm = () => {
       <h3 className={styles.h3}>
         {requestType === 'PUT' ? 'Update Super Admin' : 'Add Super Admin'}
       </h3>
-      <form className={styles.form}>
+      <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
         <div className={styles.inputs}>
           <Controller
             control={control}
@@ -175,10 +174,7 @@ const SuperAdminForm = () => {
               routeChange();
             }}
           />
-          <Button
-            text={requestType === 'PUT' ? 'Update' : 'Save'}
-            handler={handleSubmit(onSubmit)}
-          />
+          <Button text={requestType === 'PUT' ? 'Update' : 'Save'} />
           <Modal modalTitle={error ? 'error' : modalTitle} isOpen={isOpen} handleClose={closeModal}>
             <p className={styles.message}>{error ? error : modalText}</p>
             <div>
