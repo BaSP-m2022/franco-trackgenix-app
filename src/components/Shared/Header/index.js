@@ -3,19 +3,25 @@ import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { setEmployee } from 'redux/employees/actions';
+import { getEmployees } from 'redux/employees/thunks';
 
 import styles from './header.module.css';
 
 const Header = () => {
   const history = useHistory();
   const dispatch = useDispatch();
+
+  const employees = useSelector((state) => state.employees.list);
+  const loggedEmployee = useSelector((state) => state.employees.employee);
   const idEmployee = '62b225b3fa1f7cdcabb06d6c';
 
-  const loggedEmployee = useSelector((state) => state.employees.employee);
+  useEffect(() => {
+    if (!employees.length) dispatch(getEmployees());
+  }, [employees]);
 
   useEffect(() => {
-    dispatch(setEmployee(idEmployee));
-  }, []);
+    if (!loggedEmployee?._id) dispatch(setEmployee(idEmployee));
+  }, [loggedEmployee]);
 
   return (
     <header className={styles.header}>
