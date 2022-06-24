@@ -24,7 +24,8 @@
     "lint": "eslint .",
     "lint:fix": "eslint --fix",
     "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "allure-report" : "allure generate --clean allure-results && allure open"
   },
   "eslintConfig": {
     "extends": [
@@ -49,6 +50,13 @@
     "npm": "7.21.0"
   },
   "devDependencies": {
+    "@wdio/allure-reporter": "^7.20.3",
+    "@wdio/cli": "^7.20.5",
+    "@wdio/jasmine-framework": "^7.20.3",
+    "@wdio/local-runner": "^7.20.5",
+    "@wdio/mocha-framework": "^7.20.3",
+    "@wdio/spec-reporter": "^7.20.3",
+    "chromedriver": "^103.0.0",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-config-standard": "^16.0.3",
@@ -57,9 +65,12 @@
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-promise": "^5.1.1",
     "eslint-plugin-react": "^7.27.1",
+    "eslint-plugin-wdio": "^7.19.4",
     "husky": "^7.0.0",
     "lint-staged": "^12.1.2",
     "prettier": "^2.4.1",
-    "redux-devtools-extension": "^2.13.9"
+    "redux-devtools-extension": "^2.13.9",
+    "wdio-chromedriver-service": "^7.3.2",
+    "wdio-wait-for": "^2.2.6"
   }
 }
