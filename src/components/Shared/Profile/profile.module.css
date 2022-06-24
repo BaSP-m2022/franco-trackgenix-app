@@ -1,5 +1,10 @@
 .container {
-  margin: 6% auto;
+  display: flex;
+  flex-direction: column;
+  padding: 20px 40px;
+  margin: 6% auto 10% auto;
+  border: 5px solid #373867;
+  border-radius: 10px;
 }
 
 .form {
@@ -7,8 +12,19 @@
   flex-direction: column;
 }
 
-
 .changePasswordButton {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.inputsContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.buttonsContainer {
+  display: flex;
+  justify-content: space-between;
   margin-bottom: 15px;
 }
 
@@ -19,9 +35,31 @@
   margin: 0 0 10px 0;
 }
 
-.buttonsContainer {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
+.profile {
+  margin-right: 0px;
+}
+
+.security {
+  margin-top: 25px;
+  margin-left: 0px;
+}
+
+.changePasswordButton {
   margin-bottom: 15px;
+}
+
+@media (min-width: 1024px) {
+  .container {
+    flex-direction: row;
+
+  }
+
+  .profile {
+    margin-right: 25px;
+  }
+
+  .security {
+    margin-left: 25px;
+    margin-top: 0px;
+  }
 }
