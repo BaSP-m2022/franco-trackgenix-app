@@ -29,7 +29,7 @@ const schema = Joi.object({
 
 const AdminForm = () => {
   const { handleSubmit, control, setValue } = useForm({
-    mode: 'onChange',
+    mode: 'onSubmit',
     resolver: joiResolver(schema),
     defaultValues: {
       firstName: '',
