@@ -14,8 +14,18 @@ import { capitalizeFirstLetter } from '../../utils/formatters';
 import styles from 'components/Admin/admin.module.css';
 
 const schema = Joi.object({
-  firstName: Joi.string().min(3).required(),
-  lastName: Joi.string().min(3).required(),
+  firstName: Joi.string()
+    .regex(/^[a-zA-Z]+$/)
+    .message('First Name must have only letters')
+    .min(3)
+    .message('First Name must have at least 3 characters')
+    .required(),
+  lastName: Joi.string()
+    .regex(/^[a-zA-Z]+$/)
+    .message('Last Name must have only letters')
+    .min(3)
+    .message('Last Name must have at least 3 characters')
+    .required(),
   email: Joi.string()
     .email({ tlds: { allow: false } })
     .required(),
