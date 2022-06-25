@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { useState, useEffect } from 'react';
 import styles from './Project.module.css';
 import Input from 'components/Shared/Input';
@@ -88,7 +87,6 @@ function ProjectForm() {
     handleSubmit,
     control,
     setValue,
-    watch,
     formState: { errors }
   } = useForm({
     resolver: joiResolver(schema),
@@ -101,7 +99,6 @@ function ProjectForm() {
       employees: []
     }
   });
-  console.log(watch());
 
   const { fields, append, remove } = useFieldArray({
     control,
@@ -146,7 +143,6 @@ function ProjectForm() {
   }, [project]);
 
   const onSubmit = (data) => {
-    console.log(data, 'data');
     const body = {
       name: capitalizeFirstLetter(data.name),
       status: data.status,
@@ -155,7 +151,6 @@ function ProjectForm() {
       startDate: data.startDate,
       endDate: data.endDate
     };
-    console.log(body, 'body');
     if (requestType === 'PUT') {
       dispatch(putProject(project._id, body));
       setModalTitle('Project updated');
