@@ -14,14 +14,36 @@ import { capitalizeFirstLetter } from 'utils/formatters';
 import styles from './superAdmin.module.css';
 
 const schema = Joi.object({
-  firstName: Joi.string().required().min(3),
-  lastName: Joi.string().required().min(3),
+  firstName: Joi.string()
+    .min(3)
+    .message('First Name must have at least 3 characters')
+    .max(30)
+    .message('First Name must be less than 30 characters')
+    .regex(/^[a-zA-Z]+$/)
+    .message('First Name must have only letters')
+    .required(),
+  lastName: Joi.string()
+    .min(3)
+    .message('Last Name must have at least 3 characters')
+    .max(30)
+    .message('Last Name must be less than 30 characters')
+    .regex(/^[a-zA-Z]+$/)
+    .message('Last Name must have only letters')
+    .required(),
   email: Joi.string()
     .email({ tlds: { allow: false } })
+    .message('Your email must be a valid email')
     .required(),
   password: Joi.string()
+    .min(8)
+    .message('Password must have between 8 and 12 characters')
+    .max(12)
+    .message('Password must have between 8 and 12 characters')
+    .pattern(/[a-zA-Z]/)
+    .message('Password must have at least 1 letter')
+    .pattern(/[0-9]/)
+    .message('Password must have at least 1 number')
     .required()
-    .pattern(/^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$/)
 });
 
 const SuperAdminForm = () => {
@@ -141,7 +163,7 @@ const SuperAdminForm = () => {
             render={({ field: { value, onChange }, fieldState: { error } }) => (
               <Input
                 className={styles.label}
-                type="email"
+                type="text"
                 name="Email"
                 value={value}
                 placeholder="Email"
