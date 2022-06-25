@@ -7,6 +7,7 @@ const formatDate = (date) => {
   if (day.length < 2) day = '0' + day;
   return [year, month, day].join('-');
 };
+
 function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
