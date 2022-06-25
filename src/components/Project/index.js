@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useState, useEffect } from 'react';
 import styles from './Project.module.css';
 import Input from 'components/Shared/Input';
@@ -12,7 +13,7 @@ import { postProject, putProject } from 'redux/projects/thunks';
 import { getEmployees } from 'redux/employees/thunks';
 import { useForm, Controller, useFieldArray } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
-import { capitalizeFirstLetter } from '../../utils/formatters';
+import { capitalizeFirstLetter } from 'utils/formatters';
 import Joi from 'joi';
 
 const mapEmployees = (employees) => {
@@ -34,18 +35,30 @@ const schema = Joi.object({
     'string.max': 'The description should be shorter than 100 characters'
   }),
   status: Joi.string().required().messages({ 'string.empty': 'You must select a project Status.' }),
-  employees: Joi.array().items(
-    Joi.object({
-      rate: Joi.number()
-        .required()
-        .min(1)
-        .messages({ 'number.min': 'The rate must be greater than 0.' }),
-      role: Joi.string().required().messages({ 'string.empty': 'You must select a Role.' }),
-      employeeId: Joi.string()
-        .required()
-        .messages({ 'string.empty': 'You must select an Employee.' })
+  employees: Joi.array()
+    .min(1)
+    .messages({
+      'array.min': 'There must be at least an employee added to the project.'
     })
-  ),
+    .custom((value, helper) => {
+      let hasPM = 0;
+      value.map((employee) => {
+        employee.role === 'PM' && hasPM++;
+      });
+      if (hasPM > 1) return helper.message('Project must have only one Project Manager');
+      if (hasPM === 0) return helper.message('Project must have a Project Manager');
+    })
+    .items(
+      Joi.object({
+        rate: Joi.number().required().min(1).messages({
+          'number.min': 'The rate must be bigger than zero.'
+        }),
+        role: Joi.string().required().messages({ 'string.empty': 'You must select a Role.' }),
+        employeeId: Joi.string()
+          .required()
+          .messages({ 'string.empty': 'You must select an Employee.' })
+      })
+    ),
   startDate: Joi.date().required().messages({ 'date.base': 'You must add a Start Date.' }),
   endDate: Joi.date()
     .min(Joi.ref('startDate'))
@@ -69,8 +82,15 @@ function ProjectForm() {
   const [isOpen, setIsOpen] = useState(false);
   const [modalTitle, setModalTitle] = useState('Add Project');
   const [buttonText, setButtonText] = useState('Add Project');
+  const [click, setClick] = useState(0);
 
-  const { handleSubmit, control, setValue } = useForm({
+  const {
+    handleSubmit,
+    control,
+    setValue,
+    watch,
+    formState: { errors }
+  } = useForm({
     resolver: joiResolver(schema),
     defaultValues: {
       name: '',
@@ -81,6 +101,7 @@ function ProjectForm() {
       employees: []
     }
   });
+  console.log(watch());
 
   const { fields, append, remove } = useFieldArray({
     control,
@@ -125,6 +146,7 @@ function ProjectForm() {
   }, [project]);
 
   const onSubmit = (data) => {
+    console.log(data, 'data');
     const body = {
       name: capitalizeFirstLetter(data.name),
       status: data.status,
@@ -133,6 +155,7 @@ function ProjectForm() {
       startDate: data.startDate,
       endDate: data.endDate
     };
+    console.log(body, 'body');
     if (requestType === 'PUT') {
       dispatch(putProject(project._id, body));
       setModalTitle('Project updated');
@@ -145,7 +168,6 @@ function ProjectForm() {
       openModal();
     }
   };
-
   const routeChange = () => {
     let path = `/projects`;
     history.push(path);
@@ -278,6 +300,7 @@ function ProjectForm() {
                         className={styles.employeeMargin}
                         name="Rate"
                         type="number"
+                        min={0}
                         value={value}
                         placeholder="Rate"
                         onChange={onChange}
@@ -304,7 +327,14 @@ function ProjectForm() {
                       />
                     )}
                   />
-                  <Button type={'delete'} text={'Delete'} handler={() => remove(index)} />
+                  <Button
+                    type={'delete'}
+                    text={'Delete'}
+                    handler={() => {
+                      remove(index);
+                      setClick(click - 1);
+                    }}
+                  />
                 </div>
               ))}
             </ul>
@@ -313,10 +343,17 @@ function ProjectForm() {
               type="button"
               handler={(e) => {
                 e.preventDefault();
+                setClick(click + 1);
                 append({ employeeId: '', rate: 0, role: '' });
               }}
             />
           </div>
+          {click === 0 && errors.employees ? (
+            <p className={styles.errorArray}>{errors.employees?.message}</p>
+          ) : null}
+          {click != 0 && errors.employees && !errors.employees.type != 'array.min' ? (
+            <p className={styles.errorArray}>{errors.employees?.message}</p>
+          ) : null}
           <div>
             <Button
               text="Return"
