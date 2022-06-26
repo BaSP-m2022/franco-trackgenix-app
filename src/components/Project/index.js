@@ -117,7 +117,6 @@ function ProjectForm() {
   const closeModal = () => {
     setIsOpen(false);
   };
-  console.log(errors);
 
   useEffect(() => {
     if (!employees || employees.length <= 0) {
