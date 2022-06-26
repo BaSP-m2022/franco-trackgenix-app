@@ -35,7 +35,9 @@ const TaskForm = () => {
     description: Joi.string().min(3).max(50).required(),
     workedHours: Joi.number().min(1).required(),
     projectId: Joi.string().required(),
-    date: Joi.date().min(Date()).required()
+    date: Joi.date()
+      .greater(Date.now() - 24 * 60 * 60 * 1000)
+      .required()
   });
 
   const { handleSubmit, setValue, control } = useForm({
