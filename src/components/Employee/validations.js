@@ -27,7 +27,26 @@ const schema = Joi.object({
     .message('DNI must have between 7 and 8 characters')
     .required(),
   email: Joi.string()
-    .email({ tlds: { allow: ['com'] } })
+    .email({
+      tlds: {
+        allow: [
+          'com',
+          'org',
+          'co',
+          'net',
+          'email',
+          'edu',
+          'ru',
+          'uk',
+          'au',
+          'in',
+          'de',
+          'ir',
+          'ca',
+          'ar'
+        ]
+      }
+    })
     .message('Your email must be a valid email')
     .required(),
   password: Joi.string()
