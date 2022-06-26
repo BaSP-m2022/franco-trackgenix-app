@@ -58,7 +58,13 @@ const schema = Joi.object({
           .messages({ 'string.empty': 'You must select an Employee.' })
       })
     ),
-  startDate: Joi.date().required().messages({ 'date.base': 'You must add a Start Date.' }),
+  startDate: Joi.date()
+    .greater(Date.now() - 24 * 60 * 60 * 1000)
+    .required()
+    .messages({
+      'date.base': 'You must add a Start Date.',
+      'date.greater': 'The Start Date of the project should be today or greater than today.'
+    }),
   endDate: Joi.date()
     .min(Joi.ref('startDate'))
     .allow('')
@@ -111,6 +117,7 @@ function ProjectForm() {
   const closeModal = () => {
     setIsOpen(false);
   };
+  console.log(errors);
 
   useEffect(() => {
     if (!employees || employees.length <= 0) {
