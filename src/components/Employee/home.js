@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import formatDate from 'utils/formatters';
+import { formatDate } from 'utils/formatters';
 import Button from 'components/Shared/Button';
 import Modal from 'components/Shared/Modal';
 import Input from 'components/Shared/Input';
@@ -97,7 +97,7 @@ const EmployeeHome = () => {
     setEndDate(date.setDate(date.getDate() + 6));
 
     const tsEmployee = timeSheets.filter((ts) => {
-      if (ts.employeeId._id === idEmployee) {
+      if (ts.employeeI?._id === idEmployee) {
         return ts;
       }
     });
