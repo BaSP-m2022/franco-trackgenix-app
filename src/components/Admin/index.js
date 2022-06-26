@@ -1,15 +1,54 @@
 import { useEffect, useState } from 'react';
+import Joi from 'joi';
+import { joiResolver } from '@hookform/resolvers/joi';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { postAdmin, putAdmin } from 'redux/admins/thunks';
+import { Controller, useForm } from 'react-hook-form';
 import { clearError } from 'redux/admins/actions';
 import Input from 'components/Shared/Input';
 import Button from 'components/Shared/Button';
 import Modal from 'components/Shared/Modal';
 import LoadingScreen from 'components/Shared/LoadingScreen';
+import { capitalizeFirstLetter } from '../../utils/formatters';
 import styles from 'components/Admin/admin.module.css';
 
+const schema = Joi.object({
+  firstName: Joi.string()
+    .regex(/^[a-zA-Z]+$/)
+    .message('First Name must have only letters')
+    .min(3)
+    .message('First Name must have at least 3 characters')
+    .required(),
+  lastName: Joi.string()
+    .regex(/^[a-zA-Z]+$/)
+    .message('Last Name must have only letters')
+    .min(3)
+    .message('Last Name must have at least 3 characters')
+    .required(),
+  email: Joi.string()
+    .email({ tlds: { allow: false } })
+    .required(),
+  password: Joi.string()
+    .min(8)
+    .max(12)
+    .pattern(/[a-zA-Z]/)
+    .pattern(/[0-9]/)
+    .required()
+});
+
 const AdminForm = () => {
+  const { handleSubmit, control, setValue } = useForm({
+    mode: 'onSubmit',
+    resolver: joiResolver(schema),
+    defaultValues: {
+      firstName: '',
+      lastName: '',
+      email: '',
+      password: ''
+    }
+  });
+
   const history = useHistory();
 
   const dispatch = useDispatch();
@@ -17,11 +56,6 @@ const AdminForm = () => {
   const admin = useSelector((state) => state.admins.admin);
   const loading = useSelector((state) => state.admins.loading);
   const error = useSelector((state) => state.admins.error);
-
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const [requestType, setRequestType] = useState('POST');
   const [modalTitle, setModalTitle] = useState('');
@@ -29,13 +63,13 @@ const AdminForm = () => {
 
   useEffect(() => {
     if (admin._id) {
-      setFirstName(admin.firstName);
-      setLastName(admin.lastName);
-      setEmail(admin.email);
-      setPassword(admin.password);
+      setValue('firstName', admin.firstName);
+      setValue('lastName', admin.lastName);
+      setValue('email', admin.email);
+      setValue('password', admin.password);
       setRequestType('PUT');
     }
-  }, [error]);
+  }, [admin]);
 
   const routeChange = () => {
     let path = `/admins`;
@@ -50,13 +84,12 @@ const AdminForm = () => {
     setIsOpen(false);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const onSubmit = (data) => {
     const body = JSON.stringify({
-      firstName,
-      lastName,
-      email,
-      password
+      firstName: capitalizeFirstLetter(data.firstName),
+      lastName: capitalizeFirstLetter(data.lastName),
+      email: data.email,
+      password: data.password
     });
     if (requestType === 'PUT') {
       setModalTitle('Admin Updated');
@@ -82,35 +115,67 @@ const AdminForm = () => {
   return (
     <div className={styles.container}>
       <h3 className={styles.h3}>{requestType === 'PUT' ? 'Update Admin' : 'Add Admin'}</h3>
-      <form className={styles.form}>
+      <form className={styles.form} onSubmit={onSubmit}>
         <div className={styles.inputs}>
-          <Input
-            name="First Name"
-            type="text"
-            placeholder="First Name"
-            value={firstName}
-            onChange={setFirstName}
+          <Controller
+            control={control}
+            name="firstName"
+            render={({ field: { value, onChange }, fieldState: { error } }) => (
+              <Input
+                className={styles.label}
+                type="text"
+                name="First name"
+                value={value}
+                placeholder="First name"
+                onChange={onChange}
+                error={error?.message}
+              />
+            )}
           />
-          <Input
-            name="Last Name"
-            type="text"
-            placeholder="Last Name"
-            value={lastName}
-            onChange={setLastName}
+          <Controller
+            control={control}
+            name="lastName"
+            render={({ field: { value, onChange }, fieldState: { error } }) => (
+              <Input
+                className={styles.label}
+                type="text"
+                name="Last name"
+                value={value}
+                placeholder="Last name"
+                onChange={onChange}
+                error={error?.message}
+              />
+            )}
           />
-          <Input
-            name="Email"
-            type="email"
-            placeholder="mail@example.com"
-            value={email}
-            onChange={setEmail}
+          <Controller
+            control={control}
+            name="email"
+            render={({ field: { value, onChange }, fieldState: { error } }) => (
+              <Input
+                className={styles.label}
+                type="email"
+                name="Email"
+                value={value}
+                placeholder="Email"
+                onChange={onChange}
+                error={error?.message}
+              />
+            )}
           />
-          <Input
-            name="Password"
-            type="password"
-            placeholder="********"
-            value={password}
-            onChange={setPassword}
+          <Controller
+            control={control}
+            name="password"
+            render={({ field: { value, onChange }, fieldState: { error } }) => (
+              <Input
+                className={styles.label}
+                type="password"
+                name="Password"
+                value={value}
+                placeholder="Password"
+                onChange={onChange}
+                error={error?.message}
+              />
+            )}
           />
         </div>
         <div className={styles.buttonContainer}>
@@ -121,7 +186,10 @@ const AdminForm = () => {
               routeChange();
             }}
           />
-          <Button handler={handleSubmit} text={requestType === 'PUT' ? 'Update' : 'Save'} />
+          <Button
+            text={requestType === 'PUT' ? 'Update' : 'Save'}
+            handler={handleSubmit(onSubmit)}
+          />
           <Modal modalTitle={error ? 'error' : modalTitle} isOpen={isOpen} handleClose={closeModal}>
             <p className={styles.message}>{error ? error : modalText}</p>
             <div>
