@@ -1,0 +1,229 @@
+<?xml version='1.0'?>
+<ns2:test-suite xmlns:ns2='urn:model.allure.qatools.yandex.ru' start='1656226771371' stop='1656226797803'>
+    <name>Employee should Edit Successfull Profile Interactions</name>
+    <title>Employee should Edit Successfull Profile Interactions</title>
+    <test-cases>
+        <test-case start='1656226771372' status='failed' stop='1656226797740'>
+            <name>Employee should be edited whit a valid credentials</name>
+            <title>Employee should be edited whit a valid credentials</title>
+            <labels>
+                <label name='language' value='javascript'/>
+                <label name='framework' value='wdio'/>
+                <label name='thread' value='0-5'/>
+            </labels>
+            <parameters>
+                <parameter kind='argument' name='browser' value='chrome-103.0.5060.53'/>
+            </parameters>
+            <steps>
+                <step start='1656226771375' status='passed' stop='1656226776838'>
+                    <name>POST /session/:sessionId/element</name>
+                    <title>POST /session/:sessionId/element</title>
+                    <attachments>
+                        <attachment title='Request' source='f39f839f-5d0d-487e-8863-73bf64aa76e3-attachment.json' type='application/json' size='105'/>
+                    </attachments>
+                    <steps/>
+                </step>
+                <step start='1656226776845' status='failed' stop='1656226797740'>
+                    <name>POST /session/:sessionId/elements</name>
+                    <title>POST /session/:sessionId/elements</title>
+                    <attachments>
+                        <attachment title='Request' source='948d516a-2315-438a-990b-c52308bd80ac-attachment.json' type='application/json' size='105'/>
+                    </attachments>
+                    <steps>
+                        <step start='1656226797734' status='failed' stop='1656226797740'>
+                            <name>GET /session/:sessionId/screenshot</name>
+                            <title>GET /session/:sessionId/screenshot</title>
+                            <attachments/>
+                            <steps/>
+                        </step>
+                    </steps>
+                </step>
+            </steps>
+            <attachments/>
+            <failure>
+                <message>Error: Can't call setValue on element with selector "//*[@id="root"]/div/div/div[2]/section/form[1]/div[1]/div[1]/input" because element wasn't found</message>
+                <stack-trace>Error: Can't call setValue on element with selector "//*[@id="root"]/div/div/div[2]/section/form[1]/div[1]/div[1]/input" because element wasn't found
+                    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+                    at async EmployeeProfile.setFirstName (C:\Users\USUARIO\Documents\Matìas\programacion\rr\QA\Automation\BaSP-QA-module\week-015\franco-trackgenix-app\test\pageobjects\employees\employees.profile.js:90:5)
+                    at async EmployeeProfile.editProfile (C:\Users\USUARIO\Documents\Matìas\programacion\rr\QA\Automation\BaSP-QA-module\week-015\franco-trackgenix-app\test\pageobjects\employees\employees.profile.js:116:5)
+                    at async UserContext.&lt;anonymous> (C:\Users\USUARIO\Documents\Matìas\programacion\rr\QA\Automation\BaSP-QA-module\week-015\franco-trackgenix-app\test\specs\employees\profile-test\succesfull.edit.spec.js:9:5)</stack-trace>
+            </failure>
+        </test-case>
+        <test-case start='1656226797741' status='failed' stop='1656226797751'>
+            <name>Test modal text</name>
+            <title>Test modal text</title>
+            <labels>
+                <label name='language' value='javascript'/>
+                <label name='framework' value='wdio'/>
+                <label name='thread' value='0-5'/>
+            </labels>
+            <parameters>
+                <parameter kind='argument' name='browser' value='chrome-103.0.5060.53'/>
+            </parameters>
+            <steps>
+                <step start='1656226797741' status='failed' stop='1656226797751'>
+                    <name>POST /session/:sessionId/element</name>
+                    <title>POST /session/:sessionId/element</title>
+                    <attachments>
+                        <attachment title='Request' source='d4febd8e-ee5d-4937-a5b4-e3418c25baf1-attachment.json' type='application/json' size='94'/>
+                    </attachments>
+                    <steps>
+                        <step start='1656226797746' status='failed' stop='1656226797751'>
+                            <name>GET /session/:sessionId/screenshot</name>
+                            <title>GET /session/:sessionId/screenshot</title>
+                            <attachments/>
+                            <steps/>
+                        </step>
+                    </steps>
+                </step>
+            </steps>
+            <attachments/>
+            <failure>
+                <message>RequestError: connect ECONNREFUSED 127.0.0.1:9515</message>
+                <stack-trace>error properties: Object({ code: 'ECONNREFUSED', timings: Object({ start: 1656226797744, socket: 1656226797744, lookup: 1656226797745, connect: undefined, secureConnect: undefined, upload: undefined, response: undefined, end: undefined, error: 1656226797746, abort: undefined, phases: Object({ wait: 0, dns: 1, tcp: undefined, tls: undefined, request: undefined, firstByte: undefined, download: undefined, total: 2 }) }) })
+                RequestError: connect ECONNREFUSED 127.0.0.1:9515
+                    at Object.onceWrapper (node:events:510:26)
+                    at ClientRequest.emit (node:events:402:35)
+                    at ClientRequest.emit (node:domain:475:12)
+                    at Socket.socketErrorListener (node:_http_client:447:9)
+                    at Socket.emit (node:events:390:28)
+                    at Socket.emit (node:domain:475:12)
+                    at emitErrorNT (node:internal/streams/destroy:157:8)
+                    at emitErrorCloseNT (node:internal/streams/destroy:122:3)
+                    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1161:16)</stack-trace>
+            </failure>
+        </test-case>
+        <test-case start='1656226797752' status='failed' stop='1656226797765'>
+            <name>If we click on Ok Button, this modal should be closed</name>
+            <title>If we click on Ok Button, this modal should be closed</title>
+            <labels>
+                <label name='language' value='javascript'/>
+                <label name='framework' value='wdio'/>
+                <label name='thread' value='0-5'/>
+            </labels>
+            <parameters>
+                <parameter kind='argument' name='browser' value='chrome-103.0.5060.53'/>
+            </parameters>
+            <steps>
+                <step start='1656226797753' status='failed' stop='1656226797765'>
+                    <name>POST /session/:sessionId/element</name>
+                    <title>POST /session/:sessionId/element</title>
+                    <attachments>
+                        <attachment title='Request' source='f4491c12-6227-4025-ac64-823081995a39-attachment.json' type='application/json' size='103'/>
+                    </attachments>
+                    <steps>
+                        <step start='1656226797759' status='failed' stop='1656226797765'>
+                            <name>GET /session/:sessionId/screenshot</name>
+                            <title>GET /session/:sessionId/screenshot</title>
+                            <attachments/>
+                            <steps/>
+                        </step>
+                    </steps>
+                </step>
+            </steps>
+            <attachments/>
+            <failure>
+                <message>RequestError: connect ECONNREFUSED 127.0.0.1:9515</message>
+                <stack-trace>error properties: Object({ code: 'ECONNREFUSED', timings: Object({ start: 1656226797757, socket: 1656226797757, lookup: 1656226797758, connect: undefined, secureConnect: undefined, upload: undefined, response: undefined, end: undefined, error: 1656226797758, abort: undefined, phases: Object({ wait: 0, dns: 1, tcp: undefined, tls: undefined, request: undefined, firstByte: undefined, download: undefined, total: 1 }) }) })
+                RequestError: connect ECONNREFUSED 127.0.0.1:9515
+                    at Object.onceWrapper (node:events:510:26)
+                    at ClientRequest.emit (node:events:402:35)
+                    at ClientRequest.emit (node:domain:475:12)
+                    at Socket.socketErrorListener (node:_http_client:447:9)
+                    at Socket.emit (node:events:390:28)
+                    at Socket.emit (node:domain:475:12)
+                    at emitErrorNT (node:internal/streams/destroy:157:8)
+                    at emitErrorCloseNT (node:internal/streams/destroy:122:3)
+                    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1161:16)</stack-trace>
+            </failure>
+        </test-case>
+        <test-case start='1656226797773' status='failed' stop='1656226797785'>
+            <name>If we click on X Button, this modal should be closed</name>
+            <title>If we click on X Button, this modal should be closed</title>
+            <labels>
+                <label name='language' value='javascript'/>
+                <label name='framework' value='wdio'/>
+                <label name='thread' value='0-5'/>
+            </labels>
+            <parameters>
+                <parameter kind='argument' name='browser' value='chrome-103.0.5060.53'/>
+            </parameters>
+            <steps>
+                <step start='1656226797774' status='failed' stop='1656226797785'>
+                    <name>POST /session/:sessionId/element</name>
+                    <title>POST /session/:sessionId/element</title>
+                    <attachments>
+                        <attachment title='Request' source='30846710-1b30-4c2f-ba85-befe764a9c2a-attachment.json' type='application/json' size='105'/>
+                    </attachments>
+                    <steps>
+                        <step start='1656226797779' status='failed' stop='1656226797785'>
+                            <name>GET /session/:sessionId/screenshot</name>
+                            <title>GET /session/:sessionId/screenshot</title>
+                            <attachments/>
+                            <steps/>
+                        </step>
+                    </steps>
+                </step>
+            </steps>
+            <attachments/>
+            <failure>
+                <message>RequestError: connect ECONNREFUSED 127.0.0.1:9515</message>
+                <stack-trace>error properties: Object({ code: 'ECONNREFUSED', timings: Object({ start: 1656226797777, socket: 1656226797777, lookup: 1656226797778, connect: undefined, secureConnect: undefined, upload: undefined, response: undefined, end: undefined, error: 1656226797778, abort: undefined, phases: Object({ wait: 0, dns: 1, tcp: undefined, tls: undefined, request: undefined, firstByte: undefined, download: undefined, total: 1 }) }) })
+                RequestError: connect ECONNREFUSED 127.0.0.1:9515
+                    at Object.onceWrapper (node:events:510:26)
+                    at ClientRequest.emit (node:events:402:35)
+                    at ClientRequest.emit (node:domain:475:12)
+                    at Socket.socketErrorListener (node:_http_client:447:9)
+                    at Socket.emit (node:events:390:28)
+                    at Socket.emit (node:domain:475:12)
+                    at emitErrorNT (node:internal/streams/destroy:157:8)
+                    at emitErrorCloseNT (node:internal/streams/destroy:122:3)
+                    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1161:16)</stack-trace>
+            </failure>
+        </test-case>
+        <test-case start='1656226797786' status='failed' stop='1656226797802'>
+            <name>Employee should edit password whit a valid credentials</name>
+            <title>Employee should edit password whit a valid credentials</title>
+            <labels>
+                <label name='language' value='javascript'/>
+                <label name='framework' value='wdio'/>
+                <label name='thread' value='0-5'/>
+            </labels>
+            <parameters>
+                <parameter kind='argument' name='browser' value='chrome-103.0.5060.53'/>
+            </parameters>
+            <steps>
+                <step start='1656226797787' status='failed' stop='1656226797802'>
+                    <name>POST /session/:sessionId/url</name>
+                    <title>POST /session/:sessionId/url</title>
+                    <attachments>
+                        <attachment title='Request' source='98e64fe1-ea5d-47fc-b8bf-c70e50328e75-attachment.json' type='application/json' size='72'/>
+                    </attachments>
+                    <steps>
+                        <step start='1656226797795' status='failed' stop='1656226797802'>
+                            <name>GET /session/:sessionId/screenshot</name>
+                            <title>GET /session/:sessionId/screenshot</title>
+                            <attachments/>
+                            <steps/>
+                        </step>
+                    </steps>
+                </step>
+            </steps>
+            <attachments/>
+            <failure>
+                <message>RequestError: connect ECONNREFUSED 127.0.0.1:9515</message>
+                <stack-trace>error properties: Object({ code: 'ECONNREFUSED', timings: Object({ start: 1656226797791, socket: 1656226797791, lookup: 1656226797793, connect: undefined, secureConnect: undefined, upload: undefined, response: undefined, end: undefined, error: 1656226797793, abort: undefined, phases: Object({ wait: 0, dns: 2, tcp: undefined, tls: undefined, request: undefined, firstByte: undefined, download: undefined, total: 2 }) }) })
+                RequestError: connect ECONNREFUSED 127.0.0.1:9515
+                    at Object.onceWrapper (node:events:510:26)
+                    at ClientRequest.emit (node:events:402:35)
+                    at ClientRequest.emit (node:domain:475:12)
+                    at Socket.socketErrorListener (node:_http_client:447:9)
+                    at Socket.emit (node:events:390:28)
+                    at Socket.emit (node:domain:475:12)
+                    at emitErrorNT (node:internal/streams/destroy:157:8)
+                    at emitErrorCloseNT (node:internal/streams/destroy:122:3)
+                    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1161:16)</stack-trace>
+            </failure>
+        </test-case>
+    </test-cases>
+</ns2:test-suite>
