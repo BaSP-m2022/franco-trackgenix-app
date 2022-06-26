@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -35,7 +34,7 @@ const mapTasks = (tasks) => {
 const TimeSheetForm = () => {
   const history = useHistory();
   const dispatch = useDispatch();
-  const { handleSubmit, control, setValue, watch } = useForm({
+  const { handleSubmit, control, setValue } = useForm({
     mode: 'onSubmit',
     resolver: joiResolver(schema),
     defaultValues: {
@@ -63,12 +62,6 @@ const TimeSheetForm = () => {
   const timeSheet = useSelector((state) => state.timeSheets.timeSheet);
   const loading = useSelector((state) => state.timeSheets.loading);
   const errorError = useSelector((state) => state.timeSheets.error);
-
-  const statusOption = [
-    { value: 'To do', label: 'To do' },
-    { value: 'In progress', label: 'In progress' },
-    { value: 'Done', label: 'Done' }
-  ];
 
   useEffect(() => {
     if (!employees || employees.length <= 0) {
@@ -236,6 +229,7 @@ const TimeSheetForm = () => {
             <SelectDropdown
               name="Employee"
               onChange={onChange}
+              error={error?.message}
               value={value}
               props="employeeId"
               required={true}
