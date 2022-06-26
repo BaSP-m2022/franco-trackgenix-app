@@ -20,10 +20,10 @@ const EmployeeForm = () => {
 
   const employee = useSelector((state) => state.employees.employee);
   const loading = useSelector((state) => state.employees.loading);
-  const error = useSelector((state) => state.employees.error);
+  const errorR = useSelector((state) => state.employees.error);
 
   const [requestType, setRequestType] = useState('POST');
-  const [msg, setMsg] = useState('');
+  const [modalText, setModalText] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const [modalTitle, setModalTitle] = useState('');
   const [title, setTitle] = useState('Add Employee');
@@ -79,12 +79,12 @@ const EmployeeForm = () => {
     if (requestType === 'PUT') {
       dispatch(putEmployee(employee._id, body));
       setModalTitle('Employee updated');
-      setMsg('Employee updated successfully!');
+      setModalText('Employee updated successfully!');
       openModal();
     } else {
       dispatch(addEmployee(body));
       setModalTitle('Employee created');
-      setMsg('Employee created successfully!');
+      setModalText('Employee created successfully!');
       openModal();
     }
   };
@@ -120,7 +120,6 @@ const EmployeeForm = () => {
             name="lastName"
             render={({ field: { value, onChange }, fieldState: { error } }) => (
               <Input
-                className={styles.label}
                 type="text"
                 name="Last name"
                 value={value}
@@ -150,7 +149,7 @@ const EmployeeForm = () => {
             render={({ field: { value, onChange }, fieldState: { error } }) => (
               <Input
                 name="DNI"
-                type="number"
+                type="text"
                 value={value}
                 placeholder="Enter your DNI"
                 onChange={onChange}
@@ -163,7 +162,6 @@ const EmployeeForm = () => {
             name="email"
             render={({ field: { value, onChange }, fieldState: { error } }) => (
               <Input
-                className={styles.label}
                 type="email"
                 name="Email"
                 value={value}
@@ -178,7 +176,6 @@ const EmployeeForm = () => {
             name="password"
             render={({ field: { value, onChange }, fieldState: { error } }) => (
               <Input
-                className={styles.label}
                 type="password"
                 name="Password"
                 value={value}
@@ -201,18 +198,14 @@ const EmployeeForm = () => {
             text={!loading && requestType === 'POST' ? 'Save' : 'Update'}
             handler={handleSubmit(onSubmit)}
           />
-          <Modal modalTitle={error ? 'Error' : modalTitle} isOpen={isOpen} handleClose={closeModal}>
-            <p>{error ? error : msg}</p>
+          <Modal
+            modalTitle={errorR ? 'Error' : modalTitle}
+            isOpen={isOpen}
+            handleClose={closeModal}
+          >
+            <p>{errorR ? errorR : modalText}</p>
             <div>
-              <Button
-                text="OK"
-                handler={() => {
-                  closeModal();
-                  if (!error) {
-                    routeChange();
-                  }
-                }}
-              />
+              <Button text="OK" handler={!errorR ? routeChange : closeModal} />
             </div>
           </Modal>
         </div>

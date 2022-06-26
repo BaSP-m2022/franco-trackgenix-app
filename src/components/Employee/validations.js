@@ -1,7 +1,6 @@
 import Joi from 'joi';
 
-const now = Date.now();
-const moreThan18 = new Date(now - 1000 * 60 * 60 * 24 * 365 * 18);
+const moreThan18 = new Date(Date.now() - 1000 * 60 * 60 * 24 * 365 * 18 - 1000 * 60 * 60 * 24 * 4);
 const schema = Joi.object({
   firstName: Joi.string()
     .min(3)
@@ -26,9 +25,9 @@ const schema = Joi.object({
     .message('DNI must have between 7 and 8 characters')
     .max(8)
     .message('DNI must have between 7 and 8 characters')
-    .optional(),
+    .required(),
   email: Joi.string()
-    .email({ tlds: { allow: false } })
+    .email({ tlds: { allow: ['com'] } })
     .message('Your email must be a valid email')
     .required(),
   password: Joi.string()
@@ -41,7 +40,10 @@ const schema = Joi.object({
     .pattern(/[0-9]/)
     .message('Password must have at least 1 number')
     .required(),
-  dateOfBirth: Joi.date().max(moreThan18).message('You must be more than 18 years old').required()
+  dateOfBirth: Joi.date()
+    .max(moreThan18)
+    .message('Your age must be greater than 18 years old')
+    .required()
 });
 
 export default schema;
