@@ -157,7 +157,9 @@ const TimeSheetForm = () => {
   }
   return (
     <div className={styles.container}>
-      <h3>{requestType === 'PUT' ? 'Update Time Sheet' : 'Add Time Sheet'}</h3>
+      <h3 className={styles.tittle}>
+        {requestType === 'PUT' ? 'Update Time Sheet' : 'Add Time Sheet'}
+      </h3>
       <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
         <Controller
           control={control}
