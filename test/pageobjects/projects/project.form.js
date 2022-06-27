@@ -21,8 +21,11 @@ class ProjectForm extends Page {
   get employee() {
     return $('//*[@id="root"]/div/div/div[2]/div/form/div[2]/div/div[1]/label');
   }
-  get employeeSelect() {
+  get employeeSelector() {
     return $('//*[@id="root"]/div/div/div[2]/div/form/div[2]/div/div[1]/div/select');
+  }
+  get selectEmployee1() {
+    return $('//*[@id="root"]/div/div/div[2]/div/form/div[2]/div/div[1]/div/select/option[2]');
   }
   get rate() {
     return $('//*[@id="root"]/div/div/div[2]/div/form/div[2]/div/div[2]/label');
@@ -33,7 +36,7 @@ class ProjectForm extends Page {
   get role() {
     return $('//*[@id="root"]/div/div/div[2]/div/form/div[2]/div/div[3]/label');
   }
-  get roleSelect() {
+  get roleInput() {
     return $('//*[@id="root"]/div/div/div[2]/div/form/div[2]/div/div[3]/input');
   }
 
@@ -77,6 +80,44 @@ class ProjectForm extends Page {
   }
   get successfullyMessagebutton() {
     return $('//*[@id="root"]/div/div/div[2]/div/form/div[2]/div/div/div[2]/div/button');
+  }
+
+  async setProjectName(projectName) {
+    await this.projectName.setValue(projectName);
+  }
+  async setProjectStatus(status) {
+    await this.statusInput.setValue(status);
+  }
+  async setProjectDrescription(description) {
+    await this.descriptionInpunt.setValue(description);
+  }
+  async setEmployeeRate(rate) {
+    await this.rateInput.setValue(rate);
+  }
+
+  async setEmployeeRole(role) {
+    await this.role.setValue(role);
+  }
+
+  async setStartDate(startDate) {
+    await this.startDateInput.setValue(startDate);
+  }
+  async setEndDate(endDate) {
+    await this.endDateInput.setValue(endDate);
+  }
+
+  async setValues(projectName, status, description, rate, role, startDate, endDate) {
+    await this.setProjectName(projectName);
+    await this.setProjectStatus(status);
+    await this.setProjectDrescription(description);
+    await this.employeeSelector.click();
+    await this.selectEmployee1.click();
+    await this.setEmployeeRate(rate);
+    await this.setEmployeeRole(role);
+    await this.addEmployeeButton.click();
+    await this.setStartDate(startDate);
+    await this.setEndDate(endDate);
+    await this.saveButton.click();
   }
 
   open() {
