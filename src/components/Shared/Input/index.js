@@ -1,6 +1,6 @@
 import styles from './input.module.css';
 
-function Input({ name, type, value, placeholder, error, onChange }) {
+function Input({ name, type, value, placeholder, error, onChange, min, max }) {
   return (
     <div className={styles.container}>
       <label className={`${styles.label} ${error && styles.labelError}`} htmlFor={name}>
@@ -10,6 +10,8 @@ function Input({ name, type, value, placeholder, error, onChange }) {
         name={name}
         type={type}
         value={value}
+        min={min}
+        max={max}
         placeholder={placeholder}
         className={`${styles.input} ${error && styles.inputError}`}
         onChange={(e) => {

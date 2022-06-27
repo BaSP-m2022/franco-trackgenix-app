@@ -89,6 +89,7 @@ const TaskForm = () => {
 
   const routeChange = () => {
     dispatch(getTasks());
+    closeModal();
     history.push('/tasks');
   };
 
