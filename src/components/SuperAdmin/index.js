@@ -31,7 +31,26 @@ const schema = Joi.object({
     .message('Last Name must have only letters')
     .required(),
   email: Joi.string()
-    .email({ tlds: { allow: false } })
+    .email({
+      tlds: {
+        allow: [
+          'com',
+          'org',
+          'co',
+          'net',
+          'email',
+          'edu',
+          'ru',
+          'uk',
+          'au',
+          'in',
+          'de',
+          'ir',
+          'ca',
+          'ar'
+        ]
+      }
+    })
     .message('Your email must be a valid email')
     .required(),
   password: Joi.string()
