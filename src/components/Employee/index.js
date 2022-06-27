@@ -1,68 +1,58 @@
-import styles from './employee.module.css';
-import Input from '../Shared/Input';
-import Modal from '../Shared/Modal';
-import Button from '../Shared/Button';
-import LoadingScreen from '../Shared/LoadingScreen';
 import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { clearError } from '../../redux/employees/actions';
-import { addEmployee, putEmployee } from '../../redux/employees/thunks';
+import { useForm, Controller } from 'react-hook-form';
+import { joiResolver } from '@hookform/resolvers/joi';
+import schema from './validations';
+import { clearError } from 'redux/employees/actions';
+import { addEmployee, putEmployee } from 'redux/employees/thunks';
+import { capitalizeFirstLetter } from 'utils/formatters';
+import Input from 'components/Shared/Input';
+import Button from 'components/Shared/Button';
+import Modal from 'components/Shared/Modal';
+import LoadingScreen from 'components/Shared/LoadingScreen';
+import styles from './employee.module.css';
 
 const EmployeeForm = () => {
   const history = useHistory();
+
   const dispatch = useDispatch();
+
+  const employee = useSelector((state) => state.employees.employee);
+  const loading = useSelector((state) => state.employees.loading);
+  const errorR = useSelector((state) => state.employees.error);
+
   const [requestType, setRequestType] = useState('POST');
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [dateOfBirth, setDateOfBirth] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [dni, setDni] = useState('');
-  const [msg, setMsg] = useState('');
+  const [modalText, setModalText] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const [modalTitle, setModalTitle] = useState('');
   const [title, setTitle] = useState('Add Employee');
 
-  const employee = useSelector((state) => state.employees.employee);
-  const loading = useSelector((state) => state.employees.loading);
-  const error = useSelector((state) => state.employees.error);
+  const { handleSubmit, control, setValue } = useForm({
+    mode: 'onSubmit',
+    resolver: joiResolver(schema),
+    defaultValues: {
+      firstName: '',
+      lastName: '',
+      dni: '',
+      email: '',
+      password: '',
+      dateOfBirth: ''
+    }
+  });
 
   useEffect(() => {
     if (typeof employee === 'object' && employee._id) {
-      setFirstName(employee.firstName);
-      setLastName(employee.lastName);
-      setDateOfBirth(employee.dateOfBirth.slice(0, 10));
-      setEmail(employee.email);
-      setPassword(employee.password);
-      setDni(employee.dni);
+      setValue('firstName', employee.firstName);
+      setValue('lastName', employee.lastName);
+      setValue('dateOfBirth', employee.dateOfBirth.slice(0, 10));
+      setValue('email', employee.email);
+      setValue('password', employee.password);
+      setValue('dni', employee.dni);
       setRequestType('PUT');
       setTitle('Edit Employee');
     }
-  }, [error]);
-
-  function handleSubmit(e) {
-    e.preventDefault();
-    const body = JSON.stringify({
-      firstName,
-      lastName,
-      dni,
-      email,
-      password,
-      dateOfBirth
-    });
-    if (requestType === 'PUT') {
-      dispatch(putEmployee(employee._id, body));
-      setModalTitle('Employee updated');
-      setMsg('Employee updated successfully!');
-      openModal();
-    } else {
-      dispatch(addEmployee(body));
-      setModalTitle('Employee created');
-      setMsg('Employee created successfully!');
-      openModal();
-    }
-  }
+  }, [employee]);
 
   const routeChange = () => {
     let path = `/employees`;
@@ -77,6 +67,28 @@ const EmployeeForm = () => {
     setIsOpen(false);
   };
 
+  const onSubmit = (data) => {
+    const body = JSON.stringify({
+      firstName: capitalizeFirstLetter(data.firstName),
+      lastName: capitalizeFirstLetter(data.lastName),
+      dateOfBirth: data.dateOfBirth,
+      email: data.email,
+      password: data.password,
+      dni: data.dni
+    });
+    if (requestType === 'PUT') {
+      dispatch(putEmployee(employee._id, body));
+      setModalTitle('Employee updated');
+      setModalText('Employee updated successfully!');
+      openModal();
+    } else {
+      dispatch(addEmployee(body));
+      setModalTitle('Employee created');
+      setModalText('Employee created successfully!');
+      openModal();
+    }
+  };
+
   if (loading) {
     return (
       <div className={styles.loading}>
@@ -84,52 +96,94 @@ const EmployeeForm = () => {
       </div>
     );
   }
+
   return (
     <div className={styles.containerSec}>
       <h2 className={styles.formTitle}>{title}</h2>
       <form className={styles.form}>
         <div>
-          <Input
-            name="First Name"
-            type="text"
-            value={firstName}
-            placeholder="Enter your First Name"
-            onChange={setFirstName}
+          <Controller
+            control={control}
+            name="firstName"
+            render={({ field: { value, onChange }, fieldState: { error } }) => (
+              <Input
+                name="First name"
+                value={value}
+                placeholder="First name"
+                onChange={onChange}
+                error={error?.message}
+              />
+            )}
           />
-          <Input
-            name="Last Name"
-            type="text"
-            value={lastName}
-            placeholder="Enter your Last Name"
-            onChange={setLastName}
+          <Controller
+            control={control}
+            name="lastName"
+            render={({ field: { value, onChange }, fieldState: { error } }) => (
+              <Input
+                type="text"
+                name="Last name"
+                value={value}
+                placeholder="Last name"
+                onChange={onChange}
+                error={error?.message}
+              />
+            )}
           />
-          <Input
-            name="Date Of Birth"
-            type="date"
-            value={dateOfBirth}
-            placeholder="Enter your Birth date"
-            onChange={setDateOfBirth}
+          <Controller
+            control={control}
+            name="dateOfBirth"
+            render={({ field: { value, onChange }, fieldState: { error } }) => (
+              <Input
+                name="Date Of Birth"
+                type="date"
+                value={value}
+                placeholder="Enter your Birth date"
+                onChange={onChange}
+                error={error?.message}
+              />
+            )}
           />
-          <Input
-            name="Dni"
-            type="number"
-            value={dni}
-            placeholder="Enter your DNI"
-            onChange={setDni}
+          <Controller
+            control={control}
+            name="dni"
+            render={({ field: { value, onChange }, fieldState: { error } }) => (
+              <Input
+                name="DNI"
+                type="text"
+                value={value}
+                placeholder="Enter your DNI"
+                onChange={onChange}
+                error={error?.message}
+              />
+            )}
           />
-          <Input
-            name="Email"
-            type="email"
-            value={email}
-            placeholder="Enter your e-mail address"
-            onChange={setEmail}
+          <Controller
+            control={control}
+            name="email"
+            render={({ field: { value, onChange }, fieldState: { error } }) => (
+              <Input
+                type="email"
+                name="Email"
+                value={value}
+                placeholder="Email"
+                onChange={onChange}
+                error={error?.message}
+              />
+            )}
           />
-          <Input
-            name="Password"
-            type="password"
-            value={password}
-            placeholder="Enter Password"
-            onChange={setPassword}
+          <Controller
+            control={control}
+            name="password"
+            render={({ field: { value, onChange }, fieldState: { error } }) => (
+              <Input
+                type="password"
+                name="Password"
+                value={value}
+                placeholder="Password"
+                onChange={onChange}
+                error={error?.message}
+              />
+            )}
           />
         </div>
         <div className={styles.buttonContainer}>
@@ -141,21 +195,17 @@ const EmployeeForm = () => {
             }}
           />
           <Button
-            text={!loading && requestType === 'POST' ? 'Add Employee' : 'Update Employee'}
-            handler={handleSubmit}
+            text={!loading && requestType === 'POST' ? 'Save' : 'Update'}
+            handler={handleSubmit(onSubmit)}
           />
-          <Modal modalTitle={error ? 'Error' : modalTitle} isOpen={isOpen} handleClose={closeModal}>
-            <p>{error ? error : msg}</p>
+          <Modal
+            modalTitle={errorR ? 'Error' : modalTitle}
+            isOpen={isOpen}
+            handleClose={closeModal}
+          >
+            <p>{errorR ? errorR : modalText}</p>
             <div>
-              <Button
-                text="OK"
-                handler={() => {
-                  closeModal();
-                  if (!error) {
-                    routeChange();
-                  }
-                }}
-              />
+              <Button text="OK" handler={!errorR ? routeChange : closeModal} />
             </div>
           </Modal>
         </div>
