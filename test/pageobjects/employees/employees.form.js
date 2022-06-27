@@ -22,14 +22,14 @@ class EmployeeForm extends Page {
     return $('//*[@id="root"]/div/div/div[2]/div/form/div[1]/div[3]/label');
   }
 
-  get DateOfBirthInput() {
+  get dateOfBirthInput() {
     return $('//*[@id="root"]/div/div/div[2]/div/form/div[1]/div[3]/input');
   }
-  get Dni() {
+  get dni() {
     return $('//*[@id="root"]/div/div/div[2]/div/form/div[1]/div[4]/label');
   }
 
-  get DniInput() {
+  get dniInput() {
     return $('//*[@id="root"]/div/div/div[2]/div/form/div[1]/div[4]/input');
   }
   get email() {
@@ -52,6 +52,55 @@ class EmployeeForm extends Page {
 
   get saveButton() {
     return $('//*[@id="root"]/div/div/div[2]/div/form/div[2]/button[2]');
+  }
+
+  get Message() {
+    return $('//*[@id="root"]/div/div/div[2]/div/form/div[2]/div/div');
+  }
+  get Messagebutton() {
+    return $('//*[@id="root"]/div/div/div[2]/div/form/div[2]/div/div/div[2]/div/button');
+  }
+  get MessageX() {
+    return $('//*[@id="root"]/div/div/div[2]/div/form/div[2]/div/div/div[1]/button');
+  }
+
+  async setFirstName(firstName) {
+    await this.firstNameInput.setValue(firstName);
+  }
+  async setLastName(lastname) {
+    await this.lastNameInput.setValue(lastname);
+  }
+  async setDoB(dob) {
+    await this.dateOfBirthInput.setValue(dob);
+  }
+  async setDni(dni) {
+    await this.dniInput.setValue(dni);
+  }
+
+  async setEmail(email) {
+    await this.emailInput.setValue(email);
+  }
+  async setPassword(password) {
+    await this.passwordInput.setValue(password);
+  }
+
+  async setValues(firstName, lastName, dob, dni, email, password) {
+    await this.setFirstName(firstName);
+    await this.setLastName(lastName);
+    await this.setDoB(dob);
+    await this.setDni(dni);
+    await this.setEmail(email);
+    await this.setPassword(password);
+    await this.saveButton.click();
+  }
+
+  async setValuesb(firstName, lastName, dob, dni, email, password) {
+    await this.setFirstName(firstName);
+    await this.setLastName(lastName);
+    await this.setDoB(dob);
+    await this.setDni(dni);
+    await this.setEmail(email);
+    await this.setPassword(password);
   }
 
   open() {

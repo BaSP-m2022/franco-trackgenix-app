@@ -49,7 +49,7 @@ class EmployeeProfile extends Page {
   }
 
   get securityTittle() {
-    return $('//*[@id="root"]/div/div/div[2]/section/form[2]/div[1]/h2')
+    return $('//*[@id="root"]/div/div/div[2]/section/form[2]/div[1]/h2');
   }
 
   get oldPassword() {
@@ -112,7 +112,7 @@ class EmployeeProfile extends Page {
     await this.repeatPasswordInput.setValue(repeatPassword);
   }
 
-  async editProfile (firstName, lastName, email, dob, dni) {
+  async editProfile(firstName, lastName, email, dob, dni) {
     await this.setFirstName(firstName);
     await this.setLastName(lastName);
     await this.setEmail(email);
@@ -120,7 +120,7 @@ class EmployeeProfile extends Page {
     await this.setDni(dni);
     await this.editButton.click();
   }
-  async changePassword (oldPassword, newPassword, repeatPassword) {
+  async changePassword(oldPassword, newPassword, repeatPassword) {
     await this.open();
     await this.setOldPassword(oldPassword);
     await this.setNewPassword(newPassword);
