@@ -13,14 +13,14 @@ const Header = () => {
 
   const loggedEmployee = useSelector((state) => state.employees.employee);
   const employees = useSelector((state) => state.employees.list);
-  const idEmployee = '62b225b3fa1f7cdcabb06d6c';
+  const idEmployee = employees[0]?._id;
 
   useEffect(() => {
     if (!employees.length) dispatch(getEmployees());
   }, [employees]);
 
   useEffect(() => {
-    if (!loggedEmployee._id && employees.length) dispatch(setEmployee(idEmployee));
+    if (!loggedEmployee?._id) dispatch(setEmployee(idEmployee));
   }, [loggedEmployee, employees]);
 
   return (
@@ -38,7 +38,7 @@ const Header = () => {
         />
       </div>
 
-      {!loggedEmployee._id ? (
+      {!loggedEmployee?._id ? (
         <button
           className={styles.userButton}
           onClick={() => {
