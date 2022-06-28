@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { formatDate } from 'utils/formatters';
 import Button from 'components/Shared/Button';
 import Modal from 'components/Shared/Modal';
@@ -7,10 +6,11 @@ import SelectDropdown from 'components/Shared/SelectDropdown';
 import styles from './employee.module.css';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useForm, Controller } from 'react-hook-form';
+import { useForm, Controller, useFieldArray } from 'react-hook-form';
 import { getTimeSheets } from 'redux/timeSheets/thunks';
 import { getProjects } from 'redux/projects/thunks';
-import { getTasks, postTask, putTask } from 'redux/tasks/thunks';
+import { getTasks, postTask } from 'redux/tasks/thunks';
+import { useHistory } from 'react-router-dom';
 import { joiResolver } from '@hookform/resolvers/joi';
 import Joi from 'joi';
 
@@ -19,7 +19,6 @@ const TableRow = ({ project, tasks }) => {
     .filter((task) => task.projectId === project._id)
     .map((task) => task.workedHours)
     .reduce((partialSum, a) => partialSum + a, 0);
-  //console.log('projectTasksHours', totalProjectTasksHours);
   return (
     <tr className={styles.containerTable}>
       <td>{project?.name}</td>
@@ -41,23 +40,35 @@ const EmployeeHome = () => {
   const [isOtherOpen, setIsOtherOpen] = useState(false);
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
-  const [requestType, setRequestType] = useState('POST');
+  const [requestType] = useState('POST');
   const [modalTitle, setModalTitle] = useState('');
   const [modalText, setModalText] = useState('');
   const [projectsOptions, setProjectsOptions] = useState([]);
   const [timeSheetEmployee, setTimeSheetEmployee] = useState({});
   const [tasksEmployee, setTasksEmployee] = useState([]);
   const [projectsEmployee, setProjectsEmployee] = useState([]);
+  const [click, setClick] = useState(0);
   const dispatch = useDispatch();
 
   const schema = Joi.object({
-    description: Joi.string().min(3).max(50).required(),
-    workedHours: Joi.number().min(1).required(),
-    projectId: Joi.string().required(),
-    date: Joi.date().required()
+    description: Joi.string().min(3).max(50).required().messages({
+      'string.empty': 'You must add a description',
+      'string.min': 'The description must have more than 3 characters.',
+      'string.max': 'The description should not be longer than 50 characters.'
+    }),
+    workedHours: Joi.number().min(1).required().messages({
+      'string.empty': 'You must add the worked hours',
+      'number.min': 'Worked hours must be more than 1 hr.'
+    }),
+    projectId: Joi.string().required().messages({ 'string.empty': 'You must select a project' }),
+    date: Joi.date().required().messages({ 'string.empty': 'You must select a date' })
   });
 
-  const { control, handleSubmit } = useForm({
+  const {
+    control,
+    handleSubmit,
+    formState: { errors }
+  } = useForm({
     mode: 'onChange',
     defaultValues: {
       date: '',
@@ -73,7 +84,7 @@ const EmployeeHome = () => {
   const error = useSelector((state) => state.timeSheets.error);
   const task = useSelector((state) => state.tasks.task);
   const errorTasks = useSelector((state) => state.tasks.error);
-  const idEmployee = '62b225b3fa1f7cdcabb06d6c';
+  const idEmployee = '62b93b6f8186c3f9a35f7ed8';
 
   useEffect(() => {
     if (!timeSheets.length) {
@@ -93,6 +104,8 @@ const EmployeeHome = () => {
     }
     if (date.getDay() > 0) {
       setStartDate(date.setDate(date.getDate() - date.getDay()));
+    } else {
+      setStartDate(Date.now());
     }
     setEndDate(date.setDate(date.getDate() + 6));
 
@@ -152,6 +165,11 @@ const EmployeeHome = () => {
     setIsOtherOpen(false);
   };
 
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: 'tasks'
+  });
+
   const onSubmit = async (data) => {
     const body = JSON.stringify({
       description: data.description,
@@ -167,10 +185,10 @@ const EmployeeHome = () => {
     }
     openOtherModal();
   };
-
+  const history = useHistory();
   const routeChange = () => {
     dispatch(getTasks());
-    history.push('/tasks');
+    history.push('/employee/home');
   };
 
   return (
@@ -195,61 +213,95 @@ const EmployeeHome = () => {
               />
             </div>
             <h3 className={styles.h3}>Tasks</h3>
-            <div className={styles.row}>
-              <div className={styles.col}>
-                <Controller
-                  control={control}
-                  name="projectId"
-                  render={({ field: { value, onChange }, fieldState: { error } }) => (
-                    <SelectDropdown
-                      name="Project"
-                      value={value}
-                      onChange={onChange}
-                      options={projectsOptions}
-                      required={true}
-                      error={error?.message}
-                    />
-                  )}
-                />
-              </div>
-              <div className={styles.col}>
-                <Controller
-                  control={control}
-                  name="description"
-                  render={({ field: { value, onChange }, fieldState: { error } }) => (
-                    <Input
-                      className={styles.label}
-                      name="Description"
-                      type="text"
-                      value={value}
-                      onChange={onChange}
-                      error={error?.message}
-                    />
-                  )}
-                />
-              </div>
-              <div className={styles.col}>
-                <Controller
-                  control={control}
-                  name="workedHours"
-                  render={({ field: { value, onChange }, fieldState: { error } }) => (
-                    <Input
-                      className={styles.label}
-                      name="Worked Hours"
-                      type="number"
-                      value={value}
-                      onChange={onChange}
-                      error={error?.message}
-                    />
-                  )}
-                />
-              </div>
-              <div className={styles.col}>
-                <Button text="+" />
-              </div>
+            <div className={styles.tasksDiv}>
+              {fields.map((field, index) => (
+                <div key={field.id} className={styles.task}>
+                  <div className={styles.row}>
+                    <div className={styles.col}>
+                      <Controller
+                        control={control}
+                        name={`tasks[${index}].projectId`}
+                        render={({ field: { value, onChange }, fieldState: { error } }) => (
+                          <SelectDropdown
+                            name="Project"
+                            value={value}
+                            onChange={onChange}
+                            options={projectsOptions}
+                            required={false}
+                            error={error?.message}
+                          />
+                        )}
+                      />
+                    </div>
+                    <div className={styles.col}>
+                      <Controller
+                        control={control}
+                        name={`tasks[${index}].description`}
+                        render={({ field: { value, onChange }, fieldState: { error } }) => (
+                          <Input
+                            className={styles.label}
+                            name="Description"
+                            type="text"
+                            value={value}
+                            onChange={onChange}
+                            error={error?.message}
+                          />
+                        )}
+                      />
+                    </div>
+                    <div className={styles.col}>
+                      <Controller
+                        control={control}
+                        name={`tasks[${index}].workedHours`}
+                        render={({ field: { value, onChange }, fieldState: { error } }) => (
+                          <Input
+                            className={styles.label}
+                            name="Worked Hours"
+                            type="number"
+                            value={value}
+                            onChange={onChange}
+                            error={error?.message}
+                          />
+                        )}
+                      />
+                    </div>
+                    <div className={(styles.col, styles.buttonDelete)}>
+                      <Button
+                        type={'delete'}
+                        text={'X'}
+                        handler={() => {
+                          remove(index);
+                          setClick(click - 1);
+                        }}
+                      />
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
+            <div className={styles.buttonContainer}>
+              <Button
+                text={'Add new task'}
+                type="button"
+                handler={(e) => {
+                  e.preventDefault();
+                  setClick(click + 1);
+                  append({ projectId: '', description: '', workedHours: 0 });
+                }}
+              />
+            </div>
+            {click === 0 && errors ? <p>{errors?.message}</p> : null}
+            {click != 0 && errors && !errors.type != 'array.min' ? <p>{errors?.message}</p> : null}
             <Button text="Cancel" handler={closeModal} />
-            <Button text="Save" handler={handleSubmit(onSubmit)} />
+            <Button
+              text="Save"
+              handler={() => {
+                handleSubmit(onSubmit);
+                if (!error) {
+                  routeChange();
+                }
+              }}
+            />
           </form>
         </div>
       </Modal>
