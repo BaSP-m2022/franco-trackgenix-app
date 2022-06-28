@@ -1,6 +1,6 @@
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
-import { store } from 'redux/store';
+import store from 'redux/store';
 import { setAuthentication } from 'redux/auth/actions';
 
 const firebaseConfig = {
