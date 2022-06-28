@@ -19,7 +19,10 @@ const schema = Joi.object({
   totalHours: Joi.number(),
   status: Joi.string(),
   startDate: Joi.date().required(),
-  endDate: Joi.date().required(),
+  endDate: Joi.date()
+    .required()
+    .min(Joi.ref('startDate'))
+    .message('End Date must be greater than or equal to Start Date'),
   employeeId: Joi.string().required(),
   tasks: Joi.array().items(Joi.object({ _id: Joi.string().required() }))
 });
@@ -49,6 +52,7 @@ const TimeSheetForm = () => {
     control,
     name: 'tasks'
   });
+
   const [employeeOptions, setEmployeeOptions] = useState([]);
   const [tasksOptions, setTasksOptions] = useState([]);
 
@@ -98,7 +102,7 @@ const TimeSheetForm = () => {
       setValue('status', timeSheet.status);
       setValue('startDate', timeSheet.startDate.slice(0, 10));
       setValue('endDate', timeSheet.endDate.slice(0, 10));
-      setValue('employeeId', timeSheet.employeeId._id);
+      setValue('employeeId', timeSheet.employeeId?._id);
       setRequestType('PUT');
     }
   }, [timeSheet._id]);
