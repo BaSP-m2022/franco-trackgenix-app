@@ -1,0 +1,72 @@
+{
+  "uid" : "4b4757e66a1912dae1a509f688f20b0f",
+  "name" : "categories",
+  "children" : [ {
+    "name" : "Product defects",
+    "children" : [ {
+      "name" : "Error: Can't call setValue on element with selector \"div.input_container__1yWID:nth-child(1) > input:nth-child(2)\" because element wasn't found",
+      "children" : [ {
+        "name" : "Edit an admin failed",
+        "uid" : "cf9a054a5ebb0c81",
+        "parentUid" : "79b6ab792ba93443ab53c6628d699784",
+        "status" : "failed",
+        "time" : {
+          "start" : 1656230044291,
+          "stop" : 1656230054868,
+          "duration" : 10577
+        },
+        "flaky" : false,
+        "newFailed" : false,
+        "newPassed" : false,
+        "newBroken" : false,
+        "retriesCount" : 2,
+        "retriesStatusChange" : false,
+        "parameters" : [ "chrome-103.0.5060.53" ]
+      } ],
+      "uid" : "79b6ab792ba93443ab53c6628d699784"
+    }, {
+      "name" : "element click intercepted: element click intercepted: Element <button class=\"button_btn__3WL0L\">...</button> is not clickable at point (604, 555). Other element would receive the click: <div class=\"footer_p2__3m85A\">...</div>\n                  (Session info: chrome=103.0.5060.53)",
+      "children" : [ {
+        "name" : "Edit an admin success",
+        "uid" : "a951d141d7924e2a",
+        "parentUid" : "cb1fff030d82c96958a2dc5a9730b108",
+        "status" : "failed",
+        "time" : {
+          "start" : 1656296092206,
+          "stop" : 1656296097697,
+          "duration" : 5491
+        },
+        "flaky" : false,
+        "newFailed" : false,
+        "newPassed" : false,
+        "newBroken" : false,
+        "retriesCount" : 7,
+        "retriesStatusChange" : true,
+        "parameters" : [ "chrome-103.0.5060.53" ]
+      } ],
+      "uid" : "cb1fff030d82c96958a2dc5a9730b108"
+    }, {
+      "name" : "element click intercepted: element click intercepted: Element <button class=\"button_btn__3WL0L\">...</button> is not clickable at point (512, 555). Other element would receive the click: <nav class=\"footer_rowLinks__3sOXe\">...</nav>\n                  (Session info: chrome=103.0.5060.53)",
+      "children" : [ {
+        "name" : "Admin form should be deployed",
+        "uid" : "877030fb501f1c53",
+        "parentUid" : "f792b2c0107cc394baf40eec74b0b65d",
+        "status" : "failed",
+        "time" : {
+          "start" : 1656296097709,
+          "stop" : 1656296102675,
+          "duration" : 4966
+        },
+        "flaky" : false,
+        "newFailed" : false,
+        "newPassed" : false,
+        "newBroken" : false,
+        "retriesCount" : 24,
+        "retriesStatusChange" : true,
+        "parameters" : [ "chrome-103.0.5060.53" ]
+      } ],
+      "uid" : "f792b2c0107cc394baf40eec74b0b65d"
+    } ],
+    "uid" : "8fb3a91ba5aaf9de24cc8a92edc82b5d"
+  } ]
+}

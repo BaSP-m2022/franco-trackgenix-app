@@ -1,0 +1,45 @@
+<?xml version='1.0'?>
+<ns2:test-suite xmlns:ns2='urn:model.allure.qatools.yandex.ru' start='1656370121473' stop='1656370121586'>
+    <name>Add admin page interactions</name>
+    <title>Add admin page interactions</title>
+    <test-cases>
+        <test-case start='1656370121473' status='passed' stop='1656370121586'>
+            <name>Admin form should be deployed</name>
+            <title>Admin form should be deployed</title>
+            <labels>
+                <label name='language' value='javascript'/>
+                <label name='framework' value='wdio'/>
+                <label name='thread' value='0-0'/>
+            </labels>
+            <parameters>
+                <parameter kind='argument' name='browser' value='chrome-103.0.5060.66'/>
+            </parameters>
+            <steps>
+                <step start='1656370121474' status='passed' stop='1656370121494'>
+                    <name>POST /session/:sessionId/element</name>
+                    <title>POST /session/:sessionId/element</title>
+                    <attachments>
+                        <attachment title='Request' source='fb616c14-b36a-41e9-9026-ecdd34103e20-attachment.json' type='application/json' size='62'/>
+                        <attachment title='Response' source='ecaf15e2-0ce7-4514-b2f9-5882cf801a1b-attachment.json' type='application/json' size='83'/>
+                    </attachments>
+                    <steps/>
+                </step>
+                <step start='1656370121498' status='passed' stop='1656370121573'>
+                    <name>POST /session/:sessionId/element/ec1fe1e0-e744-4c8c-af6d-cc0ac98741d6/click</name>
+                    <title>POST /session/:sessionId/element/ec1fe1e0-e744-4c8c-af6d-cc0ac98741d6/click</title>
+                    <attachments/>
+                    <steps/>
+                </step>
+                <step start='1656370121573' status='passed' stop='1656370121585'>
+                    <name>GET /session/:sessionId/url</name>
+                    <title>GET /session/:sessionId/url</title>
+                    <attachments>
+                        <attachment title='Response' source='d4290265-2ac8-4211-b303-5a7d5a58a7af-attachment.json' type='application/json' size='54'/>
+                    </attachments>
+                    <steps/>
+                </step>
+            </steps>
+            <attachments/>
+        </test-case>
+    </test-cases>
+</ns2:test-suite>

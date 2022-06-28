@@ -1,0 +1,354 @@
+{
+  "uid" : "9de9c089c0bc321f",
+  "name" : "Admin main page should be deployed",
+  "fullName" : "Home page interactions.Admin main page should be deployed",
+  "historyId" : "eb27a8cad02df176db4acd8a81f1ab8f",
+  "time" : {
+    "start" : 1656226237077,
+    "stop" : 1656226238445,
+    "duration" : 1368
+  },
+  "description" : "",
+  "descriptionHtml" : "",
+  "status" : "failed",
+  "statusMessage" : "TypeError: AdminList.searchInput is not a function",
+  "statusTrace" : "TypeError: AdminList.searchInput is not a function\n                    at UserContext.<anonymous> (D:\\Users\\acerpc\\Desktop\\franco-trackgenix-app\\test\\specs\\Admin.js:16:21)\n                    at processTicksAndRejections (node:internal/process/task_queues:96:5)",
+  "flaky" : false,
+  "newFailed" : false,
+  "newBroken" : false,
+  "newPassed" : false,
+  "retriesCount" : 0,
+  "retriesStatusChange" : false,
+  "beforeStages" : [ ],
+  "testStage" : {
+    "status" : "failed",
+    "statusMessage" : "TypeError: AdminList.searchInput is not a function",
+    "statusTrace" : "TypeError: AdminList.searchInput is not a function\n                    at UserContext.<anonymous> (D:\\Users\\acerpc\\Desktop\\franco-trackgenix-app\\test\\specs\\Admin.js:16:21)\n                    at processTicksAndRejections (node:internal/process/task_queues:96:5)",
+    "steps" : [ {
+      "name" : "POST /session/:sessionId/url",
+      "time" : {
+        "start" : 1656226237078,
+        "stop" : 1656226237526,
+        "duration" : 448
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ {
+        "uid" : "b99c3033bef57a25",
+        "name" : "Request",
+        "source" : "b99c3033bef57a25.json",
+        "type" : "application/json",
+        "size" : 62
+      } ],
+      "parameters" : [ ],
+      "hasContent" : true,
+      "stepsCount" : 0,
+      "shouldDisplayMessage" : false,
+      "attachmentsCount" : 1
+    }, {
+      "name" : "GET /session/:sessionId/url",
+      "time" : {
+        "start" : 1656226237527,
+        "stop" : 1656226237540,
+        "duration" : 13
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ {
+        "uid" : "e80c0aa790c5c140",
+        "name" : "Response",
+        "source" : "e80c0aa790c5c140.json",
+        "type" : "application/json",
+        "size" : 49
+      } ],
+      "parameters" : [ ],
+      "hasContent" : true,
+      "stepsCount" : 0,
+      "shouldDisplayMessage" : false,
+      "attachmentsCount" : 1
+    }, {
+      "name" : "POST /session/:sessionId/element",
+      "time" : {
+        "start" : 1656226237546,
+        "stop" : 1656226237684,
+        "duration" : 138
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ {
+        "uid" : "a619ec170e71eea",
+        "name" : "Request",
+        "source" : "a619ec170e71eea.json",
+        "type" : "application/json",
+        "size" : 62
+      }, {
+        "uid" : "1541f4ee3ca61242",
+        "name" : "Response",
+        "source" : "1541f4ee3ca61242.json",
+        "type" : "application/json",
+        "size" : 1047
+      } ],
+      "parameters" : [ ],
+      "hasContent" : true,
+      "stepsCount" : 0,
+      "shouldDisplayMessage" : false,
+      "attachmentsCount" : 2
+    }, {
+      "name" : "POST /session/:sessionId/element",
+      "time" : {
+        "start" : 1656226237700,
+        "stop" : 1656226237729,
+        "duration" : 29
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ {
+        "uid" : "5469199ba4587c22",
+        "name" : "Request",
+        "source" : "5469199ba4587c22.json",
+        "type" : "application/json",
+        "size" : 62
+      }, {
+        "uid" : "3472c8e6ac17d548",
+        "name" : "Response",
+        "source" : "3472c8e6ac17d548.json",
+        "type" : "application/json",
+        "size" : 1047
+      } ],
+      "parameters" : [ ],
+      "hasContent" : true,
+      "stepsCount" : 0,
+      "shouldDisplayMessage" : false,
+      "attachmentsCount" : 2
+    }, {
+      "name" : "POST /session/:sessionId/element",
+      "time" : {
+        "start" : 1656226238195,
+        "stop" : 1656226238215,
+        "duration" : 20
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ {
+        "uid" : "a684b358df8d4ab0",
+        "name" : "Request",
+        "source" : "a684b358df8d4ab0.json",
+        "type" : "application/json",
+        "size" : 62
+      }, {
+        "uid" : "ec72dafe3b6fe660",
+        "name" : "Response",
+        "source" : "ec72dafe3b6fe660.json",
+        "type" : "application/json",
+        "size" : 83
+      } ],
+      "parameters" : [ ],
+      "hasContent" : true,
+      "stepsCount" : 0,
+      "shouldDisplayMessage" : false,
+      "attachmentsCount" : 2
+    }, {
+      "name" : "POST /session/:sessionId/execute/sync",
+      "time" : {
+        "start" : 1656226238218,
+        "stop" : 1656226238239,
+        "duration" : 21
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ {
+        "uid" : "2b84530430cf4de5",
+        "name" : "Request",
+        "source" : "2b84530430cf4de5.json",
+        "type" : "application/json",
+        "size" : 8337
+      }, {
+        "uid" : "fedc274033014732",
+        "name" : "Response",
+        "source" : "fedc274033014732.json",
+        "type" : "application/json",
+        "size" : 4
+      } ],
+      "parameters" : [ ],
+      "hasContent" : true,
+      "stepsCount" : 0,
+      "shouldDisplayMessage" : false,
+      "attachmentsCount" : 2
+    }, {
+      "name" : "POST /session/:sessionId/element",
+      "time" : {
+        "start" : 1656226238240,
+        "stop" : 1656226238308,
+        "duration" : 68
+      },
+      "status" : "passed",
+      "steps" : [ {
+        "name" : "POST /session/:sessionId/element",
+        "time" : {
+          "start" : 1656226238248,
+          "stop" : 1656226238279,
+          "duration" : 31
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ {
+          "uid" : "971616580f9f523f",
+          "name" : "Request",
+          "source" : "971616580f9f523f.json",
+          "type" : "application/json",
+          "size" : 62
+        }, {
+          "uid" : "f51d0ac2da3d0318",
+          "name" : "Response",
+          "source" : "f51d0ac2da3d0318.json",
+          "type" : "application/json",
+          "size" : 83
+        } ],
+        "parameters" : [ ],
+        "hasContent" : true,
+        "stepsCount" : 0,
+        "shouldDisplayMessage" : false,
+        "attachmentsCount" : 2
+      }, {
+        "name" : "POST /session/:sessionId/execute/sync",
+        "time" : {
+          "start" : 1656226238286,
+          "stop" : 1656226238300,
+          "duration" : 14
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ {
+          "uid" : "f271fefac17e94b4",
+          "name" : "Request",
+          "source" : "f271fefac17e94b4.json",
+          "type" : "application/json",
+          "size" : 8337
+        }, {
+          "uid" : "f0b32afc237c6051",
+          "name" : "Response",
+          "source" : "f0b32afc237c6051.json",
+          "type" : "application/json",
+          "size" : 83
+        } ],
+        "parameters" : [ ],
+        "hasContent" : true,
+        "stepsCount" : 0,
+        "shouldDisplayMessage" : false,
+        "attachmentsCount" : 2
+      } ],
+      "attachments" : [ {
+        "uid" : "9f61666f98cac22c",
+        "name" : "Request",
+        "source" : "9f61666f98cac22c.json",
+        "type" : "application/json",
+        "size" : 58
+      }, {
+        "uid" : "99f48ad4e712415b",
+        "name" : "Response",
+        "source" : "99f48ad4e712415b.json",
+        "type" : "application/json",
+        "size" : 4
+      } ],
+      "parameters" : [ ],
+      "hasContent" : true,
+      "stepsCount" : 2,
+      "shouldDisplayMessage" : false,
+      "attachmentsCount" : 6
+    }, {
+      "name" : "GET /session/:sessionId/screenshot",
+      "time" : {
+        "start" : 1656226238311,
+        "stop" : 1656226238445,
+        "duration" : 134
+      },
+      "status" : "failed",
+      "statusMessage" : "TypeError: AdminList.searchInput is not a function\n                    at UserContext.<anonymous> (D:\\Users\\acerpc\\Desktop\\franco-trackgenix-app\\test\\specs\\Admin.js:16:21)\n                    at processTicksAndRejections (node:internal/process/task_queues:96:5)",
+      "steps" : [ {
+        "name" : "POST /session/:sessionId/element",
+        "time" : {
+          "start" : 1656226238315,
+          "stop" : 1656226238442,
+          "duration" : 127
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ {
+          "uid" : "407b90733af7e57a",
+          "name" : "Request",
+          "source" : "407b90733af7e57a.json",
+          "type" : "application/json",
+          "size" : 58
+        }, {
+          "uid" : "d534db027551655a",
+          "name" : "Screenshot",
+          "source" : "d534db027551655a.png",
+          "type" : "image/png",
+          "size" : 58998
+        } ],
+        "parameters" : [ ],
+        "hasContent" : true,
+        "stepsCount" : 0,
+        "shouldDisplayMessage" : false,
+        "attachmentsCount" : 2
+      } ],
+      "attachments" : [ ],
+      "parameters" : [ ],
+      "hasContent" : true,
+      "stepsCount" : 1,
+      "shouldDisplayMessage" : true,
+      "attachmentsCount" : 2
+    } ],
+    "attachments" : [ {
+      "uid" : "2d1b9454a2e5f312",
+      "name" : "Response",
+      "source" : "2d1b9454a2e5f312.json",
+      "type" : "application/json",
+      "size" : 83
+    } ],
+    "parameters" : [ ],
+    "hasContent" : true,
+    "stepsCount" : 11,
+    "shouldDisplayMessage" : true,
+    "attachmentsCount" : 19
+  },
+  "afterStages" : [ ],
+  "labels" : [ {
+    "name" : "framework",
+    "value" : "wdio"
+  }, {
+    "name" : "language",
+    "value" : "javascript"
+  }, {
+    "name" : "thread",
+    "value" : "0-0"
+  }, {
+    "name" : "suite",
+    "value" : "Home page interactions"
+  }, {
+    "name" : "testClass",
+    "value" : "Home page interactions"
+  }, {
+    "name" : "testMethod",
+    "value" : "Admin main page should be deployed"
+  }, {
+    "name" : "package",
+    "value" : "Home page interactions"
+  }, {
+    "name" : "resultFormat",
+    "value" : "allure1"
+  } ],
+  "parameters" : [ {
+    "name" : "browser",
+    "value" : "chrome-103.0.5060.53"
+  } ],
+  "links" : [ ],
+  "hidden" : true,
+  "retry" : true,
+  "extra" : {
+    "categories" : [ ],
+    "tags" : [ ]
+  },
+  "source" : "9de9c089c0bc321f.json",
+  "parameterValues" : [ "chrome-103.0.5060.53" ]
+}
