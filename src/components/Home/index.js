@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 function Home() {
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(login({ email: 'andres@gmail.com', password: '1234567a' }));
+    dispatch(login({ email: 'hernan@gmail.com', password: '1234567a' }));
   }, []);
   return (
     <section className={styles.container}>
