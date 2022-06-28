@@ -87,6 +87,30 @@ class TimesheetsPage {
   get btnDelete1() {
     return $('//*[@id="root"]/div/div/div[2]/section/table/tbody/tr[1]/td[9]/button[2]');
   }
+
+  get btnDeleteModalYes() {
+    return $('//*[@id="root"]/div/div/div[2]/section/div[1]/div/div[2]/div/div/button[1]');
+  }
+
+  get btnDeleteModalNo() {
+    return $('//*[@id="root"]/div/div/div[2]/section/div[1]/div/div[2]/div/div/button[2]');
+  }
+
+  // Methods
+  async timesheetsForm() {
+    await this.addTimesheet.click();
+  }
+
+  async editTimesheet() {
+    await this.btnEdit1.click();
+  }
+
+  async deleteTimesheet() {
+    await this.btnDelete1.click();
+    await this.btnDeleteModalNo.click();
+    await this.btnDelete1.click();
+    await this.btnDeleteModalYes.click();
+  }
 }
 
 module.exports = new TimesheetsPage();
