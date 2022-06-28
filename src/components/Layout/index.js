@@ -19,6 +19,7 @@ import TimeSheetForm from '../TimeSheet';
 import Tasks from '../Tasks';
 import TaskForm from '../Task';
 import Profile from '../Shared/Profile';
+import Login from '../Login';
 
 function Layout() {
   return (
@@ -31,6 +32,7 @@ function Layout() {
         <div className={styles.divSwitch}>
           <Switch>
             <Route exact path="/home" component={Home} />
+            <Route exact path="/login" component={Login} />
             <Route exact path="/admins" component={Admins} />
             <Route exact path="/admins/form" component={AdminForm} />
             <Route exact path="/super-admins" component={SuperAdmins} />
