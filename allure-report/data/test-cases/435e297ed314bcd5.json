@@ -1,0 +1,95 @@
+{
+  "uid" : "435e297ed314bcd5",
+  "name" : "Failed password",
+  "fullName" : "Edit Super Admin page interactions.Failed password",
+  "historyId" : "1f2253fcd53a8f79124b9ac5dff5ec5b",
+  "time" : {
+    "start" : 1656392561956,
+    "stop" : 1656392562114,
+    "duration" : 158
+  },
+  "description" : "",
+  "descriptionHtml" : "",
+  "status" : "failed",
+  "statusMessage" : "TypeError: AdminForm.updateAdminFailed is not a function",
+  "statusTrace" : "TypeError: AdminForm.updateAdminFailed is not a function\n                    at UserContext.<anonymous> (D:\\Users\\acerpc\\Desktop\\franco-trackgenix-app\\test\\specs\\Superadmin.js:122:21)",
+  "flaky" : false,
+  "newFailed" : false,
+  "newBroken" : false,
+  "newPassed" : false,
+  "retriesCount" : 0,
+  "retriesStatusChange" : false,
+  "beforeStages" : [ ],
+  "testStage" : {
+    "status" : "failed",
+    "statusMessage" : "TypeError: AdminForm.updateAdminFailed is not a function",
+    "statusTrace" : "TypeError: AdminForm.updateAdminFailed is not a function\n                    at UserContext.<anonymous> (D:\\Users\\acerpc\\Desktop\\franco-trackgenix-app\\test\\specs\\Superadmin.js:122:21)",
+    "steps" : [ {
+      "name" : "GET /session/:sessionId/screenshot",
+      "time" : {
+        "start" : 1656392561956,
+        "stop" : 1656392562113,
+        "duration" : 157
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ {
+        "uid" : "dd71df96628903b1",
+        "name" : "Screenshot",
+        "source" : "dd71df96628903b1.png",
+        "type" : "image/png",
+        "size" : 52849
+      } ],
+      "parameters" : [ ],
+      "attachmentsCount" : 1,
+      "shouldDisplayMessage" : false,
+      "hasContent" : true,
+      "stepsCount" : 0
+    } ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "attachmentsCount" : 1,
+    "shouldDisplayMessage" : true,
+    "hasContent" : true,
+    "stepsCount" : 1
+  },
+  "afterStages" : [ ],
+  "labels" : [ {
+    "name" : "framework",
+    "value" : "wdio"
+  }, {
+    "name" : "language",
+    "value" : "javascript"
+  }, {
+    "name" : "thread",
+    "value" : "0-0"
+  }, {
+    "name" : "suite",
+    "value" : "Edit Super Admin page interactions"
+  }, {
+    "name" : "testClass",
+    "value" : "Edit Super Admin page interactions"
+  }, {
+    "name" : "testMethod",
+    "value" : "Failed password"
+  }, {
+    "name" : "package",
+    "value" : "Edit Super Admin page interactions"
+  }, {
+    "name" : "resultFormat",
+    "value" : "allure1"
+  } ],
+  "parameters" : [ {
+    "name" : "browser",
+    "value" : "chrome-103.0.5060.66"
+  } ],
+  "links" : [ ],
+  "hidden" : true,
+  "retry" : true,
+  "extra" : {
+    "categories" : [ ],
+    "tags" : [ ]
+  },
+  "source" : "435e297ed314bcd5.json",
+  "parameterValues" : [ "chrome-103.0.5060.66" ]
+}

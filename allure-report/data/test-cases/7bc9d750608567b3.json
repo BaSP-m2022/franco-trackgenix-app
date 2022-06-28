@@ -1,0 +1,146 @@
+{
+  "uid" : "7bc9d750608567b3",
+  "name" : "Add an superAdmin success",
+  "fullName" : "Add superAdmin page interactions.Add an superAdmin success",
+  "historyId" : "ea44c953999f39b7d2f17c6abb2590a8",
+  "time" : {
+    "start" : 1656394734451,
+    "stop" : 1656394734586,
+    "duration" : 135
+  },
+  "description" : "",
+  "descriptionHtml" : "",
+  "status" : "failed",
+  "statusMessage" : "TypeError: this.setFirstName is not a function",
+  "statusTrace" : "TypeError: this.setFirstName is not a function\n                    at superAdminForm.addSuperAdmin (D:\\Users\\acerpc\\Desktop\\franco-trackgenix-app\\test\\pageobjects\\superadmin.form.js:94:16)\n                    at processTicksAndRejections (node:internal/process/task_queues:96:5)\n                    at async UserContext.<anonymous> (D:\\Users\\acerpc\\Desktop\\franco-trackgenix-app\\test\\specs\\Superadmin.js:167:5)",
+  "flaky" : false,
+  "newFailed" : false,
+  "newBroken" : false,
+  "newPassed" : false,
+  "retriesCount" : 2,
+  "retriesStatusChange" : false,
+  "beforeStages" : [ ],
+  "testStage" : {
+    "status" : "failed",
+    "statusMessage" : "TypeError: this.setFirstName is not a function",
+    "statusTrace" : "TypeError: this.setFirstName is not a function\n                    at superAdminForm.addSuperAdmin (D:\\Users\\acerpc\\Desktop\\franco-trackgenix-app\\test\\pageobjects\\superadmin.form.js:94:16)\n                    at processTicksAndRejections (node:internal/process/task_queues:96:5)\n                    at async UserContext.<anonymous> (D:\\Users\\acerpc\\Desktop\\franco-trackgenix-app\\test\\specs\\Superadmin.js:167:5)",
+    "steps" : [ {
+      "name" : "POST /session/:sessionId/element",
+      "time" : {
+        "start" : 1656394734454,
+        "stop" : 1656394734474,
+        "duration" : 20
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ {
+        "uid" : "a3e5fa973d6ac435",
+        "name" : "Request",
+        "source" : "a3e5fa973d6ac435.json",
+        "type" : "application/json",
+        "size" : 81
+      }, {
+        "uid" : "7561a206cc7e3ff8",
+        "name" : "Response",
+        "source" : "7561a206cc7e3ff8.json",
+        "type" : "application/json",
+        "size" : 83
+      } ],
+      "parameters" : [ ],
+      "attachmentsCount" : 2,
+      "shouldDisplayMessage" : false,
+      "hasContent" : true,
+      "stepsCount" : 0
+    }, {
+      "name" : "GET /session/:sessionId/screenshot",
+      "time" : {
+        "start" : 1656394734477,
+        "stop" : 1656394734585,
+        "duration" : 108
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ {
+        "uid" : "a15c3feb268b6e59",
+        "name" : "Screenshot",
+        "source" : "a15c3feb268b6e59.png",
+        "type" : "image/png",
+        "size" : 53858
+      } ],
+      "parameters" : [ ],
+      "attachmentsCount" : 1,
+      "shouldDisplayMessage" : false,
+      "hasContent" : true,
+      "stepsCount" : 0
+    } ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "attachmentsCount" : 3,
+    "shouldDisplayMessage" : true,
+    "hasContent" : true,
+    "stepsCount" : 2
+  },
+  "afterStages" : [ ],
+  "labels" : [ {
+    "name" : "framework",
+    "value" : "wdio"
+  }, {
+    "name" : "language",
+    "value" : "javascript"
+  }, {
+    "name" : "thread",
+    "value" : "0-0"
+  }, {
+    "name" : "suite",
+    "value" : "Add superAdmin page interactions"
+  }, {
+    "name" : "testClass",
+    "value" : "Add superAdmin page interactions"
+  }, {
+    "name" : "testMethod",
+    "value" : "Add an superAdmin success"
+  }, {
+    "name" : "package",
+    "value" : "Add superAdmin page interactions"
+  }, {
+    "name" : "resultFormat",
+    "value" : "allure1"
+  } ],
+  "parameters" : [ {
+    "name" : "browser",
+    "value" : "chrome-103.0.5060.66"
+  } ],
+  "links" : [ ],
+  "hidden" : false,
+  "retry" : false,
+  "extra" : {
+    "severity" : "normal",
+    "retries" : [ {
+      "uid" : "99bc18c462638b9b",
+      "status" : "failed",
+      "statusDetails" : "TypeError: this.setFirstName is not a function",
+      "time" : {
+        "start" : 1656394547217,
+        "stop" : 1656394547367,
+        "duration" : 150
+      }
+    }, {
+      "uid" : "1dbde9a24976df8",
+      "status" : "failed",
+      "statusDetails" : "TypeError: AdminForm.addAdmin is not a function",
+      "time" : {
+        "start" : 1656392564501,
+        "stop" : 1656392564675,
+        "duration" : 174
+      }
+    } ],
+    "categories" : [ {
+      "name" : "Product defects",
+      "matchedStatuses" : [ ],
+      "flaky" : false
+    } ],
+    "tags" : [ ]
+  },
+  "source" : "7bc9d750608567b3.json",
+  "parameterValues" : [ "chrome-103.0.5060.66" ]
+}

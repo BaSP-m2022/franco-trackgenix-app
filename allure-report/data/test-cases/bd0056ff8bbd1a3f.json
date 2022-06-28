@@ -1,0 +1,191 @@
+{
+  "uid" : "bd0056ff8bbd1a3f",
+  "name" : "Inputs enables",
+  "fullName" : "Add superAdmin page interactions.Inputs enables",
+  "historyId" : "4141536686886e1123cdba7fd72f496e",
+  "time" : {
+    "start" : 1656392563930,
+    "stop" : 1656392564496,
+    "duration" : 566
+  },
+  "description" : "",
+  "descriptionHtml" : "",
+  "status" : "failed",
+  "statusMessage" : "CompoundError: One or more errors occurred. ---\n                \n                    Error: Expected undefined to be enabled.\n                        at <Jasmine>\n                        at <Jasmine>\n                        at UserContext.<anonymous> (D:\\Users\\acerpc\\Desktop\\franco-trackgenix-app\\test\\specs\\Superadmin.js:161:44)\n                --- End of stack trace ---\n                \n                    Error: Expected undefined to be enabled.\n                        at <Jasmine>\n                        at <Jasmine>\n                        at UserContext.<anonymous> (D:\\Users\\acerpc\\Desktop\\franco-trackgenix-app\\test\\specs\\Superadmin.js:163:40)\n                        at processTicksAndRejections (node:internal/process/task_queues:96:5)\n                --- End of stack trace ---\n                ",
+  "statusTrace" : "Error: CompoundError: One or more errors occurred. ---\n                \n                    Error: Expected undefined to be enabled.\n                        at <Jasmine>\n                        at <Jasmine>\n                        at UserContext.<anonymous> (D:\\Users\\acerpc\\Desktop\\franco-trackgenix-app\\test\\specs\\Superadmin.js:161:44)\n                --- End of stack trace ---\n                \n                    Error: Expected undefined to be enabled.\n                        at <Jasmine>\n                        at <Jasmine>\n                        at UserContext.<anonymous> (D:\\Users\\acerpc\\Desktop\\franco-trackgenix-app\\test\\specs\\Superadmin.js:163:40)\n                        at processTicksAndRejections (node:internal/process/task_queues:96:5)\n                --- End of stack trace ---\n                \n                    at getErrorFromFailedTest (D:\\Users\\acerpc\\Desktop\\franco-trackgenix-app\\node_modules\\@wdio\\allure-reporter\\build\\utils.js:82:60)\n                    at AllureReporter.onTestFail (D:\\Users\\acerpc\\Desktop\\franco-trackgenix-app\\node_modules\\@wdio\\allure-reporter\\build\\index.js:217:73)\n                    at AllureReporter.<anonymous> (D:\\Users\\acerpc\\Desktop\\franco-trackgenix-app\\node_modules\\@wdio\\reporter\\build\\index.js:121:18)\n                    at AllureReporter.emit (node:events:527:28)\n                    at AllureReporter.emit (node:domain:475:12)\n                    at D:\\Users\\acerpc\\Desktop\\franco-trackgenix-app\\node_modules\\@wdio\\runner\\build\\reporter.js:36:56\n                    at Array.forEach (<anonymous>)\n                    at BaseReporter.emit (D:\\Users\\acerpc\\Desktop\\franco-trackgenix-app\\node_modules\\@wdio\\runner\\build\\reporter.js:36:25)\n                    at JasmineReporter.emit (D:\\Users\\acerpc\\Desktop\\franco-trackgenix-app\\node_modules\\@wdio\\jasmine-framework\\build\\reporter.js:152:24)\n                    at JasmineReporter.specDone (D:\\Users\\acerpc\\Desktop\\franco-trackgenix-app\\node_modules\\@wdio\\jasmine-framework\\build\\reporter.js:85:14)",
+  "flaky" : false,
+  "newFailed" : false,
+  "newBroken" : false,
+  "newPassed" : false,
+  "retriesCount" : 0,
+  "retriesStatusChange" : false,
+  "beforeStages" : [ ],
+  "testStage" : {
+    "status" : "failed",
+    "statusMessage" : "CompoundError: One or more errors occurred. ---\n                \n                    Error: Expected undefined to be enabled.\n                        at <Jasmine>\n                        at <Jasmine>\n                        at UserContext.<anonymous> (D:\\Users\\acerpc\\Desktop\\franco-trackgenix-app\\test\\specs\\Superadmin.js:161:44)\n                --- End of stack trace ---\n                \n                    Error: Expected undefined to be enabled.\n                        at <Jasmine>\n                        at <Jasmine>\n                        at UserContext.<anonymous> (D:\\Users\\acerpc\\Desktop\\franco-trackgenix-app\\test\\specs\\Superadmin.js:163:40)\n                        at processTicksAndRejections (node:internal/process/task_queues:96:5)\n                --- End of stack trace ---\n                ",
+    "statusTrace" : "Error: CompoundError: One or more errors occurred. ---\n                \n                    Error: Expected undefined to be enabled.\n                        at <Jasmine>\n                        at <Jasmine>\n                        at UserContext.<anonymous> (D:\\Users\\acerpc\\Desktop\\franco-trackgenix-app\\test\\specs\\Superadmin.js:161:44)\n                --- End of stack trace ---\n                \n                    Error: Expected undefined to be enabled.\n                        at <Jasmine>\n                        at <Jasmine>\n                        at UserContext.<anonymous> (D:\\Users\\acerpc\\Desktop\\franco-trackgenix-app\\test\\specs\\Superadmin.js:163:40)\n                        at processTicksAndRejections (node:internal/process/task_queues:96:5)\n                --- End of stack trace ---\n                \n                    at getErrorFromFailedTest (D:\\Users\\acerpc\\Desktop\\franco-trackgenix-app\\node_modules\\@wdio\\allure-reporter\\build\\utils.js:82:60)\n                    at AllureReporter.onTestFail (D:\\Users\\acerpc\\Desktop\\franco-trackgenix-app\\node_modules\\@wdio\\allure-reporter\\build\\index.js:217:73)\n                    at AllureReporter.<anonymous> (D:\\Users\\acerpc\\Desktop\\franco-trackgenix-app\\node_modules\\@wdio\\reporter\\build\\index.js:121:18)\n                    at AllureReporter.emit (node:events:527:28)\n                    at AllureReporter.emit (node:domain:475:12)\n                    at D:\\Users\\acerpc\\Desktop\\franco-trackgenix-app\\node_modules\\@wdio\\runner\\build\\reporter.js:36:56\n                    at Array.forEach (<anonymous>)\n                    at BaseReporter.emit (D:\\Users\\acerpc\\Desktop\\franco-trackgenix-app\\node_modules\\@wdio\\runner\\build\\reporter.js:36:25)\n                    at JasmineReporter.emit (D:\\Users\\acerpc\\Desktop\\franco-trackgenix-app\\node_modules\\@wdio\\jasmine-framework\\build\\reporter.js:152:24)\n                    at JasmineReporter.specDone (D:\\Users\\acerpc\\Desktop\\franco-trackgenix-app\\node_modules\\@wdio\\jasmine-framework\\build\\reporter.js:85:14)",
+    "steps" : [ {
+      "name" : "POST /session/:sessionId/element",
+      "time" : {
+        "start" : 1656392563933,
+        "stop" : 1656392563970,
+        "duration" : 37
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ {
+        "uid" : "9a983e05da32edb4",
+        "name" : "Request",
+        "source" : "9a983e05da32edb4.json",
+        "type" : "application/json",
+        "size" : 98
+      }, {
+        "uid" : "292a893c13278984",
+        "name" : "Response",
+        "source" : "292a893c13278984.json",
+        "type" : "application/json",
+        "size" : 83
+      } ],
+      "parameters" : [ ],
+      "attachmentsCount" : 2,
+      "shouldDisplayMessage" : false,
+      "hasContent" : true,
+      "stepsCount" : 0
+    }, {
+      "name" : "GET /session/:sessionId/element/40cbcd6a-e211-47f8-aa2f-57726a8193c8/enabled",
+      "time" : {
+        "start" : 1656392563976,
+        "stop" : 1656392564185,
+        "duration" : 209
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ {
+        "uid" : "d1f5a5b8fb06a523",
+        "name" : "Response",
+        "source" : "d1f5a5b8fb06a523.json",
+        "type" : "application/json",
+        "size" : 4
+      } ],
+      "parameters" : [ ],
+      "attachmentsCount" : 1,
+      "shouldDisplayMessage" : false,
+      "hasContent" : true,
+      "stepsCount" : 0
+    }, {
+      "name" : "POST /session/:sessionId/element",
+      "time" : {
+        "start" : 1656392564186,
+        "stop" : 1656392564277,
+        "duration" : 91
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ {
+        "uid" : "d2f8a45db1f37da8",
+        "name" : "Request",
+        "source" : "d2f8a45db1f37da8.json",
+        "type" : "application/json",
+        "size" : 98
+      }, {
+        "uid" : "72534e9b8632d7cc",
+        "name" : "Response",
+        "source" : "72534e9b8632d7cc.json",
+        "type" : "application/json",
+        "size" : 83
+      } ],
+      "parameters" : [ ],
+      "attachmentsCount" : 2,
+      "shouldDisplayMessage" : false,
+      "hasContent" : true,
+      "stepsCount" : 0
+    }, {
+      "name" : "GET /session/:sessionId/element/96ff21ac-789e-4fe5-9d94-952f48e73de8/enabled",
+      "time" : {
+        "start" : 1656392564303,
+        "stop" : 1656392564361,
+        "duration" : 58
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ {
+        "uid" : "26e11cfef644160b",
+        "name" : "Response",
+        "source" : "26e11cfef644160b.json",
+        "type" : "application/json",
+        "size" : 4
+      } ],
+      "parameters" : [ ],
+      "attachmentsCount" : 1,
+      "shouldDisplayMessage" : false,
+      "hasContent" : true,
+      "stepsCount" : 0
+    }, {
+      "name" : "GET /session/:sessionId/screenshot",
+      "time" : {
+        "start" : 1656392564361,
+        "stop" : 1656392564494,
+        "duration" : 133
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ {
+        "uid" : "f63fae6cf1f4187a",
+        "name" : "Screenshot",
+        "source" : "f63fae6cf1f4187a.png",
+        "type" : "image/png",
+        "size" : 51339
+      } ],
+      "parameters" : [ ],
+      "attachmentsCount" : 1,
+      "shouldDisplayMessage" : false,
+      "hasContent" : true,
+      "stepsCount" : 0
+    } ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "attachmentsCount" : 7,
+    "shouldDisplayMessage" : true,
+    "hasContent" : true,
+    "stepsCount" : 5
+  },
+  "afterStages" : [ ],
+  "labels" : [ {
+    "name" : "framework",
+    "value" : "wdio"
+  }, {
+    "name" : "language",
+    "value" : "javascript"
+  }, {
+    "name" : "thread",
+    "value" : "0-0"
+  }, {
+    "name" : "suite",
+    "value" : "Add superAdmin page interactions"
+  }, {
+    "name" : "testClass",
+    "value" : "Add superAdmin page interactions"
+  }, {
+    "name" : "testMethod",
+    "value" : "Inputs enables"
+  }, {
+    "name" : "package",
+    "value" : "Add superAdmin page interactions"
+  }, {
+    "name" : "resultFormat",
+    "value" : "allure1"
+  } ],
+  "parameters" : [ {
+    "name" : "browser",
+    "value" : "chrome-103.0.5060.66"
+  } ],
+  "links" : [ ],
+  "hidden" : true,
+  "retry" : true,
+  "extra" : {
+    "categories" : [ ],
+    "tags" : [ ]
+  },
+  "source" : "bd0056ff8bbd1a3f.json",
+  "parameterValues" : [ "chrome-103.0.5060.66" ]
+}

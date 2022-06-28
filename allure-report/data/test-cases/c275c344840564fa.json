@@ -1,0 +1,112 @@
+{
+  "uid" : "c275c344840564fa",
+  "name" : "Homepage should be deployed",
+  "fullName" : "Home page interactions.Homepage should be deployed",
+  "historyId" : "fc52c7467545f4d4ec500a3f49e12eb4",
+  "time" : {
+    "start" : 1656297742827,
+    "stop" : 1656297743913,
+    "duration" : 1086
+  },
+  "description" : "",
+  "descriptionHtml" : "",
+  "status" : "passed",
+  "flaky" : false,
+  "newFailed" : false,
+  "newBroken" : false,
+  "newPassed" : false,
+  "retriesCount" : 0,
+  "retriesStatusChange" : false,
+  "beforeStages" : [ ],
+  "testStage" : {
+    "status" : "passed",
+    "steps" : [ {
+      "name" : "POST /session/:sessionId/url",
+      "time" : {
+        "start" : 1656297742832,
+        "stop" : 1656297743873,
+        "duration" : 1041
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ {
+        "uid" : "3d2ad262ab1c5f54",
+        "name" : "Request",
+        "source" : "3d2ad262ab1c5f54.json",
+        "type" : "application/json",
+        "size" : 60
+      } ],
+      "parameters" : [ ],
+      "attachmentsCount" : 1,
+      "shouldDisplayMessage" : false,
+      "hasContent" : true,
+      "stepsCount" : 0
+    }, {
+      "name" : "GET /session/:sessionId/url",
+      "time" : {
+        "start" : 1656297743877,
+        "stop" : 1656297743904,
+        "duration" : 27
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ {
+        "uid" : "3867fea6628dd84",
+        "name" : "Response",
+        "source" : "3867fea6628dd84.json",
+        "type" : "application/json",
+        "size" : 47
+      } ],
+      "parameters" : [ ],
+      "attachmentsCount" : 1,
+      "shouldDisplayMessage" : false,
+      "hasContent" : true,
+      "stepsCount" : 0
+    } ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "attachmentsCount" : 2,
+    "shouldDisplayMessage" : false,
+    "hasContent" : true,
+    "stepsCount" : 2
+  },
+  "afterStages" : [ ],
+  "labels" : [ {
+    "name" : "framework",
+    "value" : "wdio"
+  }, {
+    "name" : "language",
+    "value" : "javascript"
+  }, {
+    "name" : "thread",
+    "value" : "0-0"
+  }, {
+    "name" : "suite",
+    "value" : "Home page interactions"
+  }, {
+    "name" : "testClass",
+    "value" : "Home page interactions"
+  }, {
+    "name" : "testMethod",
+    "value" : "Homepage should be deployed"
+  }, {
+    "name" : "package",
+    "value" : "Home page interactions"
+  }, {
+    "name" : "resultFormat",
+    "value" : "allure1"
+  } ],
+  "parameters" : [ {
+    "name" : "browser",
+    "value" : "chrome-103.0.5060.53"
+  } ],
+  "links" : [ ],
+  "hidden" : true,
+  "retry" : true,
+  "extra" : {
+    "categories" : [ ],
+    "tags" : [ ]
+  },
+  "source" : "c275c344840564fa.json",
+  "parameterValues" : [ "chrome-103.0.5060.53" ]
+}

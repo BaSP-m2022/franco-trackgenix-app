@@ -1,0 +1,133 @@
+{
+  "uid" : "4cbf5e897a0a1135",
+  "name" : "Admin form should be deployed",
+  "fullName" : "Home page interactions.Admin form should be deployed",
+  "historyId" : "2f64eddf3a2823ebabfc37436be7e7c7",
+  "time" : {
+    "start" : 1656229138432,
+    "stop" : 1656229138533,
+    "duration" : 101
+  },
+  "description" : "",
+  "descriptionHtml" : "",
+  "status" : "passed",
+  "flaky" : false,
+  "newFailed" : false,
+  "newBroken" : false,
+  "newPassed" : false,
+  "retriesCount" : 0,
+  "retriesStatusChange" : false,
+  "beforeStages" : [ ],
+  "testStage" : {
+    "status" : "passed",
+    "steps" : [ {
+      "name" : "POST /session/:sessionId/element",
+      "time" : {
+        "start" : 1656229138434,
+        "stop" : 1656229138454,
+        "duration" : 20
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ {
+        "uid" : "674ba6a62e00d772",
+        "name" : "Request",
+        "source" : "674ba6a62e00d772.json",
+        "type" : "application/json",
+        "size" : 62
+      }, {
+        "uid" : "cc87441d7d5d7a87",
+        "name" : "Response",
+        "source" : "cc87441d7d5d7a87.json",
+        "type" : "application/json",
+        "size" : 83
+      } ],
+      "parameters" : [ ],
+      "attachmentsCount" : 2,
+      "shouldDisplayMessage" : false,
+      "hasContent" : true,
+      "stepsCount" : 0
+    }, {
+      "name" : "POST /session/:sessionId/element/81f31139-3d25-4be1-b235-e1b0c45e0505/click",
+      "time" : {
+        "start" : 1656229138457,
+        "stop" : 1656229138520,
+        "duration" : 63
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ ],
+      "parameters" : [ ],
+      "attachmentsCount" : 0,
+      "shouldDisplayMessage" : false,
+      "hasContent" : false,
+      "stepsCount" : 0
+    }, {
+      "name" : "GET /session/:sessionId/url",
+      "time" : {
+        "start" : 1656229138521,
+        "stop" : 1656229138532,
+        "duration" : 11
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ {
+        "uid" : "a4e785917d93de17",
+        "name" : "Response",
+        "source" : "a4e785917d93de17.json",
+        "type" : "application/json",
+        "size" : 54
+      } ],
+      "parameters" : [ ],
+      "attachmentsCount" : 1,
+      "shouldDisplayMessage" : false,
+      "hasContent" : true,
+      "stepsCount" : 0
+    } ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "attachmentsCount" : 3,
+    "shouldDisplayMessage" : false,
+    "hasContent" : true,
+    "stepsCount" : 3
+  },
+  "afterStages" : [ ],
+  "labels" : [ {
+    "name" : "framework",
+    "value" : "wdio"
+  }, {
+    "name" : "language",
+    "value" : "javascript"
+  }, {
+    "name" : "thread",
+    "value" : "0-0"
+  }, {
+    "name" : "suite",
+    "value" : "Home page interactions"
+  }, {
+    "name" : "testClass",
+    "value" : "Home page interactions"
+  }, {
+    "name" : "testMethod",
+    "value" : "Admin form should be deployed"
+  }, {
+    "name" : "package",
+    "value" : "Home page interactions"
+  }, {
+    "name" : "resultFormat",
+    "value" : "allure1"
+  } ],
+  "parameters" : [ {
+    "name" : "browser",
+    "value" : "chrome-103.0.5060.53"
+  } ],
+  "links" : [ ],
+  "hidden" : true,
+  "retry" : true,
+  "extra" : {
+    "categories" : [ ],
+    "tags" : [ ]
+  },
+  "source" : "4cbf5e897a0a1135.json",
+  "parameterValues" : [ "chrome-103.0.5060.53" ]
+}

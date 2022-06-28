@@ -60,7 +60,6 @@ class AdminForm extends Page {
   get modalOk() {
     return $('.modal_modalDivChildren__2FU_o > div:nth-child(2) > button:nth-child(1)');
   }
-  //que aparezca header footer y asside clickeables
 
   async setFirstName(firstname) {
     await this.firstNameInput.setValue(firstname);

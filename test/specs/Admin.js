@@ -5,7 +5,7 @@ const HeaderPage = require('../pageobjects/header');
 const AssidePage = require('../pageobjects/asside');
 const FooterPage = require('../pageobjects/footer');
 
-describe('Home page interactions', () => {
+describe('Admin list interactions', () => {
   it('Homepage should be deployed', async () => {
     await Homepage.open();
     await expect(browser).toHaveUrl('https://franco-trackgenix-app.vercel.app/home');
@@ -17,6 +17,7 @@ describe('Home page interactions', () => {
     await expect(AdminList.searchInput).toBeDisplayed();
     await AdminList.setSearchFirstName('Laura');
     await expect(AdminList.adminTitle).toBeDisplayed();
+    await expect(AdminList.adminTitle).toHaveText('Admins');
     await expect(AdminList.table).toBeDisplayed();
     await expect(AdminList.tableHead).toBeDisplayed();
     await expect(AdminList.admin1FirstName).toBeDisplayed();

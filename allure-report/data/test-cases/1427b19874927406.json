@@ -1,0 +1,144 @@
+{
+  "uid" : "1427b19874927406",
+  "name" : "Delete an admin",
+  "fullName" : "Home page interactions.Delete an admin",
+  "historyId" : "838fe660b7e9474fbdb2bc786827e770",
+  "time" : {
+    "start" : 1656386412802,
+    "stop" : 1656386417326,
+    "duration" : 4524
+  },
+  "description" : "",
+  "descriptionHtml" : "",
+  "status" : "failed",
+  "statusMessage" : "element click intercepted: element click intercepted: Element <button class=\"table_buttonTable__1kRt6\">...</button> is not clickable at point (950, 373). Other element would receive the click: <div class=\"modal_modalOverlay__1UxHz\">...</div>\n                  (Session info: chrome=103.0.5060.66)",
+  "statusTrace" : "element click intercepted: element click intercepted: Element <button class=\"table_buttonTable__1kRt6\">...</button> is not clickable at point (950, 373). Other element would receive the click: <div class=\"modal_modalOverlay__1UxHz\">...</div>\n                  (Session info: chrome=103.0.5060.66)\n                    at processTicksAndRejections (node:internal/process/task_queues:96:5)",
+  "flaky" : false,
+  "newFailed" : false,
+  "newBroken" : false,
+  "newPassed" : false,
+  "retriesCount" : 0,
+  "retriesStatusChange" : false,
+  "beforeStages" : [ ],
+  "testStage" : {
+    "status" : "failed",
+    "statusMessage" : "element click intercepted: element click intercepted: Element <button class=\"table_buttonTable__1kRt6\">...</button> is not clickable at point (950, 373). Other element would receive the click: <div class=\"modal_modalOverlay__1UxHz\">...</div>\n                  (Session info: chrome=103.0.5060.66)",
+    "statusTrace" : "element click intercepted: element click intercepted: Element <button class=\"table_buttonTable__1kRt6\">...</button> is not clickable at point (950, 373). Other element would receive the click: <div class=\"modal_modalOverlay__1UxHz\">...</div>\n                  (Session info: chrome=103.0.5060.66)\n                    at processTicksAndRejections (node:internal/process/task_queues:96:5)",
+    "steps" : [ {
+      "name" : "POST /session/:sessionId/element",
+      "time" : {
+        "start" : 1656386412803,
+        "stop" : 1656386412817,
+        "duration" : 14
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ {
+        "uid" : "a7e52422e18c4d2",
+        "name" : "Request",
+        "source" : "a7e52422e18c4d2.json",
+        "type" : "application/json",
+        "size" : 111
+      }, {
+        "uid" : "6de33e3acdc92809",
+        "name" : "Response",
+        "source" : "6de33e3acdc92809.json",
+        "type" : "application/json",
+        "size" : 83
+      } ],
+      "parameters" : [ ],
+      "attachmentsCount" : 2,
+      "shouldDisplayMessage" : false,
+      "hasContent" : true,
+      "stepsCount" : 0
+    }, {
+      "name" : "POST /session/:sessionId/element/6efd5060-67b1-4c0b-8c03-6afe2c3b47ac/click",
+      "time" : {
+        "start" : 1656386412834,
+        "stop" : 1656386417326,
+        "duration" : 4492
+      },
+      "status" : "failed",
+      "statusMessage" : "element click intercepted: element click intercepted: Element <button class=\"table_buttonTable__1kRt6\">...</button> is not clickable at point (950, 373). Other element would receive the click: <div class=\"modal_modalOverlay__1UxHz\">...</div>\n                  (Session info: chrome=103.0.5060.66)\n                    at processTicksAndRejections (node:internal/process/task_queues:96:5)",
+      "steps" : [ {
+        "name" : "GET /session/:sessionId/screenshot",
+        "time" : {
+          "start" : 1656386417182,
+          "stop" : 1656386417325,
+          "duration" : 143
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ {
+          "uid" : "cf1e00c2cb2ff99d",
+          "name" : "Screenshot",
+          "source" : "cf1e00c2cb2ff99d.png",
+          "type" : "image/png",
+          "size" : 62947
+        } ],
+        "parameters" : [ ],
+        "attachmentsCount" : 1,
+        "shouldDisplayMessage" : false,
+        "hasContent" : true,
+        "stepsCount" : 0
+      } ],
+      "attachments" : [ ],
+      "parameters" : [ ],
+      "attachmentsCount" : 1,
+      "shouldDisplayMessage" : true,
+      "hasContent" : true,
+      "stepsCount" : 1
+    } ],
+    "attachments" : [ {
+      "uid" : "861edac204bfb422",
+      "name" : "Response",
+      "source" : "861edac204bfb422.json",
+      "type" : "application/json",
+      "size" : 83
+    } ],
+    "parameters" : [ ],
+    "attachmentsCount" : 4,
+    "shouldDisplayMessage" : true,
+    "hasContent" : true,
+    "stepsCount" : 3
+  },
+  "afterStages" : [ ],
+  "labels" : [ {
+    "name" : "framework",
+    "value" : "wdio"
+  }, {
+    "name" : "language",
+    "value" : "javascript"
+  }, {
+    "name" : "thread",
+    "value" : "0-0"
+  }, {
+    "name" : "suite",
+    "value" : "Home page interactions"
+  }, {
+    "name" : "testClass",
+    "value" : "Home page interactions"
+  }, {
+    "name" : "testMethod",
+    "value" : "Delete an admin"
+  }, {
+    "name" : "package",
+    "value" : "Home page interactions"
+  }, {
+    "name" : "resultFormat",
+    "value" : "allure1"
+  } ],
+  "parameters" : [ {
+    "name" : "browser",
+    "value" : "chrome-103.0.5060.66"
+  } ],
+  "links" : [ ],
+  "hidden" : true,
+  "retry" : true,
+  "extra" : {
+    "categories" : [ ],
+    "tags" : [ ]
+  },
+  "source" : "1427b19874927406.json",
+  "parameterValues" : [ "chrome-103.0.5060.66" ]
+}

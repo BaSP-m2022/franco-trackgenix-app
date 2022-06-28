@@ -1,22 +1,22 @@
 const Page = require('./page');
 class superAdminForm extends Page {
   get formTitle() {
-    return $('.admin_h3__1ZGmz');
+    return $('.superAdmin_h3__2GYH7');
   }
   get firstName() {
     return $('//*[@id="root"]/div/div/div[2]/div/form/div[1]/div[1]/label');
   }
-  get firtNameInput() {
-    return $('//*[@id="root"]/div/div/div[2]/div/form/div[1]/div[1]/input');
+  get firstNameInput() {
+    return $('div.input_container__1yWID:nth-child(1) > input:nth-child(2)');
   }
-  get firtNameMsg() {
+  get firstNameMsg() {
     return $('div.input_container__1yWID:nth-child(1) > p:nth-child(3)');
   }
   get lastName() {
     return $('//*[@id="root"]/div/div/div[2]/div/form/div[1]/div[2]/label');
   }
   get lastnameInput() {
-    return $('//*[@id="root"]/div/div/div[2]/div/form/div[1]/div[2]/input');
+    return $('div.input_container__1yWID:nth-child(2) > input:nth-child(2)');
   }
   get lastnameMsg() {
     return $('div.input_container__1yWID:nth-child(2) > p:nth-child(3)');
@@ -24,8 +24,8 @@ class superAdminForm extends Page {
   get email() {
     return $('//*[@id="root"]/div/div/div[2]/div/form/div[1]/div[3]/label');
   }
-  get emailInpunt() {
-    return $('//*[@id="root"]/div/div/div[2]/div/form/div[1]/div[3]/input');
+  get emailInput() {
+    return $('div.input_container__1yWID:nth-child(3) > input:nth-child(2)');
   }
   get emailMsg() {
     return $('div.input_container__1yWID:nth-child(3) > p:nth-child(3)');
@@ -34,7 +34,7 @@ class superAdminForm extends Page {
     return $('//*[@id="root"]/div/div/div[2]/div/form/div[1]/div[4]/label');
   }
   get passwordInput() {
-    return $('//*[@id="root"]/div/div/div[2]/div/form/div[1]/div[4]/input');
+    return $('div.input_container__1yWID:nth-child(4) > input:nth-child(2)');
   }
   get passwordMsg() {
     return $('div.input_container__1yWID:nth-child(4) > p:nth-child(3)');
@@ -43,24 +43,83 @@ class superAdminForm extends Page {
     return $('//*[@id="root"]/div/div/div[2]/div/form/div[2]/button[1]');
   }
   get saveButton() {
-    return $('//*[@id="root"]/div/div/div[2]/div/form/div[2]/button[2]');
+    return $('button.button_btn__3WL0L:nth-child(2)');
   }
   get modal() {
     return $('//*[@id="root"]/div/div/div[2]/div/form/div[2]/div/div');
   }
   get titleModal() {
-    return $('//*[@id="root"]/div/div/div[2]/div/form/div[2]/div/div/div[1]');
+    return $('.modal_modalDivTitle__3Te57 > h3:nth-child(1)');
+  }
+  get textModal() {
+    return $('.superAdmin_message__2Rggc');
   }
   get modalX() {
     return $('//*[@id="root"]/div/div/div[2]/div/form/div[2]/div/div/div[1]/button');
   }
   get modalOk() {
-    return $('//*[@id="root"]/div/div/div[2]/div/form/div[2]/div/div/div[2]/div/button');
+    return $('.modal_modalDivChildren__2FU_o > div:nth-child(2) > button:nth-child(1)');
   }
-  //que aparezca header footer y asside clickeables
+
+  async setFirstName(firstname) {
+    await this.firstNameInput.setValue(firstname);
+  }
+  async setLastName(lastname) {
+    await this.lastnameInput.setValue(lastname);
+  }
+  async setEmail(email) {
+    await this.emailInput.setValue(email);
+  }
+  async setPassword(password) {
+    await this.passwordInput.setValue(password);
+  }
 
   open() {
     return super.open('super-admins/form');
+  }
+
+  async updateSuperAdmin(firstname, lastname, email, password) {
+    const elem = await $('button.button_btn__3WL0L:nth-child(2)');
+    await this.setFirstName(firstname);
+    await this.setLastName(lastname);
+    await this.setEmail(email);
+    await this.setPassword(password);
+    await elem.scrollIntoView();
+    await this.saveButton.click();
+    await expect(this.modal).toBeDisplayed();
+    await expect(this.titleModal).toBeDisplayed();
+    await expect(this.titleModal).toHaveText('Super Admin Updated');
+    await expect(this.textModal).toHaveText('Super Admin has been updated');
+    await expect(this.modalX).toBeDisplayed();
+    await expect(this.modalOk).toBeDisplayed();
+    await expect(this.modalX).toBeClickable;
+    await this.modalOk.click();
+  }
+  async updateSuperAdminFailed(firstname, lastname, email, password) {
+    const elem = await $('button.button_btn__3WL0L:nth-child(2)');
+    await this.setFirstName(firstname);
+    await this.setLastName(lastname);
+    await this.setEmail(email);
+    await this.setPassword(password);
+    await elem.scrollIntoView();
+    await this.saveButton.click();
+  }
+  async addSuperAdmin(firstname, lastname, email, password) {
+    const elem = await $('button.button_btn__3WL0L:nth-child(2)');
+    await this.setFirstName(firstname);
+    await this.setLastName(lastname);
+    await this.setEmail(email);
+    await this.setPassword(password);
+    await elem.scrollIntoView();
+    await this.saveButton.click();
+    await expect(this.modal).toBeDisplayed();
+    await expect(this.titleModal).toBeDisplayed();
+    await expect(this.titleModal).toHaveText('Super Admin Created');
+    await expect(this.textModal).toHaveText('Super Admin has been created');
+    await expect(this.modalX).toBeDisplayed();
+    await expect(this.modalOk).toBeDisplayed();
+    await expect(this.modalX).toBeClickable;
+    await this.modalOk.click();
   }
 }
 

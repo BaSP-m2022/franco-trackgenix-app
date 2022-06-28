@@ -1,0 +1,95 @@
+{
+  "uid" : "2cfcb2c4af56ee97",
+  "name" : "Edit an Super Admin success",
+  "fullName" : "Edit Super Admin page interactions.Edit an Super Admin success",
+  "historyId" : "1bed7a7da233acd02bfeca9e6099be4a",
+  "time" : {
+    "start" : 1656392550932,
+    "stop" : 1656392551068,
+    "duration" : 136
+  },
+  "description" : "",
+  "descriptionHtml" : "",
+  "status" : "failed",
+  "statusMessage" : "TypeError: AdminForm.updateAdmin is not a function",
+  "statusTrace" : "TypeError: AdminForm.updateAdmin is not a function\n                    at UserContext.<anonymous> (D:\\Users\\acerpc\\Desktop\\franco-trackgenix-app\\test\\specs\\Superadmin.js:66:21)",
+  "flaky" : false,
+  "newFailed" : false,
+  "newBroken" : false,
+  "newPassed" : false,
+  "retriesCount" : 0,
+  "retriesStatusChange" : false,
+  "beforeStages" : [ ],
+  "testStage" : {
+    "status" : "failed",
+    "statusMessage" : "TypeError: AdminForm.updateAdmin is not a function",
+    "statusTrace" : "TypeError: AdminForm.updateAdmin is not a function\n                    at UserContext.<anonymous> (D:\\Users\\acerpc\\Desktop\\franco-trackgenix-app\\test\\specs\\Superadmin.js:66:21)",
+    "steps" : [ {
+      "name" : "GET /session/:sessionId/screenshot",
+      "time" : {
+        "start" : 1656392550933,
+        "stop" : 1656392551068,
+        "duration" : 135
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ {
+        "uid" : "336f876e1a05a9c1",
+        "name" : "Screenshot",
+        "source" : "336f876e1a05a9c1.png",
+        "type" : "image/png",
+        "size" : 52849
+      } ],
+      "parameters" : [ ],
+      "attachmentsCount" : 1,
+      "shouldDisplayMessage" : false,
+      "hasContent" : true,
+      "stepsCount" : 0
+    } ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "attachmentsCount" : 1,
+    "shouldDisplayMessage" : true,
+    "hasContent" : true,
+    "stepsCount" : 1
+  },
+  "afterStages" : [ ],
+  "labels" : [ {
+    "name" : "framework",
+    "value" : "wdio"
+  }, {
+    "name" : "language",
+    "value" : "javascript"
+  }, {
+    "name" : "thread",
+    "value" : "0-0"
+  }, {
+    "name" : "suite",
+    "value" : "Edit Super Admin page interactions"
+  }, {
+    "name" : "testClass",
+    "value" : "Edit Super Admin page interactions"
+  }, {
+    "name" : "testMethod",
+    "value" : "Edit an Super Admin success"
+  }, {
+    "name" : "package",
+    "value" : "Edit Super Admin page interactions"
+  }, {
+    "name" : "resultFormat",
+    "value" : "allure1"
+  } ],
+  "parameters" : [ {
+    "name" : "browser",
+    "value" : "chrome-103.0.5060.66"
+  } ],
+  "links" : [ ],
+  "hidden" : true,
+  "retry" : true,
+  "extra" : {
+    "categories" : [ ],
+    "tags" : [ ]
+  },
+  "source" : "2cfcb2c4af56ee97.json",
+  "parameterValues" : [ "chrome-103.0.5060.66" ]
+}

@@ -1,0 +1,138 @@
+{
+  "uid" : "9071453edda35646",
+  "name" : "Admin form should be deployed",
+  "fullName" : "Home page interactions.Admin form should be deployed",
+  "historyId" : "2f64eddf3a2823ebabfc37436be7e7c7",
+  "time" : {
+    "start" : 1656228548575,
+    "stop" : 1656228553078,
+    "duration" : 4503
+  },
+  "description" : "",
+  "descriptionHtml" : "",
+  "status" : "failed",
+  "statusMessage" : "element click intercepted: element click intercepted: Element <button class=\"button_btn__3WL0L\">...</button> is not clickable at point (512, 555). Other element would receive the click: <nav class=\"footer_rowLinks__3sOXe\">...</nav>\n                  (Session info: chrome=103.0.5060.53)",
+  "statusTrace" : "element click intercepted: element click intercepted: Element <button class=\"button_btn__3WL0L\">...</button> is not clickable at point (512, 555). Other element would receive the click: <nav class=\"footer_rowLinks__3sOXe\">...</nav>\n                  (Session info: chrome=103.0.5060.53)\n                    at processTicksAndRejections (node:internal/process/task_queues:96:5)",
+  "flaky" : false,
+  "newFailed" : false,
+  "newBroken" : false,
+  "newPassed" : false,
+  "retriesCount" : 0,
+  "retriesStatusChange" : false,
+  "beforeStages" : [ ],
+  "testStage" : {
+    "status" : "failed",
+    "statusMessage" : "element click intercepted: element click intercepted: Element <button class=\"button_btn__3WL0L\">...</button> is not clickable at point (512, 555). Other element would receive the click: <nav class=\"footer_rowLinks__3sOXe\">...</nav>\n                  (Session info: chrome=103.0.5060.53)",
+    "statusTrace" : "element click intercepted: element click intercepted: Element <button class=\"button_btn__3WL0L\">...</button> is not clickable at point (512, 555). Other element would receive the click: <nav class=\"footer_rowLinks__3sOXe\">...</nav>\n                  (Session info: chrome=103.0.5060.53)\n                    at processTicksAndRejections (node:internal/process/task_queues:96:5)",
+    "steps" : [ {
+      "name" : "POST /session/:sessionId/element",
+      "time" : {
+        "start" : 1656228548576,
+        "stop" : 1656228548595,
+        "duration" : 19
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ {
+        "uid" : "27546855440c5c48",
+        "name" : "Request",
+        "source" : "27546855440c5c48.json",
+        "type" : "application/json",
+        "size" : 62
+      }, {
+        "uid" : "31284a70af9701c7",
+        "name" : "Response",
+        "source" : "31284a70af9701c7.json",
+        "type" : "application/json",
+        "size" : 83
+      } ],
+      "parameters" : [ ],
+      "attachmentsCount" : 2,
+      "shouldDisplayMessage" : false,
+      "hasContent" : true,
+      "stepsCount" : 0
+    }, {
+      "name" : "POST /session/:sessionId/element/bb1aaba9-b2b6-434e-8aa3-c0ccaafeb036/click",
+      "time" : {
+        "start" : 1656228548597,
+        "stop" : 1656228553078,
+        "duration" : 4481
+      },
+      "status" : "failed",
+      "statusMessage" : "element click intercepted: element click intercepted: Element <button class=\"button_btn__3WL0L\">...</button> is not clickable at point (512, 555). Other element would receive the click: <nav class=\"footer_rowLinks__3sOXe\">...</nav>\n                  (Session info: chrome=103.0.5060.53)\n                    at processTicksAndRejections (node:internal/process/task_queues:96:5)",
+      "steps" : [ {
+        "name" : "GET /session/:sessionId/screenshot",
+        "time" : {
+          "start" : 1656228552935,
+          "stop" : 1656228553076,
+          "duration" : 141
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ {
+          "uid" : "6badb4f7e670f46",
+          "name" : "Screenshot",
+          "source" : "6badb4f7e670f46.png",
+          "type" : "image/png",
+          "size" : 53138
+        } ],
+        "parameters" : [ ],
+        "attachmentsCount" : 1,
+        "shouldDisplayMessage" : false,
+        "hasContent" : true,
+        "stepsCount" : 0
+      } ],
+      "attachments" : [ ],
+      "parameters" : [ ],
+      "attachmentsCount" : 1,
+      "shouldDisplayMessage" : true,
+      "hasContent" : true,
+      "stepsCount" : 1
+    } ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "attachmentsCount" : 3,
+    "shouldDisplayMessage" : true,
+    "hasContent" : true,
+    "stepsCount" : 3
+  },
+  "afterStages" : [ ],
+  "labels" : [ {
+    "name" : "framework",
+    "value" : "wdio"
+  }, {
+    "name" : "language",
+    "value" : "javascript"
+  }, {
+    "name" : "thread",
+    "value" : "0-0"
+  }, {
+    "name" : "suite",
+    "value" : "Home page interactions"
+  }, {
+    "name" : "testClass",
+    "value" : "Home page interactions"
+  }, {
+    "name" : "testMethod",
+    "value" : "Admin form should be deployed"
+  }, {
+    "name" : "package",
+    "value" : "Home page interactions"
+  }, {
+    "name" : "resultFormat",
+    "value" : "allure1"
+  } ],
+  "parameters" : [ {
+    "name" : "browser",
+    "value" : "chrome-103.0.5060.53"
+  } ],
+  "links" : [ ],
+  "hidden" : true,
+  "retry" : true,
+  "extra" : {
+    "categories" : [ ],
+    "tags" : [ ]
+  },
+  "source" : "9071453edda35646.json",
+  "parameterValues" : [ "chrome-103.0.5060.53" ]
+}

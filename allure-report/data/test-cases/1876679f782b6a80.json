@@ -1,0 +1,162 @@
+{
+  "uid" : "1876679f782b6a80",
+  "name" : "Elements displayed",
+  "fullName" : "Add superAdmin page interactions.Elements displayed",
+  "historyId" : "798b2850c74eafd7f8f527ea70824d81",
+  "time" : {
+    "start" : 1656394729670,
+    "stop" : 1656394734153,
+    "duration" : 4483
+  },
+  "description" : "",
+  "descriptionHtml" : "",
+  "status" : "failed",
+  "statusMessage" : "element click intercepted: element click intercepted: Element <button class=\"button_btn__3WL0L\">...</button> is not clickable at point (520, 555). Other element would receive the click: <nav class=\"footer_rowLinks__3sOXe\">...</nav>\n                  (Session info: chrome=103.0.5060.66)",
+  "statusTrace" : "element click intercepted: element click intercepted: Element <button class=\"button_btn__3WL0L\">...</button> is not clickable at point (520, 555). Other element would receive the click: <nav class=\"footer_rowLinks__3sOXe\">...</nav>\n                  (Session info: chrome=103.0.5060.66)\n                    at processTicksAndRejections (node:internal/process/task_queues:96:5)",
+  "flaky" : false,
+  "newFailed" : false,
+  "newBroken" : false,
+  "newPassed" : false,
+  "retriesCount" : 2,
+  "retriesStatusChange" : false,
+  "beforeStages" : [ ],
+  "testStage" : {
+    "status" : "failed",
+    "statusMessage" : "element click intercepted: element click intercepted: Element <button class=\"button_btn__3WL0L\">...</button> is not clickable at point (520, 555). Other element would receive the click: <nav class=\"footer_rowLinks__3sOXe\">...</nav>\n                  (Session info: chrome=103.0.5060.66)",
+    "statusTrace" : "element click intercepted: element click intercepted: Element <button class=\"button_btn__3WL0L\">...</button> is not clickable at point (520, 555). Other element would receive the click: <nav class=\"footer_rowLinks__3sOXe\">...</nav>\n                  (Session info: chrome=103.0.5060.66)\n                    at processTicksAndRejections (node:internal/process/task_queues:96:5)",
+    "steps" : [ {
+      "name" : "POST /session/:sessionId/element",
+      "time" : {
+        "start" : 1656394729671,
+        "stop" : 1656394729715,
+        "duration" : 44
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ {
+        "uid" : "59cb674c79b41205",
+        "name" : "Request",
+        "source" : "59cb674c79b41205.json",
+        "type" : "application/json",
+        "size" : 62
+      }, {
+        "uid" : "65f1b5f59695c360",
+        "name" : "Response",
+        "source" : "65f1b5f59695c360.json",
+        "type" : "application/json",
+        "size" : 83
+      } ],
+      "parameters" : [ ],
+      "attachmentsCount" : 2,
+      "shouldDisplayMessage" : false,
+      "hasContent" : true,
+      "stepsCount" : 0
+    }, {
+      "name" : "POST /session/:sessionId/element/8db2c67f-3144-4c39-8b22-1cbff80c18d5/click",
+      "time" : {
+        "start" : 1656394729721,
+        "stop" : 1656394734153,
+        "duration" : 4432
+      },
+      "status" : "failed",
+      "statusMessage" : "element click intercepted: element click intercepted: Element <button class=\"button_btn__3WL0L\">...</button> is not clickable at point (520, 555). Other element would receive the click: <nav class=\"footer_rowLinks__3sOXe\">...</nav>\n                  (Session info: chrome=103.0.5060.66)\n                    at processTicksAndRejections (node:internal/process/task_queues:96:5)",
+      "steps" : [ {
+        "name" : "GET /session/:sessionId/screenshot",
+        "time" : {
+          "start" : 1656394734019,
+          "stop" : 1656394734152,
+          "duration" : 133
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ {
+          "uid" : "7400b0a46a78d9c3",
+          "name" : "Screenshot",
+          "source" : "7400b0a46a78d9c3.png",
+          "type" : "image/png",
+          "size" : 53858
+        } ],
+        "parameters" : [ ],
+        "attachmentsCount" : 1,
+        "shouldDisplayMessage" : false,
+        "hasContent" : true,
+        "stepsCount" : 0
+      } ],
+      "attachments" : [ ],
+      "parameters" : [ ],
+      "attachmentsCount" : 1,
+      "shouldDisplayMessage" : true,
+      "hasContent" : true,
+      "stepsCount" : 1
+    } ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "attachmentsCount" : 3,
+    "shouldDisplayMessage" : true,
+    "hasContent" : true,
+    "stepsCount" : 3
+  },
+  "afterStages" : [ ],
+  "labels" : [ {
+    "name" : "framework",
+    "value" : "wdio"
+  }, {
+    "name" : "language",
+    "value" : "javascript"
+  }, {
+    "name" : "thread",
+    "value" : "0-0"
+  }, {
+    "name" : "suite",
+    "value" : "Add superAdmin page interactions"
+  }, {
+    "name" : "testClass",
+    "value" : "Add superAdmin page interactions"
+  }, {
+    "name" : "testMethod",
+    "value" : "Elements displayed"
+  }, {
+    "name" : "package",
+    "value" : "Add superAdmin page interactions"
+  }, {
+    "name" : "resultFormat",
+    "value" : "allure1"
+  } ],
+  "parameters" : [ {
+    "name" : "browser",
+    "value" : "chrome-103.0.5060.66"
+  } ],
+  "links" : [ ],
+  "hidden" : false,
+  "retry" : false,
+  "extra" : {
+    "severity" : "normal",
+    "retries" : [ {
+      "uid" : "432dc085073c0e9f",
+      "status" : "failed",
+      "statusDetails" : "CompoundError: One or more errors occurred. ---\n                \n                    Error\n                        at <Jasmine>\n                        at UserContext.<anonymous> (D:\\Users\\acerpc\\Desktop\\franco-trackgenix-app\\test\\specs\\Superadmin.js:144:27)\n                        at processTicksAndRejections (node:internal/process/task_queues:96:5)\n                --- End of stack trace ---\n                \n                    Error\n                        at <Jasmine>\n                        at UserContext.<anonymous> (D:\\Users\\acerpc\\Desktop\\franco-trackgenix-app\\test\\specs\\Superadmin.js:145:39)\n                --- End of stack trace ---\n                \n                    Error\n                        at <Jasmine>\n                        at UserContext.<anonymous> (D:\\Users\\acerpc\\Desktop\\franco-trackgenix-app\\test\\specs\\Superadmin.js:146:39)\n                --- End of stack trace ---\n                \n                    Error\n                        at <Jasmine>\n                        at UserContext.<anonymous> (D:\\Users\\acerpc\\Desktop\\franco-trackgenix-app\\test\\specs\\Superadmin.js:147:39)\n                --- End of stack trace ---\n                \n                    Error\n                        at <Jasmine>\n                        at UserContext.<anonymous> (D:\\Users\\acerpc\\Desktop\\franco-trackgenix-app\\test\\specs\\Superadmin.js:148:39)\n                --- End of stack trace ---\n                \n                    Error: Timeout - Async function did not complete within 60000ms (set by jasmine.DEFAULT_TIMEOUT_INTERVAL)\n                        at <Jasmine>\n                        at listOnTimeout (node:internal/timers:559:17)\n                        at processTimers (node:internal/timers:502:7)\n                --- End of stack trace ---\n                ",
+      "time" : {
+        "start" : 1656394466675,
+        "stop" : 1656394526681,
+        "duration" : 60006
+      }
+    }, {
+      "uid" : "cc102d4ec5f6471c",
+      "status" : "failed",
+      "statusDetails" : "TypeError: Cannot read properties of undefined (reading 'click')",
+      "time" : {
+        "start" : 1656392563724,
+        "stop" : 1656392563929,
+        "duration" : 205
+      }
+    } ],
+    "categories" : [ {
+      "name" : "Product defects",
+      "matchedStatuses" : [ ],
+      "flaky" : false
+    } ],
+    "tags" : [ ]
+  },
+  "source" : "1876679f782b6a80.json",
+  "parameterValues" : [ "chrome-103.0.5060.66" ]
+}

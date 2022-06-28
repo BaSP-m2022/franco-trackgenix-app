@@ -1,0 +1,95 @@
+{
+  "uid" : "66195e4f26221b62",
+  "name" : "Long failed password",
+  "fullName" : "Edit Super Admin page interactions.Long failed password",
+  "historyId" : "cb79c639e04c5299f9ba913ab094283",
+  "time" : {
+    "start" : 1656392561825,
+    "stop" : 1656392561950,
+    "duration" : 125
+  },
+  "description" : "",
+  "descriptionHtml" : "",
+  "status" : "failed",
+  "statusMessage" : "TypeError: AdminForm.updateAdminFailed is not a function",
+  "statusTrace" : "TypeError: AdminForm.updateAdminFailed is not a function\n                    at UserContext.<anonymous> (D:\\Users\\acerpc\\Desktop\\franco-trackgenix-app\\test\\specs\\Superadmin.js:113:21)",
+  "flaky" : false,
+  "newFailed" : false,
+  "newBroken" : false,
+  "newPassed" : false,
+  "retriesCount" : 0,
+  "retriesStatusChange" : false,
+  "beforeStages" : [ ],
+  "testStage" : {
+    "status" : "failed",
+    "statusMessage" : "TypeError: AdminForm.updateAdminFailed is not a function",
+    "statusTrace" : "TypeError: AdminForm.updateAdminFailed is not a function\n                    at UserContext.<anonymous> (D:\\Users\\acerpc\\Desktop\\franco-trackgenix-app\\test\\specs\\Superadmin.js:113:21)",
+    "steps" : [ {
+      "name" : "GET /session/:sessionId/screenshot",
+      "time" : {
+        "start" : 1656392561825,
+        "stop" : 1656392561949,
+        "duration" : 124
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ {
+        "uid" : "a6f6174cae7457ba",
+        "name" : "Screenshot",
+        "source" : "a6f6174cae7457ba.png",
+        "type" : "image/png",
+        "size" : 52849
+      } ],
+      "parameters" : [ ],
+      "attachmentsCount" : 1,
+      "shouldDisplayMessage" : false,
+      "hasContent" : true,
+      "stepsCount" : 0
+    } ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "attachmentsCount" : 1,
+    "shouldDisplayMessage" : true,
+    "hasContent" : true,
+    "stepsCount" : 1
+  },
+  "afterStages" : [ ],
+  "labels" : [ {
+    "name" : "framework",
+    "value" : "wdio"
+  }, {
+    "name" : "language",
+    "value" : "javascript"
+  }, {
+    "name" : "thread",
+    "value" : "0-0"
+  }, {
+    "name" : "suite",
+    "value" : "Edit Super Admin page interactions"
+  }, {
+    "name" : "testClass",
+    "value" : "Edit Super Admin page interactions"
+  }, {
+    "name" : "testMethod",
+    "value" : "Long failed password"
+  }, {
+    "name" : "package",
+    "value" : "Edit Super Admin page interactions"
+  }, {
+    "name" : "resultFormat",
+    "value" : "allure1"
+  } ],
+  "parameters" : [ {
+    "name" : "browser",
+    "value" : "chrome-103.0.5060.66"
+  } ],
+  "links" : [ ],
+  "hidden" : true,
+  "retry" : true,
+  "extra" : {
+    "categories" : [ ],
+    "tags" : [ ]
+  },
+  "source" : "66195e4f26221b62.json",
+  "parameterValues" : [ "chrome-103.0.5060.66" ]
+}

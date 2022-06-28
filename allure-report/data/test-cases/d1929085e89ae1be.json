@@ -1,0 +1,122 @@
+{
+  "uid" : "d1929085e89ae1be",
+  "name" : "Just success First Name",
+  "fullName" : "Edit Super Admin page interactions.Just success First Name",
+  "historyId" : "aea18af376d7b0fd874ba35312bb8e61",
+  "time" : {
+    "start" : 1656394464598,
+    "stop" : 1656394464798,
+    "duration" : 200
+  },
+  "description" : "",
+  "descriptionHtml" : "",
+  "status" : "failed",
+  "statusMessage" : "TypeError: this.setFirstName is not a function",
+  "statusTrace" : "TypeError: this.setFirstName is not a function\n                    at superAdminForm.updateSuperAdminFailed (D:\\Users\\acerpc\\Desktop\\franco-trackgenix-app\\test\\pageobjects\\superadmin.form.js:85:16)\n                    at processTicksAndRejections (node:internal/process/task_queues:96:5)\n                    at async UserContext.<anonymous> (D:\\Users\\acerpc\\Desktop\\franco-trackgenix-app\\test\\specs\\Superadmin.js:79:5)",
+  "flaky" : false,
+  "newFailed" : false,
+  "newBroken" : false,
+  "newPassed" : false,
+  "retriesCount" : 0,
+  "retriesStatusChange" : false,
+  "beforeStages" : [ ],
+  "testStage" : {
+    "status" : "failed",
+    "statusMessage" : "TypeError: this.setFirstName is not a function",
+    "statusTrace" : "TypeError: this.setFirstName is not a function\n                    at superAdminForm.updateSuperAdminFailed (D:\\Users\\acerpc\\Desktop\\franco-trackgenix-app\\test\\pageobjects\\superadmin.form.js:85:16)\n                    at processTicksAndRejections (node:internal/process/task_queues:96:5)\n                    at async UserContext.<anonymous> (D:\\Users\\acerpc\\Desktop\\franco-trackgenix-app\\test\\specs\\Superadmin.js:79:5)",
+    "steps" : [ {
+      "name" : "POST /session/:sessionId/element",
+      "time" : {
+        "start" : 1656394464600,
+        "stop" : 1656394464645,
+        "duration" : 45
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ {
+        "uid" : "c48ee0d57640bf46",
+        "name" : "Request",
+        "source" : "c48ee0d57640bf46.json",
+        "type" : "application/json",
+        "size" : 81
+      }, {
+        "uid" : "aeeacd494aad59f",
+        "name" : "Response",
+        "source" : "aeeacd494aad59f.json",
+        "type" : "application/json",
+        "size" : 83
+      } ],
+      "parameters" : [ ],
+      "attachmentsCount" : 2,
+      "shouldDisplayMessage" : false,
+      "hasContent" : true,
+      "stepsCount" : 0
+    }, {
+      "name" : "GET /session/:sessionId/screenshot",
+      "time" : {
+        "start" : 1656394464648,
+        "stop" : 1656394464797,
+        "duration" : 149
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ {
+        "uid" : "a28262a064a79fb4",
+        "name" : "Screenshot",
+        "source" : "a28262a064a79fb4.png",
+        "type" : "image/png",
+        "size" : 50774
+      } ],
+      "parameters" : [ ],
+      "attachmentsCount" : 1,
+      "shouldDisplayMessage" : false,
+      "hasContent" : true,
+      "stepsCount" : 0
+    } ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "attachmentsCount" : 3,
+    "shouldDisplayMessage" : true,
+    "hasContent" : true,
+    "stepsCount" : 2
+  },
+  "afterStages" : [ ],
+  "labels" : [ {
+    "name" : "framework",
+    "value" : "wdio"
+  }, {
+    "name" : "language",
+    "value" : "javascript"
+  }, {
+    "name" : "thread",
+    "value" : "0-0"
+  }, {
+    "name" : "suite",
+    "value" : "Edit Super Admin page interactions"
+  }, {
+    "name" : "testClass",
+    "value" : "Edit Super Admin page interactions"
+  }, {
+    "name" : "testMethod",
+    "value" : "Just success First Name"
+  }, {
+    "name" : "package",
+    "value" : "Edit Super Admin page interactions"
+  }, {
+    "name" : "resultFormat",
+    "value" : "allure1"
+  } ],
+  "parameters" : [ {
+    "name" : "browser",
+    "value" : "chrome-103.0.5060.66"
+  } ],
+  "links" : [ ],
+  "hidden" : true,
+  "retry" : true,
+  "extra" : {
+    "categories" : [ ],
+    "tags" : [ ]
+  },
+  "source" : "d1929085e89ae1be.json",
+  "parameterValues" : [ "chrome-103.0.5060.66" ]
+}

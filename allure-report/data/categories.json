@@ -7,7 +7,7 @@
       "name" : "Error: Can't call setValue on element with selector \"div.input_container__1yWID:nth-child(1) > input:nth-child(2)\" because element wasn't found",
       "children" : [ {
         "name" : "Edit an admin failed",
-        "uid" : "cf9a054a5ebb0c81",
+        "uid" : "d2306f3eb64af384",
         "parentUid" : "79b6ab792ba93443ab53c6628d699784",
         "status" : "failed",
         "time" : {
@@ -25,47 +25,393 @@
       } ],
       "uid" : "79b6ab792ba93443ab53c6628d699784"
     }, {
-      "name" : "element click intercepted: element click intercepted: Element <button class=\"button_btn__3WL0L\">...</button> is not clickable at point (604, 555). Other element would receive the click: <div class=\"footer_p2__3m85A\">...</div>\n                  (Session info: chrome=103.0.5060.53)",
+      "name" : "CompoundError: One or more errors occurred. ---\n                \n                    Error\n                        at <Jasmine>\n                        at AdminForm.updateAdmin (D:\\Users\\acerpc\\Desktop\\franco-trackgenix-app\\test\\pageobjects\\admin.form.js:87:30)\n                        at processTicksAndRejections (node:internal/process/task_queues:96:5)\n                        at async UserContext.<anonymous> (D:\\Users\\acerpc\\Desktop\\franco-trackgenix-app\\test\\specs\\Admin.js:43:5)\n                --- End of stack trace ---\n                \n                    Error\n                        at <Jasmine>\n                        at AdminForm.updateAdmin (D:\\Users\\acerpc\\Desktop\\franco-trackgenix-app\\test\\pageobjects\\admin.form.js:88:35)\n                        at async UserContext.<anonymous> (D:\\Users\\acerpc\\Desktop\\franco-trackgenix-app\\test\\specs\\Admin.js:43:5)\n                --- End of stack trace ---\n                \n                    Error\n                        at <Jasmine>\n                        at AdminForm.updateAdmin (D:\\Users\\acerpc\\Desktop\\franco-trackgenix-app\\test\\pageobjects\\admin.form.js:89:31)\n                        at async UserContext.<anonymous> (D:\\Users\\acerpc\\Desktop\\franco-trackgenix-app\\test\\specs\\Admin.js:43:5)\n                --- End of stack trace ---\n                \n                    Error\n                        at <Jasmine>\n                        at AdminForm.updateAdmin (D:\\Users\\acerpc\\Desktop\\franco-trackgenix-app\\test\\pageobjects\\admin.form.js:90:32)\n                        at async UserContext.<anonymous> (D:\\Users\\acerpc\\Desktop\\franco-trackgenix-app\\test\\specs\\Admin.js:43:5)\n                --- End of stack trace ---\n                \n                    Error: Can't call click on element with selector \".modal_modalDivChildren__2FU_o > div:nth-child(2) > button:nth-child(1)\" because element wasn't found\n                        at async AdminForm.updateAdmin (D:\\Users\\acerpc\\Desktop\\franco-trackgenix-app\\test\\pageobjects\\admin.form.js:92:5)\n                        at async UserContext.<anonymous> (D:\\Users\\acerpc\\Desktop\\franco-trackgenix-app\\test\\specs\\Admin.js:43:5)\n                --- End of stack trace ---\n                ",
       "children" : [ {
-        "name" : "Edit an admin success",
-        "uid" : "a951d141d7924e2a",
-        "parentUid" : "cb1fff030d82c96958a2dc5a9730b108",
+        "name" : "Edit an admin failed",
+        "uid" : "edbc1255bf48ca20",
+        "parentUid" : "8b0b716c58354c268dc91694c8ae12ee",
         "status" : "failed",
         "time" : {
-          "start" : 1656296092206,
-          "stop" : 1656296097697,
-          "duration" : 5491
+          "start" : 1656366396117,
+          "stop" : 1656366447971,
+          "duration" : 51854
         },
         "flaky" : false,
         "newFailed" : false,
         "newPassed" : false,
         "newBroken" : false,
-        "retriesCount" : 7,
-        "retriesStatusChange" : true,
-        "parameters" : [ "chrome-103.0.5060.53" ]
+        "retriesCount" : 0,
+        "retriesStatusChange" : false,
+        "parameters" : [ "chrome-103.0.5060.66" ]
       } ],
-      "uid" : "cb1fff030d82c96958a2dc5a9730b108"
+      "uid" : "8b0b716c58354c268dc91694c8ae12ee"
     }, {
-      "name" : "element click intercepted: element click intercepted: Element <button class=\"button_btn__3WL0L\">...</button> is not clickable at point (512, 555). Other element would receive the click: <nav class=\"footer_rowLinks__3sOXe\">...</nav>\n                  (Session info: chrome=103.0.5060.53)",
+      "name" : "Expect window to have url\n                \n                Expected: \"https://franco-trackgenix-app.vercel.app/admins/form\"\n                Received: \"https://franco-trackgenix-app.vercel.app/admins\"",
       "children" : [ {
         "name" : "Admin form should be deployed",
-        "uid" : "877030fb501f1c53",
-        "parentUid" : "f792b2c0107cc394baf40eec74b0b65d",
+        "uid" : "19f66ccb7408a09b",
+        "parentUid" : "723bd2769f3fb218dd10bc840aac290a",
         "status" : "failed",
         "time" : {
-          "start" : 1656296097709,
-          "stop" : 1656296102675,
-          "duration" : 4966
+          "start" : 1656366448004,
+          "stop" : 1656366458475,
+          "duration" : 10471
         },
         "flaky" : false,
         "newFailed" : false,
         "newPassed" : false,
         "newBroken" : false,
-        "retriesCount" : 24,
-        "retriesStatusChange" : true,
-        "parameters" : [ "chrome-103.0.5060.53" ]
+        "retriesCount" : 0,
+        "retriesStatusChange" : false,
+        "parameters" : [ "chrome-103.0.5060.66" ]
       } ],
-      "uid" : "f792b2c0107cc394baf40eec74b0b65d"
+      "uid" : "723bd2769f3fb218dd10bc840aac290a"
+    }, {
+      "name" : "CompoundError: One or more errors occurred. ---\n                \n                    Error\n                        at <Jasmine>\n                        at AdminForm.updateAdmin (D:\\Users\\acerpc\\Desktop\\franco-trackgenix-app\\test\\pageobjects\\admin.form.js:92:35)\n                        at processTicksAndRejections (node:internal/process/task_queues:96:5)\n                        at async UserContext.<anonymous> (D:\\Users\\acerpc\\Desktop\\franco-trackgenix-app\\test\\specs\\Admin.js:109:5)\n                --- End of stack trace ---\n                \n                    Error\n                        at <Jasmine>\n                        at AdminForm.updateAdmin (D:\\Users\\acerpc\\Desktop\\franco-trackgenix-app\\test\\pageobjects\\admin.form.js:93:34)\n                        at async UserContext.<anonymous> (D:\\Users\\acerpc\\Desktop\\franco-trackgenix-app\\test\\specs\\Admin.js:109:5)\n                --- End of stack trace ---\n                ",
+      "children" : [ {
+        "name" : "Edit an admin success",
+        "uid" : "9020849bf1611749",
+        "parentUid" : "4aa4e6c363db58e3115f15c8a4fa5a6c",
+        "status" : "failed",
+        "time" : {
+          "start" : 1656371337575,
+          "stop" : 1656371360080,
+          "duration" : 22505
+        },
+        "flaky" : false,
+        "newFailed" : false,
+        "newPassed" : false,
+        "newBroken" : false,
+        "retriesCount" : 0,
+        "retriesStatusChange" : false,
+        "parameters" : [ "chrome-103.0.5060.66" ]
+      } ],
+      "uid" : "4aa4e6c363db58e3115f15c8a4fa5a6c"
+    }, {
+      "name" : "Expect $(`//*[@id=\"root\"]/div/div/div[2]/div/form/div[2]/div/div/div[1]`) to have text\n                \n                - Expected  - 0\n                + Received  + 1\n                \n                  Admin Created\n                + X",
+      "children" : [ {
+        "name" : "Add an admin success",
+        "uid" : "8ee9e027db2ad4b6",
+        "parentUid" : "5819a05685fc341758acc99300721331",
+        "status" : "failed",
+        "time" : {
+          "start" : 1656371360085,
+          "stop" : 1656371373117,
+          "duration" : 13032
+        },
+        "flaky" : false,
+        "newFailed" : false,
+        "newPassed" : false,
+        "newBroken" : false,
+        "retriesCount" : 0,
+        "retriesStatusChange" : false,
+        "parameters" : [ "chrome-103.0.5060.66" ]
+      } ],
+      "uid" : "5819a05685fc341758acc99300721331"
+    }, {
+      "name" : "CompoundError: One or more errors occurred. ---\n                \n                    Error\n                        at <Jasmine>\n                        at UserContext.<anonymous> (D:\\Users\\acerpc\\Desktop\\franco-trackgenix-app\\test\\specs\\Admin.js:56:44)\n                --- End of stack trace ---\n                \n                    Error\n                        at <Jasmine>\n                        at UserContext.<anonymous> (D:\\Users\\acerpc\\Desktop\\franco-trackgenix-app\\test\\specs\\Admin.js:57:43)\n                --- End of stack trace ---\n                \n                    Error\n                        at <Jasmine>\n                        at UserContext.<anonymous> (D:\\Users\\acerpc\\Desktop\\franco-trackgenix-app\\test\\specs\\Admin.js:58:40)\n                --- End of stack trace ---\n                \n                    Error\n                        at <Jasmine>\n                        at UserContext.<anonymous> (D:\\Users\\acerpc\\Desktop\\franco-trackgenix-app\\test\\specs\\Admin.js:59:43)\n                --- End of stack trace ---\n                ",
+      "children" : [ {
+        "name" : "Input with previous value",
+        "uid" : "368df9ca4c7fb87c",
+        "parentUid" : "871c3d9e23ab40ed9f41556c2b8828a1",
+        "status" : "failed",
+        "time" : {
+          "start" : 1656386457812,
+          "stop" : 1656386498259,
+          "duration" : 40447
+        },
+        "flaky" : false,
+        "newFailed" : false,
+        "newPassed" : false,
+        "newBroken" : false,
+        "retriesCount" : 1,
+        "retriesStatusChange" : false,
+        "parameters" : [ "chrome-103.0.5060.66" ]
+      } ],
+      "uid" : "871c3d9e23ab40ed9f41556c2b8828a1"
+    }, {
+      "name" : "CompoundError: One or more errors occurred. ---\n                \n                    Error: Expected undefined to be displayed.\n                        at <Jasmine>\n                        at <Jasmine>\n                        at SuperAdminsPage.deleteSuperAdmin (D:\\Users\\acerpc\\Desktop\\franco-trackgenix-app\\test\\pageobjects\\superadmin.list.js:44:30)\n                        at processTicksAndRejections (node:internal/process/task_queues:96:5)\n                --- End of stack trace ---\n                \n                    Error: Expected undefined to be displayed.\n                        at <Jasmine>\n                        at <Jasmine>\n                        at SuperAdminsPage.deleteSuperAdmin (D:\\Users\\acerpc\\Desktop\\franco-trackgenix-app\\test\\pageobjects\\superadmin.list.js:45:35)\n                        at processTicksAndRejections (node:internal/process/task_queues:96:5)\n                --- End of stack trace ---\n                \n                    Error: Expected undefined to be displayed.\n                        at <Jasmine>\n                        at <Jasmine>\n                        at SuperAdminsPage.deleteSuperAdmin (D:\\Users\\acerpc\\Desktop\\franco-trackgenix-app\\test\\pageobjects\\superadmin.list.js:46:31)\n                        at processTicksAndRejections (node:internal/process/task_queues:96:5)\n                --- End of stack trace ---\n                \n                    Error: Expected undefined to be displayed.\n                        at <Jasmine>\n                        at <Jasmine>\n                        at SuperAdminsPage.deleteSuperAdmin (D:\\Users\\acerpc\\Desktop\\franco-trackgenix-app\\test\\pageobjects\\superadmin.list.js:47:33)\n                        at processTicksAndRejections (node:internal/process/task_queues:96:5)\n                --- End of stack trace ---\n                \n                    Error: Expected undefined to be displayed.\n                        at <Jasmine>\n                        at <Jasmine>\n                        at SuperAdminsPage.deleteSuperAdmin (D:\\Users\\acerpc\\Desktop\\franco-trackgenix-app\\test\\pageobjects\\superadmin.list.js:48:32)\n                        at processTicksAndRejections (node:internal/process/task_queues:96:5)\n                --- End of stack trace ---\n                \n                    Error: Expected undefined to be clickable.\n                        at <Jasmine>\n                        at <Jasmine>\n                        at SuperAdminsPage.deleteSuperAdmin (D:\\Users\\acerpc\\Desktop\\franco-trackgenix-app\\test\\pageobjects\\superadmin.list.js:50:33)\n                        at processTicksAndRejections (node:internal/process/task_queues:96:5)\n                --- End of stack trace ---\n                \n                    Error: Expected undefined to be clickable.\n                        at <Jasmine>\n                        at <Jasmine>\n                        at SuperAdminsPage.deleteSuperAdmin (D:\\Users\\acerpc\\Desktop\\franco-trackgenix-app\\test\\pageobjects\\superadmin.list.js:51:32)\n                        at processTicksAndRejections (node:internal/process/task_queues:96:5)\n                --- End of stack trace ---\n                \n                    TypeError: Cannot read properties of undefined (reading 'click')\n                        at SuperAdminsPage.deleteSuperAdmin (D:\\Users\\acerpc\\Desktop\\franco-trackgenix-app\\test\\pageobjects\\superadmin.list.js:52:24)\n                        at processTicksAndRejections (node:internal/process/task_queues:96:5)\n                        at async UserContext.<anonymous> (D:\\Users\\acerpc\\Desktop\\franco-trackgenix-app\\test\\specs\\Superadmin.js:36:5)\n                --- End of stack trace ---\n                ",
+      "children" : [ {
+        "name" : "Delete an Super Admin",
+        "uid" : "8b7b3cc25c790707",
+        "parentUid" : "fd7f9b0202c73c48e913ffb8d580774b",
+        "status" : "failed",
+        "time" : {
+          "start" : 1656394695226,
+          "stop" : 1656394696087,
+          "duration" : 861
+        },
+        "flaky" : false,
+        "newFailed" : false,
+        "newPassed" : false,
+        "newBroken" : false,
+        "retriesCount" : 2,
+        "retriesStatusChange" : false,
+        "parameters" : [ "chrome-103.0.5060.66" ]
+      } ],
+      "uid" : "fd7f9b0202c73c48e913ffb8d580774b"
+    }, {
+      "name" : "element click intercepted: element click intercepted: Element <button class=\"table_buttonTable__1kRt6\">...</button> is not clickable at point (853, 301). Other element would receive the click: <div class=\"modal_modalOverlay__1UxHz\">...</div>\n                  (Session info: chrome=103.0.5060.66)",
+      "children" : [ {
+        "name" : "Elements displayed",
+        "uid" : "48a477b43c9a797c",
+        "parentUid" : "90f536d80bd2b0e28615fcd2acee3f86",
+        "status" : "failed",
+        "time" : {
+          "start" : 1656394696144,
+          "stop" : 1656394700693,
+          "duration" : 4549
+        },
+        "flaky" : false,
+        "newFailed" : false,
+        "newPassed" : false,
+        "newBroken" : false,
+        "retriesCount" : 2,
+        "retriesStatusChange" : false,
+        "parameters" : [ "chrome-103.0.5060.66" ]
+      }, {
+        "name" : "wrong data inputs",
+        "uid" : "465121f47036b0c0",
+        "parentUid" : "90f536d80bd2b0e28615fcd2acee3f86",
+        "status" : "failed",
+        "time" : {
+          "start" : 1656394723295,
+          "stop" : 1656394727871,
+          "duration" : 4576
+        },
+        "flaky" : false,
+        "newFailed" : false,
+        "newPassed" : false,
+        "newBroken" : false,
+        "retriesCount" : 2,
+        "retriesStatusChange" : false,
+        "parameters" : [ "chrome-103.0.5060.66" ]
+      } ],
+      "uid" : "90f536d80bd2b0e28615fcd2acee3f86"
+    }, {
+      "name" : "CompoundError: One or more errors occurred. ---\n                \n                    Error: Expected undefined to be enabled.\n                        at <Jasmine>\n                        at <Jasmine>\n                        at UserContext.<anonymous> (D:\\Users\\acerpc\\Desktop\\franco-trackgenix-app\\test\\specs\\Superadmin.js:60:44)\n                --- End of stack trace ---\n                \n                    Error\n                        at <Jasmine>\n                        at UserContext.<anonymous> (D:\\Users\\acerpc\\Desktop\\franco-trackgenix-app\\test\\specs\\Superadmin.js:61:43)\n                --- End of stack trace ---\n                \n                    Error: Expected undefined to be enabled.\n                        at <Jasmine>\n                        at <Jasmine>\n                        at UserContext.<anonymous> (D:\\Users\\acerpc\\Desktop\\franco-trackgenix-app\\test\\specs\\Superadmin.js:62:40)\n                --- End of stack trace ---\n                \n                    Error\n                        at <Jasmine>\n                        at UserContext.<anonymous> (D:\\Users\\acerpc\\Desktop\\franco-trackgenix-app\\test\\specs\\Superadmin.js:63:43)\n                --- End of stack trace ---\n                ",
+      "children" : [ {
+        "name" : "Inputs enables",
+        "uid" : "c781d36810f8086c",
+        "parentUid" : "cd866c6c54255f79a0b1b8714c70bbc0",
+        "status" : "failed",
+        "time" : {
+          "start" : 1656394700700,
+          "stop" : 1656394723134,
+          "duration" : 22434
+        },
+        "flaky" : false,
+        "newFailed" : false,
+        "newPassed" : false,
+        "newBroken" : false,
+        "retriesCount" : 2,
+        "retriesStatusChange" : false,
+        "parameters" : [ "chrome-103.0.5060.66" ]
+      } ],
+      "uid" : "cd866c6c54255f79a0b1b8714c70bbc0"
+    }, {
+      "name" : "TypeError: this.setFirstName is not a function",
+      "children" : [ {
+        "name" : "Edit an Super Admin success",
+        "uid" : "2576f920a85ea655",
+        "parentUid" : "2c3518f95bcb232210b421738e260dcb",
+        "status" : "failed",
+        "time" : {
+          "start" : 1656394723137,
+          "stop" : 1656394723295,
+          "duration" : 158
+        },
+        "flaky" : false,
+        "newFailed" : false,
+        "newPassed" : false,
+        "newBroken" : false,
+        "retriesCount" : 2,
+        "retriesStatusChange" : false,
+        "parameters" : [ "chrome-103.0.5060.66" ]
+      }, {
+        "name" : "Just success First Name",
+        "uid" : "38cc08bf68cd96db",
+        "parentUid" : "2c3518f95bcb232210b421738e260dcb",
+        "status" : "failed",
+        "time" : {
+          "start" : 1656394727872,
+          "stop" : 1656394728129,
+          "duration" : 257
+        },
+        "flaky" : false,
+        "newFailed" : false,
+        "newPassed" : false,
+        "newBroken" : false,
+        "retriesCount" : 2,
+        "retriesStatusChange" : false,
+        "parameters" : [ "chrome-103.0.5060.66" ]
+      }, {
+        "name" : "Just success Email",
+        "uid" : "ed1ba215957a0a68",
+        "parentUid" : "2c3518f95bcb232210b421738e260dcb",
+        "status" : "failed",
+        "time" : {
+          "start" : 1656394728258,
+          "stop" : 1656394728417,
+          "duration" : 159
+        },
+        "flaky" : false,
+        "newFailed" : false,
+        "newPassed" : false,
+        "newBroken" : false,
+        "retriesCount" : 2,
+        "retriesStatusChange" : false,
+        "parameters" : [ "chrome-103.0.5060.66" ]
+      }, {
+        "name" : "Long failed password",
+        "uid" : "52cd4cd4b3f07bc3",
+        "parentUid" : "2c3518f95bcb232210b421738e260dcb",
+        "status" : "failed",
+        "time" : {
+          "start" : 1656394728541,
+          "stop" : 1656394728687,
+          "duration" : 146
+        },
+        "flaky" : false,
+        "newFailed" : false,
+        "newPassed" : false,
+        "newBroken" : false,
+        "retriesCount" : 2,
+        "retriesStatusChange" : false,
+        "parameters" : [ "chrome-103.0.5060.66" ]
+      }, {
+        "name" : "Failed password",
+        "uid" : "60e0ea0093b0762c",
+        "parentUid" : "2c3518f95bcb232210b421738e260dcb",
+        "status" : "failed",
+        "time" : {
+          "start" : 1656394728688,
+          "stop" : 1656394728872,
+          "duration" : 184
+        },
+        "flaky" : false,
+        "newFailed" : false,
+        "newPassed" : false,
+        "newBroken" : false,
+        "retriesCount" : 2,
+        "retriesStatusChange" : false,
+        "parameters" : [ "chrome-103.0.5060.66" ]
+      }, {
+        "name" : "empty inputs",
+        "uid" : "f3cda5ff652b072a",
+        "parentUid" : "2c3518f95bcb232210b421738e260dcb",
+        "status" : "failed",
+        "time" : {
+          "start" : 1656394728873,
+          "stop" : 1656394729600,
+          "duration" : 727
+        },
+        "flaky" : false,
+        "newFailed" : false,
+        "newPassed" : false,
+        "newBroken" : false,
+        "retriesCount" : 2,
+        "retriesStatusChange" : false,
+        "parameters" : [ "chrome-103.0.5060.66" ]
+      }, {
+        "name" : "Add an superAdmin success",
+        "uid" : "7bc9d750608567b3",
+        "parentUid" : "2c3518f95bcb232210b421738e260dcb",
+        "status" : "failed",
+        "time" : {
+          "start" : 1656394734451,
+          "stop" : 1656394734586,
+          "duration" : 135
+        },
+        "flaky" : false,
+        "newFailed" : false,
+        "newPassed" : false,
+        "newBroken" : false,
+        "retriesCount" : 2,
+        "retriesStatusChange" : false,
+        "parameters" : [ "chrome-103.0.5060.66" ]
+      } ],
+      "uid" : "2c3518f95bcb232210b421738e260dcb"
+    }, {
+      "name" : "TypeError: AdminForm.updateAdminFailed is not a function",
+      "children" : [ {
+        "name" : "Just success Last Name",
+        "uid" : "8b7db598a916c53d",
+        "parentUid" : "d2f350749878fa1773cf754d305e6076",
+        "status" : "failed",
+        "time" : {
+          "start" : 1656394728129,
+          "stop" : 1656394728255,
+          "duration" : 126
+        },
+        "flaky" : false,
+        "newFailed" : false,
+        "newPassed" : false,
+        "newBroken" : false,
+        "retriesCount" : 2,
+        "retriesStatusChange" : false,
+        "parameters" : [ "chrome-103.0.5060.66" ]
+      }, {
+        "name" : "Just success password",
+        "uid" : "ea0784ee903c580c",
+        "parentUid" : "d2f350749878fa1773cf754d305e6076",
+        "status" : "failed",
+        "time" : {
+          "start" : 1656394728417,
+          "stop" : 1656394728540,
+          "duration" : 123
+        },
+        "flaky" : false,
+        "newFailed" : false,
+        "newPassed" : false,
+        "newBroken" : false,
+        "retriesCount" : 2,
+        "retriesStatusChange" : false,
+        "parameters" : [ "chrome-103.0.5060.66" ]
+      } ],
+      "uid" : "d2f350749878fa1773cf754d305e6076"
+    }, {
+      "name" : "element click intercepted: element click intercepted: Element <button class=\"button_btn__3WL0L\">...</button> is not clickable at point (520, 555). Other element would receive the click: <nav class=\"footer_rowLinks__3sOXe\">...</nav>\n                  (Session info: chrome=103.0.5060.66)",
+      "children" : [ {
+        "name" : "Elements displayed",
+        "uid" : "1876679f782b6a80",
+        "parentUid" : "61e6ae6982738dc8e191cbb980e70552",
+        "status" : "failed",
+        "time" : {
+          "start" : 1656394729670,
+          "stop" : 1656394734153,
+          "duration" : 4483
+        },
+        "flaky" : false,
+        "newFailed" : false,
+        "newPassed" : false,
+        "newBroken" : false,
+        "retriesCount" : 2,
+        "retriesStatusChange" : false,
+        "parameters" : [ "chrome-103.0.5060.66" ]
+      } ],
+      "uid" : "61e6ae6982738dc8e191cbb980e70552"
+    }, {
+      "name" : "CompoundError: One or more errors occurred. ---\n                \n                    Error: Expected undefined to be enabled.\n                        at <Jasmine>\n                        at <Jasmine>\n                        at UserContext.<anonymous> (D:\\Users\\acerpc\\Desktop\\franco-trackgenix-app\\test\\specs\\Superadmin.js:161:44)\n                --- End of stack trace ---\n                \n                    Error: Expected undefined to be enabled.\n                        at <Jasmine>\n                        at <Jasmine>\n                        at UserContext.<anonymous> (D:\\Users\\acerpc\\Desktop\\franco-trackgenix-app\\test\\specs\\Superadmin.js:163:40)\n                        at processTicksAndRejections (node:internal/process/task_queues:96:5)\n                --- End of stack trace ---\n                ",
+      "children" : [ {
+        "name" : "Inputs enables",
+        "uid" : "6ff15e132284c014",
+        "parentUid" : "a1d75df9d0bca0d5371afb93c03eb5a9",
+        "status" : "failed",
+        "time" : {
+          "start" : 1656394734153,
+          "stop" : 1656394734450,
+          "duration" : 297
+        },
+        "flaky" : false,
+        "newFailed" : false,
+        "newPassed" : false,
+        "newBroken" : false,
+        "retriesCount" : 2,
+        "retriesStatusChange" : false,
+        "parameters" : [ "chrome-103.0.5060.66" ]
+      } ],
+      "uid" : "a1d75df9d0bca0d5371afb93c03eb5a9"
     } ],
     "uid" : "8fb3a91ba5aaf9de24cc8a92edc82b5d"
   } ]

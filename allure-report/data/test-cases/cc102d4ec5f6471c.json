@@ -1,0 +1,95 @@
+{
+  "uid" : "cc102d4ec5f6471c",
+  "name" : "Elements displayed",
+  "fullName" : "Add superAdmin page interactions.Elements displayed",
+  "historyId" : "798b2850c74eafd7f8f527ea70824d81",
+  "time" : {
+    "start" : 1656392563724,
+    "stop" : 1656392563929,
+    "duration" : 205
+  },
+  "description" : "",
+  "descriptionHtml" : "",
+  "status" : "failed",
+  "statusMessage" : "TypeError: Cannot read properties of undefined (reading 'click')",
+  "statusTrace" : "TypeError: Cannot read properties of undefined (reading 'click')\n                    at UserContext.<anonymous> (D:\\Users\\acerpc\\Desktop\\franco-trackgenix-app\\test\\specs\\Superadmin.js:143:35)",
+  "flaky" : false,
+  "newFailed" : false,
+  "newBroken" : false,
+  "newPassed" : false,
+  "retriesCount" : 0,
+  "retriesStatusChange" : false,
+  "beforeStages" : [ ],
+  "testStage" : {
+    "status" : "failed",
+    "statusMessage" : "TypeError: Cannot read properties of undefined (reading 'click')",
+    "statusTrace" : "TypeError: Cannot read properties of undefined (reading 'click')\n                    at UserContext.<anonymous> (D:\\Users\\acerpc\\Desktop\\franco-trackgenix-app\\test\\specs\\Superadmin.js:143:35)",
+    "steps" : [ {
+      "name" : "GET /session/:sessionId/screenshot",
+      "time" : {
+        "start" : 1656392563725,
+        "stop" : 1656392563927,
+        "duration" : 202
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ {
+        "uid" : "e0331652b2685f95",
+        "name" : "Screenshot",
+        "source" : "e0331652b2685f95.png",
+        "type" : "image/png",
+        "size" : 51339
+      } ],
+      "parameters" : [ ],
+      "attachmentsCount" : 1,
+      "shouldDisplayMessage" : false,
+      "hasContent" : true,
+      "stepsCount" : 0
+    } ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "attachmentsCount" : 1,
+    "shouldDisplayMessage" : true,
+    "hasContent" : true,
+    "stepsCount" : 1
+  },
+  "afterStages" : [ ],
+  "labels" : [ {
+    "name" : "framework",
+    "value" : "wdio"
+  }, {
+    "name" : "language",
+    "value" : "javascript"
+  }, {
+    "name" : "thread",
+    "value" : "0-0"
+  }, {
+    "name" : "suite",
+    "value" : "Add superAdmin page interactions"
+  }, {
+    "name" : "testClass",
+    "value" : "Add superAdmin page interactions"
+  }, {
+    "name" : "testMethod",
+    "value" : "Elements displayed"
+  }, {
+    "name" : "package",
+    "value" : "Add superAdmin page interactions"
+  }, {
+    "name" : "resultFormat",
+    "value" : "allure1"
+  } ],
+  "parameters" : [ {
+    "name" : "browser",
+    "value" : "chrome-103.0.5060.66"
+  } ],
+  "links" : [ ],
+  "hidden" : true,
+  "retry" : true,
+  "extra" : {
+    "categories" : [ ],
+    "tags" : [ ]
+  },
+  "source" : "cc102d4ec5f6471c.json",
+  "parameterValues" : [ "chrome-103.0.5060.66" ]
+}

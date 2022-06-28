@@ -39,6 +39,9 @@ class AdminList extends Page {
   get titleModal() {
     return $('.modal_modalDivTitle__3Te57 > h3:nth-child(1)');
   }
+  get textModal() {
+    return $('.modal_modalDivChildren__2FU_o > p:nth-child(1)');
+  }
   get modalX() {
     return $('.modal_closeButton__191FP');
   }
@@ -57,6 +60,9 @@ class AdminList extends Page {
     await this.admin1DeleteButton.click();
     await expect(this.modal).toBeDisplayed();
     await expect(this.titleModal).toBeDisplayed();
+    await expect(this.titleModal).toHaveText('Admins');
+    await expect(this.textModal).toBeDisplayed();
+    await expect(this.textModal).toHaveText('Are you sure to delete an admin?');
     await expect(this.modalX).toBeDisplayed();
     await expect(this.modalYes).toBeDisplayed();
     await expect(this.modalNo).toBeDisplayed();

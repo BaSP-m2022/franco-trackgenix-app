@@ -1,0 +1,122 @@
+{
+  "uid" : "d372439bdfe101b5",
+  "name" : "Long failed password",
+  "fullName" : "Edit Super Admin page interactions.Long failed password",
+  "historyId" : "cb79c639e04c5299f9ba913ab094283",
+  "time" : {
+    "start" : 1656394465244,
+    "stop" : 1656394465415,
+    "duration" : 171
+  },
+  "description" : "",
+  "descriptionHtml" : "",
+  "status" : "failed",
+  "statusMessage" : "TypeError: this.setFirstName is not a function",
+  "statusTrace" : "TypeError: this.setFirstName is not a function\n                    at superAdminForm.updateSuperAdminFailed (D:\\Users\\acerpc\\Desktop\\franco-trackgenix-app\\test\\pageobjects\\superadmin.form.js:85:16)\n                    at processTicksAndRejections (node:internal/process/task_queues:96:5)\n                    at async UserContext.<anonymous> (D:\\Users\\acerpc\\Desktop\\franco-trackgenix-app\\test\\specs\\Superadmin.js:113:5)",
+  "flaky" : false,
+  "newFailed" : false,
+  "newBroken" : false,
+  "newPassed" : false,
+  "retriesCount" : 0,
+  "retriesStatusChange" : false,
+  "beforeStages" : [ ],
+  "testStage" : {
+    "status" : "failed",
+    "statusMessage" : "TypeError: this.setFirstName is not a function",
+    "statusTrace" : "TypeError: this.setFirstName is not a function\n                    at superAdminForm.updateSuperAdminFailed (D:\\Users\\acerpc\\Desktop\\franco-trackgenix-app\\test\\pageobjects\\superadmin.form.js:85:16)\n                    at processTicksAndRejections (node:internal/process/task_queues:96:5)\n                    at async UserContext.<anonymous> (D:\\Users\\acerpc\\Desktop\\franco-trackgenix-app\\test\\specs\\Superadmin.js:113:5)",
+    "steps" : [ {
+      "name" : "POST /session/:sessionId/element",
+      "time" : {
+        "start" : 1656394465245,
+        "stop" : 1656394465269,
+        "duration" : 24
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ {
+        "uid" : "f1add7fe430ab035",
+        "name" : "Request",
+        "source" : "f1add7fe430ab035.json",
+        "type" : "application/json",
+        "size" : 81
+      }, {
+        "uid" : "276f165c5ef6431d",
+        "name" : "Response",
+        "source" : "276f165c5ef6431d.json",
+        "type" : "application/json",
+        "size" : 83
+      } ],
+      "parameters" : [ ],
+      "attachmentsCount" : 2,
+      "shouldDisplayMessage" : false,
+      "hasContent" : true,
+      "stepsCount" : 0
+    }, {
+      "name" : "GET /session/:sessionId/screenshot",
+      "time" : {
+        "start" : 1656394465271,
+        "stop" : 1656394465415,
+        "duration" : 144
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ {
+        "uid" : "45eaa4eaee23e571",
+        "name" : "Screenshot",
+        "source" : "45eaa4eaee23e571.png",
+        "type" : "image/png",
+        "size" : 50774
+      } ],
+      "parameters" : [ ],
+      "attachmentsCount" : 1,
+      "shouldDisplayMessage" : false,
+      "hasContent" : true,
+      "stepsCount" : 0
+    } ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "attachmentsCount" : 3,
+    "shouldDisplayMessage" : true,
+    "hasContent" : true,
+    "stepsCount" : 2
+  },
+  "afterStages" : [ ],
+  "labels" : [ {
+    "name" : "framework",
+    "value" : "wdio"
+  }, {
+    "name" : "language",
+    "value" : "javascript"
+  }, {
+    "name" : "thread",
+    "value" : "0-0"
+  }, {
+    "name" : "suite",
+    "value" : "Edit Super Admin page interactions"
+  }, {
+    "name" : "testClass",
+    "value" : "Edit Super Admin page interactions"
+  }, {
+    "name" : "testMethod",
+    "value" : "Long failed password"
+  }, {
+    "name" : "package",
+    "value" : "Edit Super Admin page interactions"
+  }, {
+    "name" : "resultFormat",
+    "value" : "allure1"
+  } ],
+  "parameters" : [ {
+    "name" : "browser",
+    "value" : "chrome-103.0.5060.66"
+  } ],
+  "links" : [ ],
+  "hidden" : true,
+  "retry" : true,
+  "extra" : {
+    "categories" : [ ],
+    "tags" : [ ]
+  },
+  "source" : "d372439bdfe101b5.json",
+  "parameterValues" : [ "chrome-103.0.5060.66" ]
+}

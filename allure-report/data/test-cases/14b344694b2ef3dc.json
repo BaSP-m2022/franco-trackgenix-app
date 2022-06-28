@@ -1,0 +1,95 @@
+{
+  "uid" : "14b344694b2ef3dc",
+  "name" : "Header on form page",
+  "fullName" : "Header/footer/asside on form page.Header on form page",
+  "historyId" : "bf1623a09dc66f08accdda0b71d261ae",
+  "time" : {
+    "start" : 1656392579103,
+    "stop" : 1656392579225,
+    "duration" : 122
+  },
+  "description" : "",
+  "descriptionHtml" : "",
+  "status" : "failed",
+  "statusMessage" : "TypeError: Cannot read properties of undefined (reading 'click')",
+  "statusTrace" : "TypeError: Cannot read properties of undefined (reading 'click')\n                    at UserContext.<anonymous> (D:\\Users\\acerpc\\Desktop\\franco-trackgenix-app\\test\\specs\\Superadmin.js:229:35)",
+  "flaky" : false,
+  "newFailed" : false,
+  "newBroken" : false,
+  "newPassed" : false,
+  "retriesCount" : 0,
+  "retriesStatusChange" : false,
+  "beforeStages" : [ ],
+  "testStage" : {
+    "status" : "failed",
+    "statusMessage" : "TypeError: Cannot read properties of undefined (reading 'click')",
+    "statusTrace" : "TypeError: Cannot read properties of undefined (reading 'click')\n                    at UserContext.<anonymous> (D:\\Users\\acerpc\\Desktop\\franco-trackgenix-app\\test\\specs\\Superadmin.js:229:35)",
+    "steps" : [ {
+      "name" : "GET /session/:sessionId/screenshot",
+      "time" : {
+        "start" : 1656392579103,
+        "stop" : 1656392579224,
+        "duration" : 121
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ {
+        "uid" : "9b80c6dd7acce737",
+        "name" : "Screenshot",
+        "source" : "9b80c6dd7acce737.png",
+        "type" : "image/png",
+        "size" : 51339
+      } ],
+      "parameters" : [ ],
+      "attachmentsCount" : 1,
+      "shouldDisplayMessage" : false,
+      "hasContent" : true,
+      "stepsCount" : 0
+    } ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "attachmentsCount" : 1,
+    "shouldDisplayMessage" : true,
+    "hasContent" : true,
+    "stepsCount" : 1
+  },
+  "afterStages" : [ ],
+  "labels" : [ {
+    "name" : "framework",
+    "value" : "wdio"
+  }, {
+    "name" : "language",
+    "value" : "javascript"
+  }, {
+    "name" : "thread",
+    "value" : "0-0"
+  }, {
+    "name" : "suite",
+    "value" : "Header/footer/asside on form page"
+  }, {
+    "name" : "testClass",
+    "value" : "Header/footer/asside on form page"
+  }, {
+    "name" : "testMethod",
+    "value" : "Header on form page"
+  }, {
+    "name" : "package",
+    "value" : "Header/footer/asside on form page"
+  }, {
+    "name" : "resultFormat",
+    "value" : "allure1"
+  } ],
+  "parameters" : [ {
+    "name" : "browser",
+    "value" : "chrome-103.0.5060.66"
+  } ],
+  "links" : [ ],
+  "hidden" : true,
+  "retry" : true,
+  "extra" : {
+    "categories" : [ ],
+    "tags" : [ ]
+  },
+  "source" : "14b344694b2ef3dc.json",
+  "parameterValues" : [ "chrome-103.0.5060.66" ]
+}
