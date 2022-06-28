@@ -21,7 +21,7 @@ class SignUp extends Page {
   get lastNameInput() {
     return $('div.input_container__1yWID:nth-child(2) > input:nth-child(2)');
   }
-  get lastnameMsg() {
+  get lastNameMsg() {
     return $('div.input_container__1yWID:nth-child(2) > p:nth-child(3)');
   }
   get dobTitleInput() {
@@ -55,7 +55,7 @@ class SignUp extends Page {
     return $('div.input_container__1yWID:nth-child(6) > label:nth-child(1)');
   }
   get passInput() {
-    return $('div.input_container__1yWID:nth-child(6) > label:nth-child(2)');
+    return $('/html/body/div/div/div/div[2]/div/form/div[1]/div[6]/input');
   }
   get passwordMsg() {
     return $('div.input_container__1yWID:nth-child(6) > p:nth-child(3)');
@@ -81,18 +81,15 @@ class SignUp extends Page {
   get modalX() {
     return $('.modal_closeButton__191FP');
   }
-  get modalYes() {
-    return $('.button_delete__30eE3');
-  }
-  get modalNo() {
-    return $('button.button_btn__3WL0L:nth-child(2)');
+  get modalOk() {
+    return $('.modal_modalDivChildren__2FU_o > div:nth-child(2) > button:nth-child(1)');
   }
 
   async setFirstName(firstname) {
     await this.firstNameInput.setValue(firstname);
   }
   async setLastName(lastname) {
-    await this.lastnameInput.setValue(lastname);
+    await this.lastNameInput.setValue(lastname);
   }
   async setDOB(DOB) {
     await this.dobInput.setValue(DOB);
@@ -123,12 +120,26 @@ class SignUp extends Page {
     await this.signUpButton.click();
     await expect(this.modal).toBeDisplayed();
     await expect(this.titleModal).toBeDisplayed();
-    await expect(this.titleModal).toHaveText('Super Admin Created');
-    await expect(this.textModal).toHaveText('Super Admin has been created');
+    await expect(this.titleModal).toHaveText('Employee Sign Up');
+    await expect(this.textModal).toHaveText('Employee created successfully!');
     await expect(this.modalX).toBeDisplayed();
     await expect(this.modalOk).toBeDisplayed();
     await expect(this.modalX).toBeClickable;
+    await this.modalX.click();
+    await this.signUpButton.click();
     await this.modalOk.click();
+  }
+
+  async signupFailed(firstname, lastname, DOB, DNI, email, password) {
+    const elem = await $('button.button_btn__3WL0L:nth-child(2)');
+    await this.setFirstName(firstname);
+    await this.setLastName(lastname);
+    await this.setDOB(DOB);
+    await this.setDNI(DNI);
+    await this.setEmail(email);
+    await this.setPassword(password);
+    await elem.scrollIntoView();
+    await this.signUpButton.click();
   }
 }
 

@@ -1,9 +1,9 @@
-const Homepage = require('../pageobjects/home.page');
-const SuperAdminList = require('../pageobjects/superadmin.list');
-const SuperAdminForm = require('../pageobjects/superadmin.form');
-const HeaderPage = require('../pageobjects/header');
-const AssidePage = require('../pageobjects/asside');
-const FooterPage = require('../pageobjects/footer');
+const Homepage = require('../../../pageobjects/home.page');
+const SuperAdminList = require('../../../pageobjects/superadmin.list');
+const SuperAdminForm = require('../../../pageobjects/superadmin.form');
+const HeaderPage = require('../../../pageobjects/header');
+const AssidePage = require('../../../pageobjects/asside');
+const FooterPage = require('../../../pageobjects/footer');
 
 describe('Super Admin list interactions', () => {
   it('Homepage should be deployed', async () => {
@@ -15,7 +15,7 @@ describe('Super Admin list interactions', () => {
     await expect(browser).toHaveUrl('https://franco-trackgenix-app.vercel.app/super-admins');
 
     await expect(SuperAdminList.searchInput).toBeDisplayed();
-    await SuperAdminList.setSearchFirstName('test');
+    await SuperAdminList.setSearchFirstName('Axel');
     await expect(SuperAdminList.superAdminTitle).toBeDisplayed();
     await expect(SuperAdminList.superAdminTitle).toHaveText('Super Admins');
     await expect(SuperAdminList.table).toBeDisplayed();
@@ -65,7 +65,7 @@ describe('Edit Super Admin page interactions', () => {
   });
   it('Edit an Super Admin success', async () => {
     await SuperAdminForm.updateSuperAdmin(
-      'Laura',
+      'Test',
       'Fiol',
       'laurasammartino@hotmail.com',
       'qqqq1111'
@@ -241,60 +241,60 @@ describe('Header/footer/asside on list page', () => {
   });
 });
 
-// describe('Header/footer/asside on form page', () => {
-//   it('Header on form page', async () => {
-//     await SuperAdminForm.open();
-//     await expect(HeaderPage.rrLogo).toBeDisplayed();
-//     await expect(HeaderPage.edit).toBeClickable();
-//     await expect(HeaderPage.edit).toBeDisplayed();
-//   });
-//   it('Footer on form page', async () => {
-//     await expect(FooterPage.locationText).toBeDisplayed();
-//     await expect(FooterPage.copyText).toBeDisplayed();
-//     await expect(FooterPage.linkedInIcon).toBeDisplayed();
-//     await expect(FooterPage.linkedInIcon).toBeClickable();
-//     await expect(FooterPage.linkedInIcon).toHaveHref(
-//       'https://www.linkedin.com/company/radium-rocket/'
-//     );
-//     await expect(FooterPage.twiterIcon).toBeDisplayed();
-//     await expect(FooterPage.twiterIcon).toBeClickable();
-//     await expect(FooterPage.twiterIcon).toHaveHref('https://twitter.com/radiumrocket');
-//     await expect(FooterPage.facebookIcon).toBeDisplayed();
-//     await expect(FooterPage.facebookIcon).toBeClickable();
-//     await expect(FooterPage.facebookIcon).toHaveHref('https://www.facebook.com/radiumrocket');
-//     await expect(FooterPage.instagramIcon).toBeDisplayed();
-//     await expect(FooterPage.instagramIcon).toBeClickable();
-//     await expect(FooterPage.instagramIcon).toHaveHref('https://www.instagram.com/radium.rocket/');
-//     await expect(FooterPage.githubIcon).toBeDisplayed();
-//     await expect(FooterPage.githubIcon).toBeClickable();
-//     await expect(FooterPage.githubIcon).toHaveHref('https://github.com/radiumrocketapps');
-//   });
-//   it('Aside on form page', async () => {
-//     await expect(AssidePage.menuAside).toBeDisplayed();
-//     await expect(AssidePage.contactUstext).toBeDisplayed();
-//     await expect(AssidePage.homeRef).toBeDisplayed();
-//     await expect(AssidePage.homeRef).toBeClickable();
-//     await expect(AssidePage.homeRef).toHaveHref('/super-admins/home');
-//     await expect(AssidePage.adminsRef).toBeDisplayed();
-//     await expect(AssidePage.adminsRef).toBeClickable();
-//     await expect(AssidePage.adminsRef).toHaveHref('/admins');
-//     await expect(AssidePage.superAdminsRef).toBeDisplayed();
-//     await expect(AssidePage.superAdminsRef).toBeClickable();
-//     await expect(AssidePage.superAdminsRef).toHaveHref('/super-admins');
-//     await expect(AssidePage.employeesRef).toBeDisplayed();
-//     await expect(AssidePage.employeesRef).toBeClickable();
-//     await expect(AssidePage.employeesRef).toHaveHref('/employees');
-//     await expect(AssidePage.projectsRef).toBeDisplayed();
-//     await expect(AssidePage.projectsRef).toBeClickable();
-//     await expect(AssidePage.projectsRef).toHaveHref('/projects');
-//     await expect(AssidePage.timesheetsRef).toBeDisplayed();
-//     await expect(AssidePage.timesheetsRef).toBeClickable();
-//     await expect(AssidePage.timesheetsRef).toHaveHref('/time-sheets');
-//     await expect(AssidePage.tasksRef).toBeDisplayed();
-//     await expect(AssidePage.tasksRef).toBeClickable();
-//     await expect(AssidePage.tasksRef).toHaveHref('/tasks');
-//     await expect(AssidePage.contact).toBeDisplayed();
-//     await expect(AssidePage.phone).toBeDisplayed();
-//     await expect(AssidePage.address).toBeDisplayed();
-//   });
-// });
+describe('Header/footer/asside on form page', () => {
+  it('Header on form page', async () => {
+    await SuperAdminForm.open();
+    await expect(HeaderPage.rrLogo).toBeDisplayed();
+    await expect(HeaderPage.edit).toBeClickable();
+    await expect(HeaderPage.edit).toBeDisplayed();
+  });
+  it('Footer on form page', async () => {
+    await expect(FooterPage.locationText).toBeDisplayed();
+    await expect(FooterPage.copyText).toBeDisplayed();
+    await expect(FooterPage.linkedInIcon).toBeDisplayed();
+    await expect(FooterPage.linkedInIcon).toBeClickable();
+    await expect(FooterPage.linkedInIcon).toHaveHref(
+      'https://www.linkedin.com/company/radium-rocket/'
+    );
+    await expect(FooterPage.twiterIcon).toBeDisplayed();
+    await expect(FooterPage.twiterIcon).toBeClickable();
+    await expect(FooterPage.twiterIcon).toHaveHref('https://twitter.com/radiumrocket');
+    await expect(FooterPage.facebookIcon).toBeDisplayed();
+    await expect(FooterPage.facebookIcon).toBeClickable();
+    await expect(FooterPage.facebookIcon).toHaveHref('https://www.facebook.com/radiumrocket');
+    await expect(FooterPage.instagramIcon).toBeDisplayed();
+    await expect(FooterPage.instagramIcon).toBeClickable();
+    await expect(FooterPage.instagramIcon).toHaveHref('https://www.instagram.com/radium.rocket/');
+    await expect(FooterPage.githubIcon).toBeDisplayed();
+    await expect(FooterPage.githubIcon).toBeClickable();
+    await expect(FooterPage.githubIcon).toHaveHref('https://github.com/radiumrocketapps');
+  });
+  it('Aside on form page', async () => {
+    await expect(AssidePage.menuAside).toBeDisplayed();
+    await expect(AssidePage.contactUstext).toBeDisplayed();
+    await expect(AssidePage.homeRef).toBeDisplayed();
+    await expect(AssidePage.homeRef).toBeClickable();
+    await expect(AssidePage.homeRef).toHaveHref('/super-admins/home');
+    await expect(AssidePage.adminsRef).toBeDisplayed();
+    await expect(AssidePage.adminsRef).toBeClickable();
+    await expect(AssidePage.adminsRef).toHaveHref('/admins');
+    await expect(AssidePage.superAdminsRef).toBeDisplayed();
+    await expect(AssidePage.superAdminsRef).toBeClickable();
+    await expect(AssidePage.superAdminsRef).toHaveHref('/super-admins');
+    await expect(AssidePage.employeesRef).toBeDisplayed();
+    await expect(AssidePage.employeesRef).toBeClickable();
+    await expect(AssidePage.employeesRef).toHaveHref('/employees');
+    await expect(AssidePage.projectsRef).toBeDisplayed();
+    await expect(AssidePage.projectsRef).toBeClickable();
+    await expect(AssidePage.projectsRef).toHaveHref('/projects');
+    await expect(AssidePage.timesheetsRef).toBeDisplayed();
+    await expect(AssidePage.timesheetsRef).toBeClickable();
+    await expect(AssidePage.timesheetsRef).toHaveHref('/time-sheets');
+    await expect(AssidePage.tasksRef).toBeDisplayed();
+    await expect(AssidePage.tasksRef).toBeClickable();
+    await expect(AssidePage.tasksRef).toHaveHref('/tasks');
+    await expect(AssidePage.contact).toBeDisplayed();
+    await expect(AssidePage.phone).toBeDisplayed();
+    await expect(AssidePage.address).toBeDisplayed();
+  });
+});
