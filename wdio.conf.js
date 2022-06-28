@@ -1,3 +1,5 @@
+const allure = require('allure-commandline').default;
+
 exports.config = {
   //
   // ====================
