@@ -4,7 +4,8 @@ const initialStore = {
   list: [],
   loading: false,
   error: '',
-  employee: {}
+  employee: {},
+  loggedEmployee: {}
 };
 export const employeesReducer = (state = initialStore, actions) => {
   switch (actions.type) {
