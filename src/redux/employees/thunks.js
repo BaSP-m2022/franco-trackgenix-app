@@ -95,25 +95,3 @@ export const addEmployee = (body) => {
     }
   };
 };
-
-export const addEmployeeFirebase = (body) => {
-  return async (dispatch) => {
-    dispatch(actions.addEmployeeLoading());
-    try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/employees`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: body
-      });
-      const jsonResponse = await response.json();
-      if (jsonResponse.error) {
-        dispatch(actions.addEmployeeError(jsonResponse.message));
-      } else {
-        dispatch(actions.addEmployeeSuccess(jsonResponse.data));
-      }
-      return jsonResponse.data;
-    } catch (error) {
-      dispatch(actions.addEmployeeError(error.toString()));
-    }
-  };
-};
