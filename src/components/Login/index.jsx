@@ -1,5 +1,4 @@
-/* eslint-disable no-unused-vars */
-import { useState } from 'react';
+// import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { clearError } from 'redux/employees/actions';
@@ -8,7 +7,7 @@ import { useForm, Controller } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
 import Joi from 'joi';
 import Input from 'components/Shared/Input';
-import Modal from 'components/Shared/Modal';
+// import Modal from 'components/Shared/Modal';
 import Button from 'components/Shared/Button';
 import LoadingScreen from 'components/Shared/LoadingScreen';
 import styles from './login.module.css';
@@ -34,11 +33,11 @@ const loginForm = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   // const [msg, setMsg] = useState('');
-  const [isOpen, setIsOpen] = useState(false);
+  // const [isOpen, setIsOpen] = useState(false);
   // const [modalTitle, setModalTitle] = useState('');
 
   const loading = useSelector((state) => state.auth.loading);
-  const error = useSelector((state) => state.auth.error);
+  // const error = useSelector((state) => state.auth.error);
 
   const { handleSubmit, control } = useForm({
     resolver: joiResolver(schema),
@@ -49,11 +48,12 @@ const loginForm = () => {
   });
 
   function formHandleSubmit(data) {
-    const body = JSON.stringify({
-      email: data.email,
-      password: data.password
-    });
-    dispatch(login(body));
+    dispatch(
+      login({
+        email: data.email,
+        password: data.password
+      })
+    );
   }
 
   const routeChange = () => {
@@ -61,9 +61,15 @@ const loginForm = () => {
     history.push(path);
   };
 
+  /*
+  const openModal = () => {
+    setIsOpen(true);
+  };
+
   const closeModal = () => {
     setIsOpen(false);
   };
+  */
 
   if (loading) {
     return (
@@ -116,7 +122,7 @@ const loginForm = () => {
           <Button text={'Log In'} handler={handleSubmit(formHandleSubmit)} />
         </div>
         <div>
-          <Button text={'Sign in '} handler={null} />
+          <Button text={'Sign in'} handler={null} />
         </div>
       </form>
     </div>
