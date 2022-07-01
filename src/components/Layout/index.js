@@ -3,6 +3,7 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import Header from 'components/Shared/Header';
 import Sidebar from 'components/Shared/Sidebar';
 import Footer from 'components/Shared/Footer';
+import LoadingScreen from 'components/Shared/LoadingScreen';
 import styles from './layout.module.css';
 const Profile = React.lazy(() => 'components/Shared/Profile');
 const Home = React.lazy(() => import('components/Home'));
@@ -29,7 +30,7 @@ function Layout() {
           <Sidebar />
         </div>
         <div className={styles.divSwitch}>
-          <React.Suspense fallback={<span>Loading</span>}>
+          <React.Suspense fallback={<LoadingScreen />}>
             <Switch>
               <Route exact path="/home" component={Home} />
               <Route exact path="/admins" component={Admins} />
