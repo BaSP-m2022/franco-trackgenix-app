@@ -63,7 +63,19 @@ export const putEmployee = (id, body) => {
 export const addEmployee = (body) => {
   return async (dispatch) => {
     dispatch(actions.addEmployeeLoading());
+    const parseBody = JSON.parse(body);
+    const firebaseBody = {
+      email: parseBody.email,
+      password: parseBody.password,
+      role: 'EMPLOYEE'
+    };
     try {
+      const responseFirebase = await fetch(`${process.env.REACT_APP_API_URL}/auth/register`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(firebaseBody)
+      });
+      const jsonResponseFirebase = await responseFirebase.json();
       const response = await fetch(`${process.env.REACT_APP_API_URL}/employees`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -72,6 +84,8 @@ export const addEmployee = (body) => {
       const jsonResponse = await response.json();
       if (jsonResponse.error) {
         dispatch(actions.addEmployeeError(jsonResponse.message));
+      } else if (jsonResponseFirebase.error) {
+        dispatch(actions.addEmployeeError(jsonResponseFirebase.message));
       } else {
         dispatch(actions.addEmployeeSuccess(jsonResponse.data));
       }
