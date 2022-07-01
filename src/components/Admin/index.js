@@ -190,7 +190,7 @@ const AdminForm = () => {
             text={requestType === 'PUT' ? 'Update' : 'Save'}
             handler={handleSubmit(onSubmit)}
           />
-          <Modal modalTitle={error ? 'error' : modalTitle} isOpen={isOpen} handleClose={closeModal}>
+          <Modal modalTitle={error ? 'error' : modalTitle} isOpen={isOpen}>
             <p className={styles.message}>{error ? error : modalText}</p>
             <div>
               <Button text="OK" handler={!error ? routeChange : closeModal} />

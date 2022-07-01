@@ -1,6 +1,6 @@
 import styles from './modal.module.css';
 
-const Modal = ({ isOpen, modalTitle, handleClose, children }) => {
+const Modal = ({ isOpen, modalTitle, children }) => {
   if (!isOpen) {
     return null;
   }
@@ -9,9 +9,6 @@ const Modal = ({ isOpen, modalTitle, handleClose, children }) => {
       <div className={styles.modalWrapper}>
         <div className={styles.modalDivTitle}>
           <h3>{modalTitle}</h3>
-          <button className={styles.closeButton} onClick={handleClose}>
-            X
-          </button>
         </div>
         <div className={styles.modalDivChildren}> {children}</div>
       </div>

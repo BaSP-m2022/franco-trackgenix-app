@@ -198,11 +198,7 @@ const EmployeeForm = () => {
             text={!loading && requestType === 'POST' ? 'Save' : 'Update'}
             handler={handleSubmit(onSubmit)}
           />
-          <Modal
-            modalTitle={errorR ? 'Error' : modalTitle}
-            isOpen={isOpen}
-            handleClose={closeModal}
-          >
+          <Modal modalTitle={errorR ? 'Error' : modalTitle} isOpen={isOpen}>
             <p>{errorR ? errorR : modalText}</p>
             <div>
               <Button text="OK" handler={!errorR ? routeChange : closeModal} />
