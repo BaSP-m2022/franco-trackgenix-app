@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -21,6 +20,9 @@ const Projects = () => {
   const [idToDelete, setIdToDelete] = useState();
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredList, setFilteredList] = useState(projects);
+  const [isTable, setIsTable] = useState(false);
+  const [employeesData, setEmployeesData] = useState([]);
+  const [modalTitle, setModalTitle] = useState([]);
 
   const column = [
     { heading: 'Name', value: 'name' },
@@ -31,9 +33,19 @@ const Projects = () => {
     { heading: 'Employees', value: 'employees' }
   ];
 
-  const employeeArrayTable = (employees) => {
-    console.log(employees, 'employees');
-    console.log('entered');
+  const columnEmployees = [
+    { heading: 'First Name', value: 'employeeId.firstName' },
+    { heading: 'Last Name', value: 'employeeId.lastName' },
+    { heading: 'Role', value: 'role' },
+    { heading: 'Rate', value: 'rate' }
+  ];
+
+  const handleArray = (employees) => {
+    console.log(employees);
+    setEmployeesData(employees);
+    setIsTable(true);
+    setModalTitle('Employees in Project');
+    openModal();
   };
 
   const handleSetProject = (id) => {
@@ -42,6 +54,7 @@ const Projects = () => {
   };
 
   const buttonDelete = (id) => {
+    setModalTitle('Delete Project');
     setIdToDelete(id);
     openModal();
   };
@@ -100,20 +113,28 @@ const Projects = () => {
           />
         </div>
       </div>
-      <Modal modalTitle={'Delete Project'} isOpen={isModalOpen} handleClose={closeModal}>
-        <p>{error ? error : 'Are you sure you want to delete a Project?'}</p>
-        <div>
-          {error ? (
-            <div>
-              <Button text="Close" handler={closeModal} />
-            </div>
-          ) : (
-            <div>
-              <Button text="Yes" type="delete" handler={delProject} />
-              <Button text="No" handler={closeModal} />
-            </div>
-          )}
-        </div>
+      <Modal modalTitle={modalTitle} isOpen={isModalOpen} handleClose={closeModal}>
+        {isTable && <Table data={employeesData} column={columnEmployees} modal={handleArray} />}
+        {isTable && (
+          <div>
+            <Button text="OK" handler={closeModal} />
+          </div>
+        )}
+        {!isTable && <p>{error ? error : 'Are you sure you want to delete a Project?'}</p>}
+        {!isTable && (
+          <div>
+            {error ? (
+              <div>
+                <Button text="Close" handler={closeModal} />
+              </div>
+            ) : (
+              <div>
+                <Button text="Yes" type="delete" handler={delProject} />
+                <Button text="No" handler={closeModal} />
+              </div>
+            )}
+          </div>
+        )}
       </Modal>
       <div className={styles.flex}>
         <Table
@@ -122,7 +143,7 @@ const Projects = () => {
           column={column}
           editItem={handleSetProject}
           buttons={true}
-          modal={employeeArrayTable}
+          modal={handleArray}
         ></Table>
       </div>
     </section>

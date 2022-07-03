@@ -15,7 +15,7 @@ const TableRow = ({ item, column, deleteItem, editItem, buttons, modal }) => (
       }
       if (item[`${columnItem.value}`] instanceof Array) {
         return (
-          <td>
+          <td key={index}>
             <button
               className={styles.buttonTable}
               onClick={() => modal(item[`${columnItem.value}`])}
