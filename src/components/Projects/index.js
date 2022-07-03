@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -26,8 +27,14 @@ const Projects = () => {
     { heading: 'Status', value: 'status' },
     { heading: 'Description', value: 'description' },
     { heading: 'Start date', value: 'startDate' },
-    { heading: 'End date', value: 'endDate' }
+    { heading: 'End date', value: 'endDate' },
+    { heading: 'Employees', value: 'employees' }
   ];
+
+  const employeeArrayTable = (employees) => {
+    console.log(employees, 'employees');
+    console.log('entered');
+  };
 
   const handleSetProject = (id) => {
     dispatch(setProject(id));
@@ -114,7 +121,8 @@ const Projects = () => {
           deleteItem={buttonDelete}
           column={column}
           editItem={handleSetProject}
-          buttons={{ delEdit: false }}
+          buttons={true}
+          modal={employeeArrayTable}
         ></Table>
       </div>
     </section>

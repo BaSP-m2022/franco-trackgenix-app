@@ -115,6 +115,7 @@ const Admins = () => {
         column={column}
         deleteItem={buttonDelete}
         editItem={handleSetAdmin}
+        buttons={true}
       />
     </section>
   );

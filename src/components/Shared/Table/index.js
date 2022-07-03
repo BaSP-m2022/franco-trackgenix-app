@@ -3,7 +3,7 @@ import React from 'react';
 
 const TableHeadItem = ({ item }) => <th className={styles.headTable}>{item.heading}</th>;
 
-const TableRow = ({ item, column, deleteItem, editItem, buttons }) => (
+const TableRow = ({ item, column, deleteItem, editItem, buttons, modal }) => (
   <tr className={styles.containerTable}>
     {column.map((columnItem, index) => {
       if (columnItem.value.includes('.')) {
@@ -13,12 +13,24 @@ const TableRow = ({ item, column, deleteItem, editItem, buttons }) => (
         }
         return <td key={index}>No {columnItem.heading}</td>;
       }
+      if (item[`${columnItem.value}`] instanceof Array) {
+        return (
+          <td>
+            <button
+              className={styles.buttonTable}
+              onClick={() => modal(item[`${columnItem.value}`])}
+            >
+              Show all
+            </button>
+          </td>
+        );
+      }
       if (columnItem.value.toLowerCase().includes('date')) {
         return <td key={index}>{item[`${columnItem.value}`]?.slice(0, 10)}</td>;
       }
       return <td key={index}>{item[`${columnItem.value}`]}</td>;
     })}
-    {buttons.delEdit && (
+    {buttons && (
       <td>
         <button className={styles.buttonTable} onClick={() => editItem(item._id)}>
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
@@ -39,7 +51,7 @@ const TableRow = ({ item, column, deleteItem, editItem, buttons }) => (
   </tr>
 );
 
-const Table = ({ data, column, deleteItem, editItem, buttons }) => {
+const Table = ({ data, column, deleteItem, editItem, buttons, modal }) => {
   return (
     <table className={styles.tableMain}>
       <thead>
@@ -47,7 +59,7 @@ const Table = ({ data, column, deleteItem, editItem, buttons }) => {
           {column.map((item, index) => (
             <TableHeadItem key={index} item={item} />
           ))}
-          {buttons.delEdit && <th></th>}
+          {buttons && <th></th>}
         </tr>
       </thead>
       <tbody>
@@ -59,6 +71,7 @@ const Table = ({ data, column, deleteItem, editItem, buttons }) => {
             column={column}
             editItem={editItem}
             buttons={buttons}
+            modal={modal}
           />
         ))}
       </tbody>

@@ -110,6 +110,7 @@ const TimeSheets = () => {
             column={column}
             deleteItem={buttonDelete}
             editItem={handleSetTimeSheet}
+            buttons={true}
           />
         </>
       )}

@@ -113,6 +113,7 @@ const Employees = () => {
         deleteItem={buttonDelete}
         column={column}
         editItem={handleSetEmployee}
+        buttons={true}
       />
     </section>
   );
