@@ -30,8 +30,7 @@ const TimeSheets = () => {
     { heading: 'Total hours', value: 'totalHours' },
     { heading: 'Status', value: 'status' },
     { heading: 'Start date', value: 'startDate' },
-    { heading: 'End date', value: 'endDate' },
-    { heading: 'Id', value: '_id' }
+    { heading: 'End date', value: 'endDate' }
   ];
 
   useEffect(() => {

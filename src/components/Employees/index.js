@@ -22,7 +22,6 @@ const Employees = () => {
   const [filteredList, setFilteredList] = useState(employees);
 
   const column = [
-    { heading: 'Id', value: '_id' },
     { heading: 'FirstName', value: 'firstName' },
     { heading: 'LastName', value: 'lastName' },
     { heading: 'Dni', value: 'dni' },

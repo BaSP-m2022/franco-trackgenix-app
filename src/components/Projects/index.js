@@ -22,7 +22,6 @@ const Projects = () => {
   const [filteredList, setFilteredList] = useState(projects);
 
   const column = [
-    { heading: 'Id', value: '_id' },
     { heading: 'Name', value: 'name' },
     { heading: 'Status', value: 'status' },
     { heading: 'Description', value: 'description' },
