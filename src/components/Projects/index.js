@@ -114,6 +114,7 @@ const Projects = () => {
           deleteItem={buttonDelete}
           column={column}
           editItem={handleSetProject}
+          buttons={{ delEdit: false }}
         ></Table>
       </div>
     </section>
