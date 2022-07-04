@@ -1,5 +1,5 @@
 import styles from './table.module.css';
-import React from 'react';
+import Button from '../Button';
 
 const TableHeadItem = ({ item }) => <th className={styles.headTable}>{item.heading}</th>;
 
@@ -16,12 +16,7 @@ const TableRow = ({ item, column, deleteItem, editItem, buttons, modal }) => (
       if (item[`${columnItem.value}`] instanceof Array) {
         return (
           <td key={index}>
-            <button
-              className={styles.buttonTable}
-              onClick={() => modal(item[`${columnItem.value}`])}
-            >
-              Show all
-            </button>
+            <Button handler={() => modal(item[`${columnItem.value}`])} text="Show All" />
           </td>
         );
       }

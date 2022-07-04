@@ -37,15 +37,25 @@
   background: #eef5eb;
 }
 
+.buttonTable,
+.containerTable a {
+  text-align: center;
+  background: none;
+  border: 0;
+  text-decoration: none;
+}
+
 .buttonTable:hover {
   transform: scale(1.05);
   transition: all 0.2s ease-in-out;
 }
 
-.containerTable a,
-.containerTable button {
-  text-align: center;
-  background: none;
-  border: 0;
-  text-decoration: none;
+.buttonShow {
+  padding: 10px 15px;
+  border-radius: 5px;
+  border: solid 1px #aace9b;
+  background-color: #aace9b;
+  color: #373867;
+  font-size: 16px;
+  font-weight: 500;
 }
