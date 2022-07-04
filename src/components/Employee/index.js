@@ -201,7 +201,7 @@ const EmployeeForm = () => {
           <Modal modalTitle={errorR ? 'Error' : modalTitle} isOpen={isOpen}>
             <p>{errorR ? errorR : modalText}</p>
             <div>
-              <Button text="OK" handler={!errorR ? routeChange : closeModal} />
+              <Button text="OK" handler={(!errorR ? routeChange : closeModal, clearError)} />
             </div>
           </Modal>
         </div>
