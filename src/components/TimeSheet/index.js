@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getTimeSheets, postTimeSheet, putTimeSheet } from '../../redux/timeSheets/thunks';
 import { clearError } from '../../redux/timeSheets/actions';
 import { getEmployees } from '../../redux/employees/thunks';
-import { getTasks } from '../../redux/tasks/thunks';
+import { getProjects } from 'redux/projects/thunks';
 import Modal from '../Shared/Modal';
 import Button from '../Shared/Button';
 import Input from '../Shared/Input';
@@ -16,6 +16,14 @@ import { joiResolver } from '@hookform/resolvers/joi';
 import Joi from 'joi';
 
 const schema = Joi.object({
+  tasks: Joi.array().items(
+    Joi.object({
+      description: Joi.string().min(3).max(50).required(),
+      workedHours: Joi.number().min(1).required(),
+      projectId: Joi.string().required(),
+      date: Joi.date().required()
+    })
+  ),
   totalHours: Joi.number(),
   status: Joi.string(),
   startDate: Joi.date().required(),
@@ -23,8 +31,7 @@ const schema = Joi.object({
     .required()
     .min(Joi.ref('startDate'))
     .message('End Date must be greater than or equal to Start Date'),
-  employeeId: Joi.string().required(),
-  tasks: Joi.array().items(Joi.object({ _id: Joi.string().required() }))
+  employeeId: Joi.string().required()
 });
 
 const mapTasks = (tasks) => {
@@ -54,18 +61,19 @@ const TimeSheetForm = () => {
   });
 
   const [employeeOptions, setEmployeeOptions] = useState([]);
-  const [tasksOptions, setTasksOptions] = useState([]);
 
   const [isOpen, setIsOpen] = useState(false);
   const [requestType, setRequestType] = useState('POST');
   const [modalText, setModalText] = useState('');
   const [modalTitle, setModalTitle] = useState('');
+  const [click, setClick] = useState(0);
+  const [projectsOptions, setProjectsOptions] = useState([]);
 
   const employees = useSelector((state) => state.employees.list);
-  const tasks = useSelector((state) => state.tasks.list);
   const timeSheet = useSelector((state) => state.timeSheets.timeSheet);
   const loading = useSelector((state) => state.timeSheets.loading);
   const errorError = useSelector((state) => state.timeSheets.error);
+  const projects = useSelector((state) => state.projects.list);
 
   useEffect(() => {
     if (!employees || employees.length <= 0) {
@@ -85,15 +93,18 @@ const TimeSheetForm = () => {
   }, [employees]);
 
   useEffect(() => {
-    if (!tasks.length) {
-      dispatch(getTasks());
+    if (!projects.length) {
+      dispatch(getProjects());
     }
-    setTasksOptions(
-      tasks.map((task) => {
-        return { value: task._id, label: task.description };
+    setProjectsOptions(
+      projects.map((project) => {
+        return {
+          label: project.name,
+          value: project._id
+        };
       })
     );
-  }, [tasks]);
+  }, [projects]);
 
   useEffect(() => {
     if (timeSheet._id) {
@@ -247,34 +258,81 @@ const TimeSheetForm = () => {
         />
 
         <div className={styles.addEmployeeDiv}>
-          <ul className={styles.taskUl}>
+          <div className={styles.tasksDiv}>
             {fields.map((field, index) => (
-              <li key={field.id} className={styles.li}>
-                <Controller
-                  control={control}
-                  name={`tasks[${index}]._id`}
-                  render={({ field: { value, onChange }, fieldState: { error } }) => (
-                    <SelectDropdown
-                      options={tasksOptions}
-                      className={styles.label}
-                      name="Task"
-                      value={value}
-                      placeholder="Task"
-                      onChange={onChange}
-                      error={error?.message}
+              <div key={field.id} className={styles.task}>
+                <div className={styles.row}>
+                  <div className={styles.col}>
+                    <Controller
+                      control={control}
+                      name={`tasks[${index}].projectId`}
+                      render={({ field: { value, onChange }, fieldState: { error } }) => (
+                        <SelectDropdown
+                          name="Project"
+                          value={value}
+                          onChange={onChange}
+                          options={projectsOptions}
+                          required={false}
+                          error={error?.message}
+                        />
+                      )}
                     />
-                  )}
-                />
-                <Button type={'delete'} text={'Delete'} handler={() => remove(index)} />
-              </li>
+                  </div>
+                  <div className={styles.col}>
+                    <Controller
+                      control={control}
+                      name={`tasks[${index}].description`}
+                      render={({ field: { value, onChange }, fieldState: { error } }) => (
+                        <Input
+                          className={styles.label}
+                          name="Description"
+                          type="text"
+                          value={value}
+                          onChange={onChange}
+                          error={error?.message}
+                        />
+                      )}
+                    />
+                  </div>
+                  <div className={styles.col}>
+                    <Controller
+                      control={control}
+                      name={`tasks[${index}].workedHours`}
+                      render={({ field: { value, onChange }, fieldState: { error } }) => (
+                        <Input
+                          className={styles.label}
+                          name="Worked Hours"
+                          type="number"
+                          value={value}
+                          onChange={onChange}
+                          error={error?.message}
+                        />
+                      )}
+                    />
+                  </div>
+                  <div className={(styles.col, styles.buttonDelete)}>
+                    <Button
+                      type={'delete'}
+                      text={'Delete'}
+                      handler={() => {
+                        remove(index);
+                        setClick(click - 1);
+                      }}
+                    />
+                  </div>
+                </div>
+              </div>
             ))}
-          </ul>
+          </div>
+        </div>
+        <div className={styles.buttonContainer}>
           <Button
-            text={'Add new Task to Time-Sheet'}
+            text={'Add new task'}
             type="button"
             handler={(e) => {
               e.preventDefault();
-              append({ _id: '' });
+              setClick(click + 1);
+              append({ projectId: '', description: '', workedHours: 0 });
             }}
           />
         </div>
