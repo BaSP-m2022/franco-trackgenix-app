@@ -12,10 +12,23 @@ export const login = (credentials) => {
         const {
           claims: { role }
         } = await response.user.getIdTokenResult();
-        return dispatch(loginSuccess({ role, token }));
+
+        const uid = await response.user.uid;
+        const user = await fetch(`${process.env.REACT_APP_API_URL}/employees?firebaseUid=${uid}`);
+        const userResponse = await user.json();
+        const { _id, firstName } = userResponse.data[0];
+        sessionStorage.setItem('token', token);
+        return dispatch(loginSuccess({ role, _id, firstName }));
       })
       .catch((error) => {
         return dispatch(loginError(error.toString()));
       });
+  };
+};
+
+export const logout = () => {
+  return (dispatch) => {
+    sessionStorage.removeItem('token');
+    dispatch(loginSuccess({}));
   };
 };
