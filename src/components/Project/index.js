@@ -183,7 +183,7 @@ function ProjectForm() {
         <Modal modalTitle={errorDB ? 'ERROR' : modalTitle} isOpen={isOpen}>
           <p>{errorDB ? errorDB : msg}</p>
           <div>
-            <Button text="OK" handler={!errorDB ? routeChange : closeModal} />
+            <Button text="OK" handler={(!errorDB ? routeChange : closeModal, clearError)} />
           </div>
         </Modal>
         <h2 className={styles.h2}>{title}</h2>

@@ -293,7 +293,7 @@ const TimeSheetForm = () => {
           <Modal modalTitle={errorError ? 'error' : modalTitle} isOpen={isOpen}>
             <p className={styles.message}>{errorError ? errorError : modalText}</p>
             <div>
-              <Button text="OK" handler={!errorError ? routeChange : closeModal} />
+              <Button text="OK" handler={(!errorError ? routeChange : closeModal, clearError)} />
             </div>
           </Modal>
         </div>

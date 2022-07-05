@@ -193,7 +193,7 @@ const AdminForm = () => {
           <Modal modalTitle={error ? 'error' : modalTitle} isOpen={isOpen}>
             <p className={styles.message}>{error ? error : modalText}</p>
             <div>
-              <Button text="OK" handler={!error ? routeChange : closeModal} />
+              <Button text="OK" handler={(!error ? routeChange : closeModal, clearError)} />
             </div>
           </Modal>
         </div>
