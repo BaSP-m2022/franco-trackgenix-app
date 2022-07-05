@@ -10,7 +10,7 @@ import Input from 'components/Shared/Input';
 import Modal from 'components/Shared/Modal';
 import Button from 'components/Shared/Button';
 import LoadingScreen from 'components/Shared/LoadingScreen';
-import styles from './signupemployee.module.css';
+import styles from './signup.module.css';
 
 const now = Date.now();
 const moreThan18 = new Date(now - 1000 * 60 * 60 * 24 * 365 * 18);
@@ -57,7 +57,7 @@ const schema = Joi.object({
   dateOfBirth: Joi.date().max(moreThan18).message('You must be more than 18 years old').required()
 });
 
-const EmployeeSignUp = () => {
+const signupForm = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const [msg, setMsg] = useState('');
@@ -232,4 +232,4 @@ const EmployeeSignUp = () => {
   );
 };
 
-export default EmployeeSignUp;
+export default signupForm;
