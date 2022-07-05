@@ -40,11 +40,6 @@ function Sidebar() {
               Timesheets
             </NavLink>
           </li>
-          <li className={styles.items}>
-            <NavLink to={'/tasks'} className={styles.links}>
-              Tasks
-            </NavLink>
-          </li>
           <li>
             <p className={styles.contact}> Contact Us</p>
           </li>
