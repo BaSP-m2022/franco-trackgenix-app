@@ -5,6 +5,7 @@ import { clearError } from 'redux/employees/actions';
 import { addEmployee } from 'redux/employees/thunks';
 import { useForm, Controller } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
+import { capitalizeFirstLetter } from 'utils/formatters';
 import Joi from 'joi';
 import Input from 'components/Shared/Input';
 import Modal from 'components/Shared/Modal';
@@ -81,8 +82,8 @@ const signupForm = () => {
 
   function formHandleSubmit(data) {
     const body = JSON.stringify({
-      firstName: data.firstName,
-      lastName: data.lastName,
+      firstName: capitalizeFirstLetter(data.firstName),
+      lastName: capitalizeFirstLetter(data.lastName),
       dni: data.dni,
       email: data.email,
       password: data.password,
