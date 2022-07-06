@@ -52,13 +52,6 @@ const loginForm = () => {
         password: data.password
       })
     );
-
-    // if (error) {
-    //   openModal();
-    // } else {
-    //   console.log('mefuiahome', error);
-    //   // history.push('home');
-    // }
   };
 
   const openModal = () => {
