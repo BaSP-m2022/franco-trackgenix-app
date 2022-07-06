@@ -12,13 +12,14 @@ export const authReducer = (state = initialState, actions) => {
       return {
         ...state,
         loading: true,
-        error: initialState.error
+        error: ''
       };
     }
     case CONSTANTS.LOGIN_SUCCESS: {
       return {
         ...state,
         loading: false,
+        error: '',
         authenticated: actions.payload
       };
     }
