@@ -116,7 +116,7 @@ const signupForm = () => {
   }
   return (
     <div className={styles.containerSec}>
-      <h2 className={styles.formTitle}>Employee Sign Up</h2>
+      <h2 className={styles.formTitle}>Sign Up</h2>
       <form className={styles.form}>
         <div>
           <Controller
@@ -225,7 +225,10 @@ const signupForm = () => {
           </Modal>
         </div>
         <div>
-          <Button text={'Already have an account? Log in '} handler={null} />
+          <Button
+            text={'Already have an account? Log in '}
+            handler={() => history.push('/login')}
+          />
         </div>
       </form>
     </div>

@@ -1,4 +1,4 @@
-// import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { clearError } from 'redux/employees/actions';
@@ -7,7 +7,7 @@ import { useForm, Controller } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
 import Joi from 'joi';
 import Input from 'components/Shared/Input';
-// import Modal from 'components/Shared/Modal';
+import Modal from 'components/Shared/Modal';
 import Button from 'components/Shared/Button';
 import LoadingScreen from 'components/Shared/LoadingScreen';
 import styles from './login.module.css';
@@ -17,27 +17,25 @@ const schema = Joi.object({
     .email({ tlds: { allow: false } })
     .message('The email is invalid')
     .required(),
-  password: Joi.string()
-    .min(8)
-    .message('Password must have between 8 and 12 characters')
-    .max(12)
-    .message('Password must have between 8 and 12 characters')
-    .pattern(/[a-zA-Z]/)
-    .message('Password must have at least 1 letter')
-    .pattern(/[0-9]/)
-    .message('Password must have at least 1 number')
-    .required()
+  password: Joi.string().required()
 });
 
 const loginForm = () => {
   const history = useHistory();
   const dispatch = useDispatch();
-  // const [msg, setMsg] = useState('');
-  // const [isOpen, setIsOpen] = useState(false);
-  // const [modalTitle, setModalTitle] = useState('');
+  const [isOpen, setIsOpen] = useState(false);
 
   const loading = useSelector((state) => state.auth.loading);
-  // const error = useSelector((state) => state.auth.error);
+  const error = useSelector((state) => state.auth.error);
+  const authenticated = useSelector((state) => state.auth.authenticated);
+
+  useEffect(() => {
+    if (authenticated) history.push('/home');
+  }, [authenticated]);
+
+  useEffect(() => {
+    if (error) openModal();
+  }, [error]);
 
   const { handleSubmit, control } = useForm({
     resolver: joiResolver(schema),
@@ -47,21 +45,22 @@ const loginForm = () => {
     }
   });
 
-  function formHandleSubmit(data) {
+  const formHandleSubmit = (data) => {
     dispatch(
       login({
         email: data.email,
         password: data.password
       })
     );
-  }
 
-  const routeChange = () => {
-    let path = `/home`;
-    history.push(path);
+    // if (error) {
+    //   openModal();
+    // } else {
+    //   console.log('mefuiahome', error);
+    //   // history.push('home');
+    // }
   };
 
-  /*
   const openModal = () => {
     setIsOpen(true);
   };
@@ -69,7 +68,6 @@ const loginForm = () => {
   const closeModal = () => {
     setIsOpen(false);
   };
-  */
 
   if (loading) {
     return (
@@ -80,6 +78,18 @@ const loginForm = () => {
   }
   return (
     <div className={styles.containerSec}>
+      <Modal modalTitle={'Login error'} isOpen={isOpen} handleClose={closeModal}>
+        <p>{error}</p>
+        <div>
+          <Button
+            text="OK"
+            handler={() => {
+              dispatch(clearError());
+              closeModal();
+            }}
+          />
+        </div>
+      </Modal>
       <h2 className={styles.formTitle}>Log In</h2>
       <form className={styles.form}>
         <div>
@@ -116,13 +126,13 @@ const loginForm = () => {
             text="Return"
             handler={() => {
               dispatch(clearError());
-              routeChange();
+              history.push('home');
             }}
           />
           <Button text={'Log In'} handler={handleSubmit(formHandleSubmit)} />
         </div>
         <div>
-          <Button text={'Sign in'} handler={null} />
+          <Button text={`Don't have an account? Sign up`} handler={() => history.push('/signup')} />
         </div>
       </form>
     </div>
