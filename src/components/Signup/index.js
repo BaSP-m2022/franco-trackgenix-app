@@ -5,12 +5,13 @@ import { clearError } from 'redux/employees/actions';
 import { addEmployee } from 'redux/employees/thunks';
 import { useForm, Controller } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
+import { capitalizeFirstLetter } from 'utils/formatters';
 import Joi from 'joi';
 import Input from 'components/Shared/Input';
 import Modal from 'components/Shared/Modal';
 import Button from 'components/Shared/Button';
 import LoadingScreen from 'components/Shared/LoadingScreen';
-import styles from './signupemployee.module.css';
+import styles from './signup.module.css';
 
 const now = Date.now();
 const moreThan18 = new Date(now - 1000 * 60 * 60 * 24 * 365 * 18);
@@ -57,7 +58,7 @@ const schema = Joi.object({
   dateOfBirth: Joi.date().max(moreThan18).message('You must be more than 18 years old').required()
 });
 
-const EmployeeSignUp = () => {
+const signupForm = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const [msg, setMsg] = useState('');
@@ -81,8 +82,8 @@ const EmployeeSignUp = () => {
 
   function formHandleSubmit(data) {
     const body = JSON.stringify({
-      firstName: data.firstName,
-      lastName: data.lastName,
+      firstName: capitalizeFirstLetter(data.firstName),
+      lastName: capitalizeFirstLetter(data.lastName),
       dni: data.dni,
       email: data.email,
       password: data.password,
@@ -116,7 +117,7 @@ const EmployeeSignUp = () => {
   }
   return (
     <div className={styles.containerSec}>
-      <h2 className={styles.formTitle}>Employee Sign Up</h2>
+      <h2 className={styles.formTitle}>Sign Up</h2>
       <form className={styles.form}>
         <div>
           <Controller
@@ -225,11 +226,14 @@ const EmployeeSignUp = () => {
           </Modal>
         </div>
         <div>
-          <Button text={'Already have an account? Log in '} handler={null} />
+          <Button
+            text={'Already have an account? Log in '}
+            handler={() => history.push('/login')}
+          />
         </div>
       </form>
     </div>
   );
 };
 
-export default EmployeeSignUp;
+export default signupForm;
