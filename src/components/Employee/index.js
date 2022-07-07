@@ -89,6 +89,11 @@ const EmployeeForm = () => {
     }
   };
 
+  const handleClose = () => {
+    closeModal();
+    dispatch(clearError());
+  };
+
   if (loading) {
     return (
       <div className={styles.loading}>
@@ -99,6 +104,12 @@ const EmployeeForm = () => {
 
   return (
     <div className={styles.containerSec}>
+      <Modal modalTitle={errorR ? 'Error' : modalTitle} isOpen={isOpen}>
+        <p>{errorR ? errorR : modalText}</p>
+        <div>
+          <Button text="OK" handler={!errorR ? routeChange : handleClose} />
+        </div>
+      </Modal>
       <h2 className={styles.formTitle}>{title}</h2>
       <form className={styles.form}>
         <div>
@@ -198,12 +209,6 @@ const EmployeeForm = () => {
             text={!loading && requestType === 'POST' ? 'Save' : 'Update'}
             handler={handleSubmit(onSubmit)}
           />
-          <Modal modalTitle={errorR ? 'Error' : modalTitle} isOpen={isOpen}>
-            <p>{errorR ? errorR : modalText}</p>
-            <div>
-              <Button text="OK" handler={(!errorR ? routeChange : closeModal, clearError)} />
-            </div>
-          </Modal>
         </div>
       </form>
     </div>

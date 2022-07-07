@@ -174,6 +174,11 @@ function ProjectForm() {
     history.push(path);
   };
 
+  const handleClose = () => {
+    closeModal();
+    dispatch(clearError());
+  };
+
   const ls = LoadingScreen();
   if (loading) {
     return ls;
@@ -183,7 +188,7 @@ function ProjectForm() {
         <Modal modalTitle={errorDB ? 'ERROR' : modalTitle} isOpen={isOpen}>
           <p>{errorDB ? errorDB : msg}</p>
           <div>
-            <Button text="OK" handler={(!errorDB ? routeChange : closeModal, clearError)} />
+            <Button text="OK" handler={!errorDB ? routeChange : handleClose} />
           </div>
         </Modal>
         <h2 className={styles.h2}>{title}</h2>

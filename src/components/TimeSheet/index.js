@@ -152,6 +152,11 @@ const TimeSheetForm = () => {
     }
   };
 
+  const handleClose = () => {
+    closeModal();
+    dispatch(clearError());
+  };
+
   if (loading) {
     return (
       <div className={styles.loading}>
@@ -161,6 +166,12 @@ const TimeSheetForm = () => {
   }
   return (
     <div className={styles.container}>
+      <Modal modalTitle={errorError ? 'error' : modalTitle} isOpen={isOpen}>
+        <p className={styles.message}>{errorError ? errorError : modalText}</p>
+        <div>
+          <Button text="OK" handler={!errorError ? routeChange : handleClose} />
+        </div>
+      </Modal>
       <h3 className={styles.tittle}>
         {requestType === 'PUT' ? 'Update Time Sheet' : 'Add Time Sheet'}
       </h3>
@@ -290,12 +301,6 @@ const TimeSheetForm = () => {
             />
             <Button text={requestType === 'PUT' ? 'Update' : 'Save'} />
           </div>
-          <Modal modalTitle={errorError ? 'error' : modalTitle} isOpen={isOpen}>
-            <p className={styles.message}>{errorError ? errorError : modalText}</p>
-            <div>
-              <Button text="OK" handler={(!errorError ? routeChange : closeModal, clearError)} />
-            </div>
-          </Modal>
         </div>
       </form>
     </div>

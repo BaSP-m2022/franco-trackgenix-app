@@ -112,8 +112,19 @@ const AdminForm = () => {
     );
   }
 
+  const handleClose = () => {
+    closeModal();
+    dispatch(clearError());
+  };
+
   return (
     <div className={styles.container}>
+      <Modal modalTitle={error ? 'error' : modalTitle} isOpen={isOpen}>
+        <p className={styles.message}>{error ? error : modalText}</p>
+        <div>
+          <Button text="OK" handler={!error ? routeChange : handleClose} />
+        </div>
+      </Modal>
       <h3 className={styles.h3}>{requestType === 'PUT' ? 'Update Admin' : 'Add Admin'}</h3>
       <form className={styles.form} onSubmit={onSubmit}>
         <div className={styles.inputs}>
@@ -190,12 +201,6 @@ const AdminForm = () => {
             text={requestType === 'PUT' ? 'Update' : 'Save'}
             handler={handleSubmit(onSubmit)}
           />
-          <Modal modalTitle={error ? 'error' : modalTitle} isOpen={isOpen}>
-            <p className={styles.message}>{error ? error : modalText}</p>
-            <div>
-              <Button text="OK" handler={(!error ? routeChange : closeModal, clearError)} />
-            </div>
-          </Modal>
         </div>
       </form>
     </div>
