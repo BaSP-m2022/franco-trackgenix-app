@@ -5,15 +5,17 @@ import Sidebar from 'components/Shared/Sidebar';
 import Footer from 'components/Shared/Footer';
 import LoadingScreen from 'components/Shared/LoadingScreen';
 import styles from './layout.module.css';
+
 const Profile = React.lazy(() => 'components/Shared/Profile');
 const Home = React.lazy(() => import('components/Home'));
+const SignUp = React.lazy(() => import('components/Signup'));
+const Login = React.lazy(() => import('components/Login'));
 const Admins = React.lazy(() => import('components/Admins'));
 const AdminForm = React.lazy(() => import('components/Admin'));
 const SuperAdmins = React.lazy(() => import('components/SuperAdmins'));
 const SuperAdminForm = React.lazy(() => import('components/SuperAdmin'));
 const Employees = React.lazy(() => import('components/Employees'));
 const EmployeeForm = React.lazy(() => import('components/Employee'));
-const EmployeeSignUp = React.lazy(() => import('components/Employee-Signup'));
 const Projects = React.lazy(() => import('components/Projects'));
 const ProjectForm = React.lazy(() => import('components/Project'));
 const TimeSheets = React.lazy(() => import('components/TimeSheets'));
@@ -33,6 +35,8 @@ function Layout() {
           <React.Suspense fallback={<LoadingScreen />}>
             <Switch>
               <Route exact path="/home" component={Home} />
+              <Route exact path="/signup" component={SignUp} />
+              <Route exact path="/login" component={Login} />
               <Route exact path="/admins" component={Admins} />
               <Route exact path="/admins/form" component={AdminForm} />
               <Route exact path="/super-admins" component={SuperAdmins} />
@@ -40,7 +44,6 @@ function Layout() {
               <Route exact path="/employees" component={Employees} />
               <Route exact path="/employees/form" component={EmployeeForm} />
               <Route exact path="/employee/profile" component={Profile} />
-              <Route exact path="/employee/signup" component={EmployeeSignUp} />
               <Route exact path="/projects" component={Projects} />
               <Route exact path="/projects/form" component={ProjectForm} />
               <Route exact path="/time-sheets" component={TimeSheets} />
