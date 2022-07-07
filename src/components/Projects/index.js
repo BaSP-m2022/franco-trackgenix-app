@@ -41,7 +41,6 @@ const Projects = () => {
   ];
 
   const handleArray = (employees) => {
-    console.log(employees);
     setEmployeesData(employees);
     setIsTable(true);
     setModalTitle('Employees in Project');
