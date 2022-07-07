@@ -1,22 +1,15 @@
-import React, { useEffect, useState } from 'react';
 import styles from './NavLink.module.css';
 import { NavLink } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const NavLinks = () => {
-  const [loginUserRole, setLoginUserRole] = useState('');
-  const logIn = (logInUser) => {
-    setLoginUserRole(logInUser);
-  };
-
-  useEffect(() => {
-    logIn();
-  }, []);
+  const role = useSelector((state) => state.auth.authenticated.role);
 
   return (
     <div>
       {(() => {
-        switch (loginUserRole) {
-          case 'employees':
+        switch (role) {
+          case 'EMPLOYEE':
             return (
               <ul className={styles.routes}>
                 <li className={styles.items}>
@@ -31,7 +24,7 @@ const NavLinks = () => {
                 </li>
               </ul>
             );
-          case 'admin':
+          case 'ADMIN':
             return (
               <ul className={styles.routes}>
                 <li className={styles.items}>
@@ -61,7 +54,7 @@ const NavLinks = () => {
                 </li>
               </ul>
             );
-          case 'superAdmin':
+          case 'SUPERADMIN':
             return (
               <ul className={styles.routes}>
                 <li className={styles.items}>
@@ -83,36 +76,6 @@ const NavLinks = () => {
             );
         }
       })()}
-      {/* <li className={styles.items}>
-        <NavLink to={'home'} className={styles.links}>
-        Home
-        </NavLink>
-        </li>
-        <li className={styles.items}>
-        <NavLink to={'/admins'} className={styles.links}>
-        Admins
-        </NavLink>
-        </li>
-        <li className={styles.items}>
-        <NavLink to={'/super-admins'} className={styles.links}>
-          Super admins
-          </NavLink>
-          </li>
-          <li className={styles.items}>
-          <NavLink to={'/employees'} className={styles.links}>
-          Employees
-          </NavLink>
-          </li>
-          <li className={styles.items}>
-        <NavLink to={'/projects'} className={styles.links}>
-        Projects
-        </NavLink>
-        </li>
-        <li className={styles.items}>
-        <NavLink to={'/time-sheets'} className={styles.links}>
-        Timesheets
-        </NavLink>
-      </li> */}
     </div>
   );
 };
