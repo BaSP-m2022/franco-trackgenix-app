@@ -143,6 +143,7 @@ const Projects = () => {
           editItem={handleSetProject}
           buttons={true}
           modal={handleArray}
+          arrayName={'Employees'}
         ></Table>
       </div>
     </section>

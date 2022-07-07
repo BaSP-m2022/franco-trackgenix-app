@@ -14,8 +14,10 @@ export const login = (credentials) => {
         } = await response.user.getIdTokenResult();
 
         const uid = await response.user.uid;
-
-        const user = await fetch(`${process.env.REACT_APP_API_URL}/employees?firebaseUid=${uid}`);
+        console.log(role);
+        const user = await fetch(
+          `${process.env.REACT_APP_API_URL}/${role.toLowerCase()}s?firebaseUid=${uid}`
+        );
         const userResponse = await user.json();
         const { _id, firstName } = userResponse.data[0];
 

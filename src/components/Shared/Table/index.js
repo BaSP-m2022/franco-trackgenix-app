@@ -3,7 +3,7 @@ import Button from '../Button';
 
 const TableHeadItem = ({ item }) => <th className={styles.headTable}>{item.heading}</th>;
 
-const TableRow = ({ item, column, deleteItem, editItem, buttons, modal }) => (
+const TableRow = ({ item, column, deleteItem, editItem, buttons, modal, arrayName }) => (
   <tr className={styles.containerTable}>
     {column.map((columnItem, index) => {
       if (columnItem.value.includes('.')) {
@@ -16,7 +16,11 @@ const TableRow = ({ item, column, deleteItem, editItem, buttons, modal }) => (
       if (item[`${columnItem.value}`] instanceof Array) {
         return (
           <td key={index}>
-            <Button handler={() => modal(item[`${columnItem.value}`])} text="Show All" />
+            {item[`${columnItem.value}`].length > 0 ? (
+              <Button handler={() => modal(item[`${columnItem.value}`])} text="Show All" />
+            ) : (
+              <p>No {arrayName}</p>
+            )}
           </td>
         );
       }
@@ -46,7 +50,7 @@ const TableRow = ({ item, column, deleteItem, editItem, buttons, modal }) => (
   </tr>
 );
 
-const Table = ({ data, column, deleteItem, editItem, buttons, modal }) => {
+const Table = ({ data, column, deleteItem, editItem, buttons, modal, arrayName }) => {
   return (
     <table className={styles.tableMain}>
       <thead>
@@ -67,6 +71,7 @@ const Table = ({ data, column, deleteItem, editItem, buttons, modal }) => {
             editItem={editItem}
             buttons={buttons}
             modal={modal}
+            arrayName={arrayName}
           />
         ))}
       </tbody>

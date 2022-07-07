@@ -137,6 +137,7 @@ const TimeSheets = () => {
         editItem={handleSetTimeSheet}
         buttons={true}
         modal={handleArray}
+        arrayName={'Tasks'}
       />
     </section>
   );
