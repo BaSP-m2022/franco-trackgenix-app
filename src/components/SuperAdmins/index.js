@@ -72,13 +72,7 @@ const SuperAdmins = () => {
   }
   return (
     <section className={styles.containerSuperAdmin}>
-      <Modal
-        modalTitle={'Super Admins'}
-        isOpen={isOpen}
-        handleClose={() => {
-          openModal();
-        }}
-      >
+      <Modal modalTitle={'Super Admins'} isOpen={isOpen}>
         <p>{error ? error : 'Are you sure to delete a Super Admin?'}</p>
         <div>
           {error ? (

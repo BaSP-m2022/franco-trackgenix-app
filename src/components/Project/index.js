@@ -174,20 +174,21 @@ function ProjectForm() {
     history.push(path);
   };
 
+  const handleClose = () => {
+    closeModal();
+    dispatch(clearError());
+  };
+
   const ls = LoadingScreen();
   if (loading) {
     return ls;
   } else {
     return (
       <div className={styles.container}>
-        <Modal
-          modalTitle={errorDB ? 'ERROR' : modalTitle}
-          isOpen={isOpen}
-          handleClose={!errorDB ? routeChange : closeModal}
-        >
+        <Modal modalTitle={errorDB ? 'ERROR' : modalTitle} isOpen={isOpen}>
           <p>{errorDB ? errorDB : msg}</p>
           <div>
-            <Button text="OK" handler={!errorDB ? routeChange : closeModal} />
+            <Button text="OK" handler={!errorDB ? routeChange : handleClose} />
           </div>
         </Modal>
         <h2 className={styles.h2}>{title}</h2>
