@@ -275,7 +275,7 @@ function ProjectForm() {
             </div>
           </div>
           <div className={styles.addEmployeeDiv}>
-            <ul className={styles.employeeUl}>
+            <div className={styles.employeeList}>
               {fields.map((field, index) => (
                 <div key={field.id} className={styles.employeeDiv}>
                   <Controller
@@ -338,7 +338,7 @@ function ProjectForm() {
                   />
                 </div>
               ))}
-            </ul>
+            </div>
             <Button
               text={'Add new employee to Project'}
               type="button"

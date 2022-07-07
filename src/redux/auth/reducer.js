@@ -2,22 +2,24 @@ import * as CONSTANTS from './constants';
 
 const initialState = {
   loading: false,
-  authenticated: undefined,
+  authenticated: false,
   error: ''
 };
+
 export const authReducer = (state = initialState, actions) => {
   switch (actions.type) {
     case CONSTANTS.LOGIN_PENDING: {
       return {
         ...state,
         loading: true,
-        error: initialState.error
+        error: ''
       };
     }
     case CONSTANTS.LOGIN_SUCCESS: {
       return {
         ...state,
         loading: false,
+        error: '',
         authenticated: actions.payload
       };
     }
