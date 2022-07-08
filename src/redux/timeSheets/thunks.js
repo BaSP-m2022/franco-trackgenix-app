@@ -6,7 +6,10 @@ export const putTimeSheet = (id, body) => {
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/time-sheets/${id}`, {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          token: sessionStorage.getItem('token')
+        },
         body: body
       });
       const jsonResponse = await response.json();
@@ -28,7 +31,10 @@ export const postTimeSheet = (body) => {
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/time-sheets`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          token: sessionStorage.getItem('token')
+        },
         body: body
       });
       const jsonResponse = await response.json();
@@ -43,11 +49,16 @@ export const postTimeSheet = (body) => {
     }
   };
 };
+
 export const getTimeSheets = () => {
   return async (dispatch) => {
     dispatch(actions.getTimeSheetsLoading());
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/time-sheets`);
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/time-sheets`, {
+        headers: {
+          token: sessionStorage.getItem('token')
+        }
+      });
       const jsonResponse = await response.json();
       if (jsonResponse.error) {
         dispatch(actions.getTimeSheetsError(jsonResponse.message));
@@ -66,7 +77,10 @@ export const deleteTimeSheet = (id) => {
     dispatch(actions.deleteTimeSheetLoading());
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/time-sheets/${id}`, {
-        method: 'DELETE'
+        method: 'DELETE',
+        headers: {
+          token: sessionStorage.getItem('token')
+        }
       });
       const jsonResponse = await response.json();
       if (jsonResponse.error) {
