@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import styles from './time-sheets.module.css';
 import { setTimeSheet } from '../../redux/timeSheets/actions';
 import { useState, useEffect } from 'react';
