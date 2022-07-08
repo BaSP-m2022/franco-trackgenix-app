@@ -14,7 +14,6 @@ export const login = (credentials) => {
         } = await response.user.getIdTokenResult();
 
         const uid = await response.user.uid;
-        console.log(role);
         const user = await fetch(
           `${process.env.REACT_APP_API_URL}/${role.toLowerCase()}s?firebaseUid=${uid}`
         );
