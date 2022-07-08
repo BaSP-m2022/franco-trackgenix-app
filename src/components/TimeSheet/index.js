@@ -138,7 +138,6 @@ const TimeSheetForm = () => {
       startDate: data.startDate,
       employeeId: data.employeeId
     });
-    console.log(body);
     if (requestType === 'PUT') {
       setModalTitle('TimeSheet Updated');
       setModalText('TimeSheet has been updated');
