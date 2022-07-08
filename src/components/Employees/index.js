@@ -17,7 +17,7 @@ const Employees = () => {
   const loading = useSelector((state) => state.employees.loading);
   const error = useSelector((state) => state.employees.error);
   const [isOpen, setIsOpen] = useState(false);
-  const [idToDelete, setIdToDelete] = useState();
+  const [idToDelete, setIdToDelete] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredList, setFilteredList] = useState(employees);
 

@@ -17,12 +17,12 @@ const Projects = () => {
   const loading = useSelector((state) => state.projects.loading);
   const error = useSelector((state) => state.projects.error);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [idToDelete, setIdToDelete] = useState();
+  const [idToDelete, setIdToDelete] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredList, setFilteredList] = useState(projects);
   const [isTable, setIsTable] = useState(false);
   const [employeesData, setEmployeesData] = useState([]);
-  const [modalTitle, setModalTitle] = useState([]);
+  const [modalTitle, setModalTitle] = useState('');
 
   const column = [
     { heading: 'Name', value: 'name' },

@@ -22,8 +22,8 @@ const TimeSheets = () => {
   const [deleteId, setDeleteId] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredList, setFilteredList] = useState(timeSheets);
-  const [tasksData, setTasksData] = useState();
-  const [modalTitle, setModalTitle] = useState([]);
+  const [tasksData, setTasksData] = useState([]);
+  const [modalTitle, setModalTitle] = useState('');
   const [isTable, setIsTable] = useState(false);
 
   const column = [
