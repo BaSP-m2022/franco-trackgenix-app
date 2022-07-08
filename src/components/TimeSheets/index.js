@@ -75,7 +75,7 @@ const TimeSheets = () => {
         </div>
       ) : (
         <>
-          <Modal modalTitle={'Time Sheets'} isOpen={isOpen} handleClose={closeModal}>
+          <Modal modalTitle={'Time Sheets'} isOpen={isOpen}>
             <p>{error ? error : 'Are you sure to delete a Time Sheet?'}</p>
             <div>
               {error ? (

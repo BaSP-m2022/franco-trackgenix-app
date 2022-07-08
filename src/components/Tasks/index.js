@@ -74,13 +74,7 @@ const Tasks = () => {
 
   return (
     <section className={styles.containerTask}>
-      <Modal
-        modalTitle={'Tasks'}
-        isOpen={isOpen}
-        handleClose={() => {
-          closeModal();
-        }}
-      >
+      <Modal modalTitle={'Tasks'} isOpen={isOpen}>
         <p>{error ? error : 'Are you sure to delete a Task?'}</p>
         <div>
           {error ? (

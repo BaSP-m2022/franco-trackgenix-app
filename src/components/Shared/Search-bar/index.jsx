@@ -12,7 +12,18 @@ const Search = ({ searchQuery, setSearchQuery, placeholder }) => {
         className={styles.search}
       />
 
-      <span>&#x1F50E;&#xFE0E;</span>
+      {searchQuery ? (
+        <button
+          className={styles.xButton}
+          onClick={() => {
+            setSearchQuery('');
+          }}
+        >
+          X
+        </button>
+      ) : (
+        <span>&#x1F50E;&#xFE0E;</span>
+      )}
     </form>
   );
 };

@@ -181,11 +181,7 @@ const TaskForm = () => {
             handler={handleSubmit(onSubmit)}
             text={requestType === 'PUT' ? 'Update' : 'Save'}
           />
-          <Modal
-            modalTitle={errorR ? 'error' : modalTitle}
-            isOpen={isOpen}
-            handleClose={closeModal}
-          >
+          <Modal modalTitle={errorR ? 'error' : modalTitle} isOpen={isOpen}>
             <p className={styles.message}>{errorR ? errorR : modalText}</p>
             <div>
               <Button text="OK" handler={!errorR ? routeChange : closeModal} />
