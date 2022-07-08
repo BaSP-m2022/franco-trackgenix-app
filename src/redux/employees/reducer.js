@@ -11,7 +11,6 @@ export const employeesReducer = (state = initialStore, actions) => {
     case CONSTANTS.GET_EMPLOYEES_LOADING:
       return {
         ...state,
-        error: undefined,
         loading: true
       };
     case CONSTANTS.GET_EMPLOYEES_SUCCESS:

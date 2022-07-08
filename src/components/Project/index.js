@@ -76,7 +76,7 @@ function ProjectForm() {
   const dispatch = useDispatch();
   const employees = useSelector((state) => state.employees.list);
   const project = useSelector((state) => state.projects.project);
-  const loading = useSelector((state) => state.projects.isLoading);
+  const loading = useSelector((state) => state.projects.loading);
   const errorDB = useSelector((state) => state.projects.error);
 
   const [employeeOptions, setEmployeeOptions] = useState([]);
