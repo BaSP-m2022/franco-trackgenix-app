@@ -112,22 +112,6 @@ const Projects = () => {
           />
         </div>
       </div>
-<<<<<<< HEAD
-      <Modal modalTitle={'Delete Project'} isOpen={isModalOpen}>
-        <p>{error ? error : 'Are you sure you want to delete a Project?'}</p>
-        <div>
-          {error ? (
-            <div>
-              <Button text="Close" handler={closeModal} />
-            </div>
-          ) : (
-            <div>
-              <Button text="Yes" type="delete" handler={delProject} />
-              <Button text="No" handler={closeModal} />
-            </div>
-          )}
-        </div>
-=======
       <Modal modalTitle={modalTitle} isOpen={isModalOpen} handleClose={closeModal}>
         {isTable && <Table data={employeesData} column={columnEmployees} modal={handleArray} />}
         {isTable && (
@@ -150,7 +134,6 @@ const Projects = () => {
             )}
           </div>
         )}
->>>>>>> origin/feature-TG-114-Fix-Table-Component
       </Modal>
       <div className={styles.flex}>
         <Table

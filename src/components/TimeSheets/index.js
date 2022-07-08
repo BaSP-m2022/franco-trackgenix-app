@@ -90,44 +90,6 @@ const TimeSheets = () => {
 
   return (
     <section className={styles.container}>
-<<<<<<< HEAD
-      {loading ? (
-        <div className={styles.loadingDiv}>
-          <LoadingScreen />
-        </div>
-      ) : (
-        <>
-          <Modal modalTitle={'Time Sheets'} isOpen={isOpen}>
-            <p>{error ? error : 'Are you sure to delete a Time Sheet?'}</p>
-            <div>
-              {error ? (
-                <div>
-                  <Button text="Close" handler={closeModal} />
-                </div>
-              ) : (
-                <div>
-                  <Button
-                    text="Yes"
-                    type="delete"
-                    handler={() => {
-                      dispatch(deleteTimeSheet(deleteId));
-                      closeModal();
-                    }}
-                  />
-                  <Button text="No" handler={closeModal} />
-                </div>
-              )}
-            </div>
-          </Modal>
-          <h2>Timesheets</h2>
-          <div className={styles.buttonContainer}>
-            <Button text="Add timeSheet" link={'/time-sheets/form'} />
-            <Search
-              placeholder="Search by ID"
-              searchQuery={searchQuery}
-              setSearchQuery={setSearchQuery}
-            />
-=======
       <Modal modalTitle={modalTitle} isOpen={isOpen} handleClose={closeModal}>
         {isTable && <Table data={tasksData} column={columnTasks} modal={handleArray} />}
         {isTable && (
@@ -155,7 +117,6 @@ const TimeSheets = () => {
                 <Button text="No" handler={closeModal} />
               </div>
             )}
->>>>>>> origin/feature-TG-114-Fix-Table-Component
           </div>
         )}
       </Modal>
