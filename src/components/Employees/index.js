@@ -79,8 +79,7 @@ const Employees = () => {
   }
   return (
     <section className={styles.container}>
-      <h2 className={styles.title}>Employees</h2>
-      <Modal modalTitle={'Employees'} isOpen={isOpen} handleClose={closeModal}>
+      <Modal modalTitle={'Employees'} isOpen={isOpen}>
         <p>{error ? error : 'Are you sure you want to delete an employee?'}</p>
         <div>
           {error ? (
@@ -95,6 +94,7 @@ const Employees = () => {
           )}
         </div>
       </Modal>
+      <h2 className={styles.title}>Employees</h2>
       <div className={styles.addEmployee}>
         <Button
           text="Add new employee"

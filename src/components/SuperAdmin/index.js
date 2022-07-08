@@ -131,6 +131,11 @@ const SuperAdminForm = () => {
     }
   };
 
+  const handleClose = () => {
+    closeModal();
+    dispatch(clearError());
+  };
+
   if (loading) {
     return (
       <div className={styles.loading}>
@@ -141,6 +146,12 @@ const SuperAdminForm = () => {
 
   return (
     <div className={styles.container}>
+      <Modal modalTitle={error ? 'error' : modalTitle} isOpen={isOpen}>
+        <p className={styles.message}>{error ? error : modalText}</p>
+        <div>
+          <Button text="OK" handler={!error ? routeChange : handleClose} />
+        </div>
+      </Modal>
       <h3 className={styles.h3}>
         {requestType === 'PUT' ? 'Update Super Admin' : 'Add Super Admin'}
       </h3>
@@ -216,12 +227,6 @@ const SuperAdminForm = () => {
             }}
           />
           <Button text={requestType === 'PUT' ? 'Update' : 'Save'} />
-          <Modal modalTitle={error ? 'error' : modalTitle} isOpen={isOpen} handleClose={closeModal}>
-            <p className={styles.message}>{error ? error : modalText}</p>
-            <div>
-              <Button text="OK" handler={!error ? routeChange : closeModal} />
-            </div>
-          </Modal>
         </div>
       </form>
     </div>

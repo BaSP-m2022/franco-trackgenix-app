@@ -94,7 +94,7 @@ const Projects = () => {
           />
         </div>
       </div>
-      <Modal modalTitle={'Delete Project'} isOpen={isModalOpen} handleClose={closeModal}>
+      <Modal modalTitle={'Delete Project'} isOpen={isModalOpen}>
         <p>{error ? error : 'Are you sure you want to delete a Project?'}</p>
         <div>
           {error ? (
