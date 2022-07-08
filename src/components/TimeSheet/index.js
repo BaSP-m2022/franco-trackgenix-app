@@ -24,22 +24,14 @@ const schema = Joi.object({
       date: Joi.date().required()
     })
   ),
-  totalHours: Joi.number(),
-  status: Joi.string(),
-  startDate: Joi.date().required(),
-  endDate: Joi.date()
+  startDate: Joi.date()
     .required()
-    .min(Joi.ref('startDate'))
-    .message('End Date must be greater than or equal to Start Date'),
+    .custom((value, helper) => {
+      if (value.getUTCDay() !== 1) return helper.message('Start date must be a Monday');
+      return value;
+    }),
   employeeId: Joi.string().required()
 });
-
-const mapTasks = (tasks) => {
-  return tasks.map((task) => {
-    const _id = typeof task._id == 'object' ? task._id?._id : task._id;
-    return { _id };
-  });
-};
 
 const TimeSheetForm = () => {
   const history = useHistory();
@@ -48,10 +40,7 @@ const TimeSheetForm = () => {
     mode: 'onSubmit',
     resolver: joiResolver(schema),
     defaultValues: {
-      totalHours: '',
-      status: '',
       startDate: '',
-      endDate: '',
       employeeId: ''
     }
   });
@@ -61,7 +50,6 @@ const TimeSheetForm = () => {
   });
 
   const [employeeOptions, setEmployeeOptions] = useState([]);
-
   const [isOpen, setIsOpen] = useState(false);
   const [requestType, setRequestType] = useState('POST');
   const [modalText, setModalText] = useState('');
@@ -108,11 +96,8 @@ const TimeSheetForm = () => {
 
   useEffect(() => {
     if (timeSheet._id) {
-      setValue('tasks', mapTasks(timeSheet.tasks));
-      setValue('totalHours', timeSheet.totalHours);
-      setValue('status', timeSheet.status);
+      setValue('tasks', timeSheet.tasks);
       setValue('startDate', timeSheet.startDate.slice(0, 10));
-      setValue('endDate', timeSheet.endDate.slice(0, 10));
       setValue('employeeId', timeSheet.employeeId?._id);
       setRequestType('PUT');
     }
@@ -142,14 +127,11 @@ const TimeSheetForm = () => {
 
   const onSubmit = (data) => {
     const body = JSON.stringify({
-      totalHours: data.totalHours,
-      status: data.status,
+      tasks: data.tasks,
       startDate: data.startDate,
-      endDate: data.endDate,
-      employeeId: data.employeeId,
-      tasks: data.tasks
+      employeeId: data.employeeId
     });
-
+    console.log(body);
     if (requestType === 'PUT') {
       setModalTitle('TimeSheet Updated');
       setModalText('TimeSheet has been updated');
@@ -172,42 +154,10 @@ const TimeSheetForm = () => {
   }
   return (
     <div className={styles.container}>
-      <h3 className={styles.tittle}>
+      <h3 className={styles.title}>
         {requestType === 'PUT' ? 'Update Time Sheet' : 'Add Time Sheet'}
       </h3>
       <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
-        <Controller
-          control={control}
-          name="totalHours"
-          render={({ field: { value, onChange }, fieldState: { error } }) => (
-            <Input
-              className={styles.label}
-              name="Total Hours"
-              value={value}
-              placeholder="Total Hours"
-              onChange={onChange}
-              error={error?.message}
-            />
-          )}
-        />
-        <Controller
-          control={control}
-          name="status"
-          render={({ field: { value, onChange }, fieldState: { error } }) => (
-            <SelectDropdown
-              options={[
-                { label: `Active`, value: 'active' },
-                { label: `Inactive`, value: 'inactive' }
-              ]}
-              className={styles.label}
-              name="Status"
-              value={value}
-              placeholder="Status"
-              onChange={onChange}
-              error={error?.message}
-            />
-          )}
-        />
         <Controller
           control={control}
           name="startDate"
@@ -217,28 +167,11 @@ const TimeSheetForm = () => {
               name="Start Date"
               type="date"
               value={value}
-              placeholder="Start Date"
               onChange={onChange}
               error={error?.message}
             />
           )}
         />
-        <Controller
-          control={control}
-          name="endDate"
-          render={({ field: { value, onChange }, fieldState: { error } }) => (
-            <Input
-              className={styles.label}
-              name="End Date"
-              type="date"
-              value={value}
-              placeholder="End Date"
-              onChange={onChange}
-              error={error?.message}
-            />
-          )}
-        />
-
         <Controller
           control={control}
           name="employeeId"
@@ -256,87 +189,91 @@ const TimeSheetForm = () => {
             />
           )}
         />
-
-        <div className={styles.addEmployeeDiv}>
-          <div className={styles.tasksDiv}>
+        <div className={styles.addTaskDiv}>
+          <div className={styles.tasksUl}>
             {fields.map((field, index) => (
-              <div key={field.id} className={styles.task}>
-                <div className={styles.row}>
-                  <div className={styles.col}>
-                    <Controller
-                      control={control}
-                      name={`tasks[${index}].projectId`}
-                      render={({ field: { value, onChange }, fieldState: { error } }) => (
-                        <SelectDropdown
-                          name="Project"
-                          value={value}
-                          onChange={onChange}
-                          options={projectsOptions}
-                          required={false}
-                          error={error?.message}
-                        />
-                      )}
+              <div key={field.id} className={styles.li}>
+                <Controller
+                  control={control}
+                  name={`tasks[${index}].date`}
+                  render={({ field: { value, onChange }, fieldState: { error } }) => (
+                    <Input
+                      className={styles.label}
+                      name="Date of Task"
+                      type="date"
+                      value={value}
+                      onChange={onChange}
+                      error={error?.message}
                     />
-                  </div>
-                  <div className={styles.col}>
-                    <Controller
-                      control={control}
-                      name={`tasks[${index}].description`}
-                      render={({ field: { value, onChange }, fieldState: { error } }) => (
-                        <Input
-                          className={styles.label}
-                          name="Description"
-                          type="text"
-                          value={value}
-                          onChange={onChange}
-                          error={error?.message}
-                        />
-                      )}
+                  )}
+                />
+                <Controller
+                  control={control}
+                  name={`tasks[${index}].projectId`}
+                  render={({ field: { value, onChange }, fieldState: { error } }) => (
+                    <SelectDropdown
+                      name="Project"
+                      value={value}
+                      onChange={onChange}
+                      options={projectsOptions}
+                      required={false}
+                      error={error?.message}
                     />
-                  </div>
-                  <div className={styles.col}>
-                    <Controller
-                      control={control}
-                      name={`tasks[${index}].workedHours`}
-                      render={({ field: { value, onChange }, fieldState: { error } }) => (
-                        <Input
-                          className={styles.label}
-                          name="Worked Hours"
-                          type="number"
-                          value={value}
-                          onChange={onChange}
-                          error={error?.message}
-                        />
-                      )}
+                  )}
+                />
+                <Controller
+                  control={control}
+                  name={`tasks[${index}].description`}
+                  render={({ field: { value, onChange }, fieldState: { error } }) => (
+                    <Input
+                      className={styles.label}
+                      name="Description"
+                      type="text"
+                      value={value}
+                      onChange={onChange}
+                      error={error?.message}
                     />
-                  </div>
-                  <div className={(styles.col, styles.buttonDelete)}>
-                    <Button
-                      type={'delete'}
-                      text={'Delete'}
-                      handler={() => {
-                        remove(index);
-                        setClick(click - 1);
-                      }}
+                  )}
+                />
+                <Controller
+                  control={control}
+                  name={`tasks[${index}].workedHours`}
+                  render={({ field: { value, onChange }, fieldState: { error } }) => (
+                    <Input
+                      className={styles.label}
+                      name="Worked Hours"
+                      type="number"
+                      value={value}
+                      onChange={onChange}
+                      error={error?.message}
                     />
-                  </div>
+                  )}
+                />
+                <div className={(styles.col, styles.buttonDelete)}>
+                  <Button
+                    type={'delete'}
+                    text={'Delete'}
+                    handler={() => {
+                      remove(index);
+                      setClick(click - 1);
+                    }}
+                  />
                 </div>
               </div>
             ))}
           </div>
         </div>
-        <div className={styles.buttonContainer}>
+        <div className={styles.buttonDiv}>
           <Button
             text={'Add new task'}
             type="button"
             handler={(e) => {
               e.preventDefault();
               setClick(click + 1);
-              append({ projectId: '', description: '', workedHours: 0 });
+              append({ date: '', projectId: '', description: '', workedHours: 0 });
             }}
           />
         </div>
-
         <div>
           <div className={styles.buttonDiv}>
             <Button
@@ -346,7 +283,7 @@ const TimeSheetForm = () => {
                 routeChange();
               }}
             />
-            <Button text={requestType === 'PUT' ? 'Update' : 'Save'} />
+            <Button text={requestType === 'PUT' ? 'Update' : 'Save'} handler={handleSubmit} />
           </div>
           <Modal
             modalTitle={errorError ? 'error' : modalTitle}

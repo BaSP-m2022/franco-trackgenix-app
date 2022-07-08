@@ -28,9 +28,7 @@ const TimeSheets = () => {
     { heading: 'Last name', value: 'employeeId.lastName' },
     { heading: 'Tasks', value: 'tasks[0].description' },
     { heading: 'Total hours', value: 'totalHours' },
-    { heading: 'Status', value: 'status' },
     { heading: 'Start date', value: 'startDate' },
-    { heading: 'End date', value: 'endDate' },
     { heading: 'Id', value: '_id' }
   ];
 
