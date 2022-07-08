@@ -58,13 +58,9 @@ const schema = Joi.object({
           .messages({ 'string.empty': 'You must select an Employee.' })
       })
     ),
-  startDate: Joi.date()
-    .greater(Date.now() - 24 * 60 * 60 * 1000)
-    .required()
-    .messages({
-      'date.base': 'You must add a Start Date.',
-      'date.greater': 'The Start Date of the project should be today or greater than today.'
-    }),
+  startDate: Joi.date().required().messages({
+    'date.base': 'You must add a Start Date.'
+  }),
   endDate: Joi.date()
     .min(Joi.ref('startDate'))
     .allow('')
@@ -218,8 +214,9 @@ function ProjectForm() {
                   value={value}
                   onChange={onChange}
                   options={[
-                    { label: `Active`, value: 'active' },
-                    { label: `Inactive`, value: 'inactive' }
+                    { label: `To Do`, value: 'To Do' },
+                    { label: `In Progress`, value: 'In Progress' },
+                    { label: `Done`, value: 'Done' }
                   ]}
                   error={error?.message}
                 />
