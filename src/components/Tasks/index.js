@@ -116,6 +116,7 @@ const Tasks = () => {
         column={column}
         deleteItem={buttonDelete}
         editItem={handleSetTask}
+        buttons={true}
       />
     </section>
   );

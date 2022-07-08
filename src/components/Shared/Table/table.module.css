@@ -16,8 +16,8 @@
 }
 
 .containerTable td {
+  padding: 10px 8px;
   border-bottom: 1px solid #bebec8;
-  padding: 1px 8px;
 }
 
 .headTable,
@@ -30,11 +30,19 @@
   fill: #373867;
   width: 20px;
   height: 20px;
-  margin: 10px 0px 7px 8px;
+  margin: 0px 0px 0px 8px;
 }
 
 .tableMain tbody tr:hover {
   background: #eef5eb;
+}
+
+.buttonTable,
+.containerTable a {
+  text-align: center;
+  background: none;
+  border: 0;
+  text-decoration: none;
 }
 
 .buttonTable:hover {
@@ -42,10 +50,12 @@
   transition: all 0.2s ease-in-out;
 }
 
-.containerTable a,
-.containerTable button {
-  text-align: center;
-  background: none;
-  border: 0;
-  text-decoration: none;
+.buttonShow {
+  padding: 10px 15px;
+  border-radius: 5px;
+  border: solid 1px #aace9b;
+  background-color: #aace9b;
+  color: #373867;
+  font-size: 16px;
+  font-weight: 500;
 }
