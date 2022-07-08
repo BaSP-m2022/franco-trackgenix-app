@@ -80,6 +80,13 @@ const TimeSheetForm = () => {
     }
   }, [employees]);
 
+  const formatTasks = () => {
+    timeSheet.tasks.map((task) => {
+      task.date = task.date.slice(0, 10);
+    });
+    return timeSheet.tasks;
+  };
+
   useEffect(() => {
     if (!projects.length) {
       dispatch(getProjects());
@@ -96,7 +103,7 @@ const TimeSheetForm = () => {
 
   useEffect(() => {
     if (timeSheet._id) {
-      setValue('tasks', timeSheet.tasks);
+      setValue('tasks', formatTasks());
       setValue('startDate', timeSheet.startDate.slice(0, 10));
       setValue('employeeId', timeSheet.employeeId?._id);
       setRequestType('PUT');
