@@ -54,7 +54,6 @@ const TimeSheetForm = () => {
   const [requestType, setRequestType] = useState('POST');
   const [modalText, setModalText] = useState('');
   const [modalTitle, setModalTitle] = useState('');
-  const [click, setClick] = useState(0);
   const [projectsOptions, setProjectsOptions] = useState([]);
 
   const employees = useSelector((state) => state.employees.list);
@@ -82,7 +81,10 @@ const TimeSheetForm = () => {
 
   const formatTasks = () => {
     timeSheet.tasks.map((task) => {
+      console.log('task', task);
+      task.projectId = typeof task.projectId == 'object' ? task.projectId?._id : task.projectId;
       task.date = task.date.slice(0, 10);
+      delete task._id;
     });
     return timeSheet.tasks;
   };
@@ -267,14 +269,7 @@ const TimeSheetForm = () => {
                   )}
                 />
                 <div className={(styles.col, styles.buttonDelete)}>
-                  <Button
-                    type={'delete'}
-                    text={'Delete'}
-                    handler={() => {
-                      remove(index);
-                      setClick(click - 1);
-                    }}
-                  />
+                  <Button type={'delete'} text={'Delete'} handler={() => remove(index)} />
                 </div>
               </div>
             ))}
@@ -286,7 +281,6 @@ const TimeSheetForm = () => {
             type="button"
             handler={(e) => {
               e.preventDefault();
-              setClick(click + 1);
               append({ date: '', projectId: '', description: '', workedHours: 0 });
             }}
           />
