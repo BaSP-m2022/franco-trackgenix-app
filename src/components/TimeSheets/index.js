@@ -69,6 +69,8 @@ const TimeSheets = () => {
 
   function buttonDelete(id) {
     setDeleteId(id);
+    setModalTitle('Delete Timesheet');
+    setIsTable(false);
     openModal();
   }
 
