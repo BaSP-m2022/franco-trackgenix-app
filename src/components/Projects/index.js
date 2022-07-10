@@ -54,6 +54,7 @@ const Projects = () => {
 
   const buttonDelete = (id) => {
     setModalTitle('Delete Project');
+    setIsTable(false);
     setIdToDelete(id);
     openModal();
   };
