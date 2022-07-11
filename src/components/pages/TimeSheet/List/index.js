@@ -1,14 +1,10 @@
-import styles from './time-sheets.module.css';
-import { setTimeSheet } from '../../redux/timeSheets/actions';
 import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getTimeSheets, deleteTimeSheet } from '../../redux/timeSheets/thunks';
-import Table from '../Shared/Table';
-import LoadingScreen from '../Shared/LoadingScreen';
-import Modal from '../Shared/Modal';
-import Button from '../Shared/Button';
-import Search from '../Shared/Search-bar';
+import { setTimeSheet } from 'redux/timeSheets/actions';
+import { getTimeSheets, deleteTimeSheet } from 'redux/timeSheets/thunks';
+import { Table, LoadingScreen, Modal, Button, Search } from 'components/Shared';
+import styles from './list.module.css';
 
 const TimeSheets = () => {
   const history = useHistory();
@@ -23,7 +19,7 @@ const TimeSheets = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredList, setFilteredList] = useState(timeSheets);
   const [tasksData, setTasksData] = useState([]);
-  const [modalTitle, setModalTitle] = useState('');
+  const [modalTitle, setModalTitle] = useState('Timesheet');
   const [isTable, setIsTable] = useState(false);
 
   const column = [

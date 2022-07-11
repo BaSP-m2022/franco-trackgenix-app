@@ -1,16 +1,13 @@
 import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { clearError } from 'redux/employees/actions';
-import { addEmployee } from 'redux/employees/thunks';
 import { useForm, Controller } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
-import { capitalizeFirstLetter } from 'utils/formatters';
 import Joi from 'joi';
-import Input from 'components/Shared/Input';
-import Modal from 'components/Shared/Modal';
-import Button from 'components/Shared/Button';
-import LoadingScreen from 'components/Shared/LoadingScreen';
+import { capitalizeFirstLetter } from 'utils/formatters';
+import { clearError } from 'redux/employees/actions';
+import { addEmployee } from 'redux/employees/thunks';
+import { Input, Modal, Button, LoadingScreen } from 'components/Shared';
 import styles from './signup.module.css';
 
 const now = Date.now();

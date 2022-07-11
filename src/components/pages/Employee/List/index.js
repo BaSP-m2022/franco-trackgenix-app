@@ -1,14 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import styles from './employees.module.css';
-import Table from '../Shared/Table';
-import LoadingScreen from '../Shared/LoadingScreen';
-import Modal from '../Shared/Modal';
-import Button from '../Shared/Button';
-import Search from '../Shared/Search-bar';
-import { getEmployees, deleteEmployee } from '../../redux/employees/thunks';
-import { setEmployee } from '../../redux/employees/actions';
+import { getEmployees, deleteEmployee } from 'redux/employees/thunks';
+import { setEmployee } from 'redux/employees/actions';
+import { Table, LoadingScreen, Modal, Button, Search } from 'components/Shared';
+import styles from './list.module.css';
 
 const Employees = () => {
   const dispatch = useDispatch();

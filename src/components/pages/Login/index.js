@@ -1,15 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { clearError } from 'redux/employees/actions';
-import { login } from 'redux/auth/thunks';
 import { useForm, Controller } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
+import { useDispatch, useSelector } from 'react-redux';
 import Joi from 'joi';
-import Input from 'components/Shared/Input';
-import Modal from 'components/Shared/Modal';
-import Button from 'components/Shared/Button';
-import LoadingScreen from 'components/Shared/LoadingScreen';
+import { clearError } from 'redux/employees/actions';
+import { login } from 'redux/auth/thunks';
+import { Input, Modal, Button, LoadingScreen } from 'components/Shared';
 import styles from './login.module.css';
 
 const schema = Joi.object({

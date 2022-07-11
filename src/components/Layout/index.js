@@ -1,25 +1,29 @@
 import React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
-import Header from 'components/Shared/Header';
-import Sidebar from 'components/Shared/Sidebar';
-import Footer from 'components/Shared/Footer';
-import LoadingScreen from 'components/Shared/LoadingScreen';
+import { Header, Sidebar, Footer, LoadingScreen } from 'components/Shared';
 import styles from './layout.module.css';
 
 const Profile = React.lazy(() => 'components/Shared/Profile');
-const Home = React.lazy(() => import('components/Home'));
-const SignUp = React.lazy(() => import('components/Signup'));
-const Login = React.lazy(() => import('components/Login'));
-const Admins = React.lazy(() => import('components/Admins'));
-const AdminForm = React.lazy(() => import('components/Admin'));
-const SuperAdmins = React.lazy(() => import('components/SuperAdmins'));
-const SuperAdminForm = React.lazy(() => import('components/SuperAdmin'));
-const Employees = React.lazy(() => import('components/Employees'));
-const EmployeeForm = React.lazy(() => import('components/Employee'));
-const Projects = React.lazy(() => import('components/Projects'));
-const ProjectForm = React.lazy(() => import('components/Project'));
-const TimeSheets = React.lazy(() => import('components/TimeSheets'));
-const TimeSheetForm = React.lazy(() => import('components/TimeSheet'));
+const SignUp = React.lazy(() => import('components/pages/Signup'));
+const Login = React.lazy(() => import('components/pages/Login'));
+
+const AdminList = React.lazy(() => import('components/pages/Admin/List'));
+const AdminForm = React.lazy(() => import('components/pages/Admin/Form'));
+const AdminHome = React.lazy(() => import('components/pages/Admin/Home'));
+
+const SuperAdminList = React.lazy(() => import('components/pages/SuperAdmin/List'));
+const SuperAdminForm = React.lazy(() => import('components/pages/SuperAdmin/Form'));
+const SuperAdminHome = React.lazy(() => import('components/pages/SuperAdmin/Home'));
+
+const EmployeeList = React.lazy(() => import('components/pages/Employee/List'));
+const EmployeeForm = React.lazy(() => import('components/pages/Employee/Form'));
+const EmployeeHome = React.lazy(() => import('components/pages/Employee/Home'));
+
+const ProjectList = React.lazy(() => import('components/pages/Project/List'));
+const ProjectForm = React.lazy(() => import('components/pages/Project/Form'));
+
+const TimeSheetList = React.lazy(() => import('components/pages/TimeSheet/List'));
+const TimeSheetForm = React.lazy(() => import('components/pages/TimeSheet/Form'));
 
 function Layout() {
   return (
@@ -32,19 +36,21 @@ function Layout() {
         <div className={styles.divSwitch}>
           <React.Suspense fallback={<LoadingScreen />}>
             <Switch>
-              <Route exact path="/home" component={Home} />
               <Route exact path="/signup" component={SignUp} />
               <Route exact path="/login" component={Login} />
-              <Route exact path="/admins" component={Admins} />
+              <Route exact path="/admins" component={AdminList} />
               <Route exact path="/admins/form" component={AdminForm} />
-              <Route exact path="/super-admins" component={SuperAdmins} />
+              <Route exact path="/admins/home" component={AdminHome} />
+              <Route exact path="/super-admins" component={SuperAdminList} />
               <Route exact path="/super-admins/form" component={SuperAdminForm} />
-              <Route exact path="/employees" component={Employees} />
+              <Route exact path="/super-admins/home" component={SuperAdminHome} />
+              <Route exact path="/employees" component={EmployeeList} />
               <Route exact path="/employees/form" component={EmployeeForm} />
+              <Route exact path="/employees/home" component={EmployeeHome} />
               <Route exact path="/employee/profile" component={Profile} />
-              <Route exact path="/projects" component={Projects} />
+              <Route exact path="/projects" component={ProjectList} />
               <Route exact path="/projects/form" component={ProjectForm} />
-              <Route exact path="/time-sheets" component={TimeSheets} />
+              <Route exact path="/time-sheets" component={TimeSheetList} />
               <Route exact path="/time-sheets/form" component={TimeSheetForm} />
               <Route exact path="/">
                 <Redirect to="/home" />

@@ -1,19 +1,15 @@
-import { useState, useEffect } from 'react';
-import styles from './Project.module.css';
-import Input from 'components/Shared/Input';
-import Button from 'components/Shared/Button';
-import Modal from 'components/Shared/Modal';
-import LoadingScreen from 'components/Shared/LoadingScreen';
-import Select from 'components/Shared/SelectDropdown';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { useState, useEffect } from 'react';
+import { useForm, Controller, useFieldArray } from 'react-hook-form';
+import { joiResolver } from '@hookform/resolvers/joi';
+import Joi from 'joi';
 import { clearError } from 'redux/projects/actions';
 import { postProject, putProject } from 'redux/projects/thunks';
 import { getEmployees } from 'redux/employees/thunks';
-import { useForm, Controller, useFieldArray } from 'react-hook-form';
-import { joiResolver } from '@hookform/resolvers/joi';
 import { capitalizeFirstLetter } from 'utils/formatters';
-import Joi from 'joi';
+import { Input, Button, Modal, LoadingScreen, SelectDropdown } from 'components/Shared';
+import styles from './form.module.css';
 
 const mapEmployees = (employees) => {
   return employees.map((employee) => {
@@ -208,7 +204,7 @@ function ProjectForm() {
               control={control}
               name={`status`}
               render={({ field: { value, onChange }, fieldState: { error } }) => (
-                <Select
+                <SelectDropdown
                   className={styles.label}
                   name="Status"
                   value={value}
@@ -281,7 +277,7 @@ function ProjectForm() {
                     name={`employees[${index}].employeeId`}
                     defaultValue={field.text}
                     render={({ field: { value, onChange }, fieldState: { error } }) => (
-                      <Select
+                      <SelectDropdown
                         className={styles.employeeMargin}
                         name={'Employee'}
                         value={value}
@@ -311,7 +307,7 @@ function ProjectForm() {
                     control={control}
                     name={`employees[${index}].role`}
                     render={({ field: { value, onChange }, fieldState: { error } }) => (
-                      <Select
+                      <SelectDropdown
                         name={'Role'}
                         className={styles.label}
                         value={value}
