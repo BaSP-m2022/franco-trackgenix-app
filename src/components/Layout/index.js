@@ -20,8 +20,6 @@ const Projects = React.lazy(() => import('components/Projects'));
 const ProjectForm = React.lazy(() => import('components/Project'));
 const TimeSheets = React.lazy(() => import('components/TimeSheets'));
 const TimeSheetForm = React.lazy(() => import('components/TimeSheet'));
-const Tasks = React.lazy(() => import('components/Tasks'));
-const TaskForm = React.lazy(() => import('components/Task'));
 
 function Layout() {
   return (
@@ -48,8 +46,6 @@ function Layout() {
               <Route exact path="/projects/form" component={ProjectForm} />
               <Route exact path="/time-sheets" component={TimeSheets} />
               <Route exact path="/time-sheets/form" component={TimeSheetForm} />
-              <Route exact path="/tasks" component={Tasks} />
-              <Route exact path="/tasks/form" component={TaskForm} />
               <Route exact path="/">
                 <Redirect to="/home" />
               </Route>

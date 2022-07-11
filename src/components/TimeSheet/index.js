@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getTimeSheets, postTimeSheet, putTimeSheet } from '../../redux/timeSheets/thunks';
 import { clearError } from '../../redux/timeSheets/actions';
 import { getEmployees } from '../../redux/employees/thunks';
-import { getTasks } from '../../redux/tasks/thunks';
+import { getProjects } from 'redux/projects/thunks';
 import Modal from '../Shared/Modal';
 import Button from '../Shared/Button';
 import Input from '../Shared/Input';
@@ -16,23 +16,22 @@ import { joiResolver } from '@hookform/resolvers/joi';
 import Joi from 'joi';
 
 const schema = Joi.object({
-  totalHours: Joi.number(),
-  status: Joi.string(),
-  startDate: Joi.date().required(),
-  endDate: Joi.date()
+  tasks: Joi.array().items(
+    Joi.object({
+      description: Joi.string().min(3).max(50).required(),
+      workedHours: Joi.number().min(1).required(),
+      projectId: Joi.string().required(),
+      date: Joi.date().required()
+    })
+  ),
+  startDate: Joi.date()
     .required()
-    .min(Joi.ref('startDate'))
-    .message('End Date must be greater than or equal to Start Date'),
-  employeeId: Joi.string().required(),
-  tasks: Joi.array().items(Joi.object({ _id: Joi.string().required() }))
+    .custom((value, helper) => {
+      if (value.getUTCDay() !== 1) return helper.message('Start date must be a Monday');
+      return value;
+    }),
+  employeeId: Joi.string().required()
 });
-
-const mapTasks = (tasks) => {
-  return tasks.map((task) => {
-    const _id = typeof task._id == 'object' ? task._id?._id : task._id;
-    return { _id };
-  });
-};
 
 const TimeSheetForm = () => {
   const history = useHistory();
@@ -41,10 +40,7 @@ const TimeSheetForm = () => {
     mode: 'onSubmit',
     resolver: joiResolver(schema),
     defaultValues: {
-      totalHours: '',
-      status: '',
       startDate: '',
-      endDate: '',
       employeeId: ''
     }
   });
@@ -54,18 +50,17 @@ const TimeSheetForm = () => {
   });
 
   const [employeeOptions, setEmployeeOptions] = useState([]);
-  const [tasksOptions, setTasksOptions] = useState([]);
-
   const [isOpen, setIsOpen] = useState(false);
   const [requestType, setRequestType] = useState('POST');
   const [modalText, setModalText] = useState('');
   const [modalTitle, setModalTitle] = useState('');
+  const [projectsOptions, setProjectsOptions] = useState([]);
 
   const employees = useSelector((state) => state.employees.list);
-  const tasks = useSelector((state) => state.tasks.list);
   const timeSheet = useSelector((state) => state.timeSheets.timeSheet);
   const loading = useSelector((state) => state.timeSheets.loading);
   const errorError = useSelector((state) => state.timeSheets.error);
+  const projects = useSelector((state) => state.projects.list);
 
   useEffect(() => {
     if (!employees || employees.length <= 0) {
@@ -84,24 +79,34 @@ const TimeSheetForm = () => {
     }
   }, [employees]);
 
+  const formatTasks = () => {
+    timeSheet.tasks.map((task) => {
+      console.log('task', task);
+      task.projectId = typeof task.projectId == 'object' ? task.projectId?._id : task.projectId;
+      task.date = task.date.slice(0, 10);
+      delete task._id;
+    });
+    return timeSheet.tasks;
+  };
+
   useEffect(() => {
-    if (!tasks.length) {
-      dispatch(getTasks());
+    if (!projects.length) {
+      dispatch(getProjects());
     }
-    setTasksOptions(
-      tasks.map((task) => {
-        return { value: task._id, label: task.description };
+    setProjectsOptions(
+      projects.map((project) => {
+        return {
+          label: project.name,
+          value: project._id
+        };
       })
     );
-  }, [tasks]);
+  }, [projects]);
 
   useEffect(() => {
     if (timeSheet._id) {
-      setValue('tasks', mapTasks(timeSheet.tasks));
-      setValue('totalHours', timeSheet.totalHours);
-      setValue('status', timeSheet.status);
+      setValue('tasks', formatTasks());
       setValue('startDate', timeSheet.startDate.slice(0, 10));
-      setValue('endDate', timeSheet.endDate.slice(0, 10));
       setValue('employeeId', timeSheet.employeeId?._id);
       setRequestType('PUT');
     }
@@ -131,14 +136,10 @@ const TimeSheetForm = () => {
 
   const onSubmit = (data) => {
     const body = JSON.stringify({
-      totalHours: data.totalHours,
-      status: data.status,
+      tasks: data.tasks,
       startDate: data.startDate,
-      endDate: data.endDate,
-      employeeId: data.employeeId,
-      tasks: data.tasks
+      employeeId: data.employeeId
     });
-
     if (requestType === 'PUT') {
       setModalTitle('TimeSheet Updated');
       setModalText('TimeSheet has been updated');
@@ -178,38 +179,6 @@ const TimeSheetForm = () => {
       <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
         <Controller
           control={control}
-          name="totalHours"
-          render={({ field: { value, onChange }, fieldState: { error } }) => (
-            <Input
-              className={styles.label}
-              name="Total Hours"
-              value={value}
-              placeholder="Total Hours"
-              onChange={onChange}
-              error={error?.message}
-            />
-          )}
-        />
-        <Controller
-          control={control}
-          name="status"
-          render={({ field: { value, onChange }, fieldState: { error } }) => (
-            <SelectDropdown
-              options={[
-                { label: `Active`, value: 'active' },
-                { label: `Inactive`, value: 'inactive' }
-              ]}
-              className={styles.label}
-              name="Status"
-              value={value}
-              placeholder="Status"
-              onChange={onChange}
-              error={error?.message}
-            />
-          )}
-        />
-        <Controller
-          control={control}
           name="startDate"
           render={({ field: { value, onChange }, fieldState: { error } }) => (
             <Input
@@ -217,28 +186,11 @@ const TimeSheetForm = () => {
               name="Start Date"
               type="date"
               value={value}
-              placeholder="Start Date"
               onChange={onChange}
               error={error?.message}
             />
           )}
         />
-        <Controller
-          control={control}
-          name="endDate"
-          render={({ field: { value, onChange }, fieldState: { error } }) => (
-            <Input
-              className={styles.label}
-              name="End Date"
-              type="date"
-              value={value}
-              placeholder="End Date"
-              onChange={onChange}
-              error={error?.message}
-            />
-          )}
-        />
-
         <Controller
           control={control}
           name="employeeId"
@@ -256,40 +208,83 @@ const TimeSheetForm = () => {
             />
           )}
         />
-
-        <div className={styles.addEmployeeDiv}>
-          <ul className={styles.taskUl}>
+        <div className={styles.addTaskDiv}>
+          <div className={styles.tasksUl}>
             {fields.map((field, index) => (
-              <li key={field.id} className={styles.li}>
+              <div key={field.id} className={styles.li}>
                 <Controller
                   control={control}
-                  name={`tasks[${index}]._id`}
+                  name={`tasks[${index}].date`}
                   render={({ field: { value, onChange }, fieldState: { error } }) => (
-                    <SelectDropdown
-                      options={tasksOptions}
+                    <Input
                       className={styles.label}
-                      name="Task"
+                      name="Date of Task"
+                      type="date"
                       value={value}
-                      placeholder="Task"
                       onChange={onChange}
                       error={error?.message}
                     />
                   )}
                 />
-                <Button type={'delete'} text={'Delete'} handler={() => remove(index)} />
-              </li>
+                <Controller
+                  control={control}
+                  name={`tasks[${index}].projectId`}
+                  render={({ field: { value, onChange }, fieldState: { error } }) => (
+                    <SelectDropdown
+                      name="Project"
+                      value={value}
+                      onChange={onChange}
+                      options={projectsOptions}
+                      required={false}
+                      error={error?.message}
+                    />
+                  )}
+                />
+                <Controller
+                  control={control}
+                  name={`tasks[${index}].description`}
+                  render={({ field: { value, onChange }, fieldState: { error } }) => (
+                    <Input
+                      className={styles.label}
+                      name="Description"
+                      type="text"
+                      value={value}
+                      onChange={onChange}
+                      error={error?.message}
+                    />
+                  )}
+                />
+                <Controller
+                  control={control}
+                  name={`tasks[${index}].workedHours`}
+                  render={({ field: { value, onChange }, fieldState: { error } }) => (
+                    <Input
+                      className={styles.label}
+                      name="Worked Hours"
+                      type="number"
+                      value={value}
+                      onChange={onChange}
+                      error={error?.message}
+                    />
+                  )}
+                />
+                <div className={(styles.col, styles.buttonDelete)}>
+                  <Button type={'delete'} text={'Delete'} handler={() => remove(index)} />
+                </div>
+              </div>
             ))}
-          </ul>
+          </div>
+        </div>
+        <div className={styles.buttonDiv}>
           <Button
-            text={'Add new Task to Time-Sheet'}
+            text={'Add new task'}
             type="button"
             handler={(e) => {
               e.preventDefault();
-              append({ _id: '' });
+              append({ date: '', projectId: '', description: '', workedHours: 0 });
             }}
           />
         </div>
-
         <div>
           <div className={styles.buttonDiv}>
             <Button
@@ -299,7 +294,7 @@ const TimeSheetForm = () => {
                 routeChange();
               }}
             />
-            <Button text={requestType === 'PUT' ? 'Update' : 'Save'} />
+            <Button text={requestType === 'PUT' ? 'Update' : 'Save'} handler={handleSubmit} />
           </div>
         </div>
       </form>
