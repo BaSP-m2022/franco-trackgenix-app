@@ -40,13 +40,13 @@ function Layout() {
               <Route exact path="/login" component={Login} />
               <Route exact path="/admins" component={AdminList} />
               <Route exact path="/admins/form" component={AdminForm} />
-              <Route exact path="/home" component={AdminHome} />
+              <Route exact path="/admins/home" component={AdminHome} />
               <Route exact path="/super-admins" component={SuperAdminList} />
               <Route exact path="/super-admins/form" component={SuperAdminForm} />
-              <Route exact path="/home" component={SuperAdminHome} />
+              <Route exact path="/super-admins/home" component={SuperAdminHome} />
               <Route exact path="/employees" component={EmployeeList} />
               <Route exact path="/employees/form" component={EmployeeForm} />
-              <Route exact path="/home" component={EmployeeHome} />
+              <Route exact path="/employees/home" component={EmployeeHome} />
               <Route exact path="/employee/profile" component={Profile} />
               <Route exact path="/projects" component={ProjectList} />
               <Route exact path="/projects/form" component={ProjectForm} />
