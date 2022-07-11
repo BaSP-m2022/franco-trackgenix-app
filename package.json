@@ -25,7 +25,9 @@
     "lint": "eslint .",
     "lint:fix": "eslint --fix",
     "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "cypress:open": "cypress open",
+    "cypress:e2e": "cypress run"
   },
   "eslintConfig": {
     "extends": [
@@ -50,9 +52,11 @@
     "npm": "7.21.0"
   },
   "devDependencies": {
+    "cypress": "^10.3.0",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-config-standard": "^16.0.3",
+    "eslint-plugin-cypress": "^2.12.1",
     "eslint-plugin-import": "^2.25.3",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^4.0.0",
