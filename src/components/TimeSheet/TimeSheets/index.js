@@ -1,14 +1,14 @@
 import styles from './time-sheets.module.css';
-import { setTimeSheet } from '../../redux/timeSheets/actions';
+import { setTimeSheet } from '../../../../redux/timeSheets/actions';
 import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getTimeSheets, deleteTimeSheet } from '../../redux/timeSheets/thunks';
-import Table from '../Shared/Table';
-import LoadingScreen from '../Shared/LoadingScreen';
-import Modal from '../Shared/Modal';
-import Button from '../Shared/Button';
-import Search from '../Shared/Search-bar';
+import { getTimeSheets, deleteTimeSheet } from '../../../../redux/timeSheets/thunks';
+import Table from '../../../Shared/Table';
+import LoadingScreen from '../../../Shared/LoadingScreen';
+import Modal from '../../../Shared/Modal';
+import Button from '../../../Shared/Button';
+import Search from '../../../Shared/Search-bar';
 
 const TimeSheets = () => {
   const history = useHistory();

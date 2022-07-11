@@ -13,12 +13,12 @@ const Login = React.lazy(() => import('components/Login'));
 const Admins = React.lazy(() => import('components/Admins'));
 const AdminForm = React.lazy(() => import('components/Admin'));
 const SuperAdmins = React.lazy(() => import('components/SuperAdmins'));
-const SuperAdminForm = React.lazy(() => import('components/SuperAdmin'));
+const SuperAdminForm = React.lazy(() => import('components/SuperAdmin/Form'));
 const Employees = React.lazy(() => import('components/Employees'));
 const EmployeeForm = React.lazy(() => import('components/Employee'));
-const Projects = React.lazy(() => import('components/Projects'));
+const Projects = React.lazy(() => import('components/Project/List'));
 const ProjectForm = React.lazy(() => import('components/Project'));
-const TimeSheets = React.lazy(() => import('components/TimeSheets'));
+const TimeSheets = React.lazy(() => import('components/pages/TimeSheet/List'));
 const TimeSheetForm = React.lazy(() => import('components/TimeSheet'));
 
 function Layout() {
