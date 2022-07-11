@@ -8,7 +8,7 @@ import { postAdmin, putAdmin } from 'redux/admins/thunks';
 import { clearError } from 'redux/admins/actions';
 import { Input, Button, Modal, LoadingScreen } from 'components/Shared';
 import { capitalizeFirstLetter } from 'utils/formatters';
-import styles from './form.modules.css';
+import styles from './form.module.css';
 
 const schema = Joi.object({
   firstName: Joi.string()
