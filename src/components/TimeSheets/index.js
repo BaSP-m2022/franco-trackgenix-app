@@ -27,19 +27,10 @@ const TimeSheets = () => {
   const [isTable, setIsTable] = useState(false);
 
   const column = [
-<<<<<<< HEAD
-    { heading: 'First name', value: 'employeeId.firstName' },
-    { heading: 'Last name', value: 'employeeId.lastName' },
-    { heading: 'Tasks', value: 'tasks[0].description' },
-    { heading: 'Total hours', value: 'totalHours' },
-    { heading: 'Start date', value: 'startDate' },
-    { heading: 'Id', value: '_id' }
-=======
     { heading: 'First Name', value: 'employeeId.firstName' },
     { heading: 'Last Name', value: 'employeeId.lastName' },
     { heading: 'Start Date', value: 'startDate' },
     { heading: 'Tasks', value: 'tasks' }
->>>>>>> origin
   ];
 
   const columnTasks = [
