@@ -19,7 +19,7 @@ const TimeSheets = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredList, setFilteredList] = useState(timeSheets);
   const [tasksData, setTasksData] = useState([]);
-  const [modalTitle, setModalTitle] = useState('');
+  const [modalTitle, setModalTitle] = useState('Timesheet');
   const [isTable, setIsTable] = useState(false);
 
   const column = [
