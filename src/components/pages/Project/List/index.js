@@ -1,14 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import styles from './projects.module.css';
-import Button from '../../Shared/Button';
-import Table from '../../Shared/Table';
-import LoadingScreen from '../../Shared/LoadingScreen';
-import Modal from '../../Shared/Modal';
-import Search from '../../Shared/Search-bar';
-import { getProjects, deleteProject } from '../../../redux/projects/thunks';
-import { setProject } from '../../../redux/projects/actions';
+import { getProjects, deleteProject } from 'redux/projects/thunks';
+import { setProject } from 'redux/projects/actions';
+import { Button, Table, LoadingScreen, Modal, Search } from 'components/Shared';
+import styles from './list.module.css';
 
 const Projects = () => {
   const dispatch = useDispatch();

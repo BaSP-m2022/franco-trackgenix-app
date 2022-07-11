@@ -1,17 +1,14 @@
 import { useEffect, useState } from 'react';
-import Joi from 'joi';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { postAdmin, putAdmin } from 'redux/admins/thunks';
 import { Controller, useForm } from 'react-hook-form';
+import Joi from 'joi';
+import { postAdmin, putAdmin } from 'redux/admins/thunks';
 import { clearError } from 'redux/admins/actions';
-import Input from 'components/Shared/Input';
-import Button from 'components/Shared/Button';
-import Modal from 'components/Shared/Modal';
-import LoadingScreen from 'components/Shared/LoadingScreen';
-import { capitalizeFirstLetter } from '../../utils/formatters';
-import styles from 'components/Admin/admin.module.css';
+import { Input, Button, Modal, LoadingScreen } from 'components/Shared';
+import { capitalizeFirstLetter } from 'utils/formatters';
+import styles from './form.modules.css';
 
 const schema = Joi.object({
   firstName: Joi.string()

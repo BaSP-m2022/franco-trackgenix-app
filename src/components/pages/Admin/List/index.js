@@ -1,14 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAdmins, deleteAdmin } from '../../redux/admins/thunks';
-import { setAdmin } from '../../redux/admins/actions';
-import Table from '../Shared/Table';
-import LoadingScreen from '../Shared/LoadingScreen';
-import Modal from '../Shared/Modal';
-import Button from '../Shared/Button';
-import Search from '../Shared/Search-bar';
-import styles from './admins.module.css';
+import { getAdmins, deleteAdmin } from 'redux/admins/thunks';
+import { setAdmin } from 'redux/admins/actions';
+import { Table, LoadingScreen, Modal, Button, Search } from 'components/Shared';
+import styles from './list.module.css';
 
 const Admins = () => {
   const history = useHistory();

@@ -1,19 +1,15 @@
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getTimeSheets, postTimeSheet, putTimeSheet } from '../../redux/timeSheets/thunks';
-import { clearError } from '../../redux/timeSheets/actions';
-import { getEmployees } from '../../redux/employees/thunks';
-import { getProjects } from 'redux/projects/thunks';
-import Modal from '../Shared/Modal';
-import Button from '../Shared/Button';
-import Input from '../Shared/Input';
-import LoadingScreen from '../Shared/LoadingScreen';
-import SelectDropdown from '../Shared/SelectDropdown';
-import styles from './form.module.css';
 import { useForm, Controller, useFieldArray } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
 import Joi from 'joi';
+import { getTimeSheets, postTimeSheet, putTimeSheet } from 'redux/timeSheets/thunks';
+import { clearError } from 'redux/timeSheets/actions';
+import { getEmployees } from 'redux/employees/thunks';
+import { getProjects } from 'redux/projects/thunks';
+import { Modal, Button, Input, LoadingScreen, SelectDropdown } from 'components/Shared';
+import styles from './form.module.css';
 
 const schema = Joi.object({
   tasks: Joi.array().items(

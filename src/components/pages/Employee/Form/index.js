@@ -3,15 +3,12 @@ import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm, Controller } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
-import schema from './validations';
 import { clearError } from 'redux/employees/actions';
 import { addEmployee, putEmployee } from 'redux/employees/thunks';
 import { capitalizeFirstLetter } from 'utils/formatters';
-import Input from 'components/Shared/Input';
-import Button from 'components/Shared/Button';
-import Modal from 'components/Shared/Modal';
-import LoadingScreen from 'components/Shared/LoadingScreen';
-import styles from './employee.module.css';
+import { Input, Button, Modal, LoadingScreen } from 'components/Shared';
+import schema from './validations';
+import styles from './form.module.css';
 
 const EmployeeForm = () => {
   const history = useHistory();
