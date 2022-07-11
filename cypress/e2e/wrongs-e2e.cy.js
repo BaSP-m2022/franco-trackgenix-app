@@ -34,6 +34,6 @@ describe('Wrong login e2e', () => {
     cy.get('#root > div > div > div.layout_divSwitch__2iaq7 > div > form > div:nth-child(1) > div:nth-child(2) > input')
       .clear()
     cy.get('#root > div > div > div.layout_divSwitch__2iaq7 > div > form > div:nth-child(1) > div:nth-child(2) > p')
-      .contains('"password" is not allowed to be empty')
+      .contains('is not allowed to be empty')
   });
 });
