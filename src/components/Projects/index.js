@@ -17,18 +17,35 @@ const Projects = () => {
   const loading = useSelector((state) => state.projects.loading);
   const error = useSelector((state) => state.projects.error);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [idToDelete, setIdToDelete] = useState();
+  const [idToDelete, setIdToDelete] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredList, setFilteredList] = useState(projects);
+  const [isTable, setIsTable] = useState(false);
+  const [employeesData, setEmployeesData] = useState([]);
+  const [modalTitle, setModalTitle] = useState('');
 
   const column = [
-    { heading: 'Id', value: '_id' },
     { heading: 'Name', value: 'name' },
     { heading: 'Status', value: 'status' },
     { heading: 'Description', value: 'description' },
     { heading: 'Start date', value: 'startDate' },
-    { heading: 'End date', value: 'endDate' }
+    { heading: 'End date', value: 'endDate' },
+    { heading: 'Employees', value: 'employees' }
   ];
+
+  const columnEmployees = [
+    { heading: 'First Name', value: 'employeeId.firstName' },
+    { heading: 'Last Name', value: 'employeeId.lastName' },
+    { heading: 'Role', value: 'role' },
+    { heading: 'Rate', value: 'rate' }
+  ];
+
+  const handleArray = (employees) => {
+    setEmployeesData(employees);
+    setIsTable(true);
+    setModalTitle('Employees in Project');
+    openModal();
+  };
 
   const handleSetProject = (id) => {
     dispatch(setProject(id));
@@ -36,6 +53,8 @@ const Projects = () => {
   };
 
   const buttonDelete = (id) => {
+    setModalTitle('Delete Project');
+    setIsTable(false);
     setIdToDelete(id);
     openModal();
   };
@@ -94,20 +113,28 @@ const Projects = () => {
           />
         </div>
       </div>
-      <Modal modalTitle={'Delete Project'} isOpen={isModalOpen}>
-        <p>{error ? error : 'Are you sure you want to delete a Project?'}</p>
-        <div>
-          {error ? (
-            <div>
-              <Button text="Close" handler={closeModal} />
-            </div>
-          ) : (
-            <div>
-              <Button text="Yes" type="delete" handler={delProject} />
-              <Button text="No" handler={closeModal} />
-            </div>
-          )}
-        </div>
+      <Modal modalTitle={modalTitle} isOpen={isModalOpen} handleClose={closeModal}>
+        {isTable && <Table data={employeesData} column={columnEmployees} modal={handleArray} />}
+        {isTable && (
+          <div>
+            <Button text="OK" handler={closeModal} />
+          </div>
+        )}
+        {!isTable && <p>{error ? error : 'Are you sure you want to delete a Project?'}</p>}
+        {!isTable && (
+          <div>
+            {error ? (
+              <div>
+                <Button text="Close" handler={closeModal} />
+              </div>
+            ) : (
+              <div>
+                <Button text="Yes" type="delete" handler={delProject} />
+                <Button text="No" handler={closeModal} />
+              </div>
+            )}
+          </div>
+        )}
       </Modal>
       <div className={styles.flex}>
         <Table
@@ -115,6 +142,9 @@ const Projects = () => {
           deleteItem={buttonDelete}
           column={column}
           editItem={handleSetProject}
+          buttons={true}
+          modal={handleArray}
+          arrayName={'Employees'}
         ></Table>
       </div>
     </section>

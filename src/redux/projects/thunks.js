@@ -6,7 +6,11 @@ export const getProjects = () => {
   return async (dispatch) => {
     dispatch(actions.getProjectsLoading());
     try {
-      const response = await fetch(URL);
+      const response = await fetch(URL, {
+        headers: {
+          token: sessionStorage.getItem('token')
+        }
+      });
       const jsonResponse = await response.json();
       if (jsonResponse.error) {
         dispatch(actions.getProjectsError(jsonResponse.message));
@@ -26,7 +30,10 @@ export const putProject = (id, body) => {
     try {
       const response = await fetch(`${URL}/${id}`, {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          token: sessionStorage.getItem('token')
+        },
         body: JSON.stringify(body)
       });
       const jsonResponse = await response.json();
@@ -47,7 +54,10 @@ export const deleteProject = (id) => {
     dispatch(actions.deleteProjectLoading());
     try {
       const response = await fetch(`${URL}/${id}`, {
-        method: 'DELETE'
+        method: 'DELETE',
+        headers: {
+          token: sessionStorage.getItem('token')
+        }
       });
       const jsonResponse = await response.json();
       if (jsonResponse.error) {
@@ -68,7 +78,10 @@ export const postProject = (body) => {
     try {
       const response = await fetch(`${URL}/`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          token: sessionStorage.getItem('token')
+        },
         body: JSON.stringify(body)
       });
       const jsonResponse = await response.json();

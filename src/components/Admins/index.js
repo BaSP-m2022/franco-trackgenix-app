@@ -27,8 +27,7 @@ const Admins = () => {
   const column = [
     { heading: 'First name', value: 'firstName' },
     { heading: 'Last name', value: 'lastName' },
-    { heading: 'Email', value: 'email' },
-    { heading: 'Id', value: '_id' }
+    { heading: 'Email', value: 'email' }
   ];
 
   useEffect(() => {
@@ -116,6 +115,7 @@ const Admins = () => {
         column={column}
         deleteItem={buttonDelete}
         editItem={handleSetAdmin}
+        buttons={true}
       />
     </section>
   );

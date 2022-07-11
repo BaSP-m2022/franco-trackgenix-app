@@ -22,15 +22,39 @@ const TimeSheets = () => {
   const [deleteId, setDeleteId] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredList, setFilteredList] = useState(timeSheets);
+  const [tasksData, setTasksData] = useState([]);
+  const [modalTitle, setModalTitle] = useState('');
+  const [isTable, setIsTable] = useState(false);
 
   const column = [
+<<<<<<< HEAD
     { heading: 'First name', value: 'employeeId.firstName' },
     { heading: 'Last name', value: 'employeeId.lastName' },
     { heading: 'Tasks', value: 'tasks[0].description' },
     { heading: 'Total hours', value: 'totalHours' },
     { heading: 'Start date', value: 'startDate' },
     { heading: 'Id', value: '_id' }
+=======
+    { heading: 'First Name', value: 'employeeId.firstName' },
+    { heading: 'Last Name', value: 'employeeId.lastName' },
+    { heading: 'Start Date', value: 'startDate' },
+    { heading: 'Tasks', value: 'tasks' }
+>>>>>>> origin
   ];
+
+  const columnTasks = [
+    { heading: 'Project Name', value: 'projectId.name' },
+    { heading: 'Date', value: 'date' },
+    { heading: 'description', value: 'description' },
+    { heading: 'Worked Hours', value: 'workedHours' }
+  ];
+
+  const handleArray = (tasks) => {
+    setTasksData(tasks);
+    setIsTable(true);
+    setModalTitle('Tasks in Time Sheet');
+    openModal();
+  };
 
   useEffect(() => {
     if (!timeSheets.length) {
@@ -54,6 +78,8 @@ const TimeSheets = () => {
 
   function buttonDelete(id) {
     setDeleteId(id);
+    setModalTitle('Delete Timesheet');
+    setIsTable(false);
     openModal();
   }
 
@@ -65,53 +91,64 @@ const TimeSheets = () => {
     setIsOpen(false);
   };
 
+  if (loading) {
+    return (
+      <div className={styles.loadingDiv}>
+        <LoadingScreen />
+      </div>
+    );
+  }
+
   return (
     <section className={styles.container}>
-      {loading ? (
-        <div className={styles.loadingDiv}>
-          <LoadingScreen />
-        </div>
-      ) : (
-        <>
-          <Modal modalTitle={'Time Sheets'} isOpen={isOpen}>
-            <p>{error ? error : 'Are you sure to delete a Time Sheet?'}</p>
-            <div>
-              {error ? (
-                <div>
-                  <Button text="Close" handler={closeModal} />
-                </div>
-              ) : (
-                <div>
-                  <Button
-                    text="Yes"
-                    type="delete"
-                    handler={() => {
-                      dispatch(deleteTimeSheet(deleteId));
-                      closeModal();
-                    }}
-                  />
-                  <Button text="No" handler={closeModal} />
-                </div>
-              )}
-            </div>
-          </Modal>
-          <h2>Timesheets</h2>
-          <div className={styles.buttonContainer}>
-            <Button text="Add timeSheet" link={'/time-sheets/form'} />
-            <Search
-              placeholder="Search by ID"
-              searchQuery={searchQuery}
-              setSearchQuery={setSearchQuery}
-            />
+      <Modal modalTitle={modalTitle} isOpen={isOpen} handleClose={closeModal}>
+        {isTable && <Table data={tasksData} column={columnTasks} modal={handleArray} />}
+        {isTable && (
+          <div>
+            <Button text="OK" handler={closeModal} />
           </div>
-          <Table
-            data={searchQuery.length ? filteredList : timeSheets}
-            column={column}
-            deleteItem={buttonDelete}
-            editItem={handleSetTimeSheet}
-          />
-        </>
-      )}
+        )}
+        {!isTable && <p>{error ? error : 'Are you sure to delete a Time Sheet?'}</p>}
+        {!isTable && (
+          <div>
+            {error ? (
+              <div>
+                <Button text="Close" handler={closeModal} />
+              </div>
+            ) : (
+              <div>
+                <Button
+                  text="Yes"
+                  type="delete"
+                  handler={() => {
+                    dispatch(deleteTimeSheet(deleteId));
+                    closeModal();
+                  }}
+                />
+                <Button text="No" handler={closeModal} />
+              </div>
+            )}
+          </div>
+        )}
+      </Modal>
+      <h2>Timesheets</h2>
+      <div className={styles.buttonContainer}>
+        <Button text="Add timeSheet" link={'/time-sheets/form'} />
+        <Search
+          placeholder="Search by ID"
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+        />
+      </div>
+      <Table
+        data={searchQuery.length ? filteredList : timeSheets}
+        column={column}
+        deleteItem={buttonDelete}
+        editItem={handleSetTimeSheet}
+        buttons={true}
+        modal={handleArray}
+        arrayName={'Tasks'}
+      />
     </section>
   );
 };

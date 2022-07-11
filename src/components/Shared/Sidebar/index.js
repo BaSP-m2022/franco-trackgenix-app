@@ -1,6 +1,6 @@
 import React from 'react';
+import NavLinks from '../NavLink';
 import styles from './sidebar.module.css';
-import { NavLink } from 'react-router-dom';
 
 function Sidebar() {
   return (
@@ -10,6 +10,7 @@ function Sidebar() {
       </div>
       <div>
         <ul className={styles.routes}>
+<<<<<<< HEAD
           <li className={styles.items}>
             <NavLink to={'home'} className={styles.links}>
               Home
@@ -40,6 +41,9 @@ function Sidebar() {
               Timesheets
             </NavLink>
           </li>
+=======
+          <NavLinks />
+>>>>>>> origin
           <li>
             <p className={styles.contact}> Contact Us</p>
           </li>
