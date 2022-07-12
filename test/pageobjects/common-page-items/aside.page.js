@@ -8,7 +8,7 @@ class Aside extends Page {
     return $('//*[@id="root"]/div/div/div[1]/nav/div[2]/ul/li[8]/p');
   }
   get homeRef() {
-    return $('//*[@id="root"]/div/div/div[1]/nav/div[2]/ul/li[1]/a');
+    return $('//*[@id="root"]/div/div/div[1]/nav/div[2]/ul/div/ul/li[1]/a');
   }
   get adminsRef() {
     return $('//*[@id="root"]/div/div/div[1]/nav/div[2]/ul/li[2]/a');
@@ -23,7 +23,7 @@ class Aside extends Page {
     return $('//*[@id="root"]/div/div/div[1]/nav/div[2]/ul/li[5]/a');
   }
   get timesheetsRef() {
-    return $('//*[@id="root"]/div/div/div[1]/nav/div[2]/ul/li[6]/a');
+    return $('//*[@id="root"]/div/div/div[1]/nav/div[2]/ul/div/ul/li[2]/a');
   }
   get tasksRef() {
     return $('//*[@id="root"]/div/div/div[1]/nav/div[2]/ul/li[7]/a');
