@@ -16,20 +16,20 @@ class LoginPage extends Page {
   get signupButton() {
     return $('//*[@id="root"]/div/div/div[2]/div/form/div[3]/button');
   }
-  get modalError () {
-    return  $('//*[@id="root"]/div/div/div[2]/div/div/div');
+  get modalError() {
+    return $('//*[@id="root"]/div/div/div[2]/div/div/div');
   }
-  get errorMsg () {
-    return  $('//*[@id="root"]/div/div/div[2]/div/div/div/div[1]/h3');
+  get errorMsg() {
+    return $('//*[@id="root"]/div/div/div[2]/div/div/div/div[1]/h3');
   }
   get okErrorButton() {
-    return $('//*[@id="root"]/div/div/div[2]/div/div/div/div[2]/div/button')
+    return $('//*[@id="root"]/div/div/div[2]/div/div/div/div[2]/div/button');
   }
-  get inputError1 () {
-    return $('//*[@id="root"]/div/div/div[2]/div/form/div[1]/div[1]/p')
+  get inputError1() {
+    return $('//*[@id="root"]/div/div/div[2]/div/form/div[1]/div[1]/p');
   }
-  get inputError2 () {
-    return $('//*[@id="root"]/div/div/div[2]/div/form/div[1]/div[2]/p')
+  get inputError2() {
+    return $('//*[@id="root"]/div/div/div[2]/div/form/div[1]/div[2]/p');
   }
   get inputError3() {
     return $('//*[@id="root"]/div/div/div[2]/div/form/div[1]/div[1]/p');

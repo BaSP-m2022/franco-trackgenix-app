@@ -3,11 +3,11 @@ const LoginPage = require('../../pageobjects/login/login.page');
 const Sidebar = require('../../pageobjects/common-page-items/aside.page');
 
 beforeAll('Open Browser', () => {
-   HomePage.open();
+  HomePage.open();
 });
 
 describe('E2e test login successfully', () => {
-  it ('On home page, click on login button', async () => {
+  it('On home page, click on login button', async () => {
     await expect(HomePage.loginButton).toBeClickable();
     await HomePage.loginButton.click();
     await expect(browser).toHaveUrl('https://franco-trackgenix-app.vercel.app/login');
@@ -19,10 +19,10 @@ describe('E2e test login successfully', () => {
   });
   it('If we login, we should be redirected to home', async () => {
     await expect(browser).toHaveUrl('https://franco-trackgenix-app.vercel.app/home');
-    const hiButton = await $('//*[@id="root"]/div/header/div[2]/button[1]')
+    const hiButton = await $('//*[@id="root"]/div/header/div[2]/button[1]');
     const hiMsg = await hiButton.getText();
     await expect(hiMsg).toBe('Hi, Wdio');
-  })
+  });
   it('The endpoints shown are the ones the employee has access to', async () => {
     await expect(Sidebar.homeRef).toBeDisplayed();
     await expect(Sidebar.homeRef).toBeClickable();
@@ -31,5 +31,5 @@ describe('E2e test login successfully', () => {
     await expect(Sidebar.adminsRef).not.toBeDisplayed();
     await expect(Sidebar.projectsRef).not.toBeDisplayed();
     await expect(Sidebar.employeesRef).not.toBeDisplayed();
-  })
+  });
 });

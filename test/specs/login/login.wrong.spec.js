@@ -1,12 +1,10 @@
-
-const { passwordErrorMsg } = require('../../pageobjects/login/login.page');
 const LoginPage = require('../../pageobjects/login/login.page');
 
 beforeAll('Go to the login page', () => {
-   browser.url('https://franco-trackgenix-app.vercel.app/login')
+  browser.url('https://franco-trackgenix-app.vercel.app/login');
 });
 beforeEach('refresh', () => {
-   browser.url('https://franco-trackgenix-app.vercel.app/login')
+  browser.url('https://franco-trackgenix-app.vercel.app/login');
 });
 
 describe('E2e test login fail', () => {
@@ -27,6 +25,6 @@ describe('E2e test login fail', () => {
     await expect(LoginPage.inputError2).toBeDisplayed();
     await expect(LoginPage.inputError2).toHaveText('"password" is not allowed to be empty');
     await LoginPage.emailInput.setValue('a');
-    await expect(LoginPage.inputError3).toHaveText('The email is invalid')
-  })
+    await expect(LoginPage.inputError3).toHaveText('The email is invalid');
+  });
 });
