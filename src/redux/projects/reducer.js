@@ -6,12 +6,12 @@ const initialStore = {
   error: '',
   project: {}
 };
+
 export const projectsReducer = (state = initialStore, actions) => {
   switch (actions.type) {
     case CONSTANTS.GET_PROJECTS_LOADING:
       return {
         ...state,
-        error: undefined,
         loading: true
       };
     case CONSTANTS.GET_PROJECTS_SUCCESS:
@@ -26,27 +26,23 @@ export const projectsReducer = (state = initialStore, actions) => {
         error: actions.payload,
         loading: false
       };
-
     case CONSTANTS.DELETE_PROJECT_LOADING:
       return {
         ...state,
         loading: true
       };
-
     case CONSTANTS.DELETE_PROJECT_SUCCESS:
       return {
         ...state,
         list: state.list.filter((project) => project._id !== actions.payload._id),
         loading: false
       };
-
     case CONSTANTS.DELETE_PROJECT_ERROR:
       return {
         ...state,
         error: actions.payload,
         loading: false
       };
-
     case CONSTANTS.SET_PROJECT:
       return {
         ...state,
@@ -58,12 +54,12 @@ export const projectsReducer = (state = initialStore, actions) => {
     case CONSTANTS.ADD_PROJECT_LOADING:
       return {
         ...state,
-        isLoading: true
+        loading: true
       };
     case CONSTANTS.ADD_PROJECT_SUCCESS:
       return {
         ...state,
-        isLoading: false,
+        loading: false,
         list: [...state.list, actions.payload],
         error: '',
         project: actions.payload
@@ -71,18 +67,18 @@ export const projectsReducer = (state = initialStore, actions) => {
     case CONSTANTS.ADD_PROJECT_ERROR:
       return {
         ...state,
-        isLoading: false,
+        loading: false,
         error: actions.payload
       };
     case CONSTANTS.PUT_PROJECT_LOADING:
       return {
         ...state,
-        isLoading: true
+        loading: true
       };
     case CONSTANTS.PUT_PROJECT_SUCCESS:
       return {
         ...state,
-        isLoading: false,
+        loading: false,
         error: '',
         list: state.list.map((projects) => {
           return projects._id === actions.payload._id ? actions.payload : projects;
@@ -91,7 +87,7 @@ export const projectsReducer = (state = initialStore, actions) => {
     case CONSTANTS.PUT_PROJECT_ERROR:
       return {
         ...state,
-        isLoading: false,
+        loading: false,
         error: actions.payload
       };
     case CONSTANTS.CLEAR_ERROR:

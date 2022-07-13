@@ -26,7 +26,6 @@ export const superAdminsReducer = (state = initialStore, actions) => {
         error: actions.payload,
         loading: false
       };
-
     case CONSTANTS.DELETE_SUPER_ADMIN_LOADING:
       return {
         ...state,
@@ -44,7 +43,6 @@ export const superAdminsReducer = (state = initialStore, actions) => {
         error: actions.payload,
         loading: false
       };
-
     case CONSTANTS.PUT_SUPER_ADMIN_LOADING:
       return {
         ...state,
@@ -77,7 +75,6 @@ export const superAdminsReducer = (state = initialStore, actions) => {
           : {},
         loading: false
       };
-
     case CONSTANTS.ADD_SUPER_ADMIN_LOADING:
       return {
         ...state,
@@ -101,7 +98,6 @@ export const superAdminsReducer = (state = initialStore, actions) => {
         ...state,
         error: ''
       };
-
     default:
       return state;
   }

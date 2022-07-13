@@ -23,19 +23,32 @@
   text-decoration: none;
 }
 
+.buttonContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+}
+
 .userButton {
+  display: flex;
+  align-items: center;
   background: none;
   border: none;
   padding: 0;
   cursor: pointer;
   outline: inherit;
-  display: flex;
-  align-items: center;
+  height: 25px;
+  margin: 10px 0;
 }
 
-.user {
+.userName {
   font-size: 20px;
   color: #ffffff;
   margin-right: 5px;
+}
 
+.text {
+  font-size: 14px;
+  color: #ffffff;
 }

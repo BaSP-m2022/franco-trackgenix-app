@@ -1,6 +1,6 @@
 import style from './button.module.css';
 
-function button(props) {
+function Button(props) {
   if (props.link && props.id) {
     return (
       <a href={props.link + props.id} className={style.btn}>
@@ -30,4 +30,4 @@ function button(props) {
   }
 }
 
-export default button;
+export default Button;
