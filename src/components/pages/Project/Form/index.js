@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
@@ -42,6 +43,7 @@ const schema = Joi.object({
       });
       if (hasPM > 1) return helper.message('Project must have only one Project Manager');
       if (hasPM === 0) return helper.message('Project must have a Project Manager');
+      return value;
     })
     .items(
       Joi.object({
@@ -141,6 +143,7 @@ function ProjectForm() {
   }, [project]);
 
   const onSubmit = (data) => {
+    console.log('data', data);
     const body = {
       name: capitalizeFirstLetter(data.name),
       status: data.status,
@@ -184,7 +187,7 @@ function ProjectForm() {
           </div>
         </Modal>
         <h2 className={styles.h2}>{title}</h2>
-        <form className={styles.form}>
+        <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
           <div className={styles.projects}>
             <Controller
               control={control}
@@ -287,6 +290,7 @@ function ProjectForm() {
                       />
                     )}
                   />
+                  /{' '}
                   <Controller
                     control={control}
                     name={`employees[${index}].rate`}
@@ -325,7 +329,8 @@ function ProjectForm() {
                   <Button
                     type={'delete'}
                     text={'Delete'}
-                    handler={() => {
+                    handler={(e) => {
+                      e.preventDefault();
                       remove(index);
                       setClick(click - 1);
                     }}
@@ -357,7 +362,7 @@ function ProjectForm() {
                 routeChange();
               }}
             />
-            <Button text={buttonText} handler={handleSubmit(onSubmit)} />
+            <Button text={buttonText} />
           </div>
         </form>
       </div>
