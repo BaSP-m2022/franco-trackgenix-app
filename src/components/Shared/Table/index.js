@@ -3,8 +3,17 @@ import Button from '../Button';
 
 const TableHeadItem = ({ item }) => <th className={styles.headTable}>{item.heading}</th>;
 
-const TableRow = ({ item, column, deleteItem, editItem, buttons, modal, arrayName }) => (
-  <tr className={styles.containerTable}>
+const TableRow = ({
+  item,
+  column,
+  deleteItem,
+  editItem,
+  buttons,
+  modal,
+  arrayName,
+  handleRowClick
+}) => (
+  <tr className={styles.containerTable} onClick={handleRowClick} data-id={item._id}>
     {column.map((columnItem, index) => {
       if (columnItem.value.includes('.')) {
         const itemSplit = columnItem.value.split('.');
@@ -50,7 +59,16 @@ const TableRow = ({ item, column, deleteItem, editItem, buttons, modal, arrayNam
   </tr>
 );
 
-const Table = ({ data, column, deleteItem, editItem, buttons, modal, arrayName }) => {
+const Table = ({
+  data,
+  column,
+  deleteItem,
+  editItem,
+  buttons,
+  modal,
+  arrayName,
+  handleRowClick
+}) => {
   return (
     <table className={styles.tableMain}>
       <thead>
@@ -72,6 +90,7 @@ const Table = ({ data, column, deleteItem, editItem, buttons, modal, arrayName }
             buttons={buttons}
             modal={modal}
             arrayName={arrayName}
+            handleRowClick={handleRowClick}
           />
         ))}
       </tbody>

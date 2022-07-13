@@ -110,6 +110,7 @@ const Employees = () => {
         column={column}
         editItem={handleSetEmployee}
         buttons={true}
+        handleRowClick={(e) => history.push(`employees/${e.currentTarget.getAttribute('data-id')}`)}
       />
     </section>
   );
