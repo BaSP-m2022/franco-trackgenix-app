@@ -1,14 +1,18 @@
 import * as actions from './actions';
+import { serializeObject } from 'utils/formatters';
 
-export const getEmployees = () => {
+export const getEmployees = (search) => {
   return async (dispatch) => {
     dispatch(actions.getEmployeesLoading());
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/employees`, {
-        headers: {
-          token: sessionStorage.getItem('token')
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/employees${serializeObject(search)}`,
+        {
+          headers: {
+            token: sessionStorage.getItem('token')
+          }
         }
-      });
+      );
       const jsonResponse = await response.json();
       if (jsonResponse.error) {
         dispatch(actions.getEmployeesError(jsonResponse.message));
