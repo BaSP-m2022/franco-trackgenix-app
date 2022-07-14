@@ -105,12 +105,14 @@ class SignUp extends Page {
   }
 
   open() {
-    return super.open('employee/signup');
+    return super.open('signup');
   }
 
-  async signup(firstname, lastname, DOB, DNI, email, password) {
+  // randomizer chars
+
+  async signup(fistname, lastname, DOB, DNI, email, password) {
     const elem = await $('button.button_btn__3WL0L:nth-child(2)');
-    await this.setFirstName(firstname);
+    await this.setFirstName(fistname);
     await this.setLastName(lastname);
     await this.setDOB(DOB);
     await this.setDNI(DNI);

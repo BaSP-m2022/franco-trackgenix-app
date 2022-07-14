@@ -22,9 +22,9 @@ exports.config = {
   // then the current working directory is where your `package.json` resides, so `wdio`
   // will be called from there.
   //
-  specs: ['./test/specs/**/*.js'],
+  specs: ['./test/specs/Signup/Signup.success.js'],
   // Patterns to exclude.
-  exclude: ['./test/specs/Signup/Signup.success.js'],
+  // exclude: ['./test/specs/Signup/Signup.success.js'],
   //
   // ============
   // Capabilities
@@ -145,7 +145,7 @@ exports.config = {
     // The Jasmine framework allows interception of each assertion in order to log the state of the application
     // or website depending on the result. For example, it is pretty handy to take a screenshot every time
     // an assertion fails.
-    expectationResultHandler: function (passed, assertion) {
+    expectationResultHandler: function (passed, assertion) { //eslint-disable-line
       // do something
     }
   },
@@ -262,7 +262,7 @@ exports.config = {
       });
     });
   },
-  afterTest: async function (test, context, { error, result, duration, passed, retries }) {
+  afterTest: async function (test, context, { error }) {
     if (error) {
       await browser.takeScreenshot();
     }
