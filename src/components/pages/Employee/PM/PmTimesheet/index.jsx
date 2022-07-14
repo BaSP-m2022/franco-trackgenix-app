@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import styles from './timesheet.module.css';
 import { formatDate } from 'utils/formatters';
 import { Button, SelectDropdown, Modal, Input } from 'components/Shared';
@@ -10,22 +11,21 @@ import { useHistory } from 'react-router-dom';
 import { joiResolver } from '@hookform/resolvers/joi';
 import Joi from 'joi';
 
-const TableRow = ({ project, tasks }) => {
-  const totalProjectTasksHours = tasks
-    .filter((task) => task.projectId === project._id)
-    .map((task) => task.workedHours)
-    .reduce((partialSum, a) => partialSum + a, 0);
+const TableRow = ({ project, projectId }) => {
+  const employeeNameMap = project
+    .filter((project) => project.projectId === projectId)
+    .map((project) => project.projectId.firstName + ' ' + project.projectId.lastName);
   return (
     <tr className={styles.containerTable}>
-      <td>{project?.name}</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>{totalProjectTasksHours}</td>
+      <td>{employeeNameMap}</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
     </tr>
   );
 };
@@ -36,9 +36,7 @@ const PmTimeSheet = () => {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [projectsOptions, setProjectsOptions] = useState([]);
-  const [timeSheetEmployee, setTimeSheetEmployee] = useState({});
-  const [tasksEmployee, setTasksEmployee] = useState([]);
-  const [projectsEmployee, setProjectsEmployee] = useState([]);
+  const [projectId, setProjectId] = useState('');
   const [click, setClick] = useState(0);
   const dispatch = useDispatch();
 
@@ -73,35 +71,37 @@ const PmTimeSheet = () => {
   const timeSheets = useSelector((state) => state.timeSheets.list);
   const projects = useSelector((state) => state.projects.list);
   const error = useSelector((state) => state.timeSheets.error);
-  const idEmployee = '62b93b6f8186c3f9a35f7ed8';
+  const idEmployee = '62ceb357684df6d956380719';
 
   useEffect(() => {
-    if (!timeSheets.length) {
-      dispatch(getTimeSheets());
-    }
+    setEndDate(startDate + 6 * 60 * 60 * 24 * 1000);
+  }, [startDate]);
+
+  useEffect(() => {
     if (!projects.length) {
-      dispatch(getProjects());
+      dispatch(getProjects(`employees.employeeId=${idEmployee}`));
     }
     setProjectsOptions([
-      ...projectsEmployee.map((project) => ({ value: project?._id, label: project?.name }))
+      ...projects.map((project) => ({ value: project?._id, label: project?.name }))
     ]);
 
     if (error) {
       openModal();
     }
-    if (date.getDay() > 0) {
-      setStartDate(date.setDate(date.getDate() - date.getDay()));
+    if (date.getUTCDay() !== 1) {
+      setStartDate(date.setDate(date.getDate() - date.getDay() + 1));
     } else {
       setStartDate(Date.now());
     }
-    setEndDate(date.setDate(date.getDate() + 6));
 
+    if (!timeSheets.length) {
+      dispatch(getTimeSheets());
+    }
     const tsEmployee = timeSheets.filter((ts) => {
       if (ts.employeeI?._id === idEmployee) {
         return ts;
       }
     });
-    setTimeSheetEmployee(tsEmployee);
 
     let projectsIdsEmployeeUnfiltered = [];
     for (let i = 1; i < tsEmployee.length; i++) {
@@ -115,29 +115,10 @@ const PmTimeSheet = () => {
       }
       return acc;
     }, []);
-
-    if (projectsIdsEmployee.length > 0) {
-      const projectsEmp = projectsIdsEmployee.map((projectId) => {
-        return projects.find((project) => {
-          return project._id === projectId;
-        });
-      });
-      setProjectsEmployee(projectsEmp);
-    }
-  }, [timeSheets, projects]);
-
-  useEffect(() => {
-    let tasksEmployee = [];
-    for (let i = 1; i < timeSheetEmployee.length; i++) {
-      for (let j = 0; j < timeSheetEmployee[i].tasks.length; j++) {
-        tasksEmployee.push(timeSheetEmployee[i].tasks[j]);
-      }
-    }
-    setTasksEmployee(tasksEmployee);
   }, [timeSheets, projects]);
 
   const openModal = () => {
-    setIsOpen(false);
+    setIsOpen(true);
   };
 
   const closeModal = () => {
@@ -154,9 +135,17 @@ const PmTimeSheet = () => {
     history.push('/employee/home');
   };
 
+  const earlier = () => {
+    setStartDate(startDate - 7 * 60 * 60 * 24 * 1000);
+  };
+
+  const later = () => {
+    setStartDate(startDate + 7 * 60 * 60 * 24 * 1000);
+  };
+
   return (
     <div className={styles.container}>
-      <Modal modalTitle="Add new progress" isOpen={isOpen} handleClose={closeModal}>
+      <Modal modalTitle="Add new progress" isOpen={isOpen}>
         <div className={styles.modal}>
           <form>
             <div className={styles.date}>
@@ -268,14 +257,21 @@ const PmTimeSheet = () => {
           </form>
         </div>
       </Modal>
-      <h2 className={styles.h2}>Employee &gt; Home</h2>
+      <h2 className={styles.h2}>General Timesheet</h2>
+      <SelectDropdown
+        className={styles.label}
+        name="Select Project"
+        onChange={setProjectId}
+        options={projectsOptions}
+        error={error?.message}
+      />
       <table className={styles.table}>
         <thead>
           <tr>
             <th colSpan={9} className={styles.date}>
-              <Button text="<" />
+              <Button text="<" handler={earlier} />
               {formatDate(startDate)} - {formatDate(endDate)}
-              <Button text=">" />
+              <Button text=">" handler={later} />
             </th>
           </tr>
           <tr>
@@ -290,11 +286,6 @@ const PmTimeSheet = () => {
             <th>Total hs</th>
           </tr>
         </thead>
-        <tbody>
-          {projectsEmployee.map((project, key) => (
-            <TableRow key={key} project={project} tasks={tasksEmployee} />
-          ))}
-        </tbody>
       </table>
       <div className={styles.buttonContainer}>
         <Button text="Add new progress" handler={openModal} />
