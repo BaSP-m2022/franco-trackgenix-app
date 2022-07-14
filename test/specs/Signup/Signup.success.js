@@ -4,7 +4,7 @@ const randomName = () => {
   let names = [
     'Matias',
     'Higinia',
-    'Tobías',
+    'Tobias',
     'Maria',
     'Laura',
     'Guido',
@@ -55,15 +55,13 @@ const randomNumber = () => {
   return number;
 };
 
+const name = randomName();
+const lastname = randomLastName();
+
 const randomEmail = () => {
-  let email = randomName() + randomLastName() + randomNumber() + '@gmail.com';
+  let email = `${name}${lastname}${randomNumber()}@gmail.com`;
   let emailRandom = email.toString();
   return emailRandom;
-};
-
-const randomPassword = () => {
-  let password = randomLastName() + randomNumber();
-  return password;
 };
 
 const randomDni = () => {
@@ -80,21 +78,12 @@ const randomDate = () => {
   return dateS;
 };
 
-//(this will change with the Firebase setup)
-
 beforeAll('Open Browser', () => {
   browser.url('https://franco-trackgenix-app.vercel.app/signup');
 });
 
 describe('Complete the signup inputs with valid data', () => {
   it('Edit an admin success', async () => {
-    await Signup.signup(
-      randomName(),
-      randomLastName(),
-      randomDate(),
-      randomDni(),
-      randomEmail(),
-      randomPassword()
-    );
+    await Signup.signup(name, lastname, randomDate(), randomDni(), randomEmail(), 'test1234');
   });
 });
