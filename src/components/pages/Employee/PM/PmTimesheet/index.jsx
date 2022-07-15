@@ -11,21 +11,27 @@ import { useHistory } from 'react-router-dom';
 import { joiResolver } from '@hookform/resolvers/joi';
 import Joi from 'joi';
 
-const TableRow = ({ project, projectId }) => {
-  const employeeNameMap = project
-    .filter((project) => project.projectId === projectId)
-    .map((project) => project.projectId.firstName + ' ' + project.projectId.lastName);
+const TableRow = ({ employee, timesheets, date }) => {
+  const hourDays = [0, 0, 0, 0, 0, 0, 0, 0];
+  timesheets.map((timesheet) => {
+    if (timesheet.employeeId._id === employee.employeeId._id) {
+      timesheet.tasks.map((task) => {
+        const datee = Date.UTC(task.date);
+        console.log('datee', datee);
+      });
+    }
+  });
   return (
-    <tr className={styles.containerTable}>
-      <td>{employeeNameMap}</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
+    <tr>
+      <td>{employee.employeeId.firstName + ' ' + employee.employeeId.lastName}</td>
+      <td>{hourDays[0]}</td>
+      <td>{hourDays[1]}</td>
+      <td>{hourDays[2]}</td>
+      <td>{hourDays[3]}</td>
+      <td>{hourDays[4]}</td>
+      <td>{hourDays[5]}</td>
+      <td>{hourDays[6]}</td>
+      <td>{hourDays[7]}</td>
     </tr>
   );
 };
@@ -36,8 +42,10 @@ const PmTimeSheet = () => {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [projectsOptions, setProjectsOptions] = useState([]);
+  const [projectsPm, setProjectsPm] = useState([]);
   const [projectId, setProjectId] = useState('');
   const [click, setClick] = useState(0);
+  const [selectedProject, setSelectedProject] = useState();
   const dispatch = useDispatch();
 
   const schema = Joi.object({
@@ -75,6 +83,9 @@ const PmTimeSheet = () => {
 
   useEffect(() => {
     setEndDate(startDate + 6 * 60 * 60 * 24 * 1000);
+    if (!timeSheets.length) {
+      dispatch(getTimeSheets(`startDate=${formatDate(startDate)}T00:00:00.000Z`));
+    }
   }, [startDate]);
 
   useEffect(() => {
@@ -85,36 +96,14 @@ const PmTimeSheet = () => {
       ...projects.map((project) => ({ value: project?._id, label: project?.name }))
     ]);
 
-    if (error) {
-      openModal();
-    }
+    // if (error) {
+    //   openModal();
+    // }
     if (date.getUTCDay() !== 1) {
       setStartDate(date.setDate(date.getDate() - date.getDay() + 1));
     } else {
       setStartDate(Date.now());
     }
-
-    if (!timeSheets.length) {
-      dispatch(getTimeSheets());
-    }
-    const tsEmployee = timeSheets.filter((ts) => {
-      if (ts.employeeI?._id === idEmployee) {
-        return ts;
-      }
-    });
-
-    let projectsIdsEmployeeUnfiltered = [];
-    for (let i = 1; i < tsEmployee.length; i++) {
-      for (let j = 0; j < tsEmployee[i].tasks.length; j++) {
-        projectsIdsEmployeeUnfiltered.push(tsEmployee[i].tasks[j].projectId);
-      }
-    }
-    const projectsIdsEmployee = projectsIdsEmployeeUnfiltered.reduce((acc, item) => {
-      if (!acc.includes(item)) {
-        acc.push(item);
-      }
-      return acc;
-    }, []);
   }, [timeSheets, projects]);
 
   const openModal = () => {
@@ -261,7 +250,11 @@ const PmTimeSheet = () => {
       <SelectDropdown
         className={styles.label}
         name="Select Project"
-        onChange={setProjectId}
+        value={projectId}
+        onChange={(e) => {
+          setProjectId(e.currentTarget.value);
+          setSelectedProject(projects.find((project) => project._id === e.currentTarget.value));
+        }}
         options={projectsOptions}
         error={error?.message}
       />
@@ -286,6 +279,11 @@ const PmTimeSheet = () => {
             <th>Total hs</th>
           </tr>
         </thead>
+        <tbody>
+          {selectedProject?.employees?.map((employee, index) => (
+            <TableRow employee={employee} timesheets={timeSheets} date={startDate} key={index} />
+          ))}
+        </tbody>
       </table>
       <div className={styles.buttonContainer}>
         <Button text="Add new progress" handler={openModal} />
