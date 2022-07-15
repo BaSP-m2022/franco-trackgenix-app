@@ -70,12 +70,14 @@ const randomDni = () => {
 };
 
 const randomDate = () => {
-  let day = Math.floor(Math.random() * 30 + 1);
-  let month = Math.floor(Math.random() * 12 + 1);
-  let year = Math.floor(Math.random() * 99 + 1900);
-  let date = day + '/' + month + '/' + year;
-  let dateS = date.toString();
-  return dateS;
+  let maxDate = Date.now();
+  let timestamp = Math.floor(Math.random() * maxDate);
+  let makeADate = () => {
+    return new Date(timestamp);
+  };
+  let fdate = makeADate();
+  fdate.setFullYear(Math.random() * 38 + 1960);
+  return fdate.toLocaleDateString();
 };
 
 beforeAll('Open Browser', () => {
