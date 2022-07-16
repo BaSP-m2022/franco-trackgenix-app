@@ -15,42 +15,39 @@ import { joiResolver } from '@hookform/resolvers/joi';
 import Joi from 'joi';
 
 const TableRow = ({ project, timeSheet }) => {
-  let projectName;
+  let projectName = project.name;
   let hoursDay = [0, 0, 0, 0, 0, 0, 0];
   let total = 0;
-  console.log(timeSheet, 'ts');
-  timeSheet.map((ts) => {
-    return ts.tasks.map((task) => {
-      if (project._id == task.projectId._id) {
-        projectName = task.projectId.name;
-        const taskDate = new Date(task.date);
-        if (taskDate.getUTCDay() == 1) {
-          hoursDay[0] = hoursDay[0] + task.workedHours;
-        }
-        if (taskDate.getUTCDay() == 2) {
-          hoursDay[1] = hoursDay[1] + task.workedHours;
-        }
-        if (taskDate.getUTCDay() == 3) {
-          hoursDay[2] = hoursDay[2] + task.workedHours;
-        }
-        if (taskDate.getUTCDay() == 4) {
-          hoursDay[3] = hoursDay[3] + task.workedHours;
-        }
-        if (taskDate.getUTCDay() == 5) {
-          hoursDay[4] = hoursDay[4] + task.workedHours;
-        }
-        if (taskDate.getUTCDay() == 6) {
-          hoursDay[5] = hoursDay[5] + task.workedHours;
-        }
-        if (taskDate.getUTCDay() == 0) {
-          hoursDay[6] = hoursDay[6] + task.workedHours;
-        }
-        for (let i = 0; i < hoursDay.length; i++) {
-          total = hoursDay[i];
-        }
+  timeSheet?.tasks.map((task) => {
+    if (project._id == task.projectId._id) {
+      projectName = project.name;
+      const taskDate = new Date(task.date);
+      if (taskDate.getUTCDay() == 1) {
+        hoursDay[0] = hoursDay[0] + task.workedHours;
       }
-    });
+      if (taskDate.getUTCDay() == 2) {
+        hoursDay[1] = hoursDay[1] + task.workedHours;
+      }
+      if (taskDate.getUTCDay() == 3) {
+        hoursDay[2] = hoursDay[2] + task.workedHours;
+      }
+      if (taskDate.getUTCDay() == 4) {
+        hoursDay[3] = hoursDay[3] + task.workedHours;
+      }
+      if (taskDate.getUTCDay() == 5) {
+        hoursDay[4] = hoursDay[4] + task.workedHours;
+      }
+      if (taskDate.getUTCDay() == 6) {
+        hoursDay[5] = hoursDay[5] + task.workedHours;
+      }
+      if (taskDate.getUTCDay() == 0) {
+        hoursDay[6] = hoursDay[6] + task.workedHours;
+      }
+    }
   });
+  for (let i = 0; i < 7; i++) {
+    total = total + hoursDay[i];
+  }
   return (
     <tr className={styles.containerTable}>
       <td>{projectName}</td>
@@ -77,7 +74,7 @@ const EmployeeHome = () => {
   const [modalText, setModalText] = useState('');
   const [projectsOptions, setProjectsOptions] = useState([]);
   const [timeSheetEmployee, setTimeSheetEmployee] = useState({});
-  const [tasksEmployee, setTasksEmployee] = useState([]);
+  const [order, setOrder] = useState(0);
   const [projectsEmployee, setProjectsEmployee] = useState([]);
   const [click, setClick] = useState(0);
 
@@ -115,37 +112,29 @@ const EmployeeHome = () => {
   const timeSheets = useSelector((state) => state.timeSheets.list);
   const projects = useSelector((state) => state.projects.list);
   const error = useSelector((state) => state.timeSheets.error);
-  const idEmployee = '62ceb394684df6d95638071b';
+  const idEmployee = '62ceb357684df6d956380719';
 
   useEffect(() => {
     if (!timeSheets.length) {
-      dispatch(
-        getTimeSheets({
-          employeeId: { _id: '62ceb30b684df6d956380716' }
-        })
-      );
+      dispatch(getTimeSheets(`employeeId=${idEmployee}`));
     }
+    setTimeSheetEmployee(timeSheets);
+
     if (!projects.length) {
-      dispatch(
-        getProjects({
-          employees: { employeeId: { _id: '62ceb30b684df6d956380716' } }
-        })
-      );
+      dispatch(getProjects(`employees.employeeId=${idEmployee}`));
     }
-    const projectsOfEmployee = projects.filter((project) => {
-      return project.employees.find((emp) => emp.employeeId._id === idEmployee);
-    });
-    setProjectsEmployee(projectsOfEmployee);
+    setProjectsEmployee(projects);
+
     setProjectsOptions([
       ...projectsEmployee.map((project) => ({ value: project?._id, label: project?.name }))
     ]);
-    if (date.getDay() > 0) {
-      setStartDate(date.setDate(date.getDate() - date.getDay()));
-    } else {
-      setStartDate(Date.now());
-    }
-    setEndDate(date.setDate(date.getDate() + 6));
-    setTimeSheetEmployee(timeSheets);
+    // if (date.getDay() > 0) {
+    //   setStartDate(date.setDate(date.getDate() - date.getDay()));
+    // } else {
+    //   setStartDate(Date.now());
+    // }
+    // setEndDate(startDate.setDate(date.getDate() + 6));
+    setOrder(timeSheetEmployee.length);
   }, [timeSheets, projects]);
 
   const openModal = () => {
@@ -168,6 +157,17 @@ const EmployeeHome = () => {
     control,
     name: 'tasks'
   });
+
+  const previousTimeSheet = () => {
+    if (order > 1) {
+      setOrder(order - 1);
+    }
+  };
+  const nextTimeSheet = () => {
+    if (order < timeSheetEmployee.length) {
+      setOrder(order + 1);
+    }
+  };
 
   const onSubmit = async () => {
     /*    const body = JSON.stringify({
@@ -312,9 +312,9 @@ const EmployeeHome = () => {
         <thead>
           <tr>
             <th colSpan={9} className={styles.date}>
-              <Button text="<" />
+              <Button text="<" handler={previousTimeSheet} />
               {formatDate(startDate)} - {formatDate(endDate)}
-              <Button text=">" />
+              <Button text=">" handler={nextTimeSheet} />
             </th>
           </tr>
           <tr>
@@ -331,7 +331,7 @@ const EmployeeHome = () => {
         </thead>
         <tbody>
           {projectsEmployee.map((project, key) => (
-            <TableRow key={key} project={project} timeSheet={timeSheetEmployee} />
+            <TableRow key={key} project={project} timeSheet={timeSheetEmployee[order - 1]} />
           ))}
         </tbody>
       </table>
