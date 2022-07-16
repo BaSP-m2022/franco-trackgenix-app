@@ -1,6 +1,83 @@
 .container {
   flex: 1;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin: 6% auto;
+  text-align: center;
+}
+.h2 {
+  color: #373867;
+}
+.table {
+  margin: 15px 25px;
+  border: 1px solid #bebec8;
+  border-radius: 5px;
+  border-spacing: 0px;
+  table-layout: auto;
+  border-collapse: collapse;
+}
+.table th {
+  text-align: left;
+  padding: 10px 15px;
+  font-size: 1.2em;
+  color: #373867;
+  background-color: #d9dbe2;
+  border: solid 1px #373867;
+}
+.table td {
+  padding: 10px;
+  border: solid 1px #373867;
+}
+.table .date {
+  text-align: center;
+  background-color: #ffffff;
+  font-size: 1em;
+}
+
+.form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.buttonContainer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 25px;
+  margin: 15px 0;
+}
+
+.buttonDelete {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.formTitle{
+  font-weight: bold;
+  color: #373867;
+}
+
+.modal {
+  padding: 15px;
+  flex-direction: column;
+  height: 400px;
+  min-width: 500px;
+  overflow: auto;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.col {
+  flex-direction: column;
+  margin: 10px;
 }

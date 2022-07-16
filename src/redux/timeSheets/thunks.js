@@ -50,15 +50,18 @@ export const postTimeSheet = (body) => {
   };
 };
 
-export const getTimeSheets = () => {
+export const getTimeSheets = (optionalParams = '') => {
   return async (dispatch) => {
     dispatch(actions.getTimeSheetsLoading());
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/time-sheets`, {
-        headers: {
-          token: sessionStorage.getItem('token')
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/time-sheets/?${optionalParams}`,
+        {
+          headers: {
+            token: sessionStorage.getItem('token')
+          }
         }
-      });
+      );
       const jsonResponse = await response.json();
       if (jsonResponse.error) {
         dispatch(actions.getTimeSheetsError(jsonResponse.message));
