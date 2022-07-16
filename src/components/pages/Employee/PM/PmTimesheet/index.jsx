@@ -114,10 +114,11 @@ const PmTimeSheet = () => {
   }, [timeSheets, projects]);
 
   useEffect(() => {
+    selectedProject ? dispatch(getTimeSheets(`tasks.projectId=${selectedProject._id}`)) : null;
+  }, [selectedProject]);
+
+  useEffect(() => {
     setEndDate(startDate + 6 * 60 * 60 * 24 * 1000);
-    if (!timeSheets.length) {
-      dispatch(getTimeSheets());
-    }
     setFilteredTimesheet(
       timeSheets.filter((timesheet) => {
         const date = new Date(startDate);
