@@ -11,13 +11,27 @@ import { useHistory } from 'react-router-dom';
 import { joiResolver } from '@hookform/resolvers/joi';
 import Joi from 'joi';
 
-const TableRow = ({ employee, timesheets, date }) => {
+const FilterEmployee = (employees) => {
+  if (employees?.length > 0) {
+    const ids = employees.map((employee) => employee.employeeId._id);
+    const filtered = employees.filter(
+      (employee, index) => !ids.includes(employee.employeeId._id, index + 1)
+    );
+    return filtered;
+  } else return [];
+};
+
+const TableRow = ({ employee, timesheets, projectId, date }) => {
   const hourDays = [0, 0, 0, 0, 0, 0, 0, 0];
   timesheets.map((timesheet) => {
-    if (timesheet.employeeId._id === employee.employeeId._id) {
+    if (timesheet.employeeId._id === employee.employeeId._id || timesheet.startDate === date) {
       timesheet.tasks.map((task) => {
-        const datee = Date.UTC(task.date);
-        console.log('datee', datee);
+        if (task.projectId._id === projectId) {
+          const date = new Date(task.date);
+          if (date.getUTCDay() < 1) hourDays[date.getUTCDay() - 1] += task.workedHours;
+          else hourDays[date.getUTCDay() - 1] += task.workedHours;
+          hourDays[7] += task.workedHours;
+        }
       });
     }
   });
@@ -42,12 +56,11 @@ const PmTimeSheet = () => {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [projectsOptions, setProjectsOptions] = useState([]);
-  const [projectsPm, setProjectsPm] = useState([]);
+  const [filteredTimesheet, setFilteredTimesheet] = useState([]);
   const [projectId, setProjectId] = useState('');
   const [click, setClick] = useState(0);
   const [selectedProject, setSelectedProject] = useState();
   const dispatch = useDispatch();
-
   const schema = Joi.object({
     description: Joi.string().min(3).max(50).required().messages({
       'string.empty': 'You must add a description',
@@ -82,16 +95,10 @@ const PmTimeSheet = () => {
   const idEmployee = '62ceb357684df6d956380719';
 
   useEffect(() => {
-    setEndDate(startDate + 6 * 60 * 60 * 24 * 1000);
-    if (!timeSheets.length) {
-      dispatch(getTimeSheets(`startDate=${formatDate(startDate)}T00:00:00.000Z`));
-    }
-  }, [startDate]);
-
-  useEffect(() => {
     if (!projects.length) {
       dispatch(getProjects(`employees.employeeId=${idEmployee}`));
     }
+
     setProjectsOptions([
       ...projects.map((project) => ({ value: project?._id, label: project?.name }))
     ]);
@@ -105,6 +112,22 @@ const PmTimeSheet = () => {
       setStartDate(Date.now());
     }
   }, [timeSheets, projects]);
+
+  useEffect(() => {
+    setEndDate(startDate + 6 * 60 * 60 * 24 * 1000);
+    if (!timeSheets.length) {
+      dispatch(getTimeSheets());
+    }
+    setFilteredTimesheet(
+      timeSheets.filter((timesheet) => {
+        const date = new Date(startDate);
+        date.setUTCHours(0, 0, 0, 0);
+        if (timesheet.startDate === date.toISOString()) {
+          return timesheet;
+        }
+      })
+    );
+  }, [startDate]);
 
   const openModal = () => {
     setIsOpen(true);
@@ -280,8 +303,13 @@ const PmTimeSheet = () => {
           </tr>
         </thead>
         <tbody>
-          {selectedProject?.employees?.map((employee, index) => (
-            <TableRow employee={employee} timesheets={timeSheets} date={startDate} key={index} />
+          {FilterEmployee(selectedProject?.employees).map((employee, index) => (
+            <TableRow
+              employee={employee}
+              timesheets={filteredTimesheet}
+              key={index}
+              projectId={selectedProject._id}
+            />
           ))}
         </tbody>
       </table>
