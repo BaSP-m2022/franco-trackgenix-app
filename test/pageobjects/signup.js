@@ -61,13 +61,13 @@ class SignUp extends Page {
     return $('div.input_container__1yWID:nth-child(6) > p:nth-child(3)');
   }
   get returnButton() {
-    return $('.signupemployee_buttonContainer__14MnT > button:nth-child(1)');
+    return $('.signup_buttonContainer__2IjVy > button:nth-child(1)');
   }
   get signUpButton() {
     return $('button.button_btn__3WL0L:nth-child(2)');
   }
   get logInButton() {
-    return $('.signupemployee_form__2j_cO > div:nth-child(3) > button:nth-child(1)');
+    return $('.signup_form__1eR3H > div:nth-child(3) > button:nth-child(1)');
   }
   get modal() {
     return $('.modal_modalWrapper__2oAER');
@@ -78,11 +78,11 @@ class SignUp extends Page {
   get textModal() {
     return $('.modal_modalDivChildren__2FU_o > p:nth-child(1)');
   }
-  get modalX() {
-    return $('.modal_closeButton__191FP');
-  }
   get modalOk() {
     return $('.modal_modalDivChildren__2FU_o > div:nth-child(2) > button:nth-child(1)');
+  }
+  get login() {
+    return $('.header_userButton__1P-t6');
   }
 
   async setFirstName(firstname) {
@@ -124,12 +124,9 @@ class SignUp extends Page {
     await expect(this.titleModal).toBeDisplayed();
     await expect(this.titleModal).toHaveText('Employee Sign Up');
     await expect(this.textModal).toHaveText('Employee created successfully!');
-    await expect(this.modalX).toBeDisplayed();
     await expect(this.modalOk).toBeDisplayed();
-    await expect(this.modalX).toBeClickable;
-    await this.modalX.click();
-    await this.signUpButton.click();
     await this.modalOk.click();
+    await expect(this.login).toBeDisplayed();
   }
 
   async signupFailed(firstname, lastname, DOB, DNI, email, password) {
