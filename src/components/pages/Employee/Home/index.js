@@ -128,13 +128,7 @@ const EmployeeHome = () => {
     setProjectsOptions([
       ...projectsEmployee.map((project) => ({ value: project?._id, label: project?.name }))
     ]);
-    // if (date.getDay() > 0) {
-    //   setStartDate(date.setDate(date.getDate() - date.getDay()));
-    // } else {
-    //   setStartDate(Date.now());
-    // }
-    // setEndDate(startDate.setDate(date.getDate() + 6));
-    setOrder(timeSheetEmployee.length);
+    setOrder(timeSheetEmployee.length - 1);
   }, [timeSheets, projects]);
 
   const openModal = () => {
@@ -159,12 +153,12 @@ const EmployeeHome = () => {
   });
 
   const previousTimeSheet = () => {
-    if (order > 1) {
+    if (order > 0) {
       setOrder(order - 1);
     }
   };
   const nextTimeSheet = () => {
-    if (order < timeSheetEmployee.length) {
+    if (order < timeSheetEmployee.length - 1) {
       setOrder(order + 1);
     }
   };
@@ -313,7 +307,12 @@ const EmployeeHome = () => {
           <tr>
             <th colSpan={9} className={styles.date}>
               <Button text="<" handler={previousTimeSheet} />
-              {formatDate(startDate)} - {formatDate(endDate)}
+              {formatDate(timeSheetEmployee[order]?.startDate)} -{' '}
+              {formatDate(
+                new Date(timeSheetEmployee[order]?.startDate).setDate(
+                  new Date(timeSheetEmployee[order]?.startDate).getDate() + 6
+                )
+              )}
               <Button text=">" handler={nextTimeSheet} />
             </th>
           </tr>
@@ -331,7 +330,7 @@ const EmployeeHome = () => {
         </thead>
         <tbody>
           {projectsEmployee.map((project, key) => (
-            <TableRow key={key} project={project} timeSheet={timeSheetEmployee[order - 1]} />
+            <TableRow key={key} project={project} timeSheet={timeSheetEmployee[order]} />
           ))}
         </tbody>
       </table>
