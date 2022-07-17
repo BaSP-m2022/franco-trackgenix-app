@@ -54,7 +54,7 @@ const PmTimeSheet = () => {
   const date = new Date();
   const [isOpen, setIsOpen] = useState(false);
   const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(startDate);
   const [projectsOptions, setProjectsOptions] = useState([]);
   const [filteredTimesheet, setFilteredTimesheet] = useState([]);
   const [projectId, setProjectId] = useState('');
@@ -95,9 +95,13 @@ const PmTimeSheet = () => {
   const idEmployee = '62ceb357684df6d956380719';
 
   useEffect(() => {
-    if (!projects.length) {
-      dispatch(getProjects(`employees.employeeId=${idEmployee}`));
+    if (date.getUTCDay() !== 0) {
+      setStartDate(date.setUTCDate(date.getUTCDate() + ((7 - date.getUTCDay()) % 7) + 1));
+    } else {
+      setStartDate(date.setUTCDate(date.getUTCDate() - 6));
     }
+
+    if (!projects.length) dispatch(getProjects(`employees.employeeId=${idEmployee}`));
 
     setProjectsOptions([
       ...projects.map((project) => ({ value: project?._id, label: project?.name }))
@@ -106,29 +110,17 @@ const PmTimeSheet = () => {
     // if (error) {
     //   openModal();
     // }
-    if (date.getUTCDay() !== 1) {
-      setStartDate(date.setDate(date.getDate() - date.getDay() + 1));
-    } else {
-      setStartDate(Date.now());
-    }
-  }, [timeSheets, projects]);
-
-  useEffect(() => {
-    selectedProject ? dispatch(getTimeSheets(`tasks.projectId=${selectedProject._id}`)) : null;
-  }, [selectedProject]);
+  }, [projects]);
 
   useEffect(() => {
     setEndDate(startDate + 6 * 60 * 60 * 24 * 1000);
-    setFilteredTimesheet(
-      timeSheets.filter((timesheet) => {
-        const date = new Date(startDate);
-        date.setUTCHours(0, 0, 0, 0);
-        if (timesheet.startDate === date.toISOString()) {
-          return timesheet;
-        }
-      })
-    );
-  }, [startDate]);
+    if (selectedProject)
+      dispatch(
+        getTimeSheets(
+          `tasks.projectId=${selectedProject._id}&startDate=${formatDate(startDate)}T00:00:00.000Z`
+        )
+      );
+  }, [startDate, selectedProject]);
 
   const openModal = () => {
     setIsOpen(true);
@@ -136,6 +128,20 @@ const PmTimeSheet = () => {
 
   const closeModal = () => {
     setIsOpen(false);
+  };
+
+  const dateOptions = () => {
+    let dete;
+    if (date.getUTCDay() !== 0) {
+      dete = date.setUTCDate(date.getUTCDate() + ((7 - date.getUTCDay()) % 7) + 1);
+    } else {
+      dete = date.setUTCDate(date.getUTCDate() - 6);
+    }
+    console.log('dete', dete);
+    return [
+      { value: '', label: '' },
+      { value: '', label: '' }
+    ];
   };
 
   const { fields, append, remove } = useFieldArray({
@@ -161,43 +167,13 @@ const PmTimeSheet = () => {
       <Modal modalTitle="Add new progress" isOpen={isOpen}>
         <div className={styles.modal}>
           <form>
-            <div className={styles.date}>
-              <Controller
-                control={control}
-                name="date"
-                render={({ field: { value, onChange }, fieldState: { error } }) => (
-                  <Input
-                    className={styles.label}
-                    name="Date"
-                    type="date"
-                    value={value}
-                    onChange={onChange}
-                    error={error?.message}
-                  />
-                )}
-              />
-            </div>
+            <SelectDropdown options={[]} name="Employees" />
+            <SelectDropdown options={dateOptions()} name="Date" />
             <h3 className={styles.h3}>Tasks</h3>
             <div className={styles.tasksDiv}>
               {fields.map((field, index) => (
                 <div key={field.id} className={styles.task}>
                   <div className={styles.row}>
-                    <div className={styles.col}>
-                      <Controller
-                        control={control}
-                        name={`tasks[${index}].projectId`}
-                        render={({ field: { value, onChange }, fieldState: { error } }) => (
-                          <SelectDropdown
-                            name="Project"
-                            value={value}
-                            onChange={onChange}
-                            options={projectsOptions}
-                            required={false}
-                            error={error?.message}
-                          />
-                        )}
-                      />
-                    </div>
                     <div className={styles.col}>
                       <Controller
                         control={control}
@@ -307,7 +283,7 @@ const PmTimeSheet = () => {
           {FilterEmployee(selectedProject?.employees).map((employee, index) => (
             <TableRow
               employee={employee}
-              timesheets={filteredTimesheet}
+              timesheets={timeSheets}
               key={index}
               projectId={selectedProject._id}
             />
