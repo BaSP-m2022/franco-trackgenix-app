@@ -1,12 +1,13 @@
 import * as actions from './actions';
+import { serializeObject } from 'utils/formatters';
 
 const URL = `${process.env.REACT_APP_API_URL}/projects`;
 
-export const getProjects = () => {
+export const getProjects = (search) => {
   return async (dispatch) => {
     dispatch(actions.getProjectsLoading());
     try {
-      const response = await fetch(URL, {
+      const response = await fetch(`${URL}${serializeObject(search)}`, {
         headers: {
           token: sessionStorage.getItem('token')
         }

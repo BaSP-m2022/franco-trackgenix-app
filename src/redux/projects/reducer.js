@@ -18,11 +18,13 @@ export const projectsReducer = (state = initialStore, actions) => {
       return {
         ...state,
         list: actions.payload,
-        loading: false
+        loading: false,
+        error: ''
       };
     case CONSTANTS.GET_PROJECTS_ERROR:
       return {
         ...state,
+        list: [],
         error: actions.payload,
         loading: false
       };
@@ -94,6 +96,11 @@ export const projectsReducer = (state = initialStore, actions) => {
       return {
         ...state,
         error: ''
+      };
+    case CONSTANTS.CLEAR_PROJECTS:
+      return {
+        ...state,
+        list: ''
       };
     default:
       return state;

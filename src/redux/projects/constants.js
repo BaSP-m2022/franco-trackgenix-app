@@ -16,3 +16,4 @@ export const ADD_PROJECT_ERROR = 'ADD_PROJECT_ERROR';
 
 export const SET_PROJECT = 'SET_PROJECT';
 export const CLEAR_ERROR = 'CLEAR ERROR';
+export const CLEAR_PROJECTS = 'CLEAR PROJECTS';

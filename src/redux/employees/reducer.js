@@ -22,6 +22,7 @@ export const employeesReducer = (state = initialStore, actions) => {
     case CONSTANTS.GET_EMPLOYEES_ERROR:
       return {
         ...state,
+        list: [],
         error: actions.payload,
         loading: false
       };

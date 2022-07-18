@@ -92,3 +92,9 @@ export const clearError = () => {
     type: CONSTANTS.CLEAR_ERROR
   };
 };
+
+export const clearProjects = () => {
+  return {
+    type: CONSTANTS.CLEAR_PROJECTS
+  };
+};
