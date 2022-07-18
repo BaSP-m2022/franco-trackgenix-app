@@ -11,7 +11,7 @@ import { useHistory } from 'react-router-dom';
 import { joiResolver } from '@hookform/resolvers/joi';
 import Joi from 'joi';
 
-const FilterEmployee = (employees) => {
+const filterEmployee = (employees) => {
   if (employees?.length > 0) {
     const ids = employees.map((employee) => employee.employeeId._id);
     const filtered = employees.filter(
@@ -21,6 +21,11 @@ const FilterEmployee = (employees) => {
   } else return [];
 };
 
+const employeeOptions = (project) =>
+  filterEmployee(project?.employees).map((employee) => ({
+    value: employee.employeeId._id,
+    label: employee.employeeId.firstName + ' ' + employee.employeeId.lastName
+  }));
 const TableRow = ({ employee, timesheets, projectId, date }) => {
   const hourDays = [0, 0, 0, 0, 0, 0, 0, 0];
   timesheets.map((timesheet) => {
@@ -56,7 +61,6 @@ const PmTimeSheet = () => {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(startDate);
   const [projectsOptions, setProjectsOptions] = useState([]);
-  const [filteredTimesheet, setFilteredTimesheet] = useState([]);
   const [projectId, setProjectId] = useState('');
   const [click, setClick] = useState(0);
   const [selectedProject, setSelectedProject] = useState();
@@ -77,6 +81,7 @@ const PmTimeSheet = () => {
 
   const {
     control,
+    handleSubmit,
     formState: { errors }
   } = useForm({
     mode: 'onChange',
@@ -85,8 +90,7 @@ const PmTimeSheet = () => {
       projectId: '',
       description: '',
       workedHours: ''
-    },
-    resolver: joiResolver(schema)
+    }
   });
 
   const timeSheets = useSelector((state) => state.timeSheets.list);
@@ -96,7 +100,7 @@ const PmTimeSheet = () => {
 
   useEffect(() => {
     if (date.getUTCDay() !== 0) {
-      setStartDate(date.setUTCDate(date.getUTCDate() + ((7 - date.getUTCDay()) % 7) + 1));
+      setStartDate(date.setUTCDate(date.getUTCDate() - date.getUTCDay() + 1));
     } else {
       setStartDate(date.setUTCDate(date.getUTCDate() - 6));
     }
@@ -131,16 +135,36 @@ const PmTimeSheet = () => {
   };
 
   const dateOptions = () => {
-    let dete;
-    if (date.getUTCDay() !== 0) {
-      dete = date.setUTCDate(date.getUTCDate() + ((7 - date.getUTCDay()) % 7) + 1);
-    } else {
-      dete = date.setUTCDate(date.getUTCDate() - 6);
-    }
-    console.log('dete', dete);
+    const multiplyDate = (m) => startDate + 1000 * 60 * 60 * 24 * m;
     return [
-      { value: '', label: '' },
-      { value: '', label: '' }
+      {
+        value: formatDate(startDate),
+        label: formatDate(startDate)
+      },
+      {
+        value: formatDate(multiplyDate(1)),
+        label: formatDate(multiplyDate(1))
+      },
+      {
+        value: formatDate(multiplyDate(2)),
+        label: formatDate(multiplyDate(2))
+      },
+      {
+        value: formatDate(multiplyDate(3)),
+        label: formatDate(multiplyDate(3))
+      },
+      {
+        value: formatDate(multiplyDate(4)),
+        label: formatDate(multiplyDate(4))
+      },
+      {
+        value: formatDate(multiplyDate(5)),
+        label: formatDate(multiplyDate(5))
+      },
+      {
+        value: formatDate(multiplyDate(6)),
+        label: formatDate(multiplyDate(6))
+      }
     ];
   };
 
@@ -162,19 +186,49 @@ const PmTimeSheet = () => {
     setStartDate(startDate + 7 * 60 * 60 * 24 * 1000);
   };
 
+  const onSubmit = (data) => {
+    console.log('entered');
+    console.log('data', data);
+    closeModal();
+  };
+
   return (
     <div className={styles.container}>
       <Modal modalTitle="Add new progress" isOpen={isOpen}>
         <div className={styles.modal}>
-          <form>
-            <SelectDropdown options={[]} name="Employees" />
-            <SelectDropdown options={dateOptions()} name="Date" />
+          <form handleSubmit={onSubmit}>
+            <Controller
+              control={control}
+              name={`employeeId`}
+              render={({ field: { value, onChange }, fieldState: { error } }) => (
+                <SelectDropdown
+                  control={control}
+                  value={value}
+                  onChange={onChange}
+                  options={employeeOptions(selectedProject)}
+                  name="Employees"
+                />
+              )}
+            />
             <h3 className={styles.h3}>Tasks</h3>
             <div className={styles.tasksDiv}>
               {fields.map((field, index) => (
                 <div key={field.id} className={styles.task}>
                   <div className={styles.row}>
                     <div className={styles.col}>
+                      <Controller
+                        control={control}
+                        name={`date`}
+                        render={({ field: { value, onChange }, fieldState: { error } }) => (
+                          <SelectDropdown
+                            options={dateOptions()}
+                            name="Date"
+                            value={value}
+                            onChange={onChange}
+                            error={error?.message}
+                          />
+                        )}
+                      />
                       <Controller
                         control={control}
                         name={`tasks[${index}].description`}
@@ -234,15 +288,7 @@ const PmTimeSheet = () => {
             {click === 0 && errors ? <p>{errors?.message}</p> : null}
             {click != 0 && errors && !errors.type != 'array.min' ? <p>{errors?.message}</p> : null}
             <Button text="Cancel" handler={closeModal} />
-            <Button
-              text="Save"
-              handler={() => {
-                console.log('clicked');
-                if (!error) {
-                  routeChange();
-                }
-              }}
-            />
+            <Button text="Save" handler={handleSubmit(onSubmit)} />
           </form>
         </div>
       </Modal>
@@ -280,7 +326,7 @@ const PmTimeSheet = () => {
           </tr>
         </thead>
         <tbody>
-          {FilterEmployee(selectedProject?.employees).map((employee, index) => (
+          {filterEmployee(selectedProject?.employees).map((employee, index) => (
             <TableRow
               employee={employee}
               timesheets={timeSheets}
