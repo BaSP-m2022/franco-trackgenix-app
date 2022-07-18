@@ -33,11 +33,6 @@ const NavLinks = () => {
                   </NavLink>
                 </li>
                 <li className={styles.items}>
-                  <NavLink to={'/admins'} className={styles.links}>
-                    Admins
-                  </NavLink>
-                </li>
-                <li className={styles.items}>
                   <NavLink to={'/employees'} className={styles.links}>
                     Employees
                   </NavLink>
