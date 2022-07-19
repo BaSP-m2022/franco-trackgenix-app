@@ -2,12 +2,11 @@ import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { getEmployees } from 'redux/employees/thunks';
-import { getProjects } from 'redux/projects/thunks';
-import { clearError, clearProjects } from 'redux/projects/actions';
+import { getEmployeesFiltered } from 'redux/employees/thunks';
+import { getProjectsFiltered } from 'redux/projects/thunks';
+import { clearError } from 'redux/projects/actions';
 import styles from './profile.module.css';
-import { Table } from 'components/Shared';
-import { ProfileItem } from 'components/Shared';
+import { ProfileItem, Table, LoadingScreen } from 'components/Shared';
 
 const EmployeeProfile = () => {
   const { id } = useParams();
@@ -18,25 +17,27 @@ const EmployeeProfile = () => {
   const [employee, setEmployee] = useState({});
   const [employeeProjects, setEmployeeProjects] = useState([]);
 
-  const employees = useSelector((state) => state.employees.list);
-  const projects = useSelector((state) => state.projects.list);
+  const filteredEmployees = useSelector((state) => state.employees.filteredList);
+  const loadingEmployees = useSelector((state) => state.employees.loading);
+  const errorEmployees = useSelector((state) => state.employees.error);
+  const filteredProjects = useSelector((state) => state.projects.filteredList);
 
   useEffect(() => {
-    if (employees.length > 0) {
-      setEmployee(employees.find((employee) => employee._id === id));
-    } else {
+    if (filteredEmployees[0]?._id === id) {
+      setEmployee(filteredEmployees[0]);
+    } else if (!errorEmployees) {
       dispatch(
-        getEmployees({
+        getEmployeesFiltered({
           _id: id
         })
       );
     }
-  }, [employees]);
+  }, [filteredEmployees]);
 
   useEffect(() => {
     if (employee._id) {
       dispatch(
-        getProjects({
+        getProjectsFiltered({
           'employees.employeeId': id
         })
       );
@@ -44,25 +45,25 @@ const EmployeeProfile = () => {
   }, [employee]);
 
   useEffect(() => {
-    if (projects.length > 0) {
-      const projectsWithRole = projects.map((project) => {
-        const { role } = project.employees.find((employee) => employee.employeeId._id === id);
+    if (filteredProjects.length > 0) {
+      const projectsWithRole = filteredProjects.map((project) => {
+        const currentEmployee = project.employees?.find(
+          (employee) => employee.employeeId._id === id
+        );
         return {
           _id: project._id,
           name: project.name,
           status: project.status,
-          role: role
+          role: currentEmployee ? currentEmployee.role : 'Not found'
         };
       });
       setEmployeeProjects(projectsWithRole);
     }
-  }, [projects]);
+  }, [filteredProjects]);
 
   useEffect(
     () => () => {
       dispatch(clearError());
-      dispatch(clearProjects());
-      dispatch(getEmployees());
     },
     []
   );
@@ -73,10 +74,19 @@ const EmployeeProfile = () => {
     { heading: 'Status', value: 'status' }
   ];
 
+  if (loadingEmployees) {
+    return (
+      <div className={styles.loading}>
+        <LoadingScreen />
+      </div>
+    );
+  }
   return (
     <section className={styles.container}>
-      {employee[0]?._id ? (
-        <h3 className={styles.errorText}>No employee found</h3>
+      {!employee._id ? (
+        <h3 className={styles.errorText}>
+          {errorEmployees ? errorEmployees : 'No employee found'}
+        </h3>
       ) : (
         <>
           <div className={`${styles.profile} ${styles.div}`}>

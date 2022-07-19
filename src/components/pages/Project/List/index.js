@@ -58,9 +58,9 @@ const Projects = () => {
   useEffect(() => {
     if (!projects.length) {
       dispatch(getProjects());
-    }
-    if (error) {
-      openModal();
+      if (error) {
+        openModal();
+      }
     }
   }, [error]);
 
