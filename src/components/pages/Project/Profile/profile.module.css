@@ -1,0 +1,61 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  padding: 20px 40px;
+  margin: 6% auto 10% auto;
+  border: 5px solid #373867;
+  border-radius: 10px;
+}
+
+.errorText {
+  font-size: 18px;
+  font-weight: bold;
+  color: #373867;
+}
+
+.div {
+  display: flex;
+  flex-direction: column;
+}
+
+.profile {
+  margin-right: 0px;
+}
+
+.table {
+  margin-left: 0px;
+  margin-top: 20px;
+}
+
+.subtitle {
+  font-size: 30px;
+  font-weight: bold;
+  color: #373867;
+  margin-bottom: 16px;
+}
+
+.subtitleSmall {
+  font-size: 24px;
+  font-weight: bold;
+  color: #373867;
+  margin-bottom: 16px;
+}
+
+.changePasswordButton {
+  margin-bottom: 15px;
+}
+
+@media (min-width: 1024px) {
+  .container {
+    flex-direction: row;
+  }
+
+  .profile {
+    margin-right: 20px;
+  }
+
+  .table {
+    margin-left: 20px;
+    margin-top: 0px;
+  }
+}
