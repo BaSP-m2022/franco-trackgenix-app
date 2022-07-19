@@ -4,7 +4,9 @@ function ProfileItem({ label, text }) {
   return (
     <div className={styles.container}>
       <label className={styles.label}>{label}</label>
-      <p className={styles.text}>{text}</p>
+      <div className={styles.textContainer}>
+        <p className={styles.text}>{text}</p>
+      </div>
     </div>
   );
 }

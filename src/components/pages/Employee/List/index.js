@@ -38,9 +38,9 @@ const Employees = () => {
   useEffect(() => {
     if (!employees.length) {
       dispatch(getEmployees());
-    }
-    if (error) {
-      openModal();
+      if (error) {
+        openModal();
+      }
     }
   }, [error]);
 

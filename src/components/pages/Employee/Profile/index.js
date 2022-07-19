@@ -1,12 +1,12 @@
-import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { useParams, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
 import { getEmployeesFiltered } from 'redux/employees/thunks';
+import { clearError as clearErrorEmployee } from 'redux/employees/actions';
 import { getProjectsFiltered } from 'redux/projects/thunks';
-import { clearError } from 'redux/projects/actions';
-import styles from './profile.module.css';
+import { clearError as clearErrorProject } from 'redux/projects/actions';
 import { ProfileItem, Table, LoadingScreen } from 'components/Shared';
+import styles from './profile.module.css';
 
 const EmployeeProfile = () => {
   const { id } = useParams();
@@ -63,7 +63,8 @@ const EmployeeProfile = () => {
 
   useEffect(
     () => () => {
-      dispatch(clearError());
+      dispatch(clearErrorEmployee());
+      dispatch(clearErrorProject());
     },
     []
   );
@@ -89,13 +90,13 @@ const EmployeeProfile = () => {
         </h3>
       ) : (
         <>
-          <div className={`${styles.profile} ${styles.div}`}>
+          <div className={`${styles.div} ${styles.profile}`}>
             <h2 className={styles.subtitle}>{`${employee.firstName} ${employee.lastName}`}</h2>
             <ProfileItem label={'Email'} text={employee.email} />
             <ProfileItem label={'DNI'} text={employee.dni} />
             <ProfileItem label={'Date of bith'} text={employee.dateOfBirth?.slice(0, 10)} />
           </div>
-          <div className={`${styles.projects} ${styles.div}`}>
+          <div className={`${styles.div} ${styles.table}`}>
             <h2 className={styles.subtitleSmall}>Projects</h2>
             {!employeeProjects.length ? (
               <h3
