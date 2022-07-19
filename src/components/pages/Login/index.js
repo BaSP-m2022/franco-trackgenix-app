@@ -23,11 +23,13 @@ const loginForm = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const loading = useSelector((state) => state.auth.loading);
-  const error = useSelector((state) => state.auth.error);
   const authenticated = useSelector((state) => state.auth.authenticated);
+  const error = useSelector((state) => state.auth.error);
 
   useEffect(() => {
-    if (authenticated) history.push('/home');
+    const token = JSON.parse(sessionStorage.getItem('loggedUser'))?.token;
+    const role = JSON.parse(sessionStorage.getItem('loggedUser'))?.role;
+    if (token) history.push(`${role ? `${role.toLowerCase()}s` : ''}/home`);
   }, [authenticated]);
 
   useEffect(() => {
@@ -59,6 +61,12 @@ const loginForm = () => {
     setIsOpen(false);
   };
 
+  const handleKeypress = (e) => {
+    if (e.keyCode === 13) {
+      handleSubmit();
+    }
+  };
+
   if (loading) {
     return (
       <div className={styles.loading}>
@@ -67,7 +75,7 @@ const loginForm = () => {
     );
   }
   return (
-    <div className={styles.containerSec}>
+    <section className={styles.containerSec}>
       <Modal modalTitle={'Login error'} isOpen={isOpen} handleClose={closeModal}>
         <p>{error}</p>
         <div>
@@ -119,13 +127,17 @@ const loginForm = () => {
               history.push('home');
             }}
           />
-          <Button text={'Log In'} handler={handleSubmit(formHandleSubmit)} />
+          <Button
+            text={'Log In'}
+            handler={handleSubmit(formHandleSubmit)}
+            onKeyPress={handleKeypress}
+          />
         </div>
         <div>
           <Button text={`Don't have an account? Sign up`} handler={() => history.push('/signup')} />
         </div>
       </form>
-    </div>
+    </section>
   );
 };
 

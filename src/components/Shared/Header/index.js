@@ -1,14 +1,23 @@
+import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import styles from './header.module.css';
+//import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { logout } from 'redux/auth/thunks';
+import { tokenListener } from 'helper/firebase';
+import styles from './header.module.css';
 
 const Header = () => {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const { firstName } = useSelector((state) => state.auth.authenticated);
+  const [firstName, setfirstName] = useState('');
+
+  useEffect(() => {
+    if (!firstName) {
+      tokenListener();
+      setfirstName(sessionStorage.getItem('firstName'));
+    }
+  }, []);
 
   return (
     <header className={styles.header}>

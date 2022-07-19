@@ -1,7 +1,7 @@
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
-import store from 'redux/store';
-import { setAuthentication } from 'redux/auth/actions';
+//import store from 'redux/store';
+//import { setAuthentication } from 'redux/auth/actions';
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
@@ -16,17 +16,9 @@ const firebaseApp = firebase.initializeApp(firebaseConfig);
 
 export const tokenListener = () => {
   firebase.auth().onIdTokenChanged(async (user) => {
+    console.log('firstaaaaa');
     if (user) {
-      const token = await user.getIdToken();
-      const {
-        claims: { role }
-      } = await user.getIdTokenResult();
-      store.dispatch(
-        setAuthentication({
-          token,
-          role
-        })
-      );
+      console.log('user', user);
     }
   });
 };
