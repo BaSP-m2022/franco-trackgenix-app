@@ -24,9 +24,14 @@ const landing = () => {
                 eleifend id. Maecenas euismod urna sagittis est elementum, nec condimentum mi
                 auctor.
               </p>
-              <a className={styles.buttonTypo} href="#">
-                Learn more
-              </a>
+              <div className={styles.learMore}>
+                <Button
+                  text="Learn more"
+                  handler={() => {
+                    // history.push('/employees/form');
+                  }}
+                />
+              </div>
             </div>
             <figure>
               <img src={representativeImage} alt="Representative image" />
@@ -95,9 +100,14 @@ const landing = () => {
                   semper, tincidunt massa sit amet, euismod metus. Nunc metus dui, tincidunt eget
                   massa nec, dapibus pellentesque tortor.
                 </p>
-                <a className={styles.buttonTypo} href="#">
-                  More
-                </a>
+                <div className={styles.buttonContainer}>
+                  <Button
+                    text="More"
+                    handler={() => {
+                      // history.push('/employees/form');
+                    }}
+                  />
+                </div>
               </article>
               <article>
                 <img src={representativeImage} alt="Representative image" />
@@ -106,9 +116,14 @@ const landing = () => {
                   Duis quis ipsum enim. Quisque iaculis risus turpis, quis ornare lorem fringilla
                   at. Vestibulum iaculis arcu et tortor tristique sollicitudin.
                 </p>
-                <a className={styles.buttonTypo} href="#">
-                  More
-                </a>
+                <div className={styles.buttonContainer}>
+                  <Button
+                    text="More"
+                    handler={() => {
+                      // history.push('/employees/form');
+                    }}
+                  />
+                </div>
               </article>
               <article>
                 <img src={representativeImage} alt="Representative image" />
@@ -117,9 +132,14 @@ const landing = () => {
                   Duis non turpis consequat, laoreet libero a, pulvinar mauris. In hac habitasse
                   platea dictumst.
                 </p>
-                <a className={styles.buttonTypo} href="#">
-                  More
-                </a>
+                <div className={styles.buttonContainer}>
+                  <Button
+                    text="More"
+                    handler={() => {
+                      // history.push('/employees/form');
+                    }}
+                  />
+                </div>
               </article>
               <article>
                 <img src={representativeImage} alt="Representative image" />
@@ -132,9 +152,14 @@ const landing = () => {
                   Integer ipsum libero, finibus eget nisi non, volutpat aliquet leo. Nulla rhoncus
                   nisl id sem accumsan, cursus blandit tellus sollicitudin.
                 </p>
-                <a className={styles.buttonTypo} href="#">
-                  More
-                </a>
+                <div className={styles.buttonContainer}>
+                  <Button
+                    text="More"
+                    handler={() => {
+                      // history.push('/employees/form');
+                    }}
+                  />
+                </div>
               </article>
             </div>
           </section>

@@ -2,6 +2,8 @@ main {
 	display: flex;
 	flex-direction: column;
   color: #373867;
+	font-family: 'Roboto', sans-serif;
+  max-width: 1200px;
 }
 
 section {
@@ -21,7 +23,15 @@ section {
 }
 
 .introSection .paragraphTypo {
-	margin: 1.5% 0 3.35%;
+  font-size: 20px;
+  line-height: 23.44px;
+  font-weight: 400;
+  margin-bottom: 44px;
+}
+
+.introSection .introParagraph {
+  font-size: 15px;
+  line-height: 17.58px;
 }
 
 .introSection figure {
@@ -48,16 +58,25 @@ section {
 	margin-bottom: 0px;
 }
 
+.headerTypo{
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 46.88px;
+  margin-bottom: 25px;
+}
+
 .functionalities {
 	display: flex;
 	flex-direction: column;
-	justify-content: space-around;
+	justify-content: space-between;
 }
 
 h2.sectionTypo {
 	width: fit-content;
 	max-width: 94.2%;
 	margin-bottom: 5%;
+  font-size: 30px;
+  line-height: 35px;
 }
 
 h2.sectionTypo::after {
@@ -233,6 +252,12 @@ h2.sectionTypo::after {
 	list-style: decimal;
 }
 
+.titleTypo {
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 35px;
+}
+
 @media only screen and (min-width: 480px) {
 
 	.functionalities section {
@@ -277,7 +302,6 @@ h2.sectionTypo::after {
 @media only screen and (min-width: 768px) {
 
 	.reasonsType article {
-		height: 611px;
 		max-width: 440px;
 	}
 
@@ -289,9 +313,15 @@ h2.sectionTypo::after {
 
 @media only screen and (min-width: 1024px) {
 
+  .main{
+    margin-right: 80px;
+  }
+
 	.introSection {
 		flex-wrap: nowrap;
 		justify-content: space-evenly;
+    gap: 72px;
+    margin-bottom: 150px;
 	}
 
 	.introSection div {
@@ -310,14 +340,21 @@ h2.sectionTypo::after {
 		max-width: 520px;
 	}
 
-	.introSection .buttonTypo {
+	.introSection .buttonContainer {
 		align-self: flex-end;
+    width: auto;
 	}
+
+  section div.learMore {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+  }
 
 	.functionalities {
 		flex-direction: row;
 		flex-wrap: wrap;
-		justify-content: space-between;
 	}
 
 	.functionalities section {
@@ -327,7 +364,6 @@ h2.sectionTypo::after {
 
 	.functionalities p,
 	.functionalities h3 {
-		flex-grow: 1;
 		width: calc(100% - 208px);
 	}
 

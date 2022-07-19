@@ -72,6 +72,16 @@ const NavLinks = () => {
                     Home
                   </NavLink>
                 </li>
+                <li className={styles.items}>
+                  <NavLink to={'login'} className={styles.links}>
+                    Login
+                  </NavLink>
+                </li>
+                <li className={styles.items}>
+                  <NavLink to={'signup'} className={styles.links}>
+                    Sign Up
+                  </NavLink>
+                </li>
               </ul>
             );
         }
