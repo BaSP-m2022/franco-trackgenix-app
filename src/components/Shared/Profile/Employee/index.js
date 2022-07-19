@@ -73,7 +73,7 @@ const schemaPassword = Joi.object({
     .messages({ 'any.only': 'Passwords must match' })
 });
 
-const Profile = () => {
+const ProfileEmployee = () => {
   const { handleSubmit, control, setValue } = useForm({
     resolver: joiResolver(schema),
     defaultValues: {
@@ -108,7 +108,7 @@ const Profile = () => {
   const employee = useSelector((state) => state.employees.employee);
   const loading = useSelector((state) => state.employees.loading);
   const error = useSelector((state) => state.employees.error);
-
+  console.log(employee);
   useEffect(() => {
     if (employee?._id) {
       setValue('firstName', employee.firstName);
@@ -331,4 +331,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default ProfileEmployee;
