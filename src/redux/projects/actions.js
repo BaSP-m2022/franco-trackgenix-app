@@ -20,6 +20,26 @@ export const getProjectsError = (error) => {
   };
 };
 
+export const getProjectsFilteredLoading = () => {
+  return {
+    type: CONSTANTS.GET_PROJECTS_FILTERED_LOADING
+  };
+};
+
+export const getProjectsFilteredSuccess = (data) => {
+  return {
+    type: CONSTANTS.GET_PROJECTS_FILTERED_SUCCESS,
+    payload: data
+  };
+};
+
+export const getProjectsFilteredError = (error) => {
+  return {
+    type: CONSTANTS.GET_PROJECTS_FILTERED_ERROR,
+    payload: error
+  };
+};
+
 export const putProjectLoading = () => {
   return {
     type: CONSTANTS.PUT_PROJECT_LOADING

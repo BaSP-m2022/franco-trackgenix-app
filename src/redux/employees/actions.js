@@ -20,6 +20,26 @@ export const getEmployeesError = (error) => {
   };
 };
 
+export const getEmployeesFilteredLoading = () => {
+  return {
+    type: CONSTANTS.GET_EMPLOYEES_FILTERED_LOADING
+  };
+};
+
+export const getEmployeesFilteredSuccess = (data) => {
+  return {
+    type: CONSTANTS.GET_EMPLOYEES_FILTERED_SUCCESS,
+    payload: data
+  };
+};
+
+export const getEmployeesFilteredError = (error) => {
+  return {
+    type: CONSTANTS.GET_EMPLOYEES_FILTERED_ERROR,
+    payload: error
+  };
+};
+
 export const deleteEmployeeLoading = () => {
   return {
     type: CONSTANTS.DELETE_EMPLOYEE_LOADING

@@ -1,7 +1,29 @@
 import * as actions from './actions';
 import { serializeObject } from 'utils/formatters';
 
-export const getEmployees = (search) => {
+export const getEmployees = () => {
+  return async (dispatch) => {
+    dispatch(actions.getEmployeesLoading());
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/employees`, {
+        headers: {
+          token: sessionStorage.getItem('token')
+        }
+      });
+      const jsonResponse = await response.json();
+      if (jsonResponse.error) {
+        dispatch(actions.getEmployeesError(jsonResponse.message));
+      } else {
+        dispatch(actions.getEmployeesSuccess(jsonResponse.data));
+      }
+      return jsonResponse.data;
+    } catch (error) {
+      dispatch(actions.getEmployeesError(error.toString()));
+    }
+  };
+};
+
+export const getEmployeesFiltered = (search) => {
   return async (dispatch) => {
     dispatch(actions.getEmployeesLoading());
     try {
@@ -15,13 +37,13 @@ export const getEmployees = (search) => {
       );
       const jsonResponse = await response.json();
       if (jsonResponse.error) {
-        dispatch(actions.getEmployeesError(jsonResponse.message));
+        dispatch(actions.getEmployeesFilteredError(jsonResponse.message));
       } else {
-        dispatch(actions.getEmployeesSuccess(jsonResponse.data));
+        dispatch(actions.getEmployeesFilteredSuccess(jsonResponse.data));
       }
       return jsonResponse.data;
     } catch (error) {
-      dispatch(actions.getEmployeesError(error.toString()));
+      dispatch(actions.getEmployeesFilteredError(error.toString()));
     }
   };
 };
