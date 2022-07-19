@@ -13,14 +13,22 @@ const TableRow = ({
   arrayName,
   handleRowClick
 }) => (
-  <tr className={styles.containerTable} onClick={handleRowClick} data-id={item._id}>
+  <tr className={styles.containerTable}>
     {column.map((columnItem, index) => {
       if (columnItem.value.includes('.')) {
         const itemSplit = columnItem.value.split('.');
         if (item[itemSplit[0]]) {
-          return <td key={index}>{item[itemSplit[0]][itemSplit[1]]}</td>;
+          return (
+            <td onClick={handleRowClick} data-id={item._id} key={index}>
+              {item[itemSplit[0]][itemSplit[1]]}
+            </td>
+          );
         }
-        return <td key={index}>No {columnItem.heading}</td>;
+        return (
+          <td key={index} onClick={handleRowClick} data-id={item._id}>
+            No {columnItem.heading}
+          </td>
+        );
       }
       if (item[`${columnItem.value}`] instanceof Array) {
         return (
@@ -34,9 +42,17 @@ const TableRow = ({
         );
       }
       if (columnItem.value.toLowerCase().includes('date')) {
-        return <td key={index}>{item[`${columnItem.value}`]?.slice(0, 10)}</td>;
+        return (
+          <td key={index} onClick={handleRowClick} data-id={item._id}>
+            {item[`${columnItem.value}`]?.slice(0, 10)}
+          </td>
+        );
       }
-      return <td key={index}>{item[`${columnItem.value}`]}</td>;
+      return (
+        <td key={index} onClick={handleRowClick} data-id={item._id}>
+          {item[`${columnItem.value}`]}
+        </td>
+      );
     })}
     {buttons && (
       <td>
