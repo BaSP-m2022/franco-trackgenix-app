@@ -39,7 +39,7 @@ const Header = () => {
           <button
             className={styles.userButton}
             onClick={() => {
-              history.push('/employee/profile');
+              history.push('/employees/profile');
             }}
           >
             <p className={styles.userName}>Hi, {firstName}</p>

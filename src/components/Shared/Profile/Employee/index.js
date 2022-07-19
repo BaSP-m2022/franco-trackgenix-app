@@ -104,11 +104,10 @@ const ProfileEmployee = () => {
   const [modalTitle, setModalTitle] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const [oldPasswordError, setOldPasswordError] = useState('');
+  const [employee, setEmployee] = useState('');
 
-  const employee = useSelector((state) => state.employees.employee);
   const loading = useSelector((state) => state.employees.loading);
   const error = useSelector((state) => state.employees.error);
-  console.log(employee);
   useEffect(() => {
     if (employee?._id) {
       setValue('firstName', employee.firstName);
@@ -121,6 +120,21 @@ const ProfileEmployee = () => {
       setValuePassword('oldPassword', '');
     }
   }, [employee]);
+
+  console.log(employee);
+
+  useEffect(() => {
+    setEmployee(JSON.parse(sessionStorage.getItem('loggedUser')));
+  }, []);
+
+  /*
+_id,
+token,
+firstName,
+lastName,
+email,
+dateOfBith,
+dni */
 
   const openModal = () => {
     setIsOpen(true);
