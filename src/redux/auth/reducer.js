@@ -20,14 +20,23 @@ export const authReducer = (state = initialState, actions) => {
         ...state,
         loading: false,
         error: '',
-        authenticated: actions.payload
+        authenticated: true
       };
     }
     case CONSTANTS.LOGIN_ERROR: {
       return {
         ...state,
         loading: false,
-        error: actions.payload
+        error: actions.payload,
+        authenticated: false
+      };
+    }
+    case CONSTANTS.LOGOUT: {
+      return {
+        ...state,
+        loading: false,
+        error: '',
+        authenticated: false
       };
     }
     case CONSTANTS.CLEAR_ERROR: {

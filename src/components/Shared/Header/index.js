@@ -3,12 +3,21 @@ import { useSelector } from 'react-redux';
 import styles from './header.module.css';
 import { useDispatch } from 'react-redux';
 import { logout } from 'redux/auth/thunks';
+import { useEffect, useState } from 'react';
 
 const Header = () => {
   const history = useHistory();
   const dispatch = useDispatch();
 
   const { firstName } = useSelector((state) => state.auth.authenticated);
+
+  const [loggedUser, setLoggedUser] = useState({});
+
+  useEffect(() => {
+    if (JSON.parse(sessionStorage.getItem('loggedUser'))?.firstName) {
+      setLoggedUser(JSON.parse(sessionStorage.getItem('loggedUser')));
+    }
+  }, [firstName]);
 
   return (
     <header className={styles.header}>
@@ -25,7 +34,7 @@ const Header = () => {
         />
       </div>
 
-      {!firstName ? (
+      {!loggedUser?.firstName ? (
         <button
           className={styles.userButton}
           onClick={() => {
@@ -39,7 +48,7 @@ const Header = () => {
           <button
             className={styles.userButton}
             onClick={() => {
-              history.push('/employees/profile');
+              history.push(`/${loggedUser.role?.toLowerCase()}s/profile`);
             }}
           >
             <p className={styles.userName}>Hi, {firstName}</p>

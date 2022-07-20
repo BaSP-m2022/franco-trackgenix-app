@@ -58,9 +58,9 @@ const Projects = () => {
   useEffect(() => {
     if (!projects.length) {
       dispatch(getProjects());
-    }
-    if (error) {
-      openModal();
+      if (error) {
+        openModal();
+      }
     }
   }, [error]);
 
@@ -92,23 +92,6 @@ const Projects = () => {
   }
   return (
     <section className={styles.container}>
-      <h2 className={styles.title}>Projects</h2>
-      <div className={styles.add}>
-        <Button
-          text={'Add new Project'}
-          handler={() => {
-            dispatch(setProject());
-            history.push('/projects/form');
-          }}
-        ></Button>
-        <div className={styles.search}>
-          <Search
-            searchQuery={searchQuery}
-            setSearchQuery={setSearchQuery}
-            placeholder={'Search for project name'}
-          />
-        </div>
-      </div>
       <Modal modalTitle={modalTitle} isOpen={isModalOpen} handleClose={closeModal}>
         {isTable && <Table data={employeesData} column={columnEmployees} modal={handleArray} />}
         {isTable && (
@@ -132,15 +115,35 @@ const Projects = () => {
           </div>
         )}
       </Modal>
+      <h2 className={styles.title}>Projects</h2>
+      <div className={styles.add}>
+        <Button
+          text={'Add new Project'}
+          handler={() => {
+            dispatch(setProject());
+            history.push('/projects/form');
+          }}
+        ></Button>
+        <div className={styles.search}>
+          <Search
+            searchQuery={searchQuery}
+            setSearchQuery={setSearchQuery}
+            placeholder={'Search for project name'}
+          />
+        </div>
+      </div>
       <div className={styles.flex}>
         <Table
-          data={filteredList}
+          data={searchQuery.length ? filteredList : projects}
           deleteItem={buttonDelete}
           column={column}
           editItem={handleSetProject}
           buttons={true}
           modal={handleArray}
           arrayName={'Employees'}
+          handleRowClick={(e) =>
+            history.push(`projects/${e.currentTarget.getAttribute('data-id')}`)
+          }
         ></Table>
       </div>
     </section>

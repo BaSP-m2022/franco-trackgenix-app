@@ -13,6 +13,12 @@ export const loginSuccess = (data) => {
   };
 };
 
+export const logOut = () => {
+  return {
+    type: CONSTANTS.LOGOUT
+  };
+};
+
 export const loginError = (error) => {
   return {
     type: CONSTANTS.LOGIN_ERROR,

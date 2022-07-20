@@ -6,6 +6,7 @@ import Input from './Input';
 import LoadingScreen from './LoadingScreen';
 import Modal from './Modal';
 import NavLinks from './NavLink';
+import ProfileItem from './ProfileItem';
 import Search from './SearchBar';
 import SelectDropdown from './SelectDropdown';
 import Table from './Table';
@@ -21,6 +22,7 @@ export {
   LoadingScreen,
   Modal,
   NavLinks,
+  ProfileItem,
   Search,
   SelectDropdown,
   Table,

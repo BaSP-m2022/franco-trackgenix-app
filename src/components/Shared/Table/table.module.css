@@ -1,6 +1,6 @@
 .tableMain {
   width: 100%;
-  margin: 40px 25px;
+  margin: 0;
   border: 1px solid #bebec8;
   border-radius: 5px;
   border-spacing: 0px;
@@ -13,16 +13,17 @@
   text-align: left;
   color: #373867;
   border-radius: 20px;
+  border-bottom: 1px solid #bebec8;
 }
 
 .containerTable td {
-  padding: 10px 8px;
-  border-bottom: 1px solid #bebec8;
+  padding: 14px 12px;
+  text-align: left;
 }
 
 .headTable,
 .tableMain th {
-  padding: 12px;
+  padding: 14px 12px;
   background-color: #d9dbe2;
 }
 
@@ -30,19 +31,28 @@
   fill: #373867;
   width: 20px;
   height: 20px;
-  margin: 0px 0px 0px 8px;
+  margin: 0;
 }
 
 .tableMain tbody tr:hover {
   background: #eef5eb;
 }
 
+.buttonTableContainer {
+  display: flex;
+  justify-content: space-between;
+  min-width: 55px;
+}
+
 .buttonTable,
 .containerTable a {
+  padding: 0;
+  margin: 0;
   text-align: center;
   background: none;
   border: 0;
   text-decoration: none;
+  cursor: pointer;
 }
 
 .buttonTable:hover {
@@ -50,12 +60,12 @@
   transition: all 0.2s ease-in-out;
 }
 
-.buttonShow {
-  padding: 10px 15px;
-  border-radius: 5px;
-  border: solid 1px #aace9b;
-  background-color: #aace9b;
-  color: #373867;
-  font-size: 16px;
-  font-weight: 500;
+.containerTable svg.deleteSvg:hover {
+  fill: #ff0000;
+  transition: all 0.2s ease-in-out;
+}
+
+td.buttonTd {
+  padding: 0 12px;
+  width: 130px;
 }

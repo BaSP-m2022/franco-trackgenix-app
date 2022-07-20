@@ -1,4 +1,5 @@
 import * as actions from './actions';
+import { serializeObject } from 'utils/formatters';
 
 export const getEmployees = () => {
   return async (dispatch) => {
@@ -6,7 +7,7 @@ export const getEmployees = () => {
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/employees`, {
         headers: {
-          token: sessionStorage.getItem('token')
+          token: JSON.parse(sessionStorage.getItem('loggedUser'))?.token
         }
       });
       const jsonResponse = await response.json();
@@ -22,6 +23,31 @@ export const getEmployees = () => {
   };
 };
 
+export const getEmployeesFiltered = (search) => {
+  return async (dispatch) => {
+    dispatch(actions.getEmployeesLoading());
+    try {
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/employees${serializeObject(search)}`,
+        {
+          headers: {
+            token: JSON.parse(sessionStorage.getItem('loggedUser'))?.token
+          }
+        }
+      );
+      const jsonResponse = await response.json();
+      if (jsonResponse.error) {
+        dispatch(actions.getEmployeesFilteredError(jsonResponse.message));
+      } else {
+        dispatch(actions.getEmployeesFilteredSuccess(jsonResponse.data));
+      }
+      return jsonResponse.data;
+    } catch (error) {
+      dispatch(actions.getEmployeesFilteredError(error.toString()));
+    }
+  };
+};
+
 export const deleteEmployee = (id) => {
   return async (dispatch) => {
     dispatch(actions.deleteEmployeeLoading());
@@ -29,7 +55,7 @@ export const deleteEmployee = (id) => {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/employees/${id}`, {
         method: 'DELETE',
         headers: {
-          token: sessionStorage.getItem('token')
+          token: JSON.parse(sessionStorage.getItem('loggedUser'))?.token
         }
       });
       const jsonResponse = await response.json();
@@ -53,7 +79,7 @@ export const putEmployee = (id, body) => {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          token: sessionStorage.getItem('token')
+          token: JSON.parse(sessionStorage.getItem('loggedUser'))?.token
         },
         body: body
       });
@@ -78,7 +104,7 @@ export const addEmployee = (body) => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          token: sessionStorage.getItem('token')
+          token: JSON.parse(sessionStorage.getItem('loggedUser'))?.token
         },
         body: body
       });

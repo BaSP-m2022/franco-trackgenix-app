@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { getEmployees, deleteEmployee } from 'redux/employees/thunks';
-import { setEmployee } from 'redux/employees/actions';
+import { setEmployee, clearError } from 'redux/employees/actions';
 import { Table, LoadingScreen, Modal, Button, Search } from 'components/Shared';
 import styles from './list.module.css';
 
@@ -38,9 +38,9 @@ const Employees = () => {
   useEffect(() => {
     if (!employees.length) {
       dispatch(getEmployees());
-    }
-    if (error) {
-      openModal();
+      if (error) {
+        openModal();
+      }
     }
   }, [error]);
 
@@ -51,6 +51,13 @@ const Employees = () => {
       )
     );
   }, [employees, searchQuery]);
+
+  useEffect(
+    () => () => {
+      dispatch(clearError());
+    },
+    []
+  );
 
   const delEmployee = () => {
     dispatch(deleteEmployee(idToDelete));
@@ -110,6 +117,7 @@ const Employees = () => {
         column={column}
         editItem={handleSetEmployee}
         buttons={true}
+        handleRowClick={(e) => history.push(`employees/${e.currentTarget.getAttribute('data-id')}`)}
       />
     </section>
   );
