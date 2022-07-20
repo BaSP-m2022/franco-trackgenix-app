@@ -1,4 +1,5 @@
 import * as actions from './actions';
+import { serializeObject } from 'utils/formatters';
 
 const URL = `${process.env.REACT_APP_API_URL}/projects`;
 
@@ -12,6 +13,7 @@ export const getProjects = () => {
         }
       });
       const jsonResponse = await response.json();
+
       if (jsonResponse.error) {
         dispatch(actions.getProjectsError(jsonResponse.message));
       } else {
@@ -20,6 +22,29 @@ export const getProjects = () => {
       return jsonResponse.data;
     } catch (error) {
       dispatch(actions.getProjectsError(error.toString()));
+    }
+  };
+};
+
+export const getProjectsFiltered = (search) => {
+  return async (dispatch) => {
+    dispatch(actions.getProjectsFilteredLoading());
+    try {
+      const response = await fetch(`${URL}/${serializeObject(search)}`, {
+        headers: {
+          token: sessionStorage.getItem('token')
+        }
+      });
+      const jsonResponse = await response.json();
+
+      if (jsonResponse.error) {
+        dispatch(actions.getProjectsFilteredError(jsonResponse.message));
+      } else {
+        dispatch(actions.getProjectsFilteredSuccess(jsonResponse.data));
+      }
+      return jsonResponse.data;
+    } catch (error) {
+      dispatch(actions.getProjectsFilteredError(error.toString()));
     }
   };
 };

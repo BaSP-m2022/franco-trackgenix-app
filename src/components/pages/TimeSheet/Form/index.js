@@ -77,7 +77,6 @@ const TimeSheetForm = () => {
 
   const formatTasks = () => {
     timeSheet.tasks.map((task) => {
-      console.log('task', task);
       task.projectId = typeof task.projectId == 'object' ? task.projectId?._id : task.projectId;
       task.date = task.date.slice(0, 10);
       delete task._id;
