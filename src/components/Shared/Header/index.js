@@ -1,23 +1,24 @@
 import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-//import { useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { logout } from 'redux/auth/thunks';
-import { tokenListener } from 'helper/firebase';
 import styles from './header.module.css';
 
 const Header = () => {
   const history = useHistory();
   const dispatch = useDispatch();
 
+  const authenticated = useSelector((state) => state.auth.authenticated);
+
   const [loggedUser, setLoggedUser] = useState({});
 
   useEffect(() => {
-    if (!loggedUser?.firstName) {
-      tokenListener();
-      setLoggedUser(JSON.parse(sessionStorage.getItem('loggedUser')));
+    const stateUser = JSON.parse(sessionStorage.getItem('loggedUser'));
+    if (!loggedUser?.firstName || stateUser === null) {
+      setLoggedUser(stateUser === null ? {} : stateUser);
     }
-  }, []);
+  }, [authenticated]);
 
   return (
     <header className={styles.header}>
@@ -34,7 +35,7 @@ const Header = () => {
         />
       </div>
 
-      {!loggedUser.firstName ? (
+      {!loggedUser?.firstName ? (
         <button
           className={styles.userButton}
           onClick={() => {

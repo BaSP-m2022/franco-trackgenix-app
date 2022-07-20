@@ -61,12 +61,6 @@ const loginForm = () => {
     setIsOpen(false);
   };
 
-  const handleKeypress = (e) => {
-    if (e.keyCode === 13) {
-      handleSubmit();
-    }
-  };
-
   if (loading) {
     return (
       <div className={styles.loading}>
@@ -121,20 +115,21 @@ const loginForm = () => {
         </div>
         <div className={styles.buttonContainer}>
           <Button
+            type="button"
             text="Return"
             handler={() => {
               dispatch(clearError());
               history.push('home');
             }}
           />
-          <Button
-            text={'Log In'}
-            handler={handleSubmit(formHandleSubmit)}
-            onKeyPress={handleKeypress}
-          />
+          <Button text={'Log In'} handler={handleSubmit(formHandleSubmit)} />
         </div>
         <div>
-          <Button text={`Don't have an account? Sign up`} handler={() => history.push('/signup')} />
+          <Button
+            type="button"
+            text={`Don't have an account? Sign up`}
+            handler={() => history.push('/signup')}
+          />
         </div>
       </form>
     </section>

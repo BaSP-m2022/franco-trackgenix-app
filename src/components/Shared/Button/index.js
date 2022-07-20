@@ -16,13 +16,23 @@ function Button(props) {
   } else {
     if (props.type === 'delete') {
       return (
-        <button className={style.delete} onClick={props.handler} onKeyPress={props.handleKeypress}>
+        <button
+          className={style.delete}
+          onClick={props.handler}
+          type={props.type}
+          onKeyPress={props.handleKeypress}
+        >
           {props.text}
         </button>
       );
     } else {
       return (
-        <button className={style.btn} onClick={props.handler} onKeyPress={props.handleKeypress}>
+        <button
+          className={style.btn}
+          onClick={props.handler}
+          type={props.type}
+          onKeyPress={props.handleKeypress}
+        >
           {props.text}
         </button>
       );
