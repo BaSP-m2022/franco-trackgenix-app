@@ -8,7 +8,7 @@ export const putTimeSheet = (id, body) => {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          token: sessionStorage.getItem('token')
+          token: JSON.parse(sessionStorage.getItem('loggedUser'))?.token
         },
         body: body
       });
@@ -33,7 +33,7 @@ export const postTimeSheet = (body) => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          token: sessionStorage.getItem('token')
+          token: JSON.parse(sessionStorage.getItem('loggedUser'))?.token
         },
         body: body
       });
@@ -56,7 +56,7 @@ export const getTimeSheets = () => {
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/time-sheets`, {
         headers: {
-          token: sessionStorage.getItem('token')
+          token: JSON.parse(sessionStorage.getItem('loggedUser'))?.token
         }
       });
       const jsonResponse = await response.json();
@@ -79,7 +79,7 @@ export const deleteTimeSheet = (id) => {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/time-sheets/${id}`, {
         method: 'DELETE',
         headers: {
-          token: sessionStorage.getItem('token')
+          token: JSON.parse(sessionStorage.getItem('loggedUser'))?.token
         }
       });
       const jsonResponse = await response.json();

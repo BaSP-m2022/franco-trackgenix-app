@@ -1,9 +1,14 @@
-import styles from './NavLink.module.css';
+import { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import styles from './NavLink.module.css';
 
 const NavLinks = () => {
-  const role = useSelector((state) => state.auth.authenticated.role);
+  const authenticated = useSelector((state) => state.auth.authenticated);
+  const [role, setRole] = useState('');
+  useEffect(() => {
+    setRole(JSON.parse(sessionStorage.getItem('loggedUser'))?.role);
+  }, [authenticated]);
 
   return (
     <div>

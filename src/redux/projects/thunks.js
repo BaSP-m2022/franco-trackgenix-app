@@ -9,7 +9,7 @@ export const getProjects = () => {
     try {
       const response = await fetch(URL, {
         headers: {
-          token: sessionStorage.getItem('token')
+          token: JSON.parse(sessionStorage.getItem('loggedUser'))?.token
         }
       });
       const jsonResponse = await response.json();
@@ -32,7 +32,7 @@ export const getProjectsFiltered = (search) => {
     try {
       const response = await fetch(`${URL}/${serializeObject(search)}`, {
         headers: {
-          token: sessionStorage.getItem('token')
+          token: JSON.parse(sessionStorage.getItem('loggedUser'))?.token
         }
       });
       const jsonResponse = await response.json();
@@ -57,7 +57,7 @@ export const putProject = (id, body) => {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          token: sessionStorage.getItem('token')
+          token: JSON.parse(sessionStorage.getItem('loggedUser'))?.token
         },
         body: JSON.stringify(body)
       });
@@ -81,7 +81,7 @@ export const deleteProject = (id) => {
       const response = await fetch(`${URL}/${id}`, {
         method: 'DELETE',
         headers: {
-          token: sessionStorage.getItem('token')
+          token: JSON.parse(sessionStorage.getItem('loggedUser'))?.token
         }
       });
       const jsonResponse = await response.json();
@@ -105,7 +105,7 @@ export const postProject = (body) => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          token: sessionStorage.getItem('token')
+          token: JSON.parse(sessionStorage.getItem('loggedUser'))?.token
         },
         body: JSON.stringify(body)
       });
