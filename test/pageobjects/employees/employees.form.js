@@ -51,7 +51,9 @@ class EmployeeForm extends Page {
   }
 
   get saveButton() {
-    return $('//*[@id="root"]/div/div/div[2]/div/form/div[2]/button[2]');
+    return $(
+      '#root > div > div > div.layout_divSwitch__2iaq7 > div > form > div.form_buttonContainer__3pZdH > button:nth-child(2)'
+    );
   }
 
   get Message() {
