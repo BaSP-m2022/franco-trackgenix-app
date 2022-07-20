@@ -1,4 +1,4 @@
-import { loginPending, loginSuccess, loginError } from './actions';
+import { loginPending, loginSuccess, loginError, logOut } from './actions';
 import firebase from 'helper/firebase';
 
 export const login = (credentials) => {
@@ -48,8 +48,8 @@ export const login = (credentials) => {
 
 export const logout = () => {
   return (dispatch) => {
-    sessionStorage.setItem('loggedUser', JSON.stringify({}));
-    dispatch(loginSuccess(false));
     firebase.auth().signOut();
+    sessionStorage.clear();
+    dispatch(logOut());
   };
 };
