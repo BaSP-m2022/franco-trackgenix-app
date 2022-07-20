@@ -8,7 +8,7 @@ import styles from './home.module.css';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm, Controller, useFieldArray } from 'react-hook-form';
-import { getTimeSheets } from 'redux/timeSheets/thunks';
+import { getTimeSheets, putTimeSheet } from 'redux/timeSheets/thunks';
 import { getProjects } from 'redux/projects/thunks';
 import { useHistory } from 'react-router-dom';
 import { joiResolver } from '@hookform/resolvers/joi';
@@ -67,13 +67,12 @@ const EmployeeHome = () => {
   const date = new Date();
   const [isOpen, setIsOpen] = useState(false);
   const [isOtherOpen, setIsOtherOpen] = useState(false);
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
   const [requestType] = useState('POST');
   const [modalTitle, setModalTitle] = useState('');
   const [modalText, setModalText] = useState('');
   const [projectsOptions, setProjectsOptions] = useState([]);
   const [timeSheetEmployee, setTimeSheetEmployee] = useState({});
+  const [selectedTimeSheet, setSelectedTimeSheet] = useState({});
   const [order, setOrder] = useState(0);
   const [projectsEmployee, setProjectsEmployee] = useState([]);
   const [click, setClick] = useState(0);
@@ -118,7 +117,11 @@ const EmployeeHome = () => {
     if (!timeSheets.length) {
       dispatch(getTimeSheets(`employeeId=${idEmployee}`));
     }
-    setTimeSheetEmployee(timeSheets);
+    setTimeSheetEmployee(
+      timeSheets.sort((a, b) => {
+        return new Date(a.startDate) - new Date(b.startDate);
+      })
+    );
 
     if (!projects.length) {
       dispatch(getProjects(`employees.employeeId=${idEmployee}`));
@@ -128,6 +131,7 @@ const EmployeeHome = () => {
     setProjectsOptions([
       ...projectsEmployee.map((project) => ({ value: project?._id, label: project?.name }))
     ]);
+
     setOrder(timeSheetEmployee.length - 1);
   }, [timeSheets, projects]);
 
@@ -163,32 +167,30 @@ const EmployeeHome = () => {
     }
   };
 
-  const onSubmit = async () => {
-    /*    const body = JSON.stringify({
+  const onSubmit = (data) => {
+    console.log('hola');
+    const body = JSON.stringify({
       description: data.description,
-      date: data.date,
+      date: data.formatDate(date),
       workedHours: data.workedHours,
       projectId: data.projectId
-    });*/
-
-    if (requestType === 'POST') {
-      //      dispatch(postTask(body));
-      setModalTitle('Task Added');
-      setModalText('Task has been added');
-    }
+    });
+    dispatch(putTimeSheet(timeSheetEmployee[order]._id, body));
+    setModalTitle('Task Added');
+    setModalText('Task has been added');
     openOtherModal();
   };
   const history = useHistory();
   const routeChange = () => {
-    // dispatch(getTasks());
-    history.push('/employee/home');
+    dispatch(getTimeSheets(`employeeId=${idEmployee}`));
+    history.push('/employees/home');
   };
   return (
     <div className={styles.container}>
       <Modal modalTitle="Add new progress" isOpen={isOpen} handleClose={closeModal}>
         <div className={styles.modal}>
           <form>
-            <div className={styles.date}>
+            <div className={styles.dateInput}>
               <Controller
                 control={control}
                 name="date"
@@ -271,30 +273,28 @@ const EmployeeHome = () => {
                 </div>
               ))}
             </div>
-            <div className={styles.buttonContainer}>
-              <Button
-                text={'Add new task'}
-                type="button"
-                handler={(e) => {
-                  e.preventDefault();
-                  setClick(click + 1);
-                  append({ projectId: '', description: '', workedHours: 0 });
-                }}
-              />
-            </div>
             {click === 0 && errors ? <p>{errors?.message}</p> : null}
             {click != 0 && errors && !errors.type != 'array.min' ? <p>{errors?.message}</p> : null}
-            <Button text="Cancel" handler={closeModal} />
+          </form>
+          <div className={styles.buttonContainer}>
             <Button
-              text="Save"
-              handler={() => {
-                handleSubmit(onSubmit);
-                if (!error) {
-                  routeChange();
-                }
+              text={'Add new task'}
+              type="button"
+              handler={(e) => {
+                e.preventDefault();
+                setClick(click + 1);
+                setSelectedTimeSheet(timeSheetEmployee[order]);
+                append({ projectId: '', description: '', workedHours: 0 });
               }}
             />
-          </form>
+          </div>
+          <Button
+            text="Save"
+            handler={() => {
+              handleSubmit(onSubmit);
+            }}
+          />
+          <Button text="Cancel" handler={closeModal} />
         </div>
       </Modal>
       <Modal modalTitle={modalTitle} isOpen={isOtherOpen} handleClose={closeOtherModal}>
