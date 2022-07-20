@@ -1,6 +1,5 @@
 import { loginPending, loginSuccess, loginError } from './actions';
 import firebase from 'helper/firebase';
-import { clearLoggedUserStorage } from 'helper/storage';
 
 export const login = (credentials) => {
   return (dispatch) => {
@@ -24,17 +23,19 @@ export const login = (credentials) => {
           }
         );
         const userResponse = await user.json();
-        const { _id, firstName, lastName, email, dateOfBith, dni } = userResponse.data[0];
+        const { _id, firstName, lastName, email, dateOfBirth, dni } = userResponse.data[0];
 
         sessionStorage.setItem(
           'loggedUser',
           JSON.stringify({
             _id,
+            token,
             firstName,
             lastName,
             email,
-            dateOfBith,
-            dni
+            dateOfBirth,
+            dni,
+            role
           })
         );
         return dispatch(loginSuccess());
@@ -47,7 +48,7 @@ export const login = (credentials) => {
 
 export const logout = () => {
   return (dispatch) => {
-    clearLoggedUserStorage();
+    sessionStorage.setItem('loggedUser', JSON.stringify({}));
     dispatch(loginSuccess(false));
     firebase.auth().signOut();
   };

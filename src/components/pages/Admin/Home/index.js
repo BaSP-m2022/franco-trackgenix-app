@@ -5,7 +5,7 @@ import styles from './home.module.css';
 function Home() {
   const history = useHistory();
   useEffect(() => {
-    if (JSON.parse(sessionStorage.getItem('loggedUser')).role === 'ADMIN')
+    if (JSON.parse(sessionStorage.getItem('loggedUser'))?.role === 'ADMIN')
       history.push('/employees');
   }, []);
   return (

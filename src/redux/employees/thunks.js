@@ -7,7 +7,7 @@ export const getEmployees = () => {
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/employees`, {
         headers: {
-          token: sessionStorage.getItem('token')
+          token: JSON.parse(sessionStorage.getItem('loggedUser'))?.token
         }
       });
       const jsonResponse = await response.json();
@@ -31,7 +31,7 @@ export const getEmployeesFiltered = (search) => {
         `${process.env.REACT_APP_API_URL}/employees${serializeObject(search)}`,
         {
           headers: {
-            token: sessionStorage.getItem('token')
+            token: JSON.parse(sessionStorage.getItem('loggedUser'))?.token
           }
         }
       );
@@ -55,7 +55,7 @@ export const deleteEmployee = (id) => {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/employees/${id}`, {
         method: 'DELETE',
         headers: {
-          token: sessionStorage.getItem('token')
+          token: JSON.parse(sessionStorage.getItem('loggedUser'))?.token
         }
       });
       const jsonResponse = await response.json();
@@ -79,7 +79,7 @@ export const putEmployee = (id, body) => {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          token: sessionStorage.getItem('token')
+          token: JSON.parse(sessionStorage.getItem('loggedUser'))?.token
         },
         body: body
       });
@@ -104,7 +104,7 @@ export const addEmployee = (body) => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          token: sessionStorage.getItem('token')
+          token: JSON.parse(sessionStorage.getItem('loggedUser'))?.token
         },
         body: body
       });

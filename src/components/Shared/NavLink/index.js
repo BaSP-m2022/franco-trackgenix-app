@@ -7,7 +7,7 @@ const NavLinks = () => {
   const authenticated = useSelector((state) => state.auth.authenticated);
   const [role, setRole] = useState('');
   useEffect(() => {
-    setRole(sessionStorage.getItem('role'));
+    setRole(JSON.parse(sessionStorage.getItem('loggedUser'))?.role);
   }, [authenticated]);
 
   return (
