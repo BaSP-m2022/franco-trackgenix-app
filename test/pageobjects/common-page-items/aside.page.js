@@ -17,13 +17,19 @@ class Aside extends Page {
     return $('//*[@id="root"]/div/div/div[1]/nav/div[2]/ul/li[3]/a');
   }
   get employeesRef() {
-    return $('//*[@id="root"]/div/div/div[1]/nav/div[2]/ul/li[4]/a');
+    return $(
+      '#root > div > div > div.layout_divSideBar__Lze09 > nav > div:nth-child(2) > ul > div > ul > li:nth-child(1) > a'
+    );
   }
   get projectsRef() {
-    return $('//*[@id="root"]/div/div/div[1]/nav/div[2]/ul/li[5]/a');
+    return $(
+      '#root > div > div > div.layout_divSideBar__Lze09 > nav > div:nth-child(2) > ul > div > ul > li:nth-child(2) > a'
+    );
   }
   get timesheetsRef() {
-    return $('//*[@id="root"]/div/div/div[1]/nav/div[2]/ul/div/ul/li[2]/a');
+    return $(
+      '#root > div > div > div.layout_divSideBar__Lze09 > nav > div:nth-child(2) > ul > div > ul > li:nth-child(3) > a'
+    );
   }
   get tasksRef() {
     return $('//*[@id="root"]/div/div/div[1]/nav/div[2]/ul/li[7]/a');

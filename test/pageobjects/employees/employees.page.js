@@ -36,7 +36,9 @@ class EmployeesPage extends Page {
   }
 
   get editButton() {
-    return $('//*[@id="root"]/div/div/div[2]/section/table/tbody/tr[1]/td[7]/button[1]');
+    return $(
+      '#root > div > div > div.layout_divSwitch__2iaq7 > section > table > tbody > tr:nth-child(1) > td:nth-child(6) > div > button:nth-child(1)'
+    );
   }
   get deleteButton() {
     return $('//*[@id="root"]/div/div/div[2]/section/table/tbody/tr[1]/td[7]/button[2]');

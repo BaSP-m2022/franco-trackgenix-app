@@ -69,7 +69,7 @@ class LoginPage extends Page {
   }
 
   open() {
-    return super.open('super-admins/login');
+    return super.open('/login');
   }
 }
 

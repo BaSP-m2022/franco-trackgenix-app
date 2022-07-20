@@ -55,10 +55,14 @@ class EmployeeForm extends Page {
   }
 
   get Message() {
-    return $('//*[@id="root"]/div/div/div[2]/div/form/div[2]/div/div');
+    return $(
+      '#root > div > div > div.layout_divSwitch__2iaq7 > div > div > div > div.modal_modalDivChildren__2FU_o > p'
+    );
   }
   get Messagebutton() {
-    return $('//*[@id="root"]/div/div/div[2]/div/form/div[2]/div/div/div[2]/div/button');
+    return $(
+      '#root > div > div > div.layout_divSwitch__2iaq7 > div > div > div > div.modal_modalDivChildren__2FU_o > div > button'
+    );
   }
   get MessageX() {
     return $('//*[@id="root"]/div/div/div[2]/div/form/div[2]/div/div/div[1]/button');
