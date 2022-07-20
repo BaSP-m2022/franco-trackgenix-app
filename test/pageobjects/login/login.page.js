@@ -2,37 +2,57 @@ const Page = require('../page');
 
 class LoginPage extends Page {
   get emailInput() {
-    return $('//*[@id="root"]/div/div/div[2]/div/form/div[1]/div[1]/input');
+    return $(
+      '#root > div > div > div.layout_divSwitch__2iaq7 > section > form > div:nth-child(1) > div:nth-child(1) > input'
+    );
   }
   get passwordInput() {
-    return $('//*[@id="root"]/div/div/div[2]/div/form/div[1]/div[2]/input');
+    return $(
+      '#root > div > div > div.layout_divSwitch__2iaq7 > section > form > div:nth-child(1) > div:nth-child(2) > input'
+    );
   }
   get returnButton() {
-    return $('//*[@id="root"]/div/div/div[2]/div/form/div[2]/button[1]');
+    return $(
+      '#root > div > div > div.layout_divSwitch__2iaq7 > section > form > div.login_buttonContainer__39zfO > button:nth-child(1)'
+    );
   }
   get loginButton() {
-    return $('//*[@id="root"]/div/div/div[2]/div/form/div[2]/button[2]');
+    return $(
+      '#root > div > div > div.layout_divSwitch__2iaq7 > section > form > div.login_buttonContainer__39zfO > button:nth-child(2)'
+    );
   }
   get signupButton() {
     return $('//*[@id="root"]/div/div/div[2]/div/form/div[3]/button');
   }
   get modalError() {
-    return $('//*[@id="root"]/div/div/div[2]/div/div/div');
+    return $(
+      '#root > div > div > div.layout_divSwitch__2iaq7 > section > div > div > div.modal_modalDivChildren__2FU_o'
+    );
   }
   get errorMsg() {
-    return $('//*[@id="root"]/div/div/div[2]/div/div/div/div[1]/h3');
+    return $(
+      '#root > div > div > div.layout_divSwitch__2iaq7 > section > div > div > div.modal_modalDivTitle__3Te57 > h3'
+    );
   }
   get okErrorButton() {
-    return $('//*[@id="root"]/div/div/div[2]/div/div/div/div[2]/div/button');
+    return $(
+      '#root > div > div > div.layout_divSwitch__2iaq7 > section > div > div > div.modal_modalDivChildren__2FU_o > div > button'
+    );
   }
   get inputError1() {
-    return $('//*[@id="root"]/div/div/div[2]/div/form/div[1]/div[1]/p');
+    return $(
+      '#root > div > div > div.layout_divSwitch__2iaq7 > section > form > div:nth-child(1) > div:nth-child(1) > p'
+    );
   }
   get inputError2() {
-    return $('//*[@id="root"]/div/div/div[2]/div/form/div[1]/div[2]/p');
+    return $(
+      '#root > div > div > div.layout_divSwitch__2iaq7 > section > form > div:nth-child(1) > div:nth-child(2) > p'
+    );
   }
   get inputError3() {
-    return $('//*[@id="root"]/div/div/div[2]/div/form/div[1]/div[1]/p');
+    return $(
+      '#root > div > div > div.layout_divSwitch__2iaq7 > section > form > div:nth-child(1) > div:nth-child(1) > p'
+    );
   }
 
   async setEmail(email) {

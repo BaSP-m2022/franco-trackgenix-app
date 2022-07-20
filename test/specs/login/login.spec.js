@@ -18,7 +18,7 @@ describe('E2e test login successfully', () => {
     await LoginPage.login('wdiotest@gmail.com', 'test1234');
   });
   it('If we login, we should be redirected to home', async () => {
-    await expect(browser).toHaveUrl('https://franco-trackgenix-app.vercel.app/home');
+    await expect(browser).toHaveUrl('https://franco-trackgenix-app.vercel.app/employees/home');
     const hiButton = await $('//*[@id="root"]/div/header/div[2]/button[1]');
     const hiMsg = await hiButton.getText();
     await expect(hiMsg).toBe('Hi, Wdio');
