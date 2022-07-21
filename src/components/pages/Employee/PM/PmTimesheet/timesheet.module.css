@@ -54,11 +54,22 @@
 }
 
 .modal {
+  flex: none;
+  width: 100%;
   padding: 15px;
-  flex-direction: column;
-  height: 400px;
   min-width: 500px;
-  overflow: auto;
+}
+.taskDiv {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+
+.task {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .row {
