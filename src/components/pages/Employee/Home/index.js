@@ -1,9 +1,9 @@
-/* eslint-disable no-unused-vars */
 import { formatDate } from 'utils/formatters';
 import Button from 'components/Shared/Button';
 import Modal from 'components/Shared/Modal';
 import Input from 'components/Shared/Input';
 import SelectDropdown from 'components/Shared/SelectDropdown';
+import { LoadingScreen } from 'components/Shared';
 import styles from './home.module.css';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -19,7 +19,7 @@ const TableRow = ({ project, timeSheet }) => {
   let hoursDay = [0, 0, 0, 0, 0, 0, 0];
   let total = 0;
   timeSheet?.tasks.map((task) => {
-    if (project._id == task.projectId._id) {
+    if (project._id == task.projectId?._id) {
       projectName = project.name;
       const taskDate = new Date(task.date);
       if (taskDate.getUTCDay() == 1) {
@@ -64,15 +64,12 @@ const TableRow = ({ project, timeSheet }) => {
 };
 
 const EmployeeHome = () => {
-  const date = new Date();
   const [isOpen, setIsOpen] = useState(false);
   const [isOtherOpen, setIsOtherOpen] = useState(false);
-  const [requestType] = useState('POST');
   const [modalTitle, setModalTitle] = useState('');
   const [modalText, setModalText] = useState('');
   const [projectsOptions, setProjectsOptions] = useState([]);
   const [timeSheetEmployee, setTimeSheetEmployee] = useState({});
-  const [selectedTimeSheet, setSelectedTimeSheet] = useState({});
   const [order, setOrder] = useState(0);
   const [projectsEmployee, setProjectsEmployee] = useState([]);
   const [click, setClick] = useState(0);
@@ -80,17 +77,23 @@ const EmployeeHome = () => {
   const dispatch = useDispatch();
 
   const schema = Joi.object({
-    description: Joi.string().min(3).max(50).required().messages({
-      'string.empty': 'You must add a description',
-      'string.min': 'The description must have more than 3 characters.',
-      'string.max': 'The description should not be longer than 50 characters.'
-    }),
-    workedHours: Joi.number().min(1).required().messages({
-      'string.empty': 'You must add the worked hours',
-      'number.min': 'Worked hours must be more than 1 hr.'
-    }),
-    projectId: Joi.string().required().messages({ 'string.empty': 'You must select a project' }),
-    date: Joi.date().required().messages({ 'string.empty': 'You must select a date' })
+    tasks: Joi.array().items(
+      Joi.object({
+        description: Joi.string().min(3).max(50).required().messages({
+          'string.empty': 'You must add a description',
+          'string.min': 'The description must have more than 3 characters.',
+          'string.max': 'The description should not be longer than 50 characters.'
+        }),
+        workedHours: Joi.number().min(1).required().messages({
+          'string.empty': 'You must add the worked hours',
+          'number.min': 'Worked hours must be more than 1 hr.'
+        }),
+        projectId: Joi.string()
+          .required()
+          .messages({ 'string.empty': 'You must select a project' }),
+        date: Joi.date().required().messages({ 'string.empty': 'You must select a date' })
+      })
+    )
   });
 
   const {
@@ -100,18 +103,22 @@ const EmployeeHome = () => {
   } = useForm({
     mode: 'onChange',
     defaultValues: {
-      date: '',
-      projectId: '',
-      description: '',
-      workedHours: ''
+      tasks: {
+        date: '',
+        projectId: '',
+        description: '',
+        workedHours: ''
+      }
     },
     resolver: joiResolver(schema)
   });
 
   const timeSheets = useSelector((state) => state.timeSheets.list);
+  const loadingTimeSheets = useSelector((state) => state.timeSheets.loading);
+  const loadingProjects = useSelector((state) => state.projects.loading);
   const projects = useSelector((state) => state.projects.list);
   const error = useSelector((state) => state.timeSheets.error);
-  const idEmployee = '62ceb357684df6d956380719';
+  const idEmployee = '62ced2335a530517d0d67f6e';
 
   useEffect(() => {
     if (!timeSheets.length) {
@@ -166,14 +173,14 @@ const EmployeeHome = () => {
       setOrder(order + 1);
     }
   };
-
+  if (error) {
+    openOtherModal();
+  }
   const onSubmit = (data) => {
-    console.log('hola');
     const body = JSON.stringify({
-      description: data.description,
-      date: data.formatDate(date),
-      workedHours: data.workedHours,
-      projectId: data.projectId
+      startDate: timeSheetEmployee[order].startDate,
+      tasks: data.tasks,
+      employeeId: timeSheetEmployee[order].employeeId._id
     });
     dispatch(putTimeSheet(timeSheetEmployee[order]._id, body));
     setModalTitle('Task Added');
@@ -182,60 +189,30 @@ const EmployeeHome = () => {
   };
   const history = useHistory();
   const routeChange = () => {
-    dispatch(getTimeSheets(`employeeId=${idEmployee}`));
+    dispatch(getTimeSheets());
     history.push('/employees/home');
   };
-  return (
-    <div className={styles.container}>
-      <Modal modalTitle="Add new progress" isOpen={isOpen} handleClose={closeModal}>
-        <div className={styles.modal}>
-          <form>
-            <div className={styles.dateInput}>
-              <Controller
-                control={control}
-                name="date"
-                render={({ field: { value, onChange }, fieldState: { error } }) => (
-                  <Input
-                    className={styles.label}
-                    name="Date"
-                    type="date"
-                    value={value}
-                    onChange={onChange}
-                    error={error?.message}
-                  />
-                )}
-              />
-            </div>
-            <h3 className={styles.h3}>Tasks</h3>
-            <div className={styles.tasksDiv}>
-              {fields.map((field, index) => (
-                <div key={field.id} className={styles.task}>
-                  <div className={styles.row}>
-                    <div className={styles.col}>
+  if (loadingTimeSheets || loadingProjects) {
+    return <LoadingScreen />;
+  } else {
+    return (
+      <div className={styles.container}>
+        <Modal modalTitle="Add new progress" isOpen={isOpen} handleClose={closeModal}>
+          <div className={styles.modal}>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <h3 className={styles.h3}>Tasks</h3>
+              <div className={styles.tasksDiv}>
+                {fields.map((field, index) => (
+                  <div key={field.id} className={styles.task}>
+                    <div className={styles.dateInput}>
                       <Controller
                         control={control}
-                        name={`tasks[${index}].projectId`}
-                        render={({ field: { value, onChange }, fieldState: { error } }) => (
-                          <SelectDropdown
-                            name="Project"
-                            value={value}
-                            onChange={onChange}
-                            options={projectsOptions}
-                            required={false}
-                            error={error?.message}
-                          />
-                        )}
-                      />
-                    </div>
-                    <div className={styles.col}>
-                      <Controller
-                        control={control}
-                        name={`tasks[${index}].description`}
+                        name={`tasks[${index}].date`}
                         render={({ field: { value, onChange }, fieldState: { error } }) => (
                           <Input
                             className={styles.label}
-                            name="Description"
-                            type="text"
+                            name="Date"
+                            type="date"
                             value={value}
                             onChange={onChange}
                             error={error?.message}
@@ -243,102 +220,145 @@ const EmployeeHome = () => {
                         )}
                       />
                     </div>
-                    <div className={styles.col}>
-                      <Controller
-                        control={control}
-                        name={`tasks[${index}].workedHours`}
-                        render={({ field: { value, onChange }, fieldState: { error } }) => (
-                          <Input
-                            className={styles.label}
-                            name="Worked Hours"
-                            type="number"
-                            value={value}
-                            onChange={onChange}
-                            error={error?.message}
-                          />
-                        )}
-                      />
-                    </div>
-                    <div className={(styles.col, styles.buttonDelete)}>
-                      <Button
-                        type={'delete'}
-                        text={'X'}
-                        handler={() => {
-                          remove(index);
-                          setClick(click - 1);
-                        }}
-                      />
+                    <div className={styles.row}>
+                      <div className={styles.col}>
+                        <Controller
+                          control={control}
+                          name={`tasks[${index}].projectId`}
+                          render={({ field: { value, onChange }, fieldState: { error } }) => (
+                            <SelectDropdown
+                              name="Project"
+                              value={value}
+                              onChange={onChange}
+                              options={projectsOptions}
+                              required={false}
+                              error={error?.message}
+                            />
+                          )}
+                        />
+                      </div>
+                      <div className={styles.col}>
+                        <Controller
+                          control={control}
+                          name={`tasks[${index}].description`}
+                          render={({ field: { value, onChange }, fieldState: { error } }) => (
+                            <Input
+                              className={styles.label}
+                              name="Description"
+                              type="text"
+                              value={value}
+                              onChange={onChange}
+                              error={error?.message}
+                            />
+                          )}
+                        />
+                      </div>
+                      <div className={styles.col}>
+                        <Controller
+                          control={control}
+                          name={`tasks[${index}].workedHours`}
+                          render={({ field: { value, onChange }, fieldState: { error } }) => (
+                            <Input
+                              className={styles.label}
+                              name="Worked Hours"
+                              type="number"
+                              value={value}
+                              onChange={onChange}
+                              error={error?.message}
+                            />
+                          )}
+                        />
+                      </div>
+                      <div className={(styles.col, styles.buttonDelete)}>
+                        <label>actions</label>
+                        <Button
+                          type={'delete'}
+                          text={'X'}
+                          handler={() => {
+                            remove(index);
+                            setClick(click - 1);
+                          }}
+                        />
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
-            </div>
-            {click === 0 && errors ? <p>{errors?.message}</p> : null}
-            {click != 0 && errors && !errors.type != 'array.min' ? <p>{errors?.message}</p> : null}
-          </form>
-          <div className={styles.buttonContainer}>
-            <Button
-              text={'Add new task'}
-              type="button"
-              handler={(e) => {
-                e.preventDefault();
-                setClick(click + 1);
-                setSelectedTimeSheet(timeSheetEmployee[order]);
-                append({ projectId: '', description: '', workedHours: 0 });
-              }}
-            />
+                ))}
+              </div>
+              <div className={styles.buttonContainer}>
+                <Button
+                  text={'Add new task'}
+                  type="button"
+                  handler={(e) => {
+                    e.preventDefault();
+                    setClick(click + 1);
+                    append({
+                      date: formatDate(timeSheetEmployee[order]?.startDate),
+                      projectId: '',
+                      description: '',
+                      workedHours: 0
+                    });
+                  }}
+                />
+              </div>
+              {click === 0 && errors ? <p>{errors?.message}</p> : null}
+              {click != 0 && errors && !errors.type != 'array.min' ? (
+                <p>{errors?.message}</p>
+              ) : null}
+              <Button text="Save" handler={handleSubmit(onSubmit)} />
+              <Button text="Cancel" handler={closeModal} />
+            </form>
           </div>
+        </Modal>
+        <Modal modalTitle={modalTitle} isOpen={isOtherOpen} handleClose={closeOtherModal}>
+          {modalText}
           <Button
-            text="Save"
+            text="OK"
             handler={() => {
-              handleSubmit(onSubmit);
+              closeModal();
+              closeOtherModal();
+              routeChange();
             }}
           />
-          <Button text="Cancel" handler={closeModal} />
+        </Modal>
+        <h2 className={styles.h2}>Employee &gt; Home</h2>
+        <table className={styles.table}>
+          <thead>
+            <tr>
+              <th colSpan={9} className={styles.date}>
+                <Button text="<" handler={previousTimeSheet} />
+                {formatDate(timeSheetEmployee[order]?.startDate)} -{' '}
+                {formatDate(
+                  new Date(timeSheetEmployee[order]?.startDate).setDate(
+                    new Date(timeSheetEmployee[order]?.startDate).getDate() + 6
+                  )
+                )}
+                <Button text=">" handler={nextTimeSheet} />
+              </th>
+            </tr>
+            <tr>
+              <th>Project</th>
+              <th>Mon</th>
+              <th>Tue</th>
+              <th>Wed</th>
+              <th>Thu</th>
+              <th>Fri</th>
+              <th>Sat</th>
+              <th>Sun</th>
+              <th>Total hs</th>
+            </tr>
+          </thead>
+          <tbody>
+            {projectsEmployee.map((project, key) => (
+              <TableRow key={key} project={project} timeSheet={timeSheetEmployee[order]} />
+            ))}
+          </tbody>
+        </table>
+        <div className={styles.buttonContainer}>
+          <Button text="Add new progress" handler={openModal} />
         </div>
-      </Modal>
-      <Modal modalTitle={modalTitle} isOpen={isOtherOpen} handleClose={closeOtherModal}>
-        {modalText}
-        <Button text="OK" handler={closeOtherModal} />
-      </Modal>
-      <h2 className={styles.h2}>Employee &gt; Home</h2>
-      <table className={styles.table}>
-        <thead>
-          <tr>
-            <th colSpan={9} className={styles.date}>
-              <Button text="<" handler={previousTimeSheet} />
-              {formatDate(timeSheetEmployee[order]?.startDate)} -{' '}
-              {formatDate(
-                new Date(timeSheetEmployee[order]?.startDate).setDate(
-                  new Date(timeSheetEmployee[order]?.startDate).getDate() + 6
-                )
-              )}
-              <Button text=">" handler={nextTimeSheet} />
-            </th>
-          </tr>
-          <tr>
-            <th>Project</th>
-            <th>Mon</th>
-            <th>Tue</th>
-            <th>Wed</th>
-            <th>Thu</th>
-            <th>Fri</th>
-            <th>Sat</th>
-            <th>Sun</th>
-            <th>Total hs</th>
-          </tr>
-        </thead>
-        <tbody>
-          {projectsEmployee.map((project, key) => (
-            <TableRow key={key} project={project} timeSheet={timeSheetEmployee[order]} />
-          ))}
-        </tbody>
-      </table>
-      <div className={styles.buttonContainer}>
-        <Button text="Add new progress" handler={openModal} />
       </div>
-    </div>
-  );
+    );
+  }
 };
 
 export default EmployeeHome;
