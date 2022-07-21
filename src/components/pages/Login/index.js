@@ -3,10 +3,11 @@ import { useHistory } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { useDispatch, useSelector } from 'react-redux';
-import Joi from 'joi';
 import { clearError } from 'redux/employees/actions';
 import { login } from 'redux/auth/thunks';
+import { getProjects } from 'redux/projects/thunks';
 import { Input, Modal, Button, LoadingScreen } from 'components/Shared';
+import Joi from 'joi';
 import styles from './login.module.css';
 
 const schema = Joi.object({
@@ -22,6 +23,7 @@ const loginForm = () => {
   const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
 
+  const projects = useSelector((state) => state.projects.list);
   const loading = useSelector((state) => state.auth.loading);
   const authenticated = useSelector((state) => state.auth.authenticated);
   const error = useSelector((state) => state.auth.error);
@@ -29,8 +31,23 @@ const loginForm = () => {
   useEffect(() => {
     const token = JSON.parse(sessionStorage.getItem('loggedUser'))?.token;
     const role = JSON.parse(sessionStorage.getItem('loggedUser'))?.role;
+    const idEmployee = JSON.parse(sessionStorage.getItem('loggedUser'))?._id;
+    if (role === 'EMPLOYEE') isPM(idEmployee);
     if (token) history.push(`${role ? `${role.toLowerCase()}s` : ''}/home`);
   }, [authenticated]);
+
+  const isPM = (idEmployee) => {
+    dispatch(getProjects(`employees.employeeId=${idEmployee}`));
+    if (
+      projects.find((project) =>
+        project.employees.map((employee) => {
+          if (employee.employeeId._id === idEmployee && employee.role === 'PM') return true;
+        })
+      )
+    ) {
+      sessionStorage.setItem('isPM', true);
+    }
+  };
 
   useEffect(() => {
     if (error) openModal();

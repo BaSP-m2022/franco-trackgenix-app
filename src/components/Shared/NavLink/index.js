@@ -5,6 +5,7 @@ import styles from './NavLink.module.css';
 
 const NavLinks = () => {
   const authenticated = useSelector((state) => state.auth.authenticated);
+  const isPm = sessionStorage.getItem('isPM') ? true : false;
   const [role, setRole] = useState('');
   useEffect(() => {
     setRole(JSON.parse(sessionStorage.getItem('loggedUser'))?.role);
@@ -27,6 +28,20 @@ const NavLinks = () => {
                     Timesheets
                   </NavLink>
                 </li>
+                {isPm && (
+                  <li className={styles.items}>
+                    <NavLink to={'../projects'} className={styles.links}>
+                      Projects
+                    </NavLink>
+                  </li>
+                )}
+                {isPm && (
+                  <li className={styles.items}>
+                    <NavLink to={'/employees/pm/timesheet'} className={styles.links}>
+                      Project Timesheets
+                    </NavLink>
+                  </li>
+                )}
               </ul>
             );
           case 'ADMIN':

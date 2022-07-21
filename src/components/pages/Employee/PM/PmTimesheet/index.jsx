@@ -164,7 +164,7 @@ const PmTimeSheet = () => {
   const errorProjects = useSelector((state) => state.projects.error);
   const loading = useSelector((state) => state.timeSheets.loading);
   const loading2 = useSelector((state) => state.projects.loading);
-  const idEmployee = '62ceb357684df6d956380719';
+  const idEmployee = JSON.parse(sessionStorage.getItem('loggedUser'))?._id;
 
   useEffect(() => {
     if (date.getUTCDay() !== 0) {
