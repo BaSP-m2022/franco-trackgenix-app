@@ -93,8 +93,8 @@ const AdminProfile = () => {
   const [modalTitle, setModalTitle] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const [oldPasswordError, setOldPasswordError] = useState('');
+  const [admin, setAdmin] = useState('');
 
-  const admin = useSelector((state) => state.admins.admin);
   const loading = useSelector((state) => state.admins.loading);
   const error = useSelector((state) => state.admins.error);
 
@@ -108,6 +108,10 @@ const AdminProfile = () => {
       setValuePassword('oldPassword', '');
     }
   }, [admin]);
+
+  useEffect(() => {
+    setAdmin(JSON.parse(sessionStorage.getItem('loggedUser')));
+  }, []);
 
   const openModal = () => {
     setIsOpen(true);
@@ -129,7 +133,11 @@ const AdminProfile = () => {
       email: data.email,
       password: admin.password
     });
-    dispatch(putAdmin(admin._id, body));
+    if (admin.role === 'ADMIN') {
+      dispatch(putAdmin(admin._id, body));
+    } else if (admin.role === 'SUPER-ADMIN') {
+      dispatch(putSuperAdmin(admin._id, body));
+    }
     setOldPasswordError('');
     setModalTitle('Profile updated');
     setMsg('You have updated your profile successfully!');

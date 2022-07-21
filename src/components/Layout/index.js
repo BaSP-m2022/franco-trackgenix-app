@@ -19,6 +19,7 @@ const EmployeeList = React.lazy(() => import('components/pages/Employee/List'));
 const EmployeeForm = React.lazy(() => import('components/pages/Employee/Form'));
 const EmployeeHome = React.lazy(() => import('components/pages/Employee/Home'));
 const EmployeeTableProfile = React.lazy(() => import('components/pages/Employee/Profile'));
+const EmployeeProfile = React.lazy(() => import('components/Shared/Profile/Employee'));
 
 const ProjectList = React.lazy(() => import('components/pages/Project/List'));
 const ProjectForm = React.lazy(() => import('components/pages/Project/Form'));
@@ -51,6 +52,7 @@ function Layout() {
               <Route exact path="/employees" component={EmployeeList} />
               <Route exact path="/employees/form" component={EmployeeForm} />
               <Route exact path="/employees/home" component={EmployeeHome} />
+              <Route exact path="/employees/profile" component={EmployeeProfile} />
               <Route exact path="/employees/:id" component={EmployeeTableProfile} />
               <Route exact path="/projects" component={ProjectList} />
               <Route exact path="/projects/form" component={ProjectForm} />
