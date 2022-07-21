@@ -81,6 +81,41 @@ const schema = Joi.object({
   )
 });
 
+const dateOptions = (startDate) => {
+  const multiplyDate = (m) => new Date(startDate).setDate(new Date(startDate).getUTCDate() + m);
+  console.log(multiplyDate(1));
+  return [
+    {
+      value: formatDate(multiplyDate(0)),
+      label: formatDate(multiplyDate(0))
+    },
+    {
+      value: formatDate(multiplyDate(1)),
+      label: formatDate(multiplyDate(1))
+    },
+    {
+      value: formatDate(multiplyDate(2)),
+      label: formatDate(multiplyDate(2))
+    },
+    {
+      value: formatDate(multiplyDate(3)),
+      label: formatDate(multiplyDate(3))
+    },
+    {
+      value: formatDate(multiplyDate(4)),
+      label: formatDate(multiplyDate(4))
+    },
+    {
+      value: formatDate(multiplyDate(5)),
+      label: formatDate(multiplyDate(5))
+    },
+    {
+      value: formatDate(multiplyDate(6)),
+      label: formatDate(multiplyDate(6))
+    }
+  ];
+};
+
 const EmployeeHome = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isOtherOpen, setIsOtherOpen] = useState(false);
@@ -155,6 +190,7 @@ const EmployeeHome = () => {
     control,
     name: 'tasks'
   });
+
   const openModal = () => {
     setIsOpen(true);
   };
@@ -222,11 +258,10 @@ const EmployeeHome = () => {
                         control={control}
                         name={`tasks[${index}].date`}
                         render={({ field: { value, onChange }, fieldState: { error } }) => (
-                          <Input
-                            className={styles.label}
+                          <SelectDropdown
+                            options={dateOptions(timeSheetEmployee[order].startDate)}
                             name="Date"
-                            type="date"
-                            value={formatDate(value)}
+                            value={value}
                             onChange={onChange}
                             error={error?.message}
                           />
