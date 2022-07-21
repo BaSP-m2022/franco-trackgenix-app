@@ -83,7 +83,6 @@ const schema = Joi.object({
 
 const dateOptions = (startDate) => {
   const multiplyDate = (m) => new Date(startDate).setDate(new Date(startDate).getUTCDate() + m);
-  console.log(multiplyDate(1));
   return [
     {
       value: formatDate(multiplyDate(0)),
@@ -152,7 +151,7 @@ const EmployeeHome = () => {
   const loadingProjects = useSelector((state) => state.projects.loading);
   const projects = useSelector((state) => state.projects.list);
   const error = useSelector((state) => state.timeSheets.error);
-  const idEmployee = '62ceb357684df6d956380719';
+  const idEmployee = JSON.parse(sessionStorage.getItem('loggedUser'))?._id;
 
   useEffect(() => {
     if (!timeSheets.length) {
@@ -222,7 +221,6 @@ const EmployeeHome = () => {
   }
 
   const onSubmit = (data) => {
-    console.log('data', data);
     const body = JSON.stringify({
       startDate: timeSheetEmployee[order].startDate,
       tasks: data.tasks,
