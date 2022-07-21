@@ -1,4 +1,5 @@
 import * as actions from './actions';
+import { serializeObject } from 'utils/formatters';
 
 const URL = `${process.env.REACT_APP_API_URL}/projects`;
 
@@ -8,10 +9,11 @@ export const getProjects = (optionalParams = '') => {
     try {
       const response = await fetch(`${URL}/?${optionalParams}`, {
         headers: {
-          token: sessionStorage.getItem('token')
+          token: JSON.parse(sessionStorage.getItem('loggedUser'))?.token
         }
       });
       const jsonResponse = await response.json();
+
       if (jsonResponse.error) {
         dispatch(actions.getProjectsError(jsonResponse.message));
       } else {
@@ -24,6 +26,29 @@ export const getProjects = (optionalParams = '') => {
   };
 };
 
+export const getProjectsFiltered = (search) => {
+  return async (dispatch) => {
+    dispatch(actions.getProjectsFilteredLoading());
+    try {
+      const response = await fetch(`${URL}/${serializeObject(search)}`, {
+        headers: {
+          token: JSON.parse(sessionStorage.getItem('loggedUser'))?.token
+        }
+      });
+      const jsonResponse = await response.json();
+
+      if (jsonResponse.error) {
+        dispatch(actions.getProjectsFilteredError(jsonResponse.message));
+      } else {
+        dispatch(actions.getProjectsFilteredSuccess(jsonResponse.data));
+      }
+      return jsonResponse.data;
+    } catch (error) {
+      dispatch(actions.getProjectsFilteredError(error.toString()));
+    }
+  };
+};
+
 export const putProject = (id, body) => {
   return async (dispatch) => {
     dispatch(actions.putProjectLoading());
@@ -32,7 +57,7 @@ export const putProject = (id, body) => {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          token: sessionStorage.getItem('token')
+          token: JSON.parse(sessionStorage.getItem('loggedUser'))?.token
         },
         body: JSON.stringify(body)
       });
@@ -56,7 +81,7 @@ export const deleteProject = (id) => {
       const response = await fetch(`${URL}/${id}`, {
         method: 'DELETE',
         headers: {
-          token: sessionStorage.getItem('token')
+          token: JSON.parse(sessionStorage.getItem('loggedUser'))?.token
         }
       });
       const jsonResponse = await response.json();
@@ -80,7 +105,7 @@ export const postProject = (body) => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          token: sessionStorage.getItem('token')
+          token: JSON.parse(sessionStorage.getItem('loggedUser'))?.token
         },
         body: JSON.stringify(body)
       });

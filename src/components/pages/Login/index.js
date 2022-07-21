@@ -23,11 +23,13 @@ const loginForm = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const loading = useSelector((state) => state.auth.loading);
-  const error = useSelector((state) => state.auth.error);
   const authenticated = useSelector((state) => state.auth.authenticated);
+  const error = useSelector((state) => state.auth.error);
 
   useEffect(() => {
-    if (authenticated) history.push('/home');
+    const token = JSON.parse(sessionStorage.getItem('loggedUser'))?.token;
+    const role = JSON.parse(sessionStorage.getItem('loggedUser'))?.role;
+    if (token) history.push(`${role ? `${role.toLowerCase()}s` : ''}/home`);
   }, [authenticated]);
 
   useEffect(() => {
@@ -67,7 +69,7 @@ const loginForm = () => {
     );
   }
   return (
-    <div className={styles.containerSec}>
+    <section className={styles.containerSec}>
       <Modal modalTitle={'Login error'} isOpen={isOpen} handleClose={closeModal}>
         <p>{error}</p>
         <div>
@@ -113,6 +115,7 @@ const loginForm = () => {
         </div>
         <div className={styles.buttonContainer}>
           <Button
+            type="button"
             text="Return"
             handler={() => {
               dispatch(clearError());
@@ -122,10 +125,14 @@ const loginForm = () => {
           <Button text={'Log In'} handler={handleSubmit(formHandleSubmit)} />
         </div>
         <div>
-          <Button text={`Don't have an account? Sign up`} handler={() => history.push('/signup')} />
+          <Button
+            type="button"
+            text={`Don't have an account? Sign up`}
+            handler={() => history.push('/signup')}
+          />
         </div>
       </form>
-    </div>
+    </section>
   );
 };
 

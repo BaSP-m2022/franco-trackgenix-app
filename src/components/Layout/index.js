@@ -3,7 +3,6 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import { Header, Sidebar, Footer, LoadingScreen } from 'components/Shared';
 import styles from './layout.module.css';
 
-const Profile = React.lazy(() => 'components/Shared/Profile');
 const SignUp = React.lazy(() => import('components/pages/Signup'));
 const Login = React.lazy(() => import('components/pages/Login'));
 
@@ -18,9 +17,11 @@ const SuperAdminHome = React.lazy(() => import('components/pages/SuperAdmin/Home
 const EmployeeList = React.lazy(() => import('components/pages/Employee/List'));
 const EmployeeForm = React.lazy(() => import('components/pages/Employee/Form'));
 const EmployeeHome = React.lazy(() => import('components/pages/Employee/Home'));
+const EmployeeTableProfile = React.lazy(() => import('components/pages/Employee/Profile'));
 
 const ProjectList = React.lazy(() => import('components/pages/Project/List'));
 const ProjectForm = React.lazy(() => import('components/pages/Project/Form'));
+const ProjectProfile = React.lazy(() => import('components/pages/Project/Profile'));
 
 const TimeSheetList = React.lazy(() => import('components/pages/TimeSheet/List'));
 const TimeSheetForm = React.lazy(() => import('components/pages/TimeSheet/Form'));
@@ -47,9 +48,10 @@ function Layout() {
               <Route exact path="/employees" component={EmployeeList} />
               <Route exact path="/employees/form" component={EmployeeForm} />
               <Route exact path="/employees/home" component={EmployeeHome} />
-              <Route exact path="/employee/profile" component={Profile} />
+              <Route exact path="/employees/:id" component={EmployeeTableProfile} />
               <Route exact path="/projects" component={ProjectList} />
               <Route exact path="/projects/form" component={ProjectForm} />
+              <Route exact path="/projects/:id" component={ProjectProfile} />
               <Route exact path="/time-sheets" component={TimeSheetList} />
               <Route exact path="/time-sheets/form" component={TimeSheetForm} />
               <Route exact path="/">
