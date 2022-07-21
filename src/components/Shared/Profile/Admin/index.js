@@ -64,7 +64,7 @@ const schemaPassword = Joi.object({
     .messages({ 'any.only': 'Passwords must match' })
 });
 
-const ProfileAdmin = () => {
+const AdminProfile = () => {
   const { handleSubmit, control, setValue } = useForm({
     resolver: joiResolver(schema),
     defaultValues: {
@@ -286,4 +286,4 @@ const ProfileAdmin = () => {
   );
 };
 
-export default ProfileAdmin;
+export default AdminProfile;

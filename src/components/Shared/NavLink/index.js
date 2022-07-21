@@ -49,17 +49,12 @@ const NavLinks = () => {
                 </li>
               </ul>
             );
-          case 'SUPER-ADMIN':
+          case 'SUPERADMIN':
             return (
               <ul className={styles.routes}>
                 <li className={styles.items}>
                   <NavLink to={'home'} className={styles.links}>
                     Home
-                  </NavLink>
-                </li>
-                <li className={styles.items}>
-                  <NavLink to={'/admins'} className={styles.links}>
-                    Admins
                   </NavLink>
                 </li>
               </ul>

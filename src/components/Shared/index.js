@@ -6,12 +6,12 @@ import Input from './Input';
 import LoadingScreen from './LoadingScreen';
 import Modal from './Modal';
 import NavLinks from './NavLink';
+import EmployeeProfile from './Profile/Employee';
+import AdminProfile from './Profile/Admin';
 import ProfileItem from './ProfileItem';
 import Search from './SearchBar';
 import SelectDropdown from './SelectDropdown';
 import Table from './Table';
-import AdminProfile from './Profile/Admin';
-import EmployeeProfile from './Profile/Employee';
 
 export {
   Header,
@@ -22,10 +22,10 @@ export {
   LoadingScreen,
   Modal,
   NavLinks,
+  EmployeeProfile,
+  AdminProfile,
   ProfileItem,
   Search,
   SelectDropdown,
-  Table,
-  AdminProfile,
-  EmployeeProfile
+  Table
 };

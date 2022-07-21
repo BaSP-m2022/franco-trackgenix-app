@@ -73,7 +73,7 @@ const schemaPassword = Joi.object({
     .messages({ 'any.only': 'Passwords must match' })
 });
 
-const ProfileEmployee = () => {
+const EmployeeProfile = () => {
   const { handleSubmit, control, setValue } = useForm({
     resolver: joiResolver(schema),
     defaultValues: {
@@ -104,10 +104,11 @@ const ProfileEmployee = () => {
   const [modalTitle, setModalTitle] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const [oldPasswordError, setOldPasswordError] = useState('');
-  const [employee, setEmployee] = useState('');
 
+  const employee = useSelector((state) => state.employees.employee);
   const loading = useSelector((state) => state.employees.loading);
   const error = useSelector((state) => state.employees.error);
+
   useEffect(() => {
     if (employee?._id) {
       setValue('firstName', employee.firstName);
@@ -120,21 +121,6 @@ const ProfileEmployee = () => {
       setValuePassword('oldPassword', '');
     }
   }, [employee]);
-
-  console.log(employee);
-
-  useEffect(() => {
-    setEmployee(JSON.parse(sessionStorage.getItem('loggedUser')));
-  }, []);
-
-  /*
-_id,
-token,
-firstName,
-lastName,
-email,
-dateOfBith,
-dni */
 
   const openModal = () => {
     setIsOpen(true);
@@ -345,4 +331,4 @@ dni */
   );
 };
 
-export default ProfileEmployee;
+export default EmployeeProfile;
