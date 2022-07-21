@@ -48,14 +48,14 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0 25px;
-  margin: 15px 0;
+  margin: 15px 0 0 0;
 }
 
 .buttonDelete {
   width: 100%;
   display: flex;
   align-items: center;
+  padding: 30px 0;
 }
 
 .formTitle{
@@ -64,8 +64,8 @@
 }
 
 .modal {
-  padding: 15px;
   flex-direction: column;
+  padding: 15px;
   height: 400px;
   min-width: 700px;
   overflow: auto;
@@ -74,7 +74,9 @@
 .row {
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: flex-start;
+  border-bottom: 1px solid #373867;
+  margin-bottom: 10px;
 }
 
 .col {

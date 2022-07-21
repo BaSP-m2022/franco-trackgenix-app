@@ -19,7 +19,7 @@ const TableRow = ({ project, timeSheet }) => {
   let hoursDay = [0, 0, 0, 0, 0, 0, 0];
   let total = 0;
   timeSheet?.tasks.map((task) => {
-    if (project._id == task.projectId?._id) {
+    if (project._id == task.projectId) {
       projectName = project.name;
       const taskDate = new Date(task.date);
       if (taskDate.getUTCDay() == 1) {
@@ -51,17 +51,35 @@ const TableRow = ({ project, timeSheet }) => {
   return (
     <tr className={styles.containerTable}>
       <td>{projectName}</td>
-      <td>{hoursDay[0]}</td>
-      <td>{hoursDay[1]}</td>
-      <td>{hoursDay[2]}</td>
-      <td>{hoursDay[3]}</td>
-      <td>{hoursDay[4]}</td>
-      <td>{hoursDay[5]}</td>
-      <td>{hoursDay[6]}</td>
-      <td>{total}</td>
+      <td>{hoursDay[0] != 0 ? <b>{hoursDay[0]}</b> : '/'}</td>
+      <td>{hoursDay[1] != 0 ? <b>{hoursDay[1]}</b> : '/'}</td>
+      <td>{hoursDay[2] != 0 ? <b>{hoursDay[2]}</b> : '/'}</td>
+      <td>{hoursDay[3] != 0 ? <b>{hoursDay[3]}</b> : '/'}</td>
+      <td>{hoursDay[4] != 0 ? <b>{hoursDay[4]}</b> : '/'}</td>
+      <td>{hoursDay[5] != 0 ? <b>{hoursDay[5]}</b> : '/'}</td>
+      <td>{hoursDay[6] != 0 ? <b>{hoursDay[6]}</b> : '/'}</td>
+      <td>{total != 0 ? <b>{total}</b> : '/'}</td>
     </tr>
   );
 };
+
+const schema = Joi.object({
+  tasks: Joi.array().items(
+    Joi.object({
+      description: Joi.string().min(3).max(50).required().messages({
+        'string.empty': 'You must add a description',
+        'string.min': 'The description must have more than 3 characters.',
+        'string.max': 'The description should not be longer than 50 characters.'
+      }),
+      workedHours: Joi.number().min(1).required().messages({
+        'string.empty': 'You must add the worked hours',
+        'number.min': 'Worked hours must be more than 1 hr.'
+      }),
+      projectId: Joi.string().required().messages({ 'string.empty': 'You must select a project' }),
+      date: Joi.date().required().messages({ 'string.empty': 'You must select a date' })
+    })
+  )
+});
 
 const EmployeeHome = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -76,29 +94,10 @@ const EmployeeHome = () => {
 
   const dispatch = useDispatch();
 
-  const schema = Joi.object({
-    tasks: Joi.array().items(
-      Joi.object({
-        description: Joi.string().min(3).max(50).required().messages({
-          'string.empty': 'You must add a description',
-          'string.min': 'The description must have more than 3 characters.',
-          'string.max': 'The description should not be longer than 50 characters.'
-        }),
-        workedHours: Joi.number().min(1).required().messages({
-          'string.empty': 'You must add the worked hours',
-          'number.min': 'Worked hours must be more than 1 hr.'
-        }),
-        projectId: Joi.string()
-          .required()
-          .messages({ 'string.empty': 'You must select a project' }),
-        date: Joi.date().required().messages({ 'string.empty': 'You must select a date' })
-      })
-    )
-  });
-
   const {
     control,
     handleSubmit,
+    setValue,
     formState: { errors }
   } = useForm({
     mode: 'onChange',
@@ -118,7 +117,7 @@ const EmployeeHome = () => {
   const loadingProjects = useSelector((state) => state.projects.loading);
   const projects = useSelector((state) => state.projects.list);
   const error = useSelector((state) => state.timeSheets.error);
-  const idEmployee = '62ced2335a530517d0d67f6e';
+  const idEmployee = '62ceb357684df6d956380719';
 
   useEffect(() => {
     if (!timeSheets.length) {
@@ -129,19 +128,33 @@ const EmployeeHome = () => {
         return new Date(a.startDate) - new Date(b.startDate);
       })
     );
-
+    setOrder(timeSheetEmployee.length - 1);
     if (!projects.length) {
       dispatch(getProjects(`employees.employeeId=${idEmployee}`));
     }
     setProjectsEmployee(projects);
-
     setProjectsOptions([
-      ...projectsEmployee.map((project) => ({ value: project?._id, label: project?.name }))
+      ...projectsEmployee?.map((project) => ({ value: project?._id, label: project?.name }))
     ]);
-
-    setOrder(timeSheetEmployee.length - 1);
   }, [timeSheets, projects]);
 
+  useEffect(() => {
+    setValue('tasks', formatTasks());
+  }, [timeSheetEmployee[order]]);
+
+  const formatTasks = () => {
+    timeSheetEmployee[order]?.tasks.map((task) => {
+      task.projectId = typeof task.projectId == 'object' ? task.projectId?._id : task.projectId;
+      task.date = task.date.slice(0, 10);
+      delete task._id;
+    });
+    return timeSheetEmployee[order]?.tasks;
+  };
+
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: 'tasks'
+  });
   const openModal = () => {
     setIsOpen(true);
   };
@@ -158,11 +171,6 @@ const EmployeeHome = () => {
     setIsOtherOpen(false);
   };
 
-  const { fields, append, remove } = useFieldArray({
-    control,
-    name: 'tasks'
-  });
-
   const previousTimeSheet = () => {
     if (order > 0) {
       setOrder(order - 1);
@@ -176,7 +184,9 @@ const EmployeeHome = () => {
   if (error) {
     openOtherModal();
   }
+
   const onSubmit = (data) => {
+    console.log('data', data);
     const body = JSON.stringify({
       startDate: timeSheetEmployee[order].startDate,
       tasks: data.tasks,
@@ -187,9 +197,12 @@ const EmployeeHome = () => {
     setModalText('Task has been added');
     openOtherModal();
   };
+
   const history = useHistory();
+
   const routeChange = () => {
-    dispatch(getTimeSheets());
+    dispatch(getTimeSheets(`employeeId=${idEmployee}`));
+    setOrder(order);
     history.push('/employees/home');
   };
   if (loadingTimeSheets || loadingProjects) {
@@ -201,10 +214,10 @@ const EmployeeHome = () => {
           <div className={styles.modal}>
             <form onSubmit={handleSubmit(onSubmit)}>
               <h3 className={styles.h3}>Tasks</h3>
-              <div className={styles.tasksDiv}>
-                {fields.map((field, index) => (
-                  <div key={field.id} className={styles.task}>
-                    <div className={styles.dateInput}>
+              {fields.map((field, index) => (
+                <div key={field.id}>
+                  <div className={styles.row}>
+                    <div className={styles.col}>
                       <Controller
                         control={control}
                         name={`tasks[${index}].date`}
@@ -213,6 +226,38 @@ const EmployeeHome = () => {
                             className={styles.label}
                             name="Date"
                             type="date"
+                            value={formatDate(value)}
+                            onChange={onChange}
+                            error={error?.message}
+                          />
+                        )}
+                      />
+                    </div>
+                    <div className={styles.col}>
+                      <Controller
+                        control={control}
+                        name={`tasks[${index}].projectId`}
+                        render={({ field: { value, onChange }, fieldState: { error } }) => (
+                          <SelectDropdown
+                            name="Project"
+                            value={value}
+                            onChange={onChange}
+                            options={projectsOptions}
+                            required={false}
+                            error={error?.message}
+                          />
+                        )}
+                      />
+                    </div>
+                    <div className={styles.col}>
+                      <Controller
+                        control={control}
+                        name={`tasks[${index}].description`}
+                        render={({ field: { value, onChange }, fieldState: { error } }) => (
+                          <Input
+                            className={styles.label}
+                            name="Description"
+                            type="text"
                             value={value}
                             onChange={onChange}
                             error={error?.message}
@@ -220,70 +265,35 @@ const EmployeeHome = () => {
                         )}
                       />
                     </div>
-                    <div className={styles.row}>
-                      <div className={styles.col}>
-                        <Controller
-                          control={control}
-                          name={`tasks[${index}].projectId`}
-                          render={({ field: { value, onChange }, fieldState: { error } }) => (
-                            <SelectDropdown
-                              name="Project"
-                              value={value}
-                              onChange={onChange}
-                              options={projectsOptions}
-                              required={false}
-                              error={error?.message}
-                            />
-                          )}
-                        />
-                      </div>
-                      <div className={styles.col}>
-                        <Controller
-                          control={control}
-                          name={`tasks[${index}].description`}
-                          render={({ field: { value, onChange }, fieldState: { error } }) => (
-                            <Input
-                              className={styles.label}
-                              name="Description"
-                              type="text"
-                              value={value}
-                              onChange={onChange}
-                              error={error?.message}
-                            />
-                          )}
-                        />
-                      </div>
-                      <div className={styles.col}>
-                        <Controller
-                          control={control}
-                          name={`tasks[${index}].workedHours`}
-                          render={({ field: { value, onChange }, fieldState: { error } }) => (
-                            <Input
-                              className={styles.label}
-                              name="Worked Hours"
-                              type="number"
-                              value={value}
-                              onChange={onChange}
-                              error={error?.message}
-                            />
-                          )}
-                        />
-                      </div>
-                      <div className={(styles.col, styles.buttonDelete)}>
-                        <label>actions</label>
-                        <Button
-                          type={'delete'}
-                          text={'X'}
-                          handler={() => {
-                            remove(index);
-                            setClick(click - 1);
-                          }}
-                        />
-                      </div>
+                    <div className={styles.col}>
+                      <Controller
+                        control={control}
+                        name={`tasks[${index}].workedHours`}
+                        render={({ field: { value, onChange }, fieldState: { error } }) => (
+                          <Input
+                            className={styles.label}
+                            name="Worked Hours"
+                            type="number"
+                            value={value}
+                            onChange={onChange}
+                            error={error?.message}
+                          />
+                        )}
+                      />
+                    </div>
+                    <div className={(styles.buttonContainer, styles.col, styles.buttonDelete)}>
+                      <Button
+                        type={'delete'}
+                        text={'X'}
+                        handler={() => {
+                          remove(index);
+                          setClick(click - 1);
+                        }}
+                      />
                     </div>
                   </div>
-                ))}
-              </div>
+                </div>
+              ))}
               <div className={styles.buttonContainer}>
                 <Button
                   text={'Add new task'}
@@ -292,7 +302,7 @@ const EmployeeHome = () => {
                     e.preventDefault();
                     setClick(click + 1);
                     append({
-                      date: formatDate(timeSheetEmployee[order]?.startDate),
+                      date: '',
                       projectId: '',
                       description: '',
                       workedHours: 0
@@ -311,14 +321,16 @@ const EmployeeHome = () => {
         </Modal>
         <Modal modalTitle={modalTitle} isOpen={isOtherOpen} handleClose={closeOtherModal}>
           {modalText}
-          <Button
-            text="OK"
-            handler={() => {
-              closeModal();
-              closeOtherModal();
-              routeChange();
-            }}
-          />
+          <div className={styles.buttonContainer}>
+            <Button
+              text="OK"
+              handler={() => {
+                closeModal();
+                closeOtherModal();
+                routeChange();
+              }}
+            />
+          </div>
         </Modal>
         <h2 className={styles.h2}>Employee &gt; Home</h2>
         <table className={styles.table}>
@@ -326,10 +338,15 @@ const EmployeeHome = () => {
             <tr>
               <th colSpan={9} className={styles.date}>
                 <Button text="<" handler={previousTimeSheet} />
-                {formatDate(timeSheetEmployee[order]?.startDate)} -{' '}
                 {formatDate(
                   new Date(timeSheetEmployee[order]?.startDate).setDate(
-                    new Date(timeSheetEmployee[order]?.startDate).getDate() + 6
+                    new Date(timeSheetEmployee[order]?.startDate).getUTCDate()
+                  )
+                )}{' '}
+                -{' '}
+                {formatDate(
+                  new Date(timeSheetEmployee[order]?.startDate).setDate(
+                    new Date(timeSheetEmployee[order]?.startDate).getUTCDate() + 6
                   )
                 )}
                 <Button text=">" handler={nextTimeSheet} />
