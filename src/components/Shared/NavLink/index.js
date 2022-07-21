@@ -1,9 +1,14 @@
-import styles from './NavLink.module.css';
+import { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import styles from './NavLink.module.css';
 
 const NavLinks = () => {
-  const role = useSelector((state) => state.auth.authenticated.role);
+  const authenticated = useSelector((state) => state.auth.authenticated);
+  const [role, setRole] = useState('');
+  useEffect(() => {
+    setRole(JSON.parse(sessionStorage.getItem('loggedUser'))?.role);
+  }, [authenticated]);
 
   return (
     <div>
@@ -27,16 +32,6 @@ const NavLinks = () => {
           case 'ADMIN':
             return (
               <ul className={styles.routes}>
-                <li className={styles.items}>
-                  <NavLink to={'home'} className={styles.links}>
-                    Home
-                  </NavLink>
-                </li>
-                <li className={styles.items}>
-                  <NavLink to={'/admins'} className={styles.links}>
-                    Admins
-                  </NavLink>
-                </li>
                 <li className={styles.items}>
                   <NavLink to={'/employees'} className={styles.links}>
                     Employees

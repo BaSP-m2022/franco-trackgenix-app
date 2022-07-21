@@ -2,6 +2,7 @@ import * as CONSTANTS from './constants';
 
 const initialStore = {
   list: [],
+  filteredList: [],
   loading: false,
   error: '',
   employee: {}
@@ -13,16 +14,41 @@ export const employeesReducer = (state = initialStore, actions) => {
         ...state,
         loading: true
       };
+
     case CONSTANTS.GET_EMPLOYEES_SUCCESS:
       return {
         ...state,
         list: actions.payload,
+        error: '',
         loading: false
       };
+
     case CONSTANTS.GET_EMPLOYEES_ERROR:
       return {
         ...state,
+        list: [],
         error: actions.payload,
+        loading: false
+      };
+
+    case CONSTANTS.GET_EMPLOYEES_FILTERED_LOADING:
+      return {
+        ...state,
+        loading: true
+      };
+
+    case CONSTANTS.GET_EMPLOYEES_FILTERED_SUCCESS:
+      return {
+        ...state,
+        filteredList: actions.payload,
+        loading: false
+      };
+
+    case CONSTANTS.GET_EMPLOYEES_FILTERED_ERROR:
+      return {
+        ...state,
+        error: actions.payload,
+        filteredList: [],
         loading: false
       };
 
