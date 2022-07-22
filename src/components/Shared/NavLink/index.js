@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import styles from './NavLink.module.css';
+import styles from './navlink.module.css';
 
 const NavLinks = () => {
   const authenticated = useSelector((state) => state.auth.authenticated);
@@ -11,7 +11,7 @@ const NavLinks = () => {
   }, [authenticated]);
 
   return (
-    <div>
+    <div className={styles.routesContainer}>
       {(() => {
         switch (role) {
           case 'EMPLOYEE':

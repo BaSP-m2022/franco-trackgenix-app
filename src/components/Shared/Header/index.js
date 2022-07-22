@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { logout } from 'redux/auth/thunks';
+import MenuButton from './MenuButton';
 import styles from './header.module.css';
 
 const Header = () => {
@@ -22,17 +23,20 @@ const Header = () => {
 
   return (
     <header className={styles.header}>
-      <div className={styles.logo}>
-        <img
-          src={`${process.env.PUBLIC_URL}/assets/images/logo1.svg`}
-          alt="Rocket"
-          className={styles.rocket}
-        />
-        <img
-          src={`${process.env.PUBLIC_URL}/assets/images/logo2.svg`}
-          alt="Radium"
-          className={styles.radium}
-        />
+      <div className={styles.buttonLogo}>
+        <MenuButton />
+        <div className={styles.logo}>
+          <img
+            src={`${process.env.PUBLIC_URL}/assets/images/logo1.svg`}
+            alt="Rocket"
+            className={styles.rocket}
+          />
+          <img
+            src={`${process.env.PUBLIC_URL}/assets/images/logo2.svg`}
+            alt="Radium"
+            className={styles.radium}
+          />
+        </div>
       </div>
 
       {!loggedUser?.firstName ? (

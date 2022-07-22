@@ -1,27 +1,37 @@
 .container {
+  width: 100vw;
+  height: fit-content;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  width: 100vw;
-}
-
-.mainDiv {
-  display: flex;
-  flex-wrap: wrap;
+  max-width: 1920px;
+  margin: 0 auto;
 }
 
 .divSideBar {
-  display: flex;
-  flex-wrap: wrap;
-  min-width: 15%;
-  width: 25%;
+  position: fixed;
+  top: 70px;
+  bottom: 0;
+  width: 190px;
+  display: none;
 }
 
 .divSwitch {
-  margin-top: 110px;
+  margin-top: 70px;
+  margin-left: 0;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  width: 75%;
   margin-bottom: 5%;
+}
+
+@media (min-width: 760px) {
+  .divSideBar {
+    display: block;
+    top: 110px;
+  }
+
+  .divSwitch {
+    margin-top: 110px;
+    margin-left: 190px;
+  }
 }

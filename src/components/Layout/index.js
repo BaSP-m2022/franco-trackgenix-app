@@ -1,6 +1,8 @@
 import React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { Header, Sidebar, Footer, LoadingScreen } from 'components/Shared';
+import { useSelector } from 'react-redux';
+
 import styles from './layout.module.css';
 
 const SignUp = React.lazy(() => import('components/pages/Signup'));
@@ -27,41 +29,44 @@ const TimeSheetList = React.lazy(() => import('components/pages/TimeSheet/List')
 const TimeSheetForm = React.lazy(() => import('components/pages/TimeSheet/Form'));
 
 function Layout() {
+  const authenticated = useSelector((state) => state.auth.authenticated);
+
   return (
     <div className={styles.container}>
       <Header />
-      <div className={styles.mainDiv}>
-        <div className={styles.divSideBar}>
-          <Sidebar />
-        </div>
-        <div className={styles.divSwitch}>
-          <React.Suspense fallback={<LoadingScreen />}>
-            <Switch>
-              <Route exact path="/signup" component={SignUp} />
-              <Route exact path="/login" component={Login} />
-              <Route exact path="/admins" component={AdminList} />
-              <Route exact path="/admins/form" component={AdminForm} />
-              <Route exact path="/admins/home" component={AdminHome} />
-              <Route exact path="/super-admins" component={SuperAdminList} />
-              <Route exact path="/super-admins/form" component={SuperAdminForm} />
-              <Route exact path="/super-admins/home" component={SuperAdminHome} />
-              <Route exact path="/employees" component={EmployeeList} />
-              <Route exact path="/employees/form" component={EmployeeForm} />
-              <Route exact path="/employees/home" component={EmployeeHome} />
-              <Route exact path="/employees/:id" component={EmployeeTableProfile} />
-              <Route exact path="/projects" component={ProjectList} />
-              <Route exact path="/projects/form" component={ProjectForm} />
-              <Route exact path="/projects/:id" component={ProjectProfile} />
-              <Route exact path="/time-sheets" component={TimeSheetList} />
-              <Route exact path="/time-sheets/form" component={TimeSheetForm} />
-              <Route exact path="/">
-                <Redirect to="/home" />
-              </Route>
-            </Switch>
-          </React.Suspense>
-        </div>
+
+      <div className={styles.divSideBar}>
+        <Sidebar />
       </div>
-      <Footer />
+
+      <div className={styles.divSwitch}>
+        <React.Suspense fallback={<LoadingScreen />}>
+          <Switch>
+            <Route exact path="/signup" component={SignUp} />
+            <Route exact path="/login" component={Login} />
+            <Route exact path="/admins" component={AdminList} />
+            <Route exact path="/admins/form" component={AdminForm} />
+            <Route exact path="/admins/home" component={AdminHome} />
+            <Route exact path="/super-admins" component={SuperAdminList} />
+            <Route exact path="/super-admins/form" component={SuperAdminForm} />
+            <Route exact path="/super-admins/home" component={SuperAdminHome} />
+            <Route exact path="/employees" component={EmployeeList} />
+            <Route exact path="/employees/form" component={EmployeeForm} />
+            <Route exact path="/employees/home" component={EmployeeHome} />
+            <Route exact path="/employees/:id" component={EmployeeTableProfile} />
+            <Route exact path="/projects" component={ProjectList} />
+            <Route exact path="/projects/form" component={ProjectForm} />
+            <Route exact path="/projects/:id" component={ProjectProfile} />
+            <Route exact path="/time-sheets" component={TimeSheetList} />
+            <Route exact path="/time-sheets/form" component={TimeSheetForm} />
+            <Route exact path="/">
+              <Redirect to="/home" />
+            </Route>
+          </Switch>
+        </React.Suspense>
+      </div>
+
+      {!authenticated ? <Footer /> : null}
     </div>
   );
 }
