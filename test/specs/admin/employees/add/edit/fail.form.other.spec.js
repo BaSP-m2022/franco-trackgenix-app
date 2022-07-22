@@ -1,5 +1,5 @@
-const EmployeeForm = require('../../../pageobjects/employees/employees.form');
-const LoginPage = require('../../../pageobjects/login/login.page');
+const EmployeeForm = require('../../../../../pageobjects/employees/employees.form');
+const LoginPage = require('../../../../../pageobjects/login/login.page');
 
 beforeAll('login', async () => {
   LoginPage.open();

@@ -1,7 +1,7 @@
-const EmployeeForm = require('../../../pageobjects/employees/employees.form');
-const EmployeesPage = require('../../../pageobjects/employees/employees.page');
-const LoginPage = require('../../../pageobjects/login/login.page');
-const { name, lastname, dateToReturn, randomDni, randomEmail } = require('../../randomizer');
+const EmployeeForm = require('../../../../../pageobjects/employees/employees.form');
+const EmployeesPage = require('../../../../../pageobjects/employees/employees.page');
+const LoginPage = require('../../../../../pageobjects/login/login.page');
+const { name, lastname, dateToReturn, randomDni, randomEmail } = require('../../../../randomizer');
 
 beforeAll('login', async () => {
   LoginPage.open();

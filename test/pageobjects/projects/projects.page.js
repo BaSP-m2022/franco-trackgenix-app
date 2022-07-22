@@ -1,4 +1,4 @@
-const Page = require('./page');
+const Page = require('../page');
 
 class ProjectsPage extends Page {
   get title() {
@@ -35,7 +35,9 @@ class ProjectsPage extends Page {
     return $('//*[@id="root"]/div/div/div[2]/section/table/tbody/tr[1]/td[6]');
   }
   get editButton() {
-    return $('//*[@id="root"]/div/div/div[2]/section/table/tbody/tr[1]/td[7]/button[1]');
+    return $(
+      '#root > div > div > div.layout_divSwitch__2iaq7 > section > div.list_flex__1m8cc > table > tbody > tr:nth-child(7) > td:nth-child(7) > div > button:nth-child(1)'
+    );
   }
   get deleteButton() {
     return $('//*[@id="root"]/div/div/div[2]/section/table/tbody/tr[1]/td[7]/button[2]');
