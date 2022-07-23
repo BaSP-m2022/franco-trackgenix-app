@@ -32,23 +32,20 @@ const loginForm = () => {
     const token = JSON.parse(sessionStorage.getItem('loggedUser'))?.token;
     const role = JSON.parse(sessionStorage.getItem('loggedUser'))?.role;
     const idEmployee = JSON.parse(sessionStorage.getItem('loggedUser'))?._id;
-    if (role === 'EMPLOYEE') isPM(idEmployee);
+    if (role === 'EMPLOYEE') {
+      dispatch(getProjects(`employees.employeeId=${idEmployee}`));
+      if (
+        projects.find((project) =>
+          project.employees.map((employee) => {
+            if (employee.employeeId._id === idEmployee && employee.role === 'PM') return true;
+          })
+        )
+      ) {
+        sessionStorage.setItem('isPM', true);
+      }
+    }
     if (token) history.push(`${role ? `${role.toLowerCase()}s` : ''}/home`);
   }, [authenticated]);
-
-  const isPM = (idEmployee) => {
-    dispatch(getProjects(`employees.employeeId=${idEmployee}`));
-    if (
-      projects.find((project) =>
-        project.employees.map((employee) => {
-          console.log(employee);
-          if (employee.employeeId._id === idEmployee && employee.role === 'PM') return true;
-        })
-      )
-    ) {
-      sessionStorage.setItem('isPM', true);
-    }
-  };
 
   useEffect(() => {
     if (error) openModal();
