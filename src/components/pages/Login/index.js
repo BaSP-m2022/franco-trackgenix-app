@@ -41,6 +41,7 @@ const loginForm = () => {
     if (
       projects.find((project) =>
         project.employees.map((employee) => {
+          console.log(employee);
           if (employee.employeeId._id === idEmployee && employee.role === 'PM') return true;
         })
       )

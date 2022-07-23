@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import styles from './timesheet.module.css';
 import { formatDate } from 'utils/formatters';
 import { Button, SelectDropdown, Modal, Input, LoadingScreen } from 'components/Shared';
@@ -97,6 +96,7 @@ const PmTimeSheet = () => {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(startDate);
   const [projectsOptions, setProjectsOptions] = useState([]);
+  const [projectsList, setProjectsList] = useState([]);
   const [projectId, setProjectId] = useState('');
   const [employeeId, setEmployeeId] = useState();
   const [click, setClick] = useState(0);
@@ -121,7 +121,7 @@ const PmTimeSheet = () => {
       }
     });
     return (
-      <tr>
+      <tr className={styles.containerTable}>
         <td>{employee.employeeId.firstName + ' ' + employee.employeeId.lastName}</td>
         <td>{hourDays[0]}</td>
         <td>{hourDays[1]}</td>
@@ -173,11 +173,19 @@ const PmTimeSheet = () => {
       setStartDate(date.setUTCDate(date.getUTCDate() - 6));
     }
 
-    if (!projects.length) dispatch(getProjects(`employees.employeeId=${idEmployee}`));
+    if (!projects.length) {
+      dispatch(getProjects(`employees.employeeId=${idEmployee}`));
+    }
 
-    setProjectsOptions([
-      ...projects.map((project) => ({ value: project?._id, label: project?.name }))
-    ]);
+    setProjectsList(
+      projects.filter((project) => {
+        let isPm = false;
+        project.employees.map((employee) => {
+          if (employee.employeeId._id === idEmployee && employee.role === 'PM') isPm = true;
+        });
+        return isPm;
+      })
+    );
 
     if (errorProjects) {
       setModalTitle('Error in database of Projects');
@@ -185,6 +193,12 @@ const PmTimeSheet = () => {
       openOtherModal();
     }
   }, [projects]);
+
+  useEffect(() => {
+    setProjectsOptions([
+      ...projectsList.map((project) => ({ value: project?._id, label: project?.name }))
+    ]);
+  }, [projectsList]);
 
   useEffect(() => {
     setEndDate(startDate + 6 * 60 * 60 * 24 * 1000);
@@ -273,16 +287,18 @@ const PmTimeSheet = () => {
     return (
       <div className={styles.container}>
         <Modal modalTitle={modalTitle} isOpen={isOpenOther}>
-          <p className={styles.message}>{modalText}</p>
-          <div>
-            <Button
-              text="OK"
-              handler={() => {
-                closeOtherModal();
-                if (errorProjects || errorTimeSheets) openModal();
-                else dispatch(getTimeSheets(`tasks.projectId=${projectId}`));
-              }}
-            />
+          <div className={styles.modal}>
+            <p className={styles.message}>{modalText}</p>
+            <div>
+              <Button
+                text="OK"
+                handler={() => {
+                  closeOtherModal();
+                  if (errorProjects || errorTimeSheets) openModal();
+                  else dispatch(getTimeSheets(`tasks.projectId=${projectId}`));
+                }}
+              />
+            </div>
           </div>
         </Modal>
         <Modal modalTitle="Add new progress" isOpen={isOpen}>
@@ -291,96 +307,105 @@ const PmTimeSheet = () => {
               <h3 className={styles.h3}>Tasks</h3>
               <div className={styles.tasksDiv}>
                 {fields.map((field, index) => (
-                  <div key={field.id} className={styles.task}>
-                    <Controller
-                      control={control}
-                      name={`tasks[${index}].date`}
-                      render={({ field: { value, onChange }, fieldState: { error } }) => (
-                        <SelectDropdown
-                          options={dateOptions(startDate)}
-                          name="Date"
-                          value={value}
-                          onChange={onChange}
-                          error={error?.message}
+                  <div key={field.id}>
+                    <div className={styles.row}>
+                      <div className={styles.col}>
+                        <Controller
+                          control={control}
+                          name={`tasks[${index}].date`}
+                          render={({ field: { value, onChange }, fieldState: { error } }) => (
+                            <SelectDropdown
+                              options={dateOptions(startDate)}
+                              name="Date"
+                              value={value}
+                              onChange={onChange}
+                              error={error?.message}
+                            />
+                          )}
                         />
-                      )}
-                    />
-                    <Controller
-                      control={control}
-                      name={`tasks[${index}].description`}
-                      render={({ field: { value, onChange }, fieldState: { error } }) => (
-                        <Input
-                          className={styles.label}
-                          name="Description"
-                          type="text"
-                          value={value}
-                          onChange={onChange}
-                          error={error?.message}
+                      </div>
+                      <div className={styles.col}>
+                        <Controller
+                          control={control}
+                          name={`tasks[${index}].description`}
+                          render={({ field: { value, onChange }, fieldState: { error } }) => (
+                            <Input
+                              className={styles.label}
+                              name="Description"
+                              type="text"
+                              value={value}
+                              onChange={onChange}
+                              error={error?.message}
+                            />
+                          )}
                         />
-                      )}
-                    />
-                    <Controller
-                      control={control}
-                      name={`tasks[${index}].workedHours`}
-                      render={({ field: { value, onChange }, fieldState: { error } }) => (
-                        <Input
-                          className={styles.label}
-                          name="Worked Hours"
-                          type="number"
-                          value={value}
-                          onChange={onChange}
-                          error={error?.message}
+                      </div>
+                      <div className={styles.col}>
+                        <Controller
+                          control={control}
+                          name={`tasks[${index}].workedHours`}
+                          render={({ field: { value, onChange }, fieldState: { error } }) => (
+                            <Input
+                              className={styles.label}
+                              name="Worked Hours"
+                              type="number"
+                              value={value}
+                              onChange={onChange}
+                              error={error?.message}
+                            />
+                          )}
                         />
-                      )}
-                    />
-                    <div>
-                      <Button
-                        type={'delete'}
-                        text={'X'}
-                        handler={() => {
-                          remove(index);
-                          setClick(click - 1);
-                        }}
-                      />
+                      </div>
+                      <div className={(styles.buttonContainer, styles.col, styles.buttonDelete)}>
+                        <Button
+                          type={'delete'}
+                          text={'X'}
+                          handler={() => {
+                            remove(index);
+                            setClick(click - 1);
+                          }}
+                        />
+                      </div>
                     </div>
                   </div>
                 ))}
               </div>
-              <Button
-                text={'Add new task'}
-                type="button"
-                handler={(e) => {
-                  e.preventDefault();
-                  setClick(click + 1);
-                  append({ projectId: projectId, date: '', description: '', workedHours: 0 });
-                }}
-              />
+              <div className={styles.buttonContainer}>
+                <Button
+                  text={'Add new task'}
+                  type="button"
+                  handler={(e) => {
+                    e.preventDefault();
+                    setClick(click + 1);
+                    append({ projectId: projectId, date: '', description: '', workedHours: 0 });
+                  }}
+                />
+              </div>
               {click === 0 && errors ? <p>{errors?.message}</p> : null}
               {click != 0 && errors && !errors.type != 'array.min' ? (
                 <p>{errors?.message}</p>
               ) : null}
-              <div>
-                <Button text="Cancel" handler={closeModal} />
-                <Button text="Save" handler={handleSubmit(onSubmit)} />
-              </div>
+              <Button text="Cancel" handler={closeModal} />
+              <Button text="Save" handler={handleSubmit(onSubmit)} />
             </form>
           </div>
         </Modal>
         <h2 className={styles.h2}>General Timesheet</h2>
-        <SelectDropdown
-          className={styles.label}
-          name="Select Project"
-          value={projectId}
-          onChange={(e) => {
-            setProjectId(e.currentTarget.value);
-            setSelectedProject(projects.find((project) => project._id === e.currentTarget.value));
-          }}
-          options={projectsOptions}
-        />
+        <div className={styles.select}>
+          <SelectDropdown
+            name="Select Project"
+            value={projectId}
+            onChange={(e) => {
+              setProjectId(e.currentTarget.value);
+              setSelectedProject(projects.find((project) => project._id === e.currentTarget.value));
+            }}
+            options={projectsOptions}
+          />
+        </div>
         <table className={styles.table}>
           <thead>
             <tr>
-              <th colSpan={9} className={styles.date}>
+              <th colSpan={10} className={styles.date}>
                 <Button text="<" handler={earlier} />
                 {formatDate(startDate)} - {formatDate(endDate)}
                 <Button text=">" handler={latter} />
@@ -396,6 +421,7 @@ const PmTimeSheet = () => {
               <th>Sat</th>
               <th>Sun</th>
               <th>Total hs</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>

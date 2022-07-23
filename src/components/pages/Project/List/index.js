@@ -91,7 +91,7 @@ const Projects = () => {
         project.name.toLowerCase().includes(searchQuery.toLowerCase())
       )
     );
-  }, [projects, searchQuery]);
+  }, [projectList, searchQuery]);
 
   const delProject = () => {
     dispatch(deleteProject(idToDelete));
@@ -157,11 +157,11 @@ const Projects = () => {
       </div>
       <div className={styles.flex}>
         <Table
-          data={searchQuery.length ? filteredList : projects}
+          data={searchQuery.length ? filteredList : projectList}
           deleteItem={buttonDelete}
           column={column}
           editItem={handleSetProject}
-          buttons={true}
+          buttons={sessionStorage.getItem('isPM') ? 1 : 2}
           modal={handleArray}
           arrayName={'Employees'}
           handleRowClick={(e) =>

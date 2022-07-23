@@ -142,7 +142,6 @@ function ProjectForm() {
   }, [project]);
 
   const onSubmit = (data) => {
-    console.log('data', data);
     const body = {
       name: capitalizeFirstLetter(data.name),
       status: data.status,
@@ -289,7 +288,6 @@ function ProjectForm() {
                       />
                     )}
                   />
-                  /{' '}
                   <Controller
                     control={control}
                     name={`employees[${index}].rate`}
