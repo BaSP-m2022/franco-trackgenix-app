@@ -349,6 +349,7 @@ const PmTimeSheet = () => {
                               className={styles.label}
                               name="Worked Hours"
                               type="number"
+                              min={0}
                               value={value}
                               onChange={onChange}
                               error={error?.message}
