@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm, Controller, useFieldArray } from 'react-hook-form';
 import { getTimeSheets, postTimeSheet, putTimeSheet } from 'redux/timeSheets/thunks';
+import { clearError } from 'redux/timeSheets/actions';
 import { getProjects } from 'redux/projects/thunks';
 import { joiResolver } from '@hookform/resolvers/joi';
 import Joi from 'joi';
@@ -294,7 +295,7 @@ const PmTimeSheet = () => {
                 text="OK"
                 handler={() => {
                   closeOtherModal();
-                  if (errorProjects || errorTimeSheets) openModal();
+                  if (errorProjects || errorTimeSheets) dispatch(clearError);
                   else dispatch(getTimeSheets(`tasks.projectId=${projectId}`));
                 }}
               />

@@ -140,13 +140,15 @@ const Projects = () => {
       </Modal>
       <h2 className={styles.title}>Projects</h2>
       <div className={styles.add}>
-        <Button
-          text={'Add new Project'}
-          handler={() => {
-            dispatch(setProject());
-            history.push('/projects/form');
-          }}
-        ></Button>
+        {!sessionStorage.getItem('isPM') && (
+          <Button
+            text={'Add new Project'}
+            handler={() => {
+              dispatch(setProject());
+              history.push('/projects/form');
+            }}
+          />
+        )}
         <div className={styles.search}>
           <Search
             searchQuery={searchQuery}
