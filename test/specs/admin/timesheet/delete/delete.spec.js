@@ -3,7 +3,7 @@ const Aside = require('../../../../pageobjects/common-page-items/aside.page');
 
 const deleteProject = async () => {
   const x = await $(
-    '#root > div > div > div.layout_divSwitch__2iaq7 > section > div.list_flex__1m8cc > table > tbody > tr:nth-child(5) > td:nth-child(7) > div > button:nth-child(2)'
+    '#root > div > div > div.layout_divSwitch__2iaq7 > section > table > tbody > tr:nth-child(1) > td:nth-child(5) > div > button:nth-child(2)'
   );
   await expect(x).toBeDisplayed();
   await expect(x).toBeClickable();
@@ -25,15 +25,15 @@ beforeAll('login', async () => {
   await LoginPage.login('admin@gmail.com', 'admin123');
 });
 
-describe('Test projects main page interactions', () => {
+describe('Test Timesheet main page interactions', () => {
   it('If we delete a project, it is should be dissapear', async () => {
-    await Aside.projectsRef.click();
+    await Aside.timesheetsRef.click();
     const name1 = await $(
-      '#root > div > div > div.layout_divSwitch__2iaq7 > section > div.list_flex__1m8cc > table > tbody > tr:nth-child(5) > td:nth-child(1)'
+      '#root > div > div > div.layout_divSwitch__2iaq7 > section > table > tbody > tr:nth-child(5) > td:nth-child(1)'
     ).getText();
     await deleteProject();
     const name2 = await $(
-      '#root > div > div > div.layout_divSwitch__2iaq7 > section > div.list_flex__1m8cc > table > tbody > tr:nth-child(5) > td:nth-child(1)'
+      '#root > div > div > div.layout_divSwitch__2iaq7 > section > table > tbody > tr:nth-child(5) > td:nth-child(1)'
     ).getText();
     let comparation = false;
     if (name1 !== name2) {
@@ -43,11 +43,11 @@ describe('Test projects main page interactions', () => {
   });
   it('If we delete a project, the second row now, should be the first', async () => {
     const name1 = await $(
-      '#root > div > div > div.layout_divSwitch__2iaq7 > section > div.list_flex__1m8cc > table > tbody > tr:nth-child(6) > td:nth-child(1)'
+      '#root > div > div > div.layout_divSwitch__2iaq7 > section > table > tbody > tr:nth-child(6) > td:nth-child(1)'
     ).getText();
     await deleteProject();
     const name2 = await $(
-      '#root > div > div > div.layout_divSwitch__2iaq7 > section > div.list_flex__1m8cc > table > tbody > tr:nth-child(5) > td:nth-child(1)'
+      '#root > div > div > div.layout_divSwitch__2iaq7 > section > table > tbody > tr:nth-child(5) > td:nth-child(1)'
     ).getText();
     let comparation = false;
     if (name1 == name2) {

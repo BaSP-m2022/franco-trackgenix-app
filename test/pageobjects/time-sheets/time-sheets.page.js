@@ -5,7 +5,7 @@ class TimeSheetsPage extends Page {
     return $('//*[@id="root"]/div/div/div[2]/section/h2');
   }
   get addTimesheet() {
-    return $('//*[@id="root"]/div/div/div[2]/section/div/button');
+    return $('#root > div > div > div.layout_divSwitch__2iaq7 > section > div > a');
   }
   get searchInput() {
     return $('//*[@id="header-search"]');
