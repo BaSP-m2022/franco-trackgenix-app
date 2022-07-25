@@ -9,6 +9,7 @@ import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm, Controller, useFieldArray } from 'react-hook-form';
 import { getTimeSheets, putTimeSheet } from 'redux/timeSheets/thunks';
+import { clearError } from 'redux/timeSheets/actions';
 import { getProjects } from 'redux/projects/thunks';
 import { useHistory } from 'react-router-dom';
 import { joiResolver } from '@hookform/resolvers/joi';
@@ -121,7 +122,7 @@ const EmployeeHome = () => {
   const [modalTitle, setModalTitle] = useState('');
   const [modalText, setModalText] = useState('');
   const [projectsOptions, setProjectsOptions] = useState([]);
-  const [timeSheetEmployee, setTimeSheetEmployee] = useState({});
+  const [timeSheetsEmployee, setTimeSheetEmployee] = useState({});
   const [order, setOrder] = useState(0);
   const [projectsEmployee, setProjectsEmployee] = useState([]);
   const [click, setClick] = useState(0);
@@ -150,7 +151,8 @@ const EmployeeHome = () => {
   const loadingTimeSheets = useSelector((state) => state.timeSheets.loading);
   const loadingProjects = useSelector((state) => state.projects.loading);
   const projects = useSelector((state) => state.projects.list);
-  const error = useSelector((state) => state.timeSheets.error);
+  const errorTimeSheets = useSelector((state) => state.timeSheets.error);
+  const errorProjects = useSelector((state) => state.projects.error);
   const idEmployee = JSON.parse(sessionStorage.getItem('loggedUser'))?._id;
 
   useEffect(() => {
@@ -162,7 +164,7 @@ const EmployeeHome = () => {
         return new Date(a.startDate) - new Date(b.startDate);
       })
     );
-    setOrder(timeSheetEmployee.length - 1);
+    setOrder(timeSheetsEmployee.length - 1);
     if (!projects.length) {
       dispatch(getProjects(`employees.employeeId=${idEmployee}`));
     }
@@ -170,19 +172,19 @@ const EmployeeHome = () => {
     setProjectsOptions([
       ...projectsEmployee?.map((project) => ({ value: project?._id, label: project?.name }))
     ]);
-  }, [timeSheets, projects]);
+  }, [timeSheetsEmployee, projectsEmployee]);
 
   useEffect(() => {
     setValue('tasks', formatTasks());
-  }, [timeSheetEmployee[order]]);
+  }, [timeSheetsEmployee[order]]);
 
   const formatTasks = () => {
-    timeSheetEmployee[order]?.tasks.map((task) => {
+    timeSheetsEmployee[order]?.tasks.map((task) => {
       task.projectId = typeof task.projectId == 'object' ? task.projectId?._id : task.projectId;
       task.date = task.date.slice(0, 10);
       delete task._id;
     });
-    return timeSheetEmployee[order]?.tasks;
+    return timeSheetsEmployee[order]?.tasks;
   };
 
   const { fields, append, remove } = useFieldArray({
@@ -212,21 +214,18 @@ const EmployeeHome = () => {
     }
   };
   const nextTimeSheet = () => {
-    if (order < timeSheetEmployee.length - 1) {
+    if (order < timeSheetsEmployee.length - 1) {
       setOrder(order + 1);
     }
   };
-  if (error) {
-    openOtherModal();
-  }
 
   const onSubmit = (data) => {
     const body = JSON.stringify({
-      startDate: timeSheetEmployee[order].startDate,
+      startDate: timeSheetsEmployee[order].startDate,
       tasks: data.tasks,
-      employeeId: timeSheetEmployee[order].employeeId._id
+      employeeId: timeSheetsEmployee[order].employeeId._id
     });
-    dispatch(putTimeSheet(timeSheetEmployee[order]._id, body));
+    dispatch(putTimeSheet(timeSheetsEmployee[order]._id, body));
     setModalTitle('Task Added');
     setModalText('Task has been added');
     openOtherModal();
@@ -237,177 +236,206 @@ const EmployeeHome = () => {
   const routeChange = () => {
     dispatch(getTimeSheets(`employeeId=${idEmployee}`));
     setOrder(order);
-    history.push('/employees/home');
+    history.push('/employee/home');
   };
-  if (loadingTimeSheets || loadingProjects) {
-    return <LoadingScreen />;
-  } else {
+  if (idEmployee === undefined) {
     return (
       <div className={styles.container}>
-        <Modal modalTitle="Add new progress" isOpen={isOpen} handleClose={closeModal}>
-          <div className={styles.modal}>
-            <form onSubmit={handleSubmit(onSubmit)}>
-              <h3 className={styles.h3}>Tasks</h3>
-              {fields.map((field, index) => (
-                <div key={field.id}>
-                  <div className={styles.row}>
-                    <div className={styles.col}>
-                      <Controller
-                        control={control}
-                        name={`tasks[${index}].date`}
-                        render={({ field: { value, onChange }, fieldState: { error } }) => (
-                          <SelectDropdown
-                            options={dateOptions(timeSheetEmployee[order].startDate)}
-                            name="Date"
-                            value={value}
-                            onChange={onChange}
-                            error={error?.message}
-                          />
-                        )}
-                      />
-                    </div>
-                    <div className={styles.col}>
-                      <Controller
-                        control={control}
-                        name={`tasks[${index}].projectId`}
-                        render={({ field: { value, onChange }, fieldState: { error } }) => (
-                          <SelectDropdown
-                            name="Project"
-                            value={value}
-                            onChange={onChange}
-                            options={projectsOptions}
-                            required={false}
-                            error={error?.message}
-                          />
-                        )}
-                      />
-                    </div>
-                    <div className={styles.col}>
-                      <Controller
-                        control={control}
-                        name={`tasks[${index}].description`}
-                        render={({ field: { value, onChange }, fieldState: { error } }) => (
-                          <Input
-                            className={styles.label}
-                            name="Description"
-                            type="text"
-                            value={value}
-                            onChange={onChange}
-                            error={error?.message}
-                          />
-                        )}
-                      />
-                    </div>
-                    <div className={styles.col}>
-                      <Controller
-                        control={control}
-                        name={`tasks[${index}].workedHours`}
-                        render={({ field: { value, onChange }, fieldState: { error } }) => (
-                          <Input
-                            className={styles.label}
-                            name="Worked Hours"
-                            type="number"
-                            value={value}
-                            onChange={onChange}
-                            error={error?.message}
-                          />
-                        )}
-                      />
-                    </div>
-                    <div className={(styles.buttonContainer, styles.col, styles.buttonDelete)}>
-                      <Button
-                        type={'delete'}
-                        text={'X'}
-                        handler={() => {
-                          remove(index);
-                          setClick(click - 1);
-                        }}
-                      />
-                    </div>
-                  </div>
-                </div>
-              ))}
-              <div className={styles.buttonContainer}>
-                <Button
-                  text={'Add new task'}
-                  type="button"
-                  handler={(e) => {
-                    e.preventDefault();
-                    setClick(click + 1);
-                    append({
-                      date: '',
-                      projectId: '',
-                      description: '',
-                      workedHours: 0
-                    });
-                  }}
-                />
-              </div>
-              {click === 0 && errors ? <p>{errors?.message}</p> : null}
-              {click != 0 && errors && !errors.type != 'array.min' ? (
-                <p>{errors?.message}</p>
-              ) : null}
-              <Button text="Save" handler={handleSubmit(onSubmit)} />
-              <Button text="Cancel" handler={closeModal} />
-            </form>
-          </div>
-        </Modal>
-        <Modal modalTitle={modalTitle} isOpen={isOtherOpen} handleClose={closeOtherModal}>
-          {modalText}
-          <div className={styles.buttonContainer}>
-            <Button
-              text="OK"
-              handler={() => {
-                closeModal();
-                closeOtherModal();
-                routeChange();
-              }}
-            />
-          </div>
-        </Modal>
-        <h2 className={styles.h2}>Employee &gt; Home</h2>
-        <table className={styles.table}>
-          <thead>
-            <tr>
-              <th colSpan={9} className={styles.date}>
-                <Button text="<" handler={previousTimeSheet} />
-                {formatDate(
-                  new Date(timeSheetEmployee[order]?.startDate).setDate(
-                    new Date(timeSheetEmployee[order]?.startDate).getUTCDate()
-                  )
-                )}{' '}
-                -{' '}
-                {formatDate(
-                  new Date(timeSheetEmployee[order]?.startDate).setDate(
-                    new Date(timeSheetEmployee[order]?.startDate).getUTCDate() + 6
-                  )
-                )}
-                <Button text=">" handler={nextTimeSheet} />
-              </th>
-            </tr>
-            <tr>
-              <th>Project</th>
-              <th>Mon</th>
-              <th>Tue</th>
-              <th>Wed</th>
-              <th>Thu</th>
-              <th>Fri</th>
-              <th>Sat</th>
-              <th>Sun</th>
-              <th>Total hs</th>
-            </tr>
-          </thead>
-          <tbody>
-            {projectsEmployee.map((project, key) => (
-              <TableRow key={key} project={project} timeSheet={timeSheetEmployee[order]} />
-            ))}
-          </tbody>
-        </table>
-        <div className={styles.buttonContainer}>
-          <Button text="Add new progress" handler={openModal} />
-        </div>
+        <b>You don&apos;t have access to this page.</b>
       </div>
     );
+  } else {
+    if (loadingTimeSheets || loadingProjects) {
+      return <LoadingScreen />;
+    } else {
+      return (
+        <div className={styles.container}>
+          <Modal
+            modalTitle={errorTimeSheets || errorProjects ? 'Error' : modalTitle}
+            isOpen={isOtherOpen}
+            handleClose={closeOtherModal}
+          >
+            {errorTimeSheets || errorProjects ? errorTimeSheets + errorProjects : modalText}
+            <div className={styles.buttonContainer}>
+              <Button
+                text="OK"
+                handler={() => {
+                  closeModal();
+                  closeOtherModal();
+                  clearError();
+                  routeChange();
+                }}
+              />
+            </div>
+          </Modal>
+          <Modal modalTitle="Add new progress" isOpen={isOpen} handleClose={closeModal}>
+            <div className={styles.modal}>
+              <form onSubmit={handleSubmit(onSubmit)}>
+                <h3 className={styles.h3}>Tasks</h3>
+                {fields.map((field, index) => (
+                  <div key={field.id}>
+                    <div className={styles.row}>
+                      <div className={styles.col}>
+                        <Controller
+                          control={control}
+                          name={`tasks[${index}].date`}
+                          render={({ field: { value, onChange }, fieldState: { error } }) => (
+                            <SelectDropdown
+                              options={dateOptions(timeSheetsEmployee[order].startDate)}
+                              name="Date"
+                              value={value}
+                              onChange={onChange}
+                              error={error?.message}
+                            />
+                          )}
+                        />
+                      </div>
+                      <div className={styles.col}>
+                        <Controller
+                          control={control}
+                          name={`tasks[${index}].projectId`}
+                          render={({ field: { value, onChange }, fieldState: { error } }) => (
+                            <SelectDropdown
+                              name="Project"
+                              value={value}
+                              onChange={onChange}
+                              options={projectsOptions}
+                              required={false}
+                              error={error?.message}
+                            />
+                          )}
+                        />
+                      </div>
+                      <div className={styles.col}>
+                        <Controller
+                          control={control}
+                          name={`tasks[${index}].description`}
+                          render={({ field: { value, onChange }, fieldState: { error } }) => (
+                            <Input
+                              className={styles.label}
+                              name="Description"
+                              type="text"
+                              value={value}
+                              onChange={onChange}
+                              error={error?.message}
+                            />
+                          )}
+                        />
+                      </div>
+                      <div className={styles.col}>
+                        <Controller
+                          control={control}
+                          name={`tasks[${index}].workedHours`}
+                          render={({ field: { value, onChange }, fieldState: { error } }) => (
+                            <Input
+                              className={styles.label}
+                              name="Worked Hours"
+                              type="number"
+                              value={value}
+                              onChange={onChange}
+                              error={error?.message}
+                            />
+                          )}
+                        />
+                      </div>
+                      <div className={(styles.buttonContainer, styles.col, styles.buttonDelete)}>
+                        <Button
+                          type={'delete'}
+                          text={'X'}
+                          handler={() => {
+                            remove(index);
+                            setClick(click - 1);
+                          }}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                ))}
+                <div className={styles.buttonContainer}>
+                  <Button
+                    text={'Add new task'}
+                    type="button"
+                    handler={(e) => {
+                      e.preventDefault();
+                      setClick(click + 1);
+                      append({
+                        date: '',
+                        projectId: '',
+                        description: '',
+                        workedHours: 0
+                      });
+                    }}
+                  />
+                </div>
+                {click === 0 && errors ? <p>{errors?.message}</p> : null}
+                {click != 0 && errors && !errors.type != 'array.min' ? (
+                  <p>{errors?.message}</p>
+                ) : null}
+                <Button text="Save" handler={handleSubmit(onSubmit)} />
+                <Button text="Cancel" handler={closeModal} />
+              </form>
+            </div>
+          </Modal>
+          <h2 className={styles.h2}>Employee &gt; Home</h2>
+          <table className={styles.table}>
+            <thead>
+              <tr>
+                <th colSpan={9} className={styles.date}>
+                  <Button text="<" handler={previousTimeSheet} />
+                  {timeSheetsEmployee.length === 0 ? (
+                    ' - '
+                  ) : (
+                    <span>
+                      {formatDate(
+                        new Date(timeSheetsEmployee[order]?.startDate).setDate(
+                          new Date(timeSheetsEmployee[order]?.startDate).getUTCDate()
+                        )
+                      )}{' '}
+                      -{' '}
+                      {formatDate(
+                        new Date(timeSheetsEmployee[order]?.startDate).setDate(
+                          new Date(timeSheetsEmployee[order]?.startDate).getUTCDate() + 6
+                        )
+                      )}
+                    </span>
+                  )}
+                  <Button text=">" handler={nextTimeSheet} />
+                </th>
+              </tr>
+              <tr>
+                <th>Project</th>
+                <th>Mon</th>
+                <th>Tue</th>
+                <th>Wed</th>
+                <th>Thu</th>
+                <th>Fri</th>
+                <th>Sat</th>
+                <th>Sun</th>
+                <th>Total hs</th>
+              </tr>
+            </thead>
+            <tbody>
+              {timeSheetsEmployee.length || projectsEmployee.length ? (
+                projectsEmployee.map((project, key) => (
+                  <TableRow key={key} project={project} timeSheet={timeSheetsEmployee[order]} />
+                ))
+              ) : (
+                <tr className={styles.containerTable}>
+                  <td colSpan={9}>No TimeSheets found</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+          <div className={styles.buttonContainer}>
+            {timeSheetsEmployee.length ? (
+              <Button text="Add new progress" handler={openModal} />
+            ) : (
+              ''
+            )}
+          </div>
+        </div>
+      );
+    }
   }
 };
 
