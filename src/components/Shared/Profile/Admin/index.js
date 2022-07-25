@@ -201,19 +201,6 @@ const AdminProfile = () => {
               />
             )}
           />
-          <Controller
-            control={control}
-            name="email"
-            render={({ field: { value, onChange }, fieldState: { error } }) => (
-              <Input
-                name="Email"
-                value={value}
-                placeholder="Email"
-                onChange={onChange}
-                error={error?.message}
-              />
-            )}
-          />
         </div>
         <div className={styles.buttonsContainer}>
           <Button

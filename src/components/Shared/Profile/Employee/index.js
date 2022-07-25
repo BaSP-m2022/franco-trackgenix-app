@@ -212,19 +212,6 @@ const EmployeeProfile = () => {
           />
           <Controller
             control={control}
-            name="email"
-            render={({ field: { value, onChange }, fieldState: { error } }) => (
-              <Input
-                name="Email"
-                value={value}
-                placeholder="Email"
-                onChange={onChange}
-                error={error?.message}
-              />
-            )}
-          />
-          <Controller
-            control={control}
             name="dateOfBirth"
             render={({ field: { value, onChange }, fieldState: { error } }) => (
               <Input
