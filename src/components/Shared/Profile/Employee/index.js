@@ -1,12 +1,14 @@
 import styles from './profile.module.css';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { updatePassword } from 'redux/auth/thunks';
 import { clearError } from 'redux/employees/actions';
 import { putEmployee } from 'redux/employees/thunks';
 import { useHistory } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { capitalizeFirstLetter } from 'utils/formatters';
+import { logOut } from 'redux/auth/actions';
 import Joi from 'joi';
 import Modal from 'components/Shared/Modal';
 import Input from 'components/Shared/Input';
@@ -47,16 +49,6 @@ const schema = Joi.object({
   dateOfBirth: Joi.date().max(moreThan18).message('You must be more than 18 years old').required()
 });
 const schemaPassword = Joi.object({
-  oldPassword: Joi.string()
-    .min(8)
-    .message('Password must have between 8 and 12 characters')
-    .max(12)
-    .message('Password must have between 8 and 12 characters')
-    .pattern(/[a-zA-Z]/)
-    .message('Password must have at least 1 letter')
-    .pattern(/[0-9]/)
-    .message('Password must have at least 1 number')
-    .required(),
   password: Joi.string()
     .min(8)
     .message('Password must have between 8 and 12 characters')
@@ -84,16 +76,11 @@ const EmployeeProfile = () => {
       dni: ''
     }
   });
-  const {
-    handleSubmit: handleSubmitPassword,
-    control: controlPassword,
-    setValue: setValuePassword
-  } = useForm({
+  const { handleSubmit: handleSubmitPassword, control: controlPassword } = useForm({
     resolver: joiResolver(schemaPassword),
     defaultValues: {
       password: '',
-      rpassword: '',
-      oldPassword: ''
+      rpassword: ''
     }
   });
 
@@ -103,11 +90,11 @@ const EmployeeProfile = () => {
   const [msg, setMsg] = useState('');
   const [modalTitle, setModalTitle] = useState('');
   const [isOpen, setIsOpen] = useState(false);
-  const [oldPasswordError, setOldPasswordError] = useState('');
   const [employee, setEmployee] = useState('');
 
   const loading = useSelector((state) => state.employees.loading);
-  const error = useSelector((state) => state.employees.error);
+  const errorEmployees = useSelector((state) => state.employees.error);
+  const errorFirebase = useSelector((state) => state.auth.error);
 
   useEffect(() => {
     if (employee?._id) {
@@ -116,9 +103,6 @@ const EmployeeProfile = () => {
       setValue('dateOfBirth', employee.dateOfBirth.slice(0, 10));
       setValue('dni', employee.dni);
       setValue('email', employee.email);
-      setValuePassword('password', '');
-      setValuePassword('rpassword', '');
-      setValuePassword('oldPassword', '');
     }
   }, [employee]);
 
@@ -145,33 +129,31 @@ const EmployeeProfile = () => {
       lastName: capitalizeFirstLetter(data.lastName),
       dni: data.dni,
       email: data.email,
-      dateOfBirth: data.dateOfBirth,
-      password: employee.password
+      dateOfBirth: data.dateOfBirth
     });
     dispatch(putEmployee(employee._id, body));
-    setOldPasswordError('');
+    if (errorEmployees) {
+      setModalTitle('Data Error');
+      setMsg(errorFirebase);
+    }
     setModalTitle('Profile updated');
     setMsg('You have updated your profile successfully!');
     openModal();
   };
 
   const onSubmitPassword = (data) => {
-    if (data.oldPassword === employee.password) {
-      const body = JSON.stringify({
-        password: data.password,
-        firstName: capitalizeFirstLetter(employee.firstName),
-        lastName: capitalizeFirstLetter(employee.lastName),
-        dni: employee.dni,
-        email: employee.email,
-        dateOfBirth: employee.dateOfBirth
-      });
-      dispatch(putEmployee(employee._id, body));
-      setOldPasswordError('');
+    const body = {
+      password: data.password
+    };
+    dispatch(updatePassword(body));
+    if (errorFirebase) {
+      setModalTitle('Password Change Error');
+      setMsg('You need to log again in the system');
+      openModal();
+    } else {
       setModalTitle('Password updated');
       setMsg('You have updated your password successfully!');
       openModal();
-    } else {
-      setOldPasswordError('Password is incorrect');
     }
   };
 
@@ -184,18 +166,21 @@ const EmployeeProfile = () => {
   }
   return (
     <section className={styles.container}>
-      <Modal modalTitle={error ? 'Error' : modalTitle} isOpen={isOpen} handleClose={closeModal}>
-        <p>{error ? error : msg}</p>
+      <Modal modalTitle={modalTitle} isOpen={isOpen} handleClose={closeModal}>
+        <p>{msg}</p>
         <div>
           <Button
             text="OK"
             handler={() => {
               closeModal();
+              if (errorFirebase) {
+                dispatch(logOut());
+                history.push('/login');
+              }
             }}
           />
         </div>
       </Modal>
-
       <form className={`${styles.profile} ${styles.form}`} onSubmit={handleSubmit(onSubmit)}>
         <div className={styles.inputsContainer}>
           <h2 className={styles.subtitle}>Profile</h2>
@@ -286,20 +271,6 @@ const EmployeeProfile = () => {
           <h2 className={styles.subtitle}>Security</h2>
           <Controller
             control={controlPassword}
-            name="oldPassword"
-            render={({ field: { value, onChange }, fieldState: { error } }) => (
-              <Input
-                type="password"
-                name="Old password"
-                value={value}
-                placeholder="Old password"
-                onChange={onChange}
-                error={oldPasswordError ? oldPasswordError : error?.message}
-              />
-            )}
-          />
-          <Controller
-            control={controlPassword}
             name="password"
             render={({ field: { value, onChange }, fieldState: { error } }) => (
               <Input
@@ -328,7 +299,7 @@ const EmployeeProfile = () => {
           />
         </div>
         <div className={styles.changePasswordButton}>
-          <Button text="Change password" handler={handleSubmitPassword(onSubmitPassword)} />
+          <Button text="Change password" />
         </div>
       </form>
     </section>

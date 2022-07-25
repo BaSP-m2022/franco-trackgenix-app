@@ -3,12 +3,14 @@ import styles from './profile.module.css';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { clearError } from 'redux/admins/actions';
+import { updatePassword } from 'redux/auth/thunks';
 import { putSuperAdmin } from 'redux/superAdmins/thunks';
 import { putAdmin } from 'redux/admins/thunks';
 import { useHistory } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { capitalizeFirstLetter } from 'utils/formatters';
+import { logOut } from 'redux/auth/actions';
 import Joi from 'joi';
 import Modal from 'components/Shared/Modal';
 import Input from 'components/Shared/Input';
@@ -73,16 +75,11 @@ const AdminProfile = () => {
       email: ''
     }
   });
-  const {
-    handleSubmit: handleSubmitPassword,
-    control: controlPassword,
-    setValue: setValuePassword
-  } = useForm({
+  const { handleSubmit: handleSubmitPassword, control: controlPassword } = useForm({
     resolver: joiResolver(schemaPassword),
     defaultValues: {
       password: '',
-      rpassword: '',
-      oldPassword: ''
+      rpassword: ''
     }
   });
 
@@ -92,20 +89,17 @@ const AdminProfile = () => {
   const [msg, setMsg] = useState('');
   const [modalTitle, setModalTitle] = useState('');
   const [isOpen, setIsOpen] = useState(false);
-  const [oldPasswordError, setOldPasswordError] = useState('');
   const [admin, setAdmin] = useState('');
 
   const loading = useSelector((state) => state.admins.loading);
   const error = useSelector((state) => state.admins.error);
+  const errorFirebase = useSelector((state) => state.auth.error);
 
   useEffect(() => {
     if (admin?._id) {
       setValue('firstName', admin.firstName);
       setValue('lastName', admin.lastName);
       setValue('email', admin.email);
-      setValuePassword('password', '');
-      setValuePassword('rpassword', '');
-      setValuePassword('oldPassword', '');
     }
   }, [admin]);
 
@@ -130,35 +124,31 @@ const AdminProfile = () => {
     const body = JSON.stringify({
       firstName: capitalizeFirstLetter(data.firstName),
       lastName: capitalizeFirstLetter(data.lastName),
-      email: data.email,
-      password: admin.password
+      email: data.email
     });
     if (admin.role === 'ADMIN') {
       dispatch(putAdmin(admin._id, body));
     } else if (admin.role === 'SUPER-ADMIN') {
       dispatch(putSuperAdmin(admin._id, body));
     }
-    setOldPasswordError('');
     setModalTitle('Profile updated');
     setMsg('You have updated your profile successfully!');
     openModal();
   };
 
   const onSubmitPassword = (data) => {
-    if (data.oldPassword === admin.password) {
-      const body = JSON.stringify({
-        password: data.password,
-        firstName: capitalizeFirstLetter(admin.firstName),
-        lastName: capitalizeFirstLetter(admin.lastName),
-        email: admin.email
-      });
-      dispatch(putAdmin(admin._id, body));
-      setOldPasswordError('');
+    const body = {
+      password: data.password
+    };
+    dispatch(updatePassword(body));
+    if (errorFirebase) {
+      setModalTitle('Password Change Error');
+      setMsg('You need to log again in the system');
+      openModal();
+    } else {
       setModalTitle('Password updated');
       setMsg('You have updated your password successfully!');
       openModal();
-    } else {
-      setOldPasswordError('Password is incorrect');
     }
   };
 
@@ -182,7 +172,6 @@ const AdminProfile = () => {
           />
         </div>
       </Modal>
-
       <form className={`${styles.profile} ${styles.form}`} onSubmit={handleSubmit(onSubmit)}>
         <div className={styles.inputsContainer}>
           <h2 className={styles.subtitle}>Profile</h2>
@@ -243,20 +232,6 @@ const AdminProfile = () => {
       >
         <div className={styles.inputsContainer}>
           <h2 className={styles.subtitle}>Security</h2>
-          <Controller
-            control={controlPassword}
-            name="oldPassword"
-            render={({ field: { value, onChange }, fieldState: { error } }) => (
-              <Input
-                type="password"
-                name="Old password"
-                value={value}
-                placeholder="Old password"
-                onChange={onChange}
-                error={oldPasswordError ? oldPasswordError : error?.message}
-              />
-            )}
-          />
           <Controller
             control={controlPassword}
             name="password"
