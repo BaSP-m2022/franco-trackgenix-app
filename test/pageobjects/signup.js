@@ -1,10 +1,10 @@
 const Page = require('./page');
 class SignUp extends Page {
   get formTitle() {
-    return $('.signupemployee_formTitle__2wf0O');
+    return $('.signup_formTitle__3c4vj');
   }
   get table() {
-    return $('.signupemployee_containerSec__3rZvY');
+    return $('.signup_containerSec__Xa48M');
   }
   get firstNameTitleInput() {
     return $('div.input_container__1yWID:nth-child(1) > label:nth-child(1)');
@@ -107,8 +107,6 @@ class SignUp extends Page {
   open() {
     return super.open('signup');
   }
-
-  // randomizer chars
 
   async signup(fistname, lastname, DOB, DNI, email, password) {
     const elem = await $('button.button_btn__3WL0L:nth-child(2)');

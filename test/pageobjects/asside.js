@@ -3,10 +3,10 @@ class Aside {
     return $('//*[@id="root"]/div/div/div[1]/nav/div[1]/h2');
   }
   get contactUstext() {
-    return $('//*[@id="root"]/div/div/div[1]/nav/div[2]/ul/li[8]/p');
+    return $('.sidebar_contact__2kbAP');
   }
   get homeRef() {
-    return $('//*[@id="root"]/div/div/div[1]/nav/div[2]/ul/li[1]/a');
+    return $('.NavLink_links__2x0sd');
   }
   get adminsRef() {
     return $('//*[@id="root"]/div/div/div[1]/nav/div[2]/ul/li[2]/a');
@@ -27,13 +27,13 @@ class Aside {
     return $('//*[@id="root"]/div/div/div[1]/nav/div[2]/ul/li[7]/a');
   }
   get contact() {
-    return $('//*[@id="root"]/div/div/div[1]/nav/div[2]/ul/li[9]/p');
+    return $('.sidebar_routes__z9lYA > li:nth-child(3) > p:nth-child(1)');
   }
   get phone() {
-    return $('//*[@id="root"]/div/div/div[1]/nav/div[2]/ul/li[10]/p');
+    return $('.sidebar_routes__z9lYA > li:nth-child(4) > p:nth-child(1)');
   }
   get address() {
-    return $('//*[@id="root"]/div/div/div[1]/nav/div[2]/ul/li[11]/p');
+    return $('.sidebar_routes__z9lYA > li:nth-child(5)');
   }
 }
 

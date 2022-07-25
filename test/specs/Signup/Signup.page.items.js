@@ -3,9 +3,9 @@ const Signup = require('../../pageobjects/signup');
 describe('Signup page interactions', () => {
   it('Elements displayed and enabled on the table', async () => {
     await Signup.open();
-    await expect(browser).toHaveUrl('https://franco-trackgenix-app.vercel.app/employee/signup');
+    await expect(browser).toHaveUrl('https://franco-trackgenix-app.vercel.app/signup');
     await expect(Signup.formTitle).toBeDisplayed();
-    await expect(Signup.formTitle).toHaveText('Employee Sign Up');
+    await expect(Signup.formTitle).toHaveText('Sign Up');
     await expect(Signup.table).toBeDisplayed();
     await expect(Signup.firstNameTitleInput).toBeDisplayed();
     await expect(Signup.firstNameTitleInput).toHaveText('First Name');
