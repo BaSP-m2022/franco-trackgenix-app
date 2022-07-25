@@ -9,7 +9,7 @@ import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm, Controller, useFieldArray } from 'react-hook-form';
 import { getTimeSheets, putTimeSheet } from 'redux/timeSheets/thunks';
-// import { clearError } from 'redux/timeSheets/actions';
+import { clearError } from 'redux/timeSheets/actions';
 import { getProjects } from 'redux/projects/thunks';
 import { useHistory } from 'react-router-dom';
 import { joiResolver } from '@hookform/resolvers/joi';
@@ -126,6 +126,9 @@ const EmployeeHome = () => {
   const [order, setOrder] = useState(0);
   const [projectsEmployee, setProjectsEmployee] = useState([]);
   const [click, setClick] = useState(0);
+  const [idEmployee, setIdEmployee] = useState(
+    JSON.parse(sessionStorage.getItem('loggedUser'))?._id
+  );
 
   const dispatch = useDispatch();
 
@@ -153,7 +156,10 @@ const EmployeeHome = () => {
   const projects = useSelector((state) => state.projects.list);
   const errorTimeSheets = useSelector((state) => state.timeSheets.error);
   const errorProjects = useSelector((state) => state.projects.error);
-  const idEmployee = JSON.parse(sessionStorage.getItem('loggedUser'))?._id;
+
+  useEffect(() => {
+    setIdEmployee(JSON.parse(sessionStorage.getItem('loggedUser'))?._id);
+  }, [timeSheets, idEmployee]);
 
   useEffect(() => {
     if (!timeSheets.length) {
@@ -172,7 +178,7 @@ const EmployeeHome = () => {
     setProjectsOptions([
       ...projectsEmployee?.map((project) => ({ value: project?._id, label: project?.name }))
     ]);
-  }, [timeSheets, projects]);
+  }, [timeSheets, timeSheetsEmployee, projectsEmployee]);
 
   useEffect(() => {
     setValue('tasks', formatTasks());
@@ -372,6 +378,7 @@ const EmployeeHome = () => {
                 handler={() => {
                   closeModal();
                   closeOtherModal();
+                  clearError();
                   routeChange();
                 }}
               />
