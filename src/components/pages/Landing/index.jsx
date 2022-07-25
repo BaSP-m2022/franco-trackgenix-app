@@ -4,7 +4,7 @@ import representativeImage from './assets/images/representative-image.png';
 import reportsIcon from './assets/icons/reports.png';
 import multipleRoles from './assets/icons/multiple-roles.png';
 import resourceManagement from './assets/icons/resource-management.png';
-import { Input, Button } from 'components/Shared';
+import { Input, Button, SelectDropdown } from 'components/Shared';
 
 const landing = () => {
   return (
@@ -25,19 +25,13 @@ const landing = () => {
                 auctor.
               </p>
               <div className={styles.learMore}>
-                <Button
-                  text="Learn more"
-                  handler={() => {
-                    // history.push('/employees/form');
-                  }}
-                />
+                <Button text="Learn more" handler={() => {}} />
               </div>
             </div>
             <figure>
               <img src={representativeImage} alt="Representative image" />
             </figure>
           </section>
-          <span className={styles.sectionLines}></span>
           <section>
             <div>
               <h2 className={styles.sectionTypo}>Functionalities</h2>
@@ -86,7 +80,6 @@ const landing = () => {
               </section>
             </div>
           </section>
-          <span className={styles.sectionLine}></span>
           <section>
             <div className={styles.longTitle}>
               <h2 className={styles.sectionTypo}>Why does this mean an improvement in your work</h2>
@@ -101,12 +94,7 @@ const landing = () => {
                   massa nec, dapibus pellentesque tortor.
                 </p>
                 <div className={styles.buttonContainer}>
-                  <Button
-                    text="More"
-                    handler={() => {
-                      // history.push('/employees/form');
-                    }}
-                  />
+                  <Button text="More" handler={() => {}} />
                 </div>
               </article>
               <article>
@@ -117,12 +105,7 @@ const landing = () => {
                   at. Vestibulum iaculis arcu et tortor tristique sollicitudin.
                 </p>
                 <div className={styles.buttonContainer}>
-                  <Button
-                    text="More"
-                    handler={() => {
-                      // history.push('/employees/form');
-                    }}
-                  />
+                  <Button text="More" handler={() => {}} />
                 </div>
               </article>
               <article>
@@ -133,12 +116,7 @@ const landing = () => {
                   platea dictumst.
                 </p>
                 <div className={styles.buttonContainer}>
-                  <Button
-                    text="More"
-                    handler={() => {
-                      // history.push('/employees/form');
-                    }}
-                  />
+                  <Button text="More" handler={() => {}} />
                 </div>
               </article>
               <article>
@@ -153,84 +131,68 @@ const landing = () => {
                   nisl id sem accumsan, cursus blandit tellus sollicitudin.
                 </p>
                 <div className={styles.buttonContainer}>
-                  <Button
-                    text="More"
-                    handler={() => {
-                      // history.push('/employees/form');
-                    }}
-                  />
+                  <Button text="More" handler={() => {}} />
                 </div>
               </article>
             </div>
           </section>
-          <span className={styles.sectionLine}></span>
           <section className={styles.formSection}>
             <h2 className={styles.sectionTypo}>Get in touch with us</h2>
             <form>
-              <Input />
-              <Input />
-              {/* <SelectDropdown /> */}
-              <Input />
-              <Input />
-              <Button />
-              <Button />
+              <p>Full Name:</p>
+              <Input placeholder="John Smith" onChange={() => {}} />
+              <p>Email Address:</p>
+              <Input placeholder="johnsmith@mail.com" onChange={() => {}} />
+              <SelectDropdown
+                name="Choose a department"
+                options={[
+                  { value: 'value1', label: 'label1' },
+                  { value: 'value2', label: 'label2' },
+                  { value: 'value3', label: 'label3' }
+                ]}
+              />
+              <h5>Priority</h5>
+              <div className={styles.formPriorities}>
+                <Input type="Radio" label="Low" name="priority" value="low" onChange={() => {}} />
+                <Input
+                  type="Radio"
+                  label="Medium"
+                  name="priority"
+                  value="medium"
+                  onChange={() => {}}
+                />
+                <Input type="Radio" label="High" name="priority" value="high" onChange={() => {}} />
+              </div>
+              <h5>Ask about our system</h5>
+              <textarea
+                name=""
+                id=""
+                cols="100"
+                rows="10"
+                placeholder="Enter your message"
+              ></textarea>
+              <div className={styles.robot_check}>
+                <Input
+                  type="checkbox"
+                  label="I am not a robot"
+                  name="not_a_robot"
+                  value="not_a_robot"
+                  onChange={() => {}}
+                />
+                <Input
+                  type="checkbox"
+                  label="Send me a copy"
+                  name="send_me_a_copy"
+                  value="send_me_a_copy"
+                  onChange={() => {}}
+                />
+              </div>
+              <div className={styles.buttons}>
+                <Button className={styles.submit_btn} text="Submit" />
+                <Button className={styles.cancel_btn} text="Reset" />
+              </div>
             </form>
-            {/* <form>
-							<div>
-								<label for="name">Full Name</label>
-								<input id="name" name="full-name" type="text" placeholder="John Smith" required>
-							</div>
-							<div>
-								<label for="email">Email Address</label>
-								<input id="email" name="email" type="email" placeholder="johnsmith@mail.com" required>
-							</div>
-							<div>
-								<label for="area">Choose a department:</label>
-								<select id="area" name="area">
-									<option value="default">-Area-</option>
-									<option value="human-resources">Human Resources</option>
-									<option value="systems">Systems</option>
-									<option value="commercialization">Commercialization</option>
-								</select>
-							</div>
-							<fieldset>
-								<legend>Priority</legend>
-								<div class="radio-buttons">
-									<div>
-										<input id="low" name="priority" type="radio" checked>
-										<label for="low">Low</label>
-									</div>
-									<div>
-										<input id="medium" name="priority" type="radio">
-										<label for="medium">Medium</label>
-									</div>
-									<div>
-										<input id="high" name="priority" type="radio">
-										<label for="high">High</label>
-									</div>
-								</div>
-							</fieldset>
-							<div class="textarea">
-								<label for="inquiry">Ask about our system</label>
-								<textarea id="inquiry" name="inquiry" placeholder="Enter your message" required></textarea>
-							</div>
-							<div class="checkboxes">
-								<div class="div-checkbox">
-									<input id="captcha" name="captcha" type="checkbox">
-									<label for="captcha">I am not a robot</label>
-								</div>
-								<div class="div-checkbox">
-									<input id="copy" name="copy" type="checkbox">
-									<label for="copy">Send me a copy</label>
-								</div>
-							</div>
-							<div class="buttons">
-								<button class="button-typo" type="submit">Submit</button>
-								<button class="button-typo" type="reset">Reset</button>
-							</div>
-						</form> */}
           </section>
-          <span className={styles.sectionLine}></span>
           <section className={styles.storySection}>
             <div>
               <h2 className={styles.sectionTypo}>Our story</h2>
@@ -254,7 +216,6 @@ const landing = () => {
               felis.
             </p>
           </section>
-          <span className={styles.sectionLine}></span>
           <section className={styles.linkSection} aria-label="Links section">
             <div>
               <p>Products</p>
@@ -309,7 +270,6 @@ const landing = () => {
             </div>
           </section>
         </main>
-        <span className={styles.sectionLine}></span>
       </div>
     </div>
   );

@@ -1,10 +1,10 @@
 import styles from './input.module.css';
 
-function Input({ name, type, value, placeholder, error, onChange, min, max }) {
+function Input({ label = '', name, type, value, placeholder, error, onChange, min, max }) {
   return (
     <div className={styles.container}>
       <label className={`${styles.label} ${error && styles.labelError}`} htmlFor={name}>
-        {name}
+        {label ? label : name}
       </label>
       <input
         name={name}
