@@ -9,7 +9,7 @@ import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm, Controller, useFieldArray } from 'react-hook-form';
 import { getTimeSheets, putTimeSheet } from 'redux/timeSheets/thunks';
-import { clearError } from 'redux/timeSheets/actions';
+// import { clearError } from 'redux/timeSheets/actions';
 import { getProjects } from 'redux/projects/thunks';
 import { useHistory } from 'react-router-dom';
 import { joiResolver } from '@hookform/resolvers/joi';
@@ -172,7 +172,7 @@ const EmployeeHome = () => {
     setProjectsOptions([
       ...projectsEmployee?.map((project) => ({ value: project?._id, label: project?.name }))
     ]);
-  }, [timeSheetsEmployee, projectsEmployee]);
+  }, [timeSheets, projects]);
 
   useEffect(() => {
     setValue('tasks', formatTasks());
@@ -250,24 +250,6 @@ const EmployeeHome = () => {
     } else {
       return (
         <div className={styles.container}>
-          <Modal
-            modalTitle={errorTimeSheets || errorProjects ? 'Error' : modalTitle}
-            isOpen={isOtherOpen}
-            handleClose={closeOtherModal}
-          >
-            {errorTimeSheets || errorProjects ? errorTimeSheets + errorProjects : modalText}
-            <div className={styles.buttonContainer}>
-              <Button
-                text="OK"
-                handler={() => {
-                  closeModal();
-                  closeOtherModal();
-                  clearError();
-                  routeChange();
-                }}
-              />
-            </div>
-          </Modal>
           <Modal modalTitle="Add new progress" isOpen={isOpen} handleClose={closeModal}>
             <div className={styles.modal}>
               <form onSubmit={handleSubmit(onSubmit)}>
@@ -374,6 +356,25 @@ const EmployeeHome = () => {
                 <Button text="Save" handler={handleSubmit(onSubmit)} />
                 <Button text="Cancel" handler={closeModal} />
               </form>
+            </div>
+          </Modal>
+          <Modal
+            modalTitle={
+              errorTimeSheets || errorProjects ? errorTimeSheets + ' ' + errorProjects : modalTitle
+            }
+            isOpen={isOtherOpen}
+            handleClose={closeOtherModal}
+          >
+            {errorTimeSheets || errorProjects ? errorTimeSheets + ' ' + errorProjects : modalText}
+            <div className={styles.buttonContainer}>
+              <Button
+                text="OK"
+                handler={() => {
+                  closeModal();
+                  closeOtherModal();
+                  routeChange();
+                }}
+              />
             </div>
           </Modal>
           <h2 className={styles.h2}>Employee &gt; Home</h2>
