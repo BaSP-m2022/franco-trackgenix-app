@@ -22,11 +22,6 @@ const NavLinks = () => {
                     Home
                   </NavLink>
                 </li>
-                <li className={styles.items}>
-                  <NavLink to={'/time-sheets'} className={styles.links}>
-                    Timesheets
-                  </NavLink>
-                </li>
               </ul>
             );
           case 'ADMIN':
