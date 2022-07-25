@@ -18,7 +18,7 @@ const NavLinks = () => {
             return (
               <ul className={styles.routes}>
                 <li className={styles.items}>
-                  <NavLink to={'home'} className={styles.links}>
+                  <NavLink to={'/employee/home'} className={styles.links}>
                     Home
                   </NavLink>
                 </li>
