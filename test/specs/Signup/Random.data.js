@@ -62,11 +62,6 @@ const randomEmail = () => {
   return emailRandom;
 };
 
-const randomDni = () => {
-  let dni = Math.floor(Math.random() * 99999999);
-  return dni;
-};
-
 const randomDate = () => {
   let maxDate = Date.now();
   let timestamp = Math.floor(Math.random() * maxDate);
@@ -77,7 +72,33 @@ const randomDate = () => {
   fdate.setFullYear(Math.floor(Math.random() * 38 + 1960));
   fdate.setDate(Math.floor(Math.random() * 20 + 10));
   fdate.setMonth(11);
-  return fdate.toLocaleDateString();
+  return fdate;
 };
 
-module.exports = { name, lastname, randomEmail, randomDni, randomDate, randomNumber };
+const date = randomDate();
+const yearDate = date.getFullYear();
+const dateToReturn = date.toLocaleDateString();
+
+const randomDni = () => {
+  let dni = 0;
+  if (yearDate >= 1994) {
+    dni = Math.round(Math.random() * 2999999 + 40000000);
+  } else if (yearDate >= 1990) {
+    dni = Math.round(Math.random() * 999999 + 39000000);
+  } else if (yearDate >= 1985) {
+    dni = Math.round(Math.random() * 4999999 + 35000000);
+  } else if (yearDate >= 1980) {
+    dni = Math.round(Math.random() * 4999999 + 30000000);
+  } else if (yearDate >= 1975) {
+    dni = Math.round(Math.random() * 4999999 + 25000000);
+  } else if (yearDate >= 1970) {
+    dni = Math.round(Math.random() * 4999999 + 20000000);
+  } else if (yearDate >= 1965) {
+    dni = Math.round(Math.random() * 4999999 + 15000000);
+  } else {
+    dni = Math.round(Math.random() * 4999999 + 10000000);
+  }
+  return dni;
+};
+
+module.exports = { name, lastname, randomEmail, randomDni, dateToReturn, randomNumber };
