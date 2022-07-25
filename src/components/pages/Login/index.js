@@ -29,7 +29,7 @@ const loginForm = () => {
   useEffect(() => {
     const token = JSON.parse(sessionStorage.getItem('loggedUser'))?.token;
     const role = JSON.parse(sessionStorage.getItem('loggedUser'))?.role;
-    if (token) history.push(`${role ? `${role.toLowerCase()}s` : ''}/home`);
+    if (token) history.push(`${role ? `${role.toLowerCase()}` : ''}/home`);
   }, [authenticated]);
 
   useEffect(() => {
