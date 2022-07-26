@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import styles from './profile.module.css';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';

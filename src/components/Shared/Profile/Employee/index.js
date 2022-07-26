@@ -132,7 +132,6 @@ const EmployeeProfile = () => {
       email: data.email,
       dateOfBirth: data.dateOfBirth
     });
-    console.log(errorEmployees);
     dispatch(putEmployee(employee._id, body));
     if (errorEmployees) {
       setModalTitle('Database Error');
