@@ -11,8 +11,22 @@ const NavLinks = () => {
   useEffect(() => {
     setRole(JSON.parse(sessionStorage.getItem('loggedUser'))?.role);
   }, [authenticated]);
+
   useEffect(() => {
-    setIsPm(sessionStorage.getItem('isPM') ? true : false);
+    const role = JSON.parse(sessionStorage.getItem('loggedUser'))?.role;
+    const idEmployee = JSON.parse(sessionStorage.getItem('loggedUser'))?._id;
+    if (role === 'EMPLOYEE') {
+      if (
+        projects.find((project) =>
+          project.employees.map((employee) => {
+            if (employee.employeeId._id === idEmployee && employee.role === 'PM') return true;
+          })
+        )
+      ) {
+        sessionStorage.setItem('isPM', true);
+        setIsPm(true);
+      }
+    }
   }, [projects]);
 
   return (
@@ -68,12 +82,12 @@ const NavLinks = () => {
                 </li>
               </ul>
             );
-          case 'SUPERADMIN':
+          case 'SUPER-ADMIN':
             return (
               <ul className={styles.routes}>
                 <li className={styles.items}>
-                  <NavLink to={'home'} className={styles.links}>
-                    Home
+                  <NavLink to={'/admins'} className={styles.links}>
+                    Admins
                   </NavLink>
                 </li>
               </ul>
