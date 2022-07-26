@@ -5,11 +5,15 @@ import styles from './NavLink.module.css';
 
 const NavLinks = () => {
   const authenticated = useSelector((state) => state.auth.authenticated);
-  const isPm = sessionStorage.getItem('isPM') ? true : false;
+  const projects = useSelector((state) => state.projects.list);
   const [role, setRole] = useState('');
+  const [isPm, setIsPm] = useState(false);
   useEffect(() => {
     setRole(JSON.parse(sessionStorage.getItem('loggedUser'))?.role);
   }, [authenticated]);
+  useEffect(() => {
+    setIsPm(sessionStorage.getItem('isPM') ? true : false);
+  }, [projects]);
 
   return (
     <div>
