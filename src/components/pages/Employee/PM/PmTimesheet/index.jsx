@@ -213,9 +213,11 @@ const PmTimeSheet = () => {
       })
     );
     if (errorTimeSheets) {
-      setModalTitle('Error in database of Time sheets');
-      setModalText(errorTimeSheets);
-      openOtherModal();
+      if (!errorTimeSheets === 'Time-sheet was not found') {
+        setModalTitle('Error in database of Time sheets');
+        setModalText(errorTimeSheets);
+        openOtherModal();
+      }
     }
   }, [timeSheets, startDate]);
 
