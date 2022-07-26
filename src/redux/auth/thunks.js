@@ -51,5 +51,6 @@ export const logout = () => {
     firebase.auth().signOut();
     sessionStorage.clear();
     dispatch(logOut());
+    window.location.reload();
   };
 };

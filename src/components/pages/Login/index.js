@@ -29,23 +29,27 @@ const loginForm = () => {
   const error = useSelector((state) => state.auth.error);
 
   useEffect(() => {
-    const token = JSON.parse(sessionStorage.getItem('loggedUser'))?.token;
     const role = JSON.parse(sessionStorage.getItem('loggedUser'))?.role;
     const idEmployee = JSON.parse(sessionStorage.getItem('loggedUser'))?._id;
     if (role === 'EMPLOYEE') {
       dispatch(getProjects(`employees.employeeId=${idEmployee}`));
-      if (
-        projects.find((project) =>
-          project.employees.map((employee) => {
-            if (employee.employeeId._id === idEmployee && employee.role === 'PM') return true;
-          })
-        )
-      ) {
-        sessionStorage.setItem('isPM', true);
-      }
     }
-    if (token) history.push(`${role ? `${role.toLowerCase()}s` : ''}/home`);
   }, [authenticated]);
+
+  useEffect(() => {
+    const token = JSON.parse(sessionStorage.getItem('loggedUser'))?.token;
+    const role = JSON.parse(sessionStorage.getItem('loggedUser'))?.role;
+    const idEmployee = JSON.parse(sessionStorage.getItem('loggedUser'))?._id;
+    if (
+      projects.find((project) =>
+        project.employees.map((employee) => {
+          if (employee.employeeId._id === idEmployee && employee.role === 'PM') return true;
+        })
+      )
+    )
+      sessionStorage.setItem('isPM', true);
+    if (token) history.push(`${role ? `${role.toLowerCase()}s` : ''}/home`);
+  }, [projects]);
 
   useEffect(() => {
     if (error) openModal();
