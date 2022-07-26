@@ -1,6 +1,10 @@
 import styles from './index.module.css';
 import timeTrackingIcon from './assets/icons/time-tracking.png';
-import representativeImage from './assets/images/representative-image.png';
+import manageTeam from './assets/images/manageTeam.jpg';
+import productivity from './assets/images/productivity.jpg';
+import leaderships from './assets/images/leaderships.jpg';
+import work from './assets/images/work.jpg';
+import makingDecision from './assets/images/makingDecision.jpg';
 import reportsIcon from './assets/icons/reports.png';
 import multipleRoles from './assets/icons/multiple-roles.png';
 import resourceManagement from './assets/icons/resource-management.png';
@@ -29,7 +33,7 @@ const landing = () => {
               </div>
             </div>
             <figure>
-              <img src={representativeImage} alt="Representative image" />
+              <img src={manageTeam} alt="manageTeam" />
             </figure>
           </section>
           <section>
@@ -86,41 +90,45 @@ const landing = () => {
             </div>
             <div className={styles.reasonsType}>
               <article>
-                <img src={representativeImage} alt="Representative image" />
+                <img src={productivity} alt="Productivity" />
                 <h3 className={styles.titleTypo}>Productivity booster</h3>
                 <p className={styles.paragraphTypo}>
                   Cras blandit vehicula eros, id dapibus lacus tristique ac. Nam dapibus purus
                   semper, tincidunt massa sit amet, euismod metus. Nunc metus dui, tincidunt eget
-                  massa nec, dapibus pellentesque tortor.
+                  massa nec, dapibus pellentesque tortor. Lorem ipsum dolor sit, amet consectetur
+                  adipisicing elit. Tempora ipsam nulla non at.
                 </p>
                 <div className={styles.buttonContainer}>
                   <Button text="More" handler={() => {}} />
                 </div>
               </article>
               <article>
-                <img src={representativeImage} alt="Representative image" />
+                <img src={work} alt="work" />
                 <h3 className={styles.titleTypo}>Work traceability</h3>
-                <p className={styles.paragraph}>
+                <p className={styles.paragraphTypo}>
                   Duis quis ipsum enim. Quisque iaculis risus turpis, quis ornare lorem fringilla
-                  at. Vestibulum iaculis arcu et tortor tristique sollicitudin.
+                  at. Vestibulum iaculis arcu et tortor tristique sollicitudin. Lorem, ipsum dolor
+                  sit amet consectetur adipisicing elit. Neque repellat officiis perferendis ab
+                  cumque quam distinctio velit assumenda sit minima.
                 </p>
                 <div className={styles.buttonContainer}>
                   <Button text="More" handler={() => {}} />
                 </div>
               </article>
               <article>
-                <img src={representativeImage} alt="Representative image" />
+                <img src={leaderships} alt="Leaderships" />
                 <h3 className={styles.titleTypo}>Leadership and team management</h3>
                 <p className={styles.paragraphTypo}>
                   Duis non turpis consequat, laoreet libero a, pulvinar mauris. In hac habitasse
-                  platea dictumst.
+                  platea dictumst. Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                  Repellat quod, corrupti consequuntur esse eos!
                 </p>
                 <div className={styles.buttonContainer}>
                   <Button text="More" handler={() => {}} />
                 </div>
               </article>
               <article>
-                <img src={representativeImage} alt="Representative image" />
+                <img src={makingDecision} alt="Making Decision" />
                 <h3 className={styles.titleTypo}>Decision making</h3>
                 <p className={styles.paragraphTypo}>
                   Aliquam convallis elit in pharetra luctus. Aenean ultrices est eu justo gravida,
