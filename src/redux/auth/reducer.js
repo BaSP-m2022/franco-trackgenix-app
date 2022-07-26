@@ -52,6 +52,27 @@ export const authReducer = (state = initialState, actions) => {
         authenticated: actions.payload
       };
     }
+
+    case CONSTANTS.CHANGE_PASSWORD_PENDING: {
+      return {
+        ...state,
+        loading: true
+      };
+    }
+    case CONSTANTS.CHANGE_PASSWORD_ERROR: {
+      return {
+        ...state,
+        loading: false,
+        error: actions.payload
+      };
+    }
+    case CONSTANTS.CHANGE_PASSWORD_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        error: ''
+      };
+    }
     default: {
       return state;
     }
