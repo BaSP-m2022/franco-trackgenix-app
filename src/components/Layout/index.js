@@ -26,6 +26,8 @@ const ProjectProfile = React.lazy(() => import('components/pages/Project/Profile
 const TimeSheetList = React.lazy(() => import('components/pages/TimeSheet/List'));
 const TimeSheetForm = React.lazy(() => import('components/pages/TimeSheet/Form'));
 
+const Landing = React.lazy(() => import('components/pages/Landing'));
+
 function Layout() {
   return (
     <div className={styles.container}>
@@ -54,6 +56,7 @@ function Layout() {
               <Route exact path="/projects/:id" component={ProjectProfile} />
               <Route exact path="/time-sheets" component={TimeSheetList} />
               <Route exact path="/time-sheets/form" component={TimeSheetForm} />
+              <Route exact path="/home" component={Landing} />
               <Route exact path="/">
                 <Redirect to="/home" />
               </Route>
