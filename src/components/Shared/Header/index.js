@@ -15,9 +15,7 @@ const Header = () => {
 
   useEffect(() => {
     const stateUser = JSON.parse(sessionStorage.getItem('loggedUser'));
-    if (!loggedUser?.firstName || stateUser === null) {
-      setLoggedUser(stateUser === null ? {} : stateUser);
-    }
+    setLoggedUser(stateUser === null ? {} : stateUser);
   }, [authenticated]);
 
   return (

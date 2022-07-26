@@ -6,6 +6,7 @@ import { clearError } from 'redux/admins/actions';
 import { updatePassword } from 'redux/auth/thunks';
 import { putSuperAdmin } from 'redux/superAdmins/thunks';
 import { putAdmin } from 'redux/admins/thunks';
+import { setAuthentication } from 'redux/auth/actions';
 import { useHistory } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
@@ -53,12 +54,7 @@ const schemaPassword = Joi.object({
 });
 
 const AdminProfile = () => {
-  const {
-    handleSubmit,
-    control,
-    setValue,
-    formState: { errors }
-  } = useForm({
+  const { handleSubmit, control, setValue } = useForm({
     resolver: joiResolver(schema),
     defaultValues: {
       firstName: '',
@@ -72,8 +68,6 @@ const AdminProfile = () => {
       rpassword: ''
     }
   });
-
-  console.log(errors);
 
   const dispatch = useDispatch();
   const history = useHistory();
@@ -119,7 +113,6 @@ const AdminProfile = () => {
     });
     if (admin.role === 'ADMIN') {
       dispatch(putAdmin(admin._id, body));
-      console.log(errorAdmin);
     } else {
       dispatch(putSuperAdmin(admin._id, body));
     }
@@ -132,6 +125,13 @@ const AdminProfile = () => {
     } else {
       setModalTitle('Profile updated');
       setMsg('You have updated your profile successfully!');
+      const object = JSON.parse(sessionStorage.getItem('loggedUser'));
+      const bodyParsed = JSON.parse(body);
+      object.firstName = bodyParsed.firstName;
+      object.lastName = bodyParsed.lastName;
+      sessionStorage.setItem('loggedUser', JSON.stringify(object));
+      dispatch(setAuthentication(false));
+      dispatch(setAuthentication(true));
     }
     openModal();
   };

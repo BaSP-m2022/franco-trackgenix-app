@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { updatePassword } from 'redux/auth/thunks';
 import { clearError } from 'redux/employees/actions';
+import { setAuthentication } from 'redux/auth/actions';
 import { putEmployee } from 'redux/employees/thunks';
 import { useHistory } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
@@ -139,6 +140,13 @@ const EmployeeProfile = () => {
     } else {
       setModalTitle('Profile updated');
       setMsg('You have updated your profile successfully!');
+      const object = JSON.parse(sessionStorage.getItem('loggedUser'));
+      const bodyParsed = JSON.parse(body);
+      object.firstName = bodyParsed.firstName;
+      object.lastName = bodyParsed.lastName;
+      sessionStorage.setItem('loggedUser', JSON.stringify(object));
+      dispatch(setAuthentication(false));
+      dispatch(setAuthentication(true));
     }
     openModal();
   };
