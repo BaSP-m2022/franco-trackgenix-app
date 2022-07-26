@@ -131,13 +131,15 @@ const EmployeeProfile = () => {
       email: data.email,
       dateOfBirth: data.dateOfBirth
     });
+    console.log(errorEmployees);
     dispatch(putEmployee(employee._id, body));
     if (errorEmployees) {
-      setModalTitle('Data Error');
-      setMsg(errorFirebase);
+      setModalTitle('Database Error');
+      setMsg(errorEmployees);
+    } else {
+      setModalTitle('Profile updated');
+      setMsg('You have updated your profile successfully!');
     }
-    setModalTitle('Profile updated');
-    setMsg('You have updated your profile successfully!');
     openModal();
   };
 
@@ -286,7 +288,7 @@ const EmployeeProfile = () => {
           />
         </div>
         <div className={styles.changePasswordButton}>
-          <Button text="Change password" />
+          <Button text="Update Password" />
         </div>
       </form>
     </section>

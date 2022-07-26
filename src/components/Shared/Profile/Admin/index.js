@@ -33,23 +33,9 @@ const schema = Joi.object({
     .message('Last Name must be less than 30 characters')
     .regex(/^[a-zA-Z]+$/)
     .message('Last Name must have only letters')
-    .required(),
-  email: Joi.string()
-    .email({ tlds: { allow: false } })
-    .message('Your email must be a valid email')
     .required()
 });
 const schemaPassword = Joi.object({
-  oldPassword: Joi.string()
-    .min(8)
-    .message('Password must have between 8 and 12 characters')
-    .max(12)
-    .message('Password must have between 8 and 12 characters')
-    .pattern(/[a-zA-Z]/)
-    .message('Password must have at least 1 letter')
-    .pattern(/[0-9]/)
-    .message('Password must have at least 1 number')
-    .required(),
   password: Joi.string()
     .min(8)
     .message('Password must have between 8 and 12 characters')
@@ -67,12 +53,16 @@ const schemaPassword = Joi.object({
 });
 
 const AdminProfile = () => {
-  const { handleSubmit, control, setValue } = useForm({
+  const {
+    handleSubmit,
+    control,
+    setValue,
+    formState: { errors }
+  } = useForm({
     resolver: joiResolver(schema),
     defaultValues: {
       firstName: '',
-      lastName: '',
-      email: ''
+      lastName: ''
     }
   });
   const { handleSubmit: handleSubmitPassword, control: controlPassword } = useForm({
@@ -83,6 +73,8 @@ const AdminProfile = () => {
     }
   });
 
+  console.log(errors);
+
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -92,14 +84,14 @@ const AdminProfile = () => {
   const [admin, setAdmin] = useState('');
 
   const loading = useSelector((state) => state.admins.loading);
-  const error = useSelector((state) => state.admins.error);
+  const errorAdmin = useSelector((state) => state.admins.error);
+  const errorSuperAdmin = useSelector((state) => state.superAdmins.error);
   const errorFirebase = useSelector((state) => state.auth.error);
 
   useEffect(() => {
     if (admin?._id) {
       setValue('firstName', admin.firstName);
       setValue('lastName', admin.lastName);
-      setValue('email', admin.email);
     }
   }, [admin]);
 
@@ -123,16 +115,24 @@ const AdminProfile = () => {
   const onSubmit = (data) => {
     const body = JSON.stringify({
       firstName: capitalizeFirstLetter(data.firstName),
-      lastName: capitalizeFirstLetter(data.lastName),
-      email: data.email
+      lastName: capitalizeFirstLetter(data.lastName)
     });
     if (admin.role === 'ADMIN') {
       dispatch(putAdmin(admin._id, body));
-    } else if (admin.role === 'SUPER-ADMIN') {
+      console.log(errorAdmin);
+    } else {
       dispatch(putSuperAdmin(admin._id, body));
     }
-    setModalTitle('Profile updated');
-    setMsg('You have updated your profile successfully!');
+    if (errorAdmin) {
+      setModalTitle('Database Error');
+      setMsg(errorAdmin);
+    } else if (errorSuperAdmin) {
+      setModalTitle('Database Error');
+      setMsg(errorAdmin);
+    } else {
+      setModalTitle('Profile updated');
+      setMsg('You have updated your profile successfully!');
+    }
     openModal();
   };
 
@@ -146,7 +146,7 @@ const AdminProfile = () => {
       setMsg('You need to log again in the system');
       openModal();
     } else {
-      setModalTitle('Password updated');
+      setModalTitle('Password Updated');
       setMsg('You have updated your password successfully!');
       openModal();
     }
@@ -161,13 +161,17 @@ const AdminProfile = () => {
   }
   return (
     <section className={styles.container}>
-      <Modal modalTitle={error ? 'Error' : modalTitle} isOpen={isOpen} handleClose={closeModal}>
-        <p>{error ? error : msg}</p>
+      <Modal modalTitle={modalTitle} isOpen={isOpen} handleClose={closeModal}>
+        <p>{msg}</p>
         <div>
           <Button
             text="OK"
             handler={() => {
               closeModal();
+              if (errorFirebase) {
+                dispatch(logOut());
+                history.push('/login');
+              }
             }}
           />
         </div>
@@ -249,7 +253,7 @@ const AdminProfile = () => {
           />
         </div>
         <div className={styles.changePasswordButton}>
-          <Button text="Change password" handler={handleSubmitPassword(onSubmitPassword)} />
+          <Button text="Update Password" handler={handleSubmitPassword(onSubmitPassword)} />
         </div>
       </form>
     </section>
