@@ -48,7 +48,7 @@ const NavLinks = () => {
                 </li>
                 {isPm && (
                   <li className={styles.items}>
-                    <NavLink to={'../projects'} className={styles.links}>
+                    <NavLink to={'/projects'} className={styles.links}>
                       Projects
                     </NavLink>
                   </li>
@@ -56,7 +56,7 @@ const NavLinks = () => {
                 {isPm && (
                   <li className={styles.items}>
                     <NavLink to={'/employees/pm/timesheet'} className={styles.links}>
-                      Project Timesheets
+                      Projects Timesheets
                     </NavLink>
                   </li>
                 )}
