@@ -9,6 +9,7 @@ const Login = React.lazy(() => import('components/pages/Login'));
 const AdminList = React.lazy(() => import('components/pages/Admin/List'));
 const AdminForm = React.lazy(() => import('components/pages/Admin/Form'));
 const AdminHome = React.lazy(() => import('components/pages/Admin/Home'));
+const AdminProfile = React.lazy(() => import('components/Shared/Profile/Admin'));
 
 const SuperAdminList = React.lazy(() => import('components/pages/SuperAdmin/List'));
 const SuperAdminForm = React.lazy(() => import('components/pages/SuperAdmin/Form'));
@@ -19,6 +20,7 @@ const EmployeeForm = React.lazy(() => import('components/pages/Employee/Form'));
 const EmployeeHome = React.lazy(() => import('components/pages/Employee/Home'));
 const PmTimeSheet = React.lazy(() => import('components/pages/Employee/PM/PmTimesheet'));
 const EmployeeTableProfile = React.lazy(() => import('components/pages/Employee/Profile'));
+const EmployeeProfile = React.lazy(() => import('components/Shared/Profile/Employee'));
 
 const ProjectList = React.lazy(() => import('components/pages/Project/List'));
 const ProjectForm = React.lazy(() => import('components/pages/Project/Form'));
@@ -26,6 +28,8 @@ const ProjectProfile = React.lazy(() => import('components/pages/Project/Profile
 
 const TimeSheetList = React.lazy(() => import('components/pages/TimeSheet/List'));
 const TimeSheetForm = React.lazy(() => import('components/pages/TimeSheet/Form'));
+
+const Landing = React.lazy(() => import('components/pages/Landing'));
 
 function Layout() {
   return (
@@ -43,19 +47,23 @@ function Layout() {
               <Route exact path="/admins" component={AdminList} />
               <Route exact path="/admins/form" component={AdminForm} />
               <Route exact path="/admins/home" component={AdminHome} />
+              <Route exact path="/admins/profile" component={AdminProfile} />
               <Route exact path="/super-admins" component={SuperAdminList} />
               <Route exact path="/super-admins/form" component={SuperAdminForm} />
               <Route exact path="/super-admins/home" component={SuperAdminHome} />
+              <Route exact path="/super-admins/profile" component={AdminProfile} />
               <Route exact path="/employees" component={EmployeeList} />
               <Route exact path="/employees/form" component={EmployeeForm} />
               <Route exact path="/employees/home" component={EmployeeHome} />
               <Route exact path="/employees/pm/timesheet" component={PmTimeSheet} />
+              <Route exact path="/employees/profile" component={EmployeeProfile} />
               <Route exact path="/employees/:id" component={EmployeeTableProfile} />
               <Route exact path="/projects" component={ProjectList} />
               <Route exact path="/projects/form" component={ProjectForm} />
               <Route exact path="/projects/:id" component={ProjectProfile} />
               <Route exact path="/time-sheets" component={TimeSheetList} />
               <Route exact path="/time-sheets/form" component={TimeSheetForm} />
+              <Route exact path="/home" component={Landing} />
               <Route exact path="/">
                 <Redirect to="/home" />
               </Route>
