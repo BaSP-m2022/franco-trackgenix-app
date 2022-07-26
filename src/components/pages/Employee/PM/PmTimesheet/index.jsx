@@ -217,7 +217,7 @@ const PmTimeSheet = () => {
         setModalTitle('Error in database of Time sheets');
         setModalText(errorTimeSheets);
         openOtherModal();
-      }
+      } else dispatch(clearError());
     }
   }, [timeSheets, startDate]);
 
