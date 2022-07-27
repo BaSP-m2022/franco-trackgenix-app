@@ -162,7 +162,6 @@ const EmployeeHome = () => {
   }, [timeSheets, idEmployee]);
 
   useEffect(() => {
-    console.log('timeSheets', timeSheets);
     if (!timeSheets.length) {
       dispatch(getTimeSheets(`employeeId=${idEmployee}`));
     }
@@ -179,7 +178,6 @@ const EmployeeHome = () => {
     setProjectsOptions([
       ...projectsEmployee?.map((project) => ({ value: project?._id, label: project?.name }))
     ]);
-    console.log(timeSheetsEmployee);
   }, [timeSheets, timeSheetsEmployee]);
 
   useEffect(() => {
