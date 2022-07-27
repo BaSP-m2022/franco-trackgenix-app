@@ -6,7 +6,8 @@ import Input from './Input';
 import LoadingScreen from './LoadingScreen';
 import Modal from './Modal';
 import NavLinks from './NavLink';
-import Profile from './Profile';
+import EmployeeProfile from './Profile/Employee';
+import AdminProfile from './Profile/Admin';
 import ProfileItem from './ProfileItem';
 import Search from './SearchBar';
 import SelectDropdown from './SelectDropdown';
@@ -21,7 +22,8 @@ export {
   LoadingScreen,
   Modal,
   NavLinks,
-  Profile,
+  EmployeeProfile,
+  AdminProfile,
   ProfileItem,
   Search,
   SelectDropdown,

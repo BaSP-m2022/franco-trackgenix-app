@@ -38,3 +38,22 @@ export const setAuthentication = (user) => {
     payload: user
   };
 };
+
+export const passwordPending = () => {
+  return {
+    type: CONSTANTS.CHANGE_PASSWORD_PENDING
+  };
+};
+
+export const passwordSuccess = (data) => {
+  return {
+    type: CONSTANTS.CHANGE_PASSWORD_SUCCESS,
+    payload: data
+  };
+};
+export const passwordError = (error) => {
+  return {
+    type: CONSTANTS.CHANGE_PASSWORD_ERROR,
+    payload: error
+  };
+};

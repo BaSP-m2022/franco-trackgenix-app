@@ -44,12 +44,12 @@ const NavLinks = () => {
                 </li>
               </ul>
             );
-          case 'SUPERADMIN':
+          case 'SUPER-ADMIN':
             return (
               <ul className={styles.routes}>
                 <li className={styles.items}>
-                  <NavLink to={'home'} className={styles.links}>
-                    Home
+                  <NavLink to={'/admins'} className={styles.links}>
+                    Admins
                   </NavLink>
                 </li>
               </ul>
@@ -60,6 +60,16 @@ const NavLinks = () => {
                 <li className={styles.items}>
                   <NavLink to={'home'} className={styles.links}>
                     Home
+                  </NavLink>
+                </li>
+                <li className={styles.items}>
+                  <NavLink to={'login'} className={styles.links}>
+                    Login
+                  </NavLink>
+                </li>
+                <li className={styles.items}>
+                  <NavLink to={'signup'} className={styles.links}>
+                    Sign Up
                   </NavLink>
                 </li>
               </ul>
