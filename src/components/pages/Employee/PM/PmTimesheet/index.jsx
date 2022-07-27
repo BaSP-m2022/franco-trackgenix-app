@@ -113,14 +113,21 @@ const PmTimeSheet = () => {
       if (timesheet.employeeId._id === employee.employeeId._id) {
         timesheet.tasks.map((task) => {
           if (task.projectId._id === projectId) {
+            console.log('task', task);
             const date = new Date(task.date);
-            if (date.getUTCDay() < 1) hourDays[date.getUTCDay() - 1] += task.workedHours;
-            else hourDays[date.getUTCDay() - 1] += task.workedHours;
+            if (date.getUTCDay() < 1) {
+              console.log('first if entered');
+              hourDays[date.getUTCDay() - 1] += task.workedHours;
+            } else {
+              console.log('second if entered');
+              hourDays[date.getUTCDay() - 1] += task.workedHours;
+            }
             hourDays[7] += task.workedHours;
           }
         });
       }
     });
+    console.log('hourDays', hourDays);
     return (
       <tr className={styles.containerTable}>
         <td>{employee.employeeId.firstName + ' ' + employee.employeeId.lastName}</td>
@@ -137,6 +144,7 @@ const PmTimeSheet = () => {
             text={'Modify Tasks'}
             handler={() => {
               setEmployeeId(employee.employeeId._id);
+              setValue('tasks', formatTasks(timeSheetList, employeeId, projectId));
               openModal();
             }}
           />
@@ -229,7 +237,7 @@ const PmTimeSheet = () => {
     if (employeeId) {
       setValue('tasks', formatTasks(timeSheetList, employeeId, projectId));
     }
-  }, [employeeId]);
+  }, [employeeId, startDate, timeSheets]);
 
   const openModal = () => {
     setIsOpen(true);
@@ -389,7 +397,13 @@ const PmTimeSheet = () => {
               {click != 0 && errors && !errors.type != 'array.min' ? (
                 <p>{errors?.message}</p>
               ) : null}
-              <Button text="Cancel" handler={closeModal} />
+              <Button
+                text="Cancel"
+                handler={() => {
+                  closeModal();
+                  dispatch(getTimeSheets(`tasks.projectId=${projectId}`));
+                }}
+              />
               <Button text="Save" handler={handleSubmit(onSubmit)} />
             </form>
           </div>
