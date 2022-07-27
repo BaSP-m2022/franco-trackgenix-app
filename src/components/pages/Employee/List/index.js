@@ -73,12 +73,9 @@ const Employees = () => {
   };
 
   if (loading) {
-    return (
-      <div className={styles.loading}>
-        <LoadingScreen />
-      </div>
-    );
+    return <LoadingScreen />;
   }
+
   return (
     <section className={styles.container}>
       <Modal modalTitle={'Employees'} isOpen={isOpen}>

@@ -92,11 +92,7 @@ const EmployeeForm = () => {
   };
 
   if (loading) {
-    return (
-      <div className={styles.loading}>
-        <LoadingScreen />
-      </div>
-    );
+    return <LoadingScreen />;
   }
 
   return (

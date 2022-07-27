@@ -172,12 +172,9 @@ const Profile = () => {
   };
 
   if (loading) {
-    return (
-      <div className={styles.loading}>
-        <LoadingScreen />
-      </div>
-    );
+    return <LoadingScreen />;
   }
+
   return (
     <section className={styles.container}>
       <Modal modalTitle={error ? 'Error' : modalTitle} isOpen={isOpen} handleClose={closeModal}>

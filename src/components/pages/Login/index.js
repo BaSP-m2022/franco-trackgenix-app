@@ -62,12 +62,9 @@ const loginForm = () => {
   };
 
   if (loading) {
-    return (
-      <div className={styles.loading}>
-        <LoadingScreen />
-      </div>
-    );
+    return <LoadingScreen />;
   }
+
   return (
     <section className={styles.containerSec}>
       <Modal modalTitle={'Login error'} isOpen={isOpen} handleClose={closeModal}>

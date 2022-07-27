@@ -121,14 +121,6 @@ const TimeSheetForm = () => {
     setIsOpen(false);
   };
 
-  if (loading) {
-    return (
-      <div className={styles.loading}>
-        <LoadingScreen />
-      </div>
-    );
-  }
-
   const onSubmit = (data) => {
     const body = JSON.stringify({
       tasks: data.tasks,
@@ -154,12 +146,9 @@ const TimeSheetForm = () => {
   };
 
   if (loading) {
-    return (
-      <div className={styles.loading}>
-        <LoadingScreen />
-      </div>
-    );
+    return <LoadingScreen />;
   }
+
   return (
     <div className={styles.container}>
       <Modal modalTitle={errorError ? 'error' : modalTitle} isOpen={isOpen}>

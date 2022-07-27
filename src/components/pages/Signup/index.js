@@ -106,12 +106,9 @@ const signupForm = () => {
   };
 
   if (loading) {
-    return (
-      <div className={styles.loading}>
-        <LoadingScreen />
-      </div>
-    );
+    return <LoadingScreen />;
   }
+
   return (
     <div className={styles.containerSec}>
       <h2 className={styles.formTitle}>Sign Up</h2>
