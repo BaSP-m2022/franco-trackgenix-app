@@ -2,6 +2,7 @@ const Signup = require('../../pageobjects/signup');
 
 describe('Signup page interactions', () => {
   it('Elements displayed and enabled on the table', async () => {
+    browser.fullscreenWindow();
     await Signup.open();
     await expect(browser).toHaveUrl('https://franco-trackgenix-app.vercel.app/signup');
     await expect(Signup.formTitle).toBeDisplayed();
@@ -33,6 +34,7 @@ describe('Signup page interactions', () => {
     await expect(Signup.passInput).toBeEnabled();
   });
   it('Buttons clickables', async () => {
+    browser.fullscreenWindow();
     await expect(Signup.returnButton).toBeDisplayed();
     await expect(Signup.returnButton).toBeClickable;
     await expect(Signup.signUpButton).toBeDisplayed();
