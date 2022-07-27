@@ -133,7 +133,7 @@ const TimeSheets = () => {
         column={column}
         deleteItem={buttonDelete}
         editItem={handleSetTimeSheet}
-        buttons={true}
+        buttons={2}
         modal={handleArray}
         arrayName={'Tasks'}
       />

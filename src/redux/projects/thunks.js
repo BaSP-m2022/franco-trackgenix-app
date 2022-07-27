@@ -3,11 +3,11 @@ import { serializeObject } from 'utils/formatters';
 
 const URL = `${process.env.REACT_APP_API_URL}/projects`;
 
-export const getProjects = () => {
+export const getProjects = (optionalParams = '') => {
   return async (dispatch) => {
     dispatch(actions.getProjectsLoading());
     try {
-      const response = await fetch(URL, {
+      const response = await fetch(`${URL}?${optionalParams}`, {
         headers: {
           token: JSON.parse(sessionStorage.getItem('loggedUser'))?.token
         }

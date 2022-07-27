@@ -1,4 +1,12 @@
-import { loginPending, loginSuccess, loginError, logOut } from './actions';
+import {
+  loginPending,
+  loginSuccess,
+  loginError,
+  logOut,
+  passwordPending,
+  passwordSuccess,
+  passwordError
+} from './actions';
 import firebase from 'helper/firebase';
 
 export const login = (credentials) => {
@@ -24,7 +32,6 @@ export const login = (credentials) => {
         );
         const userResponse = await user.json();
         const { _id, firstName, lastName, email, dateOfBirth, dni } = userResponse.data[0];
-
         sessionStorage.setItem(
           'loggedUser',
           JSON.stringify({
@@ -42,6 +49,22 @@ export const login = (credentials) => {
       })
       .catch((error) => {
         return dispatch(loginError(error.toString()));
+      });
+  };
+};
+
+export const updatePassword = (data) => {
+  const user = firebase.auth().currentUser;
+  return (dispatch) => {
+    dispatch(passwordPending());
+    const newPassword = data.password;
+    user
+      .updatePassword(newPassword)
+      .then(() => {
+        dispatch(passwordSuccess());
+      })
+      .catch((error) => {
+        dispatch(passwordError(error.toString()));
       });
   };
 };

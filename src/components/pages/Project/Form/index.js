@@ -211,8 +211,8 @@ function ProjectForm() {
                   value={value}
                   onChange={onChange}
                   options={[
-                    { label: `To Do`, value: 'To Do' },
-                    { label: `In Progress`, value: 'In Progress' },
+                    { label: `To do`, value: 'To do' },
+                    { label: `In progress`, value: 'In progress' },
                     { label: `Done`, value: 'Done' }
                   ]}
                   error={error?.message}

@@ -16,9 +16,7 @@ const Header = () => {
 
   useEffect(() => {
     const stateUser = JSON.parse(sessionStorage.getItem('loggedUser'));
-    if (!loggedUser?.firstName || stateUser === null) {
-      setLoggedUser(stateUser === null ? {} : stateUser);
-    }
+    setLoggedUser(stateUser === null ? {} : stateUser);
   }, [authenticated]);
 
   return (
@@ -56,7 +54,8 @@ const Header = () => {
             className={styles.userButton}
             onClick={() => {
               dispatch(logout());
-              history.push('/login');
+              history.push('/home');
+              window.location.reload();
             }}
           >
             <p className={styles.text}>Log out</p>
