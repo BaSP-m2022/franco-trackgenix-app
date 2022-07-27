@@ -1,5 +1,5 @@
 .container {
-  width: 100vw;
+  width: 100%;
   height: fit-content;
   display: flex;
   flex-direction: column;
@@ -11,13 +11,15 @@
   position: fixed;
   top: 70px;
   bottom: 0;
-  width: 190px;
+  width: 170px;
   display: none;
 }
 
 .divSwitch {
-  margin-top: 70px;
-  margin-left: 0;
+  overflow-x: scroll;
+  margin-top: 90px;
+  padding-left: 10px;
+  padding-right: 21px;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -31,7 +33,7 @@
   }
 
   .divSwitch {
-    margin-top: 110px;
-    margin-left: 190px;
+    margin-top: 130px;
+    padding-left: 175px;
   }
 }

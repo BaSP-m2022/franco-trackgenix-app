@@ -94,7 +94,7 @@ const Employees = () => {
         </div>
       </Modal>
       <h2 className={styles.title}>Employees</h2>
-      <div className={styles.addEmployee}>
+      <div className={styles.buttons}>
         <Button
           text="Add new employee"
           handler={() => {

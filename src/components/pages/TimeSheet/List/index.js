@@ -79,11 +79,7 @@ const TimeSheets = () => {
   };
 
   if (loading) {
-    return (
-      <div className={styles.loadingDiv}>
-        <LoadingScreen />
-      </div>
-    );
+    return <LoadingScreen />;
   }
 
   return (
@@ -118,9 +114,14 @@ const TimeSheets = () => {
           </div>
         )}
       </Modal>
-      <h2>Timesheets</h2>
-      <div className={styles.buttonContainer}>
-        <Button text="Add timeSheet" link={'/time-sheets/form'} />
+      <h2 className={styles.title}>Timesheets</h2>
+      <div className={styles.buttons}>
+        <Button
+          text={'Add Timesheet'}
+          handler={() => {
+            history.push('/time-sheets/form');
+          }}
+        />
         <Search
           placeholder="Search by ID"
           searchQuery={searchQuery}

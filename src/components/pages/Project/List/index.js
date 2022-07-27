@@ -113,36 +113,31 @@ const Projects = () => {
         )}
       </Modal>
       <h2 className={styles.title}>Projects</h2>
-      <div className={styles.add}>
+      <div className={styles.buttons}>
         <Button
           text={'Add new Project'}
           handler={() => {
             dispatch(setProject());
             history.push('/projects/form');
           }}
-        ></Button>
-        <div className={styles.search}>
-          <Search
-            searchQuery={searchQuery}
-            setSearchQuery={setSearchQuery}
-            placeholder={'Search for project name'}
-          />
-        </div>
+        />
+        <Search
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+          placeholder={'Search for project name'}
+        />
       </div>
-      <div className={styles.flex}>
-        <Table
-          data={searchQuery.length ? filteredList : projects}
-          deleteItem={buttonDelete}
-          column={column}
-          editItem={handleSetProject}
-          buttons={true}
-          modal={handleArray}
-          arrayName={'Employees'}
-          handleRowClick={(e) =>
-            history.push(`projects/${e.currentTarget.getAttribute('data-id')}`)
-          }
-        ></Table>
-      </div>
+
+      <Table
+        data={searchQuery.length ? filteredList : projects}
+        deleteItem={buttonDelete}
+        column={column}
+        editItem={handleSetProject}
+        buttons={true}
+        modal={handleArray}
+        arrayName={'Employees'}
+        handleRowClick={(e) => history.push(`projects/${e.currentTarget.getAttribute('data-id')}`)}
+      ></Table>
     </section>
   );
 };

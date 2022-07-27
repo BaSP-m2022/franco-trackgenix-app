@@ -66,7 +66,7 @@ function Layout() {
         </React.Suspense>
       </div>
 
-      {!authenticated ? <Footer /> : null}
+      {authenticated === 'ni-loco-pongo-el-footer' ? <Footer /> : null}
     </div>
   );
 }

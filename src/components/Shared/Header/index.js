@@ -24,31 +24,19 @@ const Header = () => {
   return (
     <header className={styles.header}>
       <div className={styles.buttonLogo}>
-        <MenuButton />
+        <div className={styles.button}>
+          <MenuButton />
+        </div>
         <div className={styles.logo}>
           <img
-            src={`${process.env.PUBLIC_URL}/assets/images/logo1.svg`}
+            src={`${process.env.PUBLIC_URL}/assets/images/logo.png`}
             alt="Rocket"
-            className={styles.rocket}
-          />
-          <img
-            src={`${process.env.PUBLIC_URL}/assets/images/logo2.svg`}
-            alt="Radium"
-            className={styles.radium}
+            className={styles.logoImg}
           />
         </div>
       </div>
 
-      {!loggedUser?.firstName ? (
-        <button
-          className={styles.userButton}
-          onClick={() => {
-            history.push('/login');
-          }}
-        >
-          <p className={styles.text}>Log in</p>
-        </button>
-      ) : (
+      {!loggedUser?.firstName ? null : (
         <div className={styles.buttonContainer}>
           <button
             className={styles.userButton}

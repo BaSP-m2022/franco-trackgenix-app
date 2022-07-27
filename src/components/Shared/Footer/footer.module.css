@@ -5,7 +5,7 @@
   height: 94px;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   width: 100vw;
   max-width: 1920px;
@@ -24,14 +24,14 @@
 }
 
 .footerText {
-  display: flex;
+  display: none;
   flex-direction: column;
 }
 
 .footerText p {
   color: #000;
   font-size: 12px;
-  text-align: right;
+  text-align: center;
 }
 
 .p1 {
@@ -49,4 +49,18 @@
 
 .rowLinks a {
   margin-right: 14px;
+}
+
+@media (min-width: 760px) {
+  .container {
+    justify-content: space-between;
+  }
+
+  .footerText {
+    display: flex;
+  }
+
+  .footerText p {
+    text-align: right;
+  }
 }

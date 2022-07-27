@@ -66,7 +66,7 @@ const SuperAdmins = () => {
     );
   }
   return (
-    <section className={styles.containerSuperAdmin}>
+    <section className={styles.container}>
       <Modal modalTitle={'Super Admins'} isOpen={isOpen}>
         <p>{error ? error : 'Are you sure to delete a Super Admin?'}</p>
         <div>
@@ -89,8 +89,8 @@ const SuperAdmins = () => {
           )}
         </div>
       </Modal>
-      <h2>Super Admins</h2>
-      <div className={styles.btnSearchDiv}>
+      <h2 className={styles.title}>Super Admins</h2>
+      <div className={styles.buttons}>
         <Button
           text={'Add Super Admin'}
           handler={() => {
