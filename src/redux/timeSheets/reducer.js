@@ -53,6 +53,7 @@ export const timeSheetsReducer = (state = initialStore, actions) => {
       return {
         ...state,
         error: actions.payload,
+        list: [],
         loading: false
       };
 

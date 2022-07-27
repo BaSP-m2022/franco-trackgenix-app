@@ -8,6 +8,7 @@ import styles from './list.module.css';
 
 const Projects = () => {
   const dispatch = useDispatch();
+  const idEmployee = JSON.parse(sessionStorage.getItem('loggedUser'))?._id;
   const history = useHistory();
   const projects = useSelector((state) => state.projects.list);
   const loading = useSelector((state) => state.projects.loading);
@@ -15,7 +16,8 @@ const Projects = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [idToDelete, setIdToDelete] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
-  const [filteredList, setFilteredList] = useState(projects);
+  const [projectList, setProjectList] = useState([]);
+  const [filteredList, setFilteredList] = useState([]);
   const [isTable, setIsTable] = useState(false);
   const [employeesData, setEmployeesData] = useState([]);
   const [modalTitle, setModalTitle] = useState('');
@@ -57,18 +59,39 @@ const Projects = () => {
 
   useEffect(() => {
     if (!projects.length) {
-      dispatch(getProjects());
-      if (error) {
-        openModal();
-      }
+      if (sessionStorage.getItem('isPM') === 'true') {
+        dispatch(getProjects(`employees.employeeId=${idEmployee}`));
+      } else dispatch(getProjects());
     }
-  }, [error]);
+
+    if (error) {
+      openModal();
+    }
+  }, [projects]);
+
+  useEffect(() => {
+    if (projects.length) {
+      if (sessionStorage.getItem('isPM') === 'true') {
+        setProjectList(
+          projects.filter((project) => {
+            let isPm = false;
+            project.employees.map((employee) => {
+              if (employee.employeeId._id === idEmployee && employee.role === 'PM') isPm = true;
+            });
+            return isPm;
+          })
+        );
+      } else setProjectList(projects);
+    }
+  }, [projects]);
 
   useEffect(() => {
     setFilteredList(
-      projects.filter((project) => project.name.toLowerCase().includes(searchQuery.toLowerCase()))
+      projectList.filter((project) =>
+        project.name.toLowerCase().includes(searchQuery.toLowerCase())
+      )
     );
-  }, [projects, searchQuery]);
+  }, [projectList, searchQuery]);
 
   const delProject = () => {
     dispatch(deleteProject(idToDelete));
@@ -117,13 +140,15 @@ const Projects = () => {
       </Modal>
       <h2 className={styles.title}>Projects</h2>
       <div className={styles.add}>
-        <Button
-          text={'Add new Project'}
-          handler={() => {
-            dispatch(setProject());
-            history.push('/projects/form');
-          }}
-        ></Button>
+        {!sessionStorage.getItem('isPM') && (
+          <Button
+            text={'Add new Project'}
+            handler={() => {
+              dispatch(setProject());
+              history.push('/projects/form');
+            }}
+          />
+        )}
         <div className={styles.search}>
           <Search
             searchQuery={searchQuery}
@@ -134,11 +159,11 @@ const Projects = () => {
       </div>
       <div className={styles.flex}>
         <Table
-          data={searchQuery.length ? filteredList : projects}
+          data={searchQuery.length ? filteredList : projectList}
           deleteItem={buttonDelete}
           column={column}
           editItem={handleSetProject}
-          buttons={true}
+          buttons={sessionStorage.getItem('isPM') ? 1 : 2}
           modal={handleArray}
           arrayName={'Employees'}
           handleRowClick={(e) =>

@@ -109,7 +109,7 @@ const SuperAdmins = () => {
         column={column}
         deleteItem={buttonDelete}
         editItem={handleSetSuperAdmin}
-        buttons={true}
+        buttons={2}
       />
     </section>
   );

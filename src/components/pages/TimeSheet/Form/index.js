@@ -14,10 +14,18 @@ import styles from './form.module.css';
 const schema = Joi.object({
   tasks: Joi.array().items(
     Joi.object({
-      description: Joi.string().min(3).max(50).required(),
-      workedHours: Joi.number().min(1).required(),
-      projectId: Joi.string().required(),
-      date: Joi.date().required()
+      description: Joi.string().min(3).max(50).required().messages({
+        'string.empty': 'You must add a description.'
+      }),
+      workedHours: Joi.number().min(1).required().messages({
+        'number.min': 'The worked hours must be bigger than zero.'
+      }),
+      projectId: Joi.string().required().messages({
+        'string.empty': 'You must select an employee.'
+      }),
+      date: Joi.date().required().messages({
+        'date.base': 'You must add a date.'
+      })
     })
   ),
   startDate: Joi.date()
@@ -25,6 +33,9 @@ const schema = Joi.object({
     .custom((value, helper) => {
       if (value.getUTCDay() !== 1) return helper.message('Start date must be a Monday');
       return value;
+    })
+    .messages({
+      'date.base': 'You must add a Start Date.'
     }),
   employeeId: Joi.string().required()
 });
