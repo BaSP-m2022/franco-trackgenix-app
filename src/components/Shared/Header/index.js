@@ -47,7 +47,7 @@ const Header = () => {
           <button
             className={styles.userButton}
             onClick={() => {
-              history.push(`/${loggedUser.role?.toLowerCase()}s/profile`);
+              history.push(`/${loggedUser.role?.toLowerCase()}/profile`);
             }}
           >
             <p className={styles.userName}>Hi, {loggedUser.firstName}</p>
