@@ -83,7 +83,7 @@ const schema = Joi.object({
 });
 
 const dateOptions = (startDate) => {
-  const multiplyDate = (m) => new Date(startDate).setDate(new Date(startDate).getUTCDate() + m);
+  const multiplyDate = (m) => new Date(startDate).setDate(new Date(startDate).getDate() + 1 + m);
   return [
     {
       value: formatDate(multiplyDate(0)),
@@ -162,6 +162,7 @@ const EmployeeHome = () => {
   }, [timeSheets, idEmployee]);
 
   useEffect(() => {
+    console.log('timeSheets', timeSheets);
     if (!timeSheets.length) {
       dispatch(getTimeSheets(`employeeId=${idEmployee}`));
     }
@@ -178,7 +179,8 @@ const EmployeeHome = () => {
     setProjectsOptions([
       ...projectsEmployee?.map((project) => ({ value: project?._id, label: project?.name }))
     ]);
-  }, [timeSheets, timeSheetsEmployee, projectsEmployee]);
+    console.log(timeSheetsEmployee);
+  }, [timeSheets, timeSheetsEmployee]);
 
   useEffect(() => {
     setValue('tasks', formatTasks());
@@ -241,7 +243,6 @@ const EmployeeHome = () => {
 
   const routeChange = () => {
     dispatch(getTimeSheets(`employeeId=${idEmployee}`));
-    setOrder(order);
     history.push('/employee/home');
   };
   if (idEmployee === undefined) {
@@ -366,12 +367,12 @@ const EmployeeHome = () => {
           </Modal>
           <Modal
             modalTitle={
-              errorTimeSheets || errorProjects ? errorTimeSheets + ' ' + errorProjects : modalTitle
+              errorTimeSheets || errorProjects ? errorTimeSheets + '. ' + errorProjects : modalTitle
             }
             isOpen={isOtherOpen}
             handleClose={closeOtherModal}
           >
-            {errorTimeSheets || errorProjects ? errorTimeSheets + ' ' + errorProjects : modalText}
+            {errorTimeSheets || errorProjects ? errorTimeSheets + '. ' + errorProjects : modalText}
             <div className={styles.buttonContainer}>
               <Button
                 text="OK"
@@ -396,13 +397,13 @@ const EmployeeHome = () => {
                     <span>
                       {formatDate(
                         new Date(timeSheetsEmployee[order]?.startDate).setDate(
-                          new Date(timeSheetsEmployee[order]?.startDate).getUTCDate()
+                          new Date(timeSheetsEmployee[order]?.startDate).getDate() + 1
                         )
                       )}{' '}
                       -{' '}
                       {formatDate(
                         new Date(timeSheetsEmployee[order]?.startDate).setDate(
-                          new Date(timeSheetsEmployee[order]?.startDate).getUTCDate() + 6
+                          new Date(timeSheetsEmployee[order]?.startDate).getDate() + 7
                         )
                       )}
                     </span>

@@ -65,6 +65,7 @@ const Header = () => {
             onClick={() => {
               dispatch(logout());
               history.push('/login');
+              window.location.reload();
             }}
           >
             <p className={styles.text}>Log out</p>
