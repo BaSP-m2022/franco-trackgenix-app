@@ -39,6 +39,9 @@ class ProjectsPage extends Page {
       '#root > div > div > div.layout_divSwitch__2iaq7 > section > div.list_flex__1m8cc > table > tbody > tr:nth-child(7) > td:nth-child(7) > div > button:nth-child(1)'
     );
   }
+  get editButton2() {
+    return $('//*[@id="root"]/div/div/div[2]/section/div[2]/table/tbody/tr/td[7]/div/button');
+  }
   get deleteButton() {
     return $('//*[@id="root"]/div/div/div[2]/section/table/tbody/tr[1]/td[7]/button[2]');
   }

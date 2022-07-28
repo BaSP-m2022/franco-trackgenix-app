@@ -20,7 +20,7 @@ exports.config = {
   // then the current working directory is where your `package.json` resides, so `wdio`
   // will be called from there.
   //
-  specs: ['./test/specs/admin/timesheet/delete/**.js'],
+  specs: ['./test/specs/edit-profile/admin.spec.js'],
   // Patterns to exclude.
   exclude: [
     // 'path/to/excluded/files'
