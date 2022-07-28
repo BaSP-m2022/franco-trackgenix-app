@@ -1,0 +1,123 @@
+<?xml version='1.0'?>
+<ns2:test-suite xmlns:ns2='urn:model.allure.qatools.yandex.ru' start='1656217915665' stop='1656217918450'>
+    <name>Employee Edit Profile Interactions</name>
+    <title>Employee Edit Profile Interactions</title>
+    <test-cases>
+        <test-case start='1656217915667' status='failed' stop='1656217918448'>
+            <name>Employee should be edited whit a valid credentials</name>
+            <title>Employee should be edited whit a valid credentials</title>
+            <labels>
+                <label name='language' value='javascript'/>
+                <label name='framework' value='wdio'/>
+                <label name='thread' value='0-0'/>
+            </labels>
+            <parameters>
+                <parameter kind='argument' name='browser' value='chrome-103.0.5060.53'/>
+            </parameters>
+            <steps>
+                <step start='1656217915670' status='passed' stop='1656217917189'>
+                    <name>POST /session/:sessionId/element</name>
+                    <title>POST /session/:sessionId/element</title>
+                    <attachments>
+                        <attachment title='Request' source='8aacb47c-c314-431a-bd70-1d97f6161879-attachment.json' type='application/json' size='105'/>
+                        <attachment title='Response' source='7894368f-5fae-4801-a316-3e4b23706971-attachment.json' type='application/json' size='2'/>
+                    </attachments>
+                    <steps>
+                        <step start='1656217915680' status='passed' stop='1656217915830'>
+                            <name>POST /session/:sessionId/url</name>
+                            <title>POST /session/:sessionId/url</title>
+                            <attachments>
+                                <attachment title='Request' source='0d4e9980-17ed-4b8e-8e98-c4f02f6725eb-attachment.json' type='application/json' size='72'/>
+                                <attachment title='Response' source='8ef68f84-7501-422e-8aa2-25d6301584a0-attachment.json' type='application/json' size='1075'/>
+                            </attachments>
+                            <steps/>
+                        </step>
+                        <step start='1656217915841' status='passed' stop='1656217917173'>
+                            <name>POST /session/:sessionId/elements</name>
+                            <title>POST /session/:sessionId/elements</title>
+                            <attachments>
+                                <attachment title='Request' source='460ab6d5-9f3c-4f7e-ab6b-3a0715287a4a-attachment.json' type='application/json' size='105'/>
+                            </attachments>
+                            <steps/>
+                        </step>
+                    </steps>
+                </step>
+                <step start='1656217917207' status='passed' stop='1656217917476'>
+                    <name>POST /session/:sessionId/elements</name>
+                    <title>POST /session/:sessionId/elements</title>
+                    <attachments>
+                        <attachment title='Request' source='8ee4c907-fcab-4f60-a962-fdf279f13ca6-attachment.json' type='application/json' size='105'/>
+                        <attachment title='Response' source='63667ec7-ba8b-47d0-b3df-372308c1fe1a-attachment.json' type='application/json' size='2'/>
+                    </attachments>
+                    <steps/>
+                </step>
+                <step start='1656217917486' status='passed' stop='1656217917512'>
+                    <name>POST /session/:sessionId/elements</name>
+                    <title>POST /session/:sessionId/elements</title>
+                    <attachments>
+                        <attachment title='Request' source='4fd88c08-27a7-4f4e-9cdf-b9efdc2f8966-attachment.json' type='application/json' size='105'/>
+                        <attachment title='Response' source='5388eec1-3f6e-46c7-b75e-d41e329e9f41-attachment.json' type='application/json' size='2'/>
+                    </attachments>
+                    <steps/>
+                </step>
+                <step start='1656217917517' status='passed' stop='1656217917541'>
+                    <name>POST /session/:sessionId/elements</name>
+                    <title>POST /session/:sessionId/elements</title>
+                    <attachments>
+                        <attachment title='Request' source='5106196e-3990-4dda-960f-c0cba84fe663-attachment.json' type='application/json' size='105'/>
+                        <attachment title='Response' source='5ceebcdf-979b-4c9d-b2d9-c4a8376ce1cb-attachment.json' type='application/json' size='2'/>
+                    </attachments>
+                    <steps/>
+                </step>
+                <step start='1656217917842' status='passed' stop='1656217917863'>
+                    <name>POST /session/:sessionId/elements</name>
+                    <title>POST /session/:sessionId/elements</title>
+                    <attachments>
+                        <attachment title='Request' source='da58d2c1-0329-4218-87d5-3d027577f86b-attachment.json' type='application/json' size='105'/>
+                        <attachment title='Response' source='33fba951-dd43-44dd-9914-caf900a151cf-attachment.json' type='application/json' size='93'/>
+                    </attachments>
+                    <steps/>
+                </step>
+                <step start='1656217917868' status='passed' stop='1656217917945'>
+                    <name>POST /session/:sessionId/element</name>
+                    <title>POST /session/:sessionId/element</title>
+                    <attachments>
+                        <attachment title='Request' source='48bd27cf-cfc4-449b-bdb8-8343b64c79df-attachment.json' type='application/json' size='105'/>
+                        <attachment title='Response' source='0f9c16a2-8291-4c84-b152-e1ca0e128896-attachment.json' type='application/json' size='83'/>
+                    </attachments>
+                    <steps/>
+                </step>
+                <step start='1656217917946' status='passed' stop='1656217918212'>
+                    <name>POST /session/:sessionId/element/7be60bcf-bc2b-4b3d-bae5-cdf108d70b1f/clear</name>
+                    <title>POST /session/:sessionId/element/7be60bcf-bc2b-4b3d-bae5-cdf108d70b1f/clear</title>
+                    <attachments/>
+                    <steps/>
+                </step>
+                <step start='1656217918217' status='passed' stop='1656217918343'>
+                    <name>POST /session/:sessionId/element/7be60bcf-bc2b-4b3d-bae5-cdf108d70b1f/value</name>
+                    <title>POST /session/:sessionId/element/7be60bcf-bc2b-4b3d-bae5-cdf108d70b1f/value</title>
+                    <attachments>
+                        <attachment title='Request' source='98b8b33f-0a5b-4d4b-ad22-010846160b89-attachment.json' type='application/json' size='22'/>
+                    </attachments>
+                    <steps/>
+                </step>
+                <step start='1656217918346' status='passed' stop='1656217918445'>
+                    <name>GET /session/:sessionId/screenshot</name>
+                    <title>GET /session/:sessionId/screenshot</title>
+                    <attachments>
+                        <attachment title='Screenshot' source='fb5fbbaa-07b8-45be-b460-b435f1043bde-attachment.png' type='image/png' size='66206'/>
+                    </attachments>
+                    <steps/>
+                </step>
+            </steps>
+            <attachments/>
+            <failure>
+                <message>TypeError: this.setLastname is not a function</message>
+                <stack-trace>TypeError: this.setLastname is not a function
+                    at EmployeeProfile.editProfile (C:\Users\USUARIO\Documents\Matìas\programacion\rr\QA\Automation\BaSP-QA-module\week-015\franco-trackgenix-app\test\pageobjects\employees\employees.profile.js:108:16)
+                    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+                    at async UserContext.&lt;anonymous> (C:\Users\USUARIO\Documents\Matìas\programacion\rr\QA\Automation\BaSP-QA-module\week-015\franco-trackgenix-app\test\specs\employees\employee.e2e.spec.js:6:5)</stack-trace>
+            </failure>
+        </test-case>
+    </test-cases>
+</ns2:test-suite>
