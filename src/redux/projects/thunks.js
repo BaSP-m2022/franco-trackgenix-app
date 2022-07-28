@@ -7,11 +7,7 @@ export const getProjects = (optionalParams = '') => {
   return async (dispatch) => {
     dispatch(actions.getProjectsLoading());
     try {
-<<<<<<< HEAD
-      const response = await fetch(`${URL}/?${optionalParams}`, {
-=======
       const response = await fetch(`${URL}?${optionalParams}`, {
->>>>>>> origin/master
         headers: {
           token: JSON.parse(sessionStorage.getItem('loggedUser'))?.token
         }
