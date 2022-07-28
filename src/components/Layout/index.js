@@ -47,18 +47,18 @@ function Layout() {
               <Route exact path="/login" component={Login} />
               <Route exact path="/admins" component={AdminList} />
               <Route exact path="/admins/form" component={AdminForm} />
-              <Route exact path="/admins/home" component={AdminHome} />
-              <Route exact path="/admins/profile" component={AdminProfile} />
+              <Route exact path="/admin/home" component={AdminHome} />
+              <Route exact path="/admin/profile" component={AdminProfile} />
               <Route exact path="/super-admins" component={SuperAdminList} />
               <Route exact path="/super-admins/form" component={SuperAdminForm} />
-              <Route exact path="/super-admins/home" component={SuperAdminHome} />
-              <Route exact path="/super-admins/profile" component={AdminProfile} />
+              <Route exact path="/super-admin/home" component={SuperAdminHome} />
+              <Route exact path="/super-admin/profile" component={AdminProfile} />
               <Route exact path="/employees" component={EmployeeList} />
               <Route exact path="/employees/form" component={EmployeeForm} />
-              <Route exact path="/employees/home" component={EmployeeHome} />
+              <Route exact path="/employee/home" component={EmployeeHome} />
               <Route exact path="/employees/pm/timesheet" component={PmTimeSheet} />
-              <Route exact path="/employees/profile" component={EmployeeProfile} />
-              <Route exact path="/employees/:id" component={EmployeeTableProfile} />
+              <Route exact path="/employee/profile" component={EmployeeProfile} />
+              <Route exact path="/employee/:id" component={EmployeeTableProfile} />
               <Route exact path="/projects" component={ProjectList} />
               <Route exact path="/projects/form" component={ProjectForm} />
               <Route exact path="/projects/:id" component={ProjectProfile} />
