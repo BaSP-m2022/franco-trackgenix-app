@@ -1,0 +1,4172 @@
+{
+	"info": {
+		"_postman_id": "0eb3fe45-44a1-4f05-b05b-a21339a0bd5d",
+		"name": "franco-trackgenix-server",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20837862"
+	},
+	"item": [
+		{
+			"name": "Signup Employee",
+			"item": [
+				{
+					"name": "create",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code should be 201\",() =>{\r",
+									"    pm.response.to.have.status(201);\r",
+									"    const {_id: employeeId, firstName: employeeName, lastName: employeeLastName, email: employeeEmail} = pm.response.json().data\r",
+									"    pm.collectionVariables.set(\"EmployeeId\", employeeId);\r",
+									"    pm.collectionVariables.set(\"EmployeeName\", employeeName);\r",
+									"    pm.collectionVariables.set(\"EmployeeLastName\", employeeLastName);\r",
+									"    pm.collectionVariables.set(\"EmployeeEmail\", employeeEmail); \r",
+									"})\r",
+									"pm.test(\"Response time is less than 1000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+									"});\r",
+									"pm.test(\"Body message should be success\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.eql(\"Your registration was successful\");\r",
+									"});\r",
+									"pm.test(\"The respose has a false value in 'error'\", ()=> {\r",
+									"    const error = pm.response.json().error;\r",
+									"    pm.expect(error).to.not.true;\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJSUzI1NiIsImtpZCI6ImVhNWY2NDYxMjA4Y2ZmMGVlYzgwZDFkYmI1MjgyZTkyMDY0MjAyNWEiLCJ0eXAiOiJKV1QifQ.eyJyb2xlIjoiRU1QTE9ZRUUiLCJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vYmFzcC0yMDIyLXRyYWNrZ2VuaXgtMTNmNDkiLCJhdWQiOiJiYXNwLTIwMjItdHJhY2tnZW5peC0xM2Y0OSIsImF1dGhfdGltZSI6MTY1NzY3MTg4MCwidXNlcl9pZCI6IjZIdVFwUUVjNkFNWjVXeG13aEJxWVZvSEJ6ZTIiLCJzdWIiOiI2SHVRcFFFYzZBTVo1V3htd2hCcVlWb0hCemUyIiwiaWF0IjoxNjU3NjcxODgwLCJleHAiOjE2NTc2NzU0ODAsImVtYWlsIjoiZ3VpZG9AZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7ImVtYWlsIjpbImd1aWRvQGdtYWlsLmNvbSJdfSwic2lnbl9pbl9wcm92aWRlciI6InBhc3N3b3JkIn19.G0kl13tVNKo85A0qe5Ba3L6_isx-MVwOkihv96XWZRwVwpjUGyKAt-YV4VQNFgBnXPkUtWJrWW0DUDNrSxOuVXR8Sv7pFYnp320sQ0Jxz_4Xm5N6wTd5z28sZ7KbogNtOAso8kvax70aCYlZkGYFhvU4FJnLKsOpRHiEjW-oV7gdx2RjsK6ytvoEJlFBvkxpDqgXg1YCX6YZt_UL5fBJwgMaU957gKZwg9i5Ye5BqhpJCC2G1Wu35bdB7Y8uUyyGgyuI6Jas0jyde_Q_IxqaoYAGrLjcF83AgMNF0kUYZOCjF9EswusKBcZ-EfIcRyoyIjeLzdADv6BJh-TTRKTsTA",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"Guido\",\r\n    \"lastName\": \"Cerioni\",\r\n    \"dni\": \"12345678\",\r\n    \"email\":  \"{{$randomEmail}}\",\r\n    \"dateOfBirth\": \"05-05-1985\",\r\n    \"password\": \"a1Asdwe1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/auth/signup",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"auth",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Login Superadmin",
+			"item": [
+				{
+					"name": "create",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code should be 200\",() =>{\r",
+									"    pm.response.to.have.status(200);\r",
+									"    const superAdminToken = pm.response.json().idToken\r",
+									"    pm.collectionVariables.set(\"TokenSuperAdmin\", superAdminToken);\r",
+									"})\r",
+									"pm.test(\"Response time is less than 1000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+									"});\r",
+									"pm.test(\"The respose has a false value in 'error'\", ()=> {\r",
+									"    const error = pm.response.json().error;\r",
+									"    pm.expect(error).to.not.true;\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"returnSecureToken\": true,\r\n  \"email\": \"noborrar@hotmail.com\",\r\n  \"password\": \"1234567q\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDmJZoJxJFZaGyQT0Ozm_KPj7QTxBj2XYk",
+							"protocol": "https",
+							"host": [
+								"identitytoolkit",
+								"googleapis",
+								"com"
+							],
+							"path": [
+								"v1",
+								"accounts:signInWithPassword"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "AIzaSyDmJZoJxJFZaGyQT0Ozm_KPj7QTxBj2XYk"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Login Admin",
+			"item": [
+				{
+					"name": "create",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code should be 200\",() =>{\r",
+									"    pm.response.to.have.status(200);\r",
+									"    const adminToken = pm.response.json().idToken\r",
+									"    pm.collectionVariables.set(\"TokenAdmin\", adminToken);\r",
+									"})\r",
+									"pm.test(\"Response time is less than 1000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+									"});\r",
+									"pm.test(\"The respose has a false value in 'error'\", ()=> {\r",
+									"    const error = pm.response.json().error;\r",
+									"    pm.expect(error).to.not.true;\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"returnSecureToken\": true,\r\n  \"email\": \"admin@gmail.com\",\r\n  \"password\": \"admin123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDmJZoJxJFZaGyQT0Ozm_KPj7QTxBj2XYk",
+							"protocol": "https",
+							"host": [
+								"identitytoolkit",
+								"googleapis",
+								"com"
+							],
+							"path": [
+								"v1",
+								"accounts:signInWithPassword"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "AIzaSyDmJZoJxJFZaGyQT0Ozm_KPj7QTxBj2XYk"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Login Employee",
+			"item": [
+				{
+					"name": "create",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code should be 200\",() =>{\r",
+									"    pm.response.to.have.status(200);\r",
+									"    const employeeToken = pm.response.json().idToken\r",
+									"    pm.collectionVariables.set(\"TokenEmployee\", employeeToken);\r",
+									"})\r",
+									"pm.test(\"Response time is less than 1000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+									"});\r",
+									"pm.test(\"The respose has a false value in 'error'\", ()=> {\r",
+									"    const error = pm.response.json().error;\r",
+									"    pm.expect(error).to.not.true;\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"returnSecureToken\": true,\r\n  \"email\": \"eee@gmail.com\",\r\n  \"password\": \"admin123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDmJZoJxJFZaGyQT0Ozm_KPj7QTxBj2XYk",
+							"protocol": "https",
+							"host": [
+								"identitytoolkit",
+								"googleapis",
+								"com"
+							],
+							"path": [
+								"v1",
+								"accounts:signInWithPassword"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "AIzaSyDmJZoJxJFZaGyQT0Ozm_KPj7QTxBj2XYk"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "admins",
+			"item": [
+				{
+					"name": "create",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code should be 201\",() =>{\r",
+									"    pm.response.to.have.status(201);\r",
+									"    const {_id: adminId, firstName: adminName, lastName: adminLastName, email: adminEmail} = pm.response.json().data\r",
+									"    pm.collectionVariables.set(\"AdminId\", adminId);\r",
+									"    pm.collectionVariables.set(\"AdminName\", adminName);\r",
+									"    pm.collectionVariables.set(\"AdminLastName\", adminLastName);\r",
+									"    pm.collectionVariables.set(\"AdminEmail\", adminEmail); \r",
+									"})\r",
+									"pm.test(\"Response time is less than 1000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+									"});\r",
+									"pm.test(\"Body message should be success\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.eql(\"Your registration was successful\");\r",
+									"});\r",
+									"pm.test(\"The respose has a false value in 'error'\", ()=> {\r",
+									"    const error = pm.response.json().error;\r",
+									"    pm.expect(error).to.not.true;\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{TokenSuperAdmin}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"{{$randomFirstName}}\",\r\n    \"lastName\": \"{{$randomLastName}}\",\r\n    \"email\": \"{{$randomEmail}}\",\r\n    \"password\": \"password123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/admins",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"admins"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAll",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 800ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+									"});\r",
+									"pm.test(\"Body message should be success\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.eql(\"Showing admins.\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Token",
+								"value": "{{TokenAdmin}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}/admins",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"admins"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getById",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 800ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+									"});\r",
+									"pm.test(\"Body message should be success\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.include(`Showing the specified admin`);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Token",
+								"value": "{{TokenAdmin}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}/admins/{{AdminId}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"admins",
+								"{{AdminId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "filter",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 800ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+									"});\r",
+									"pm.test(\"Status code name has string\", function () {\r",
+									"    pm.response.to.have.status(\"OK\");\r",
+									"});\r",
+									"pm.test(\"Body message should be success\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    const {_id: adminId} = pm.response.json().data\r",
+									"    pm.expect(jsonData.message).to.eql(`Showing admins.`);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Token",
+								"value": "{{TokenAdmin}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}/admins?firstName={{AdminName}}&lastName={{AdminLastName}}&email={{AdminEmail}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"admins"
+							],
+							"query": [
+								{
+									"key": "firstName",
+									"value": "{{AdminName}}"
+								},
+								{
+									"key": "lastName",
+									"value": "{{AdminLastName}}"
+								},
+								{
+									"key": "email",
+									"value": "{{AdminEmail}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "edit",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 800ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+									"});\r",
+									"pm.test(\"Body message should be success\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.eql(\"Admin updated\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Token",
+								"value": "{{TokenSuperAdmin}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"{{$randomFirstName}}\",\r\n    \"lastName\": \"{{$randomLastName}}\",\r\n    \"email\": \"{{$randomEmail}}\",\r\n    \"password\": \"password123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/admins/{{AdminId}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"admins",
+								"{{AdminId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 800ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+									"});\r",
+									"pm.test(\"Body message should be success\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    const {_id: adminId} = pm.response.json().data\r",
+									"    pm.expect(jsonData.message).to.eql(`Admin by the id of ${adminId} deleted successfully.`);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Token",
+								"value": "{{TokenSuperAdmin}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}/admins/{{AdminId}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"admins",
+								"{{AdminId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "admins FAILED REQ",
+			"item": [
+				{
+					"name": "create",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code should be 400\",() =>{\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 800ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+									"});\r",
+									"pm.test(\"Body message should be an error\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.eql(\"Password must have at least 1 number\");\r",
+									"});\r",
+									"pm.test(\"The respose has a true value in 'error'\", ()=> {\r",
+									"    const error = pm.response.json().error;\r",
+									"    pm.expect(error).to.not.false;\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{TokenSuperAdmin}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"{{$randomFirstName}}\",\r\n    \"lastName\": \"{{$randomLastName}}\",\r\n    \"email\": \"{{$randomEmail}}\",\r\n    \"password\": \"password\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/admins",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"admins"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAll",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 800ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Token",
+								"value": "{{TokenAdmin}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}/admin",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"admin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getById",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 800ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+									"});\r",
+									"pm.test(\"The respose has a true value in 'error'\", ()=> {\r",
+									"    const error = pm.response.json().error;\r",
+									"    pm.expect(error).to.not.false;\r",
+									"})\r",
+									"pm.test(\"Body message should be an error\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.eql(`Could not found an admin by the id of 6294d9d659b389eecba80330.`);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Token",
+								"value": "{{TokenAdmin}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}/admins/6294d9d659b389eecba80330",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"admins",
+								"6294d9d659b389eecba80330"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "filter",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 800ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+									"});\r",
+									"pm.test(\"The respose has a true value in 'error'\", ()=> {\r",
+									"    const error = pm.response.json().error;\r",
+									"    pm.expect(error).to.not.false;\r",
+									"})\r",
+									"pm.test(\"Body message should be an error\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.eql(\"Cannot show the list of admins.\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Token",
+								"value": "{{TokenAdmin}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}/admins?firstName=g&lastName={{AdminLastName}}&email={{AdminEmail}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"admins"
+							],
+							"query": [
+								{
+									"key": "firstName",
+									"value": "g"
+								},
+								{
+									"key": "lastName",
+									"value": "{{AdminLastName}}"
+								},
+								{
+									"key": "email",
+									"value": "{{AdminEmail}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "edit 400",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 800ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+									"});\r",
+									"pm.test(\"Body message should be an error\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.eql(\"Password must have at least 1 number\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Token",
+								"value": "{{TokenSuperAdmin}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"{{$randomFirstName}}\",\r\n    \"lastName\": \"{{$randomLastName}}\",\r\n    \"email\": \"{{$randomEmail}}\",\r\n    \"password\": \"password\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/admins/6294d9d659b389eecba80330",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"admins",
+								"6294d9d659b389eecba80330"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "edit 404",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 800ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+									"});\r",
+									"pm.test(\"Body message should be an error\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.eql(\"Admin not found\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Token",
+								"value": "{{TokenSuperAdmin}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"{{$randomFirstName}}\",\r\n    \"lastName\": \"{{$randomLastName}}\",\r\n    \"email\": \"{{$randomEmail}}\",\r\n    \"password\": \"password123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/admins/6294d9d659b389eecba80334",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"admins",
+								"6294d9d659b389eecba80334"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "edit 500",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 500\", function () {\r",
+									"    pm.response.to.have.status(500);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 800ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+									"});\r",
+									"pm.test(\"Body message should be an error\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.eql(`MongoDB Error: Cast to ObjectId failed for value \\\"629\\\" (type string) at path \\\"_id\\\" for model \\\"Admin\\\"`);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Token",
+								"value": "{{TokenSuperAdmin}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"{{$randomFirstName}}\",\r\n    \"lastName\": \"{{$randomLastName}}\",\r\n    \"email\": \"{{$randomEmail}}\",\r\n    \"password\": \"password123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/admins/629",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"admins",
+								"629"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 500\", function () {\r",
+									"    pm.response.to.have.status(500);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 800ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+									"});\r",
+									"pm.test(\"Body message should be an error\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.eql(\"Firebase error\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Token",
+								"value": "{{TokenSuperAdmin}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}/admins/62ddec60a780d23601b28909",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"admins",
+								"62ddec60a780d23601b28909"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "super-admins",
+			"item": [
+				{
+					"name": "create",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code should be 201\",() =>{\r",
+									"    pm.response.to.have.status(201);\r",
+									"    const {_id: superAdminId, firstName: superAdminName, lastName: superAdminLastName, email: superAdminEmail} = pm.response.json().data\r",
+									"    pm.collectionVariables.set(\"superAdminId\", superAdminId);\r",
+									"    pm.collectionVariables.set(\"superAdminName\", superAdminName);\r",
+									"    pm.collectionVariables.set(\"superAdminLastName\", superAdminLastName);\r",
+									"    pm.collectionVariables.set(\"superAdminEmail\", superAdminEmail);   \r",
+									"})\r",
+									"pm.test(\"Response time is less than 1000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+									"});\r",
+									"pm.test(\"Body message should be success\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.eql(\"Your registration was successful\");\r",
+									"});\r",
+									"pm.test(\"The respose has a false value in 'error'\", ()=> {\r",
+									"    const error = pm.response.json().error;\r",
+									"    pm.expect(error).to.not.true;\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Token",
+								"value": "{{TokenSuperAdmin}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\": \"iH4trShell\",\r\n    \"firstName\": \"{{$randomFirstName}}\",\r\n    \"lastName\": \"{{$randomLastName}}\",\r\n    \"email\": \"{{$randomEmail}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/super-admins",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"super-admins"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAll",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 800ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+									"});\r",
+									"pm.test(\"Body message should be success\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.eql(\"Super Admins found successfully\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Token",
+								"value": "{{TokenSuperAdmin}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}/super-admins",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"super-admins"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getById",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 800ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+									"});\r",
+									"pm.test(\"Body message should be success\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.eql(\"Super Admin found successfully\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Token",
+								"value": "{{TokenSuperAdmin}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}/super-admins/{{superAdminId}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"super-admins",
+								"{{superAdminId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "filter",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 800ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+									"});\r",
+									"pm.test(\"Status code name has string\", function () {\r",
+									"    pm.response.to.have.status(\"OK\");\r",
+									"});\r",
+									"pm.test(\"Body message should be success\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.eql(\"Super Admins found successfully\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Token",
+								"value": "{{TokenSuperAdmin}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}/super-admins?firstName={{superAdminName}}&lastName={{superAdminLastName}}&email={{superAdminEmail}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"super-admins"
+							],
+							"query": [
+								{
+									"key": "firstName",
+									"value": "{{superAdminName}}"
+								},
+								{
+									"key": "lastName",
+									"value": "{{superAdminLastName}}"
+								},
+								{
+									"key": "email",
+									"value": "{{superAdminEmail}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "edit",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 800ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+									"});\r",
+									"pm.test(\"Body message should be success\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.eql(\"Super Admin edited successfully\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Token",
+								"value": "{{TokenSuperAdmin}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\": \"iH4trShell\",\r\n    \"email\": \"rikitika@prip.com\",\r\n    \"firstName\": \"Francisco\",\r\n    \"lastName\": \"Juanse\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/super-admins/{{superAdminId}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"super-admins",
+								"{{superAdminId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 800ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+									"});\r",
+									"pm.test(\"Body message should be success\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.eql(\"Super Admin deleted successfully\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Token",
+								"value": "{{TokenSuperAdmin}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}/super-admins/{{superAdminId}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"super-admins",
+								"{{superAdminId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "super-admins FAILED REQ",
+			"item": [
+				{
+					"name": "create",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code should be 400\",() =>{\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 800ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+									"});\r",
+									"pm.test(\"Body message should be an error\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.eql(\"Password must have between 8 and 12 characters\");\r",
+									"});\r",
+									"pm.test(\"The respose has a true value in 'error'\", ()=> {\r",
+									"    const error = pm.response.json().error;\r",
+									"    pm.expect(error).to.not.false;\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Token",
+								"value": "{{TokenSuperAdmin}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\": \"iH\",\r\n    \"email\": \"pancho@hotmail.com\",\r\n    \"firstName\": \"Francisco\",\r\n    \"lastName\": \"Juanse\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/super-admins",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"super-admins"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAll",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 800ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Token",
+								"value": "{{TokenSuperAdmin}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}/super-admin",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"super-admin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getById",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 800ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+									"});\r",
+									"pm.test(\"The respose has a true value in 'error'\", ()=> {\r",
+									"    const error = pm.response.json().error;\r",
+									"    pm.expect(error).to.not.false;\r",
+									"})\r",
+									"pm.test(\"Body message should be an error\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.eql(`Super Admin not found, invalid ID`);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Token",
+								"value": "{{TokenSuperAdmin}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}/super-admins/629e49b6c17131af283dc251",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"super-admins",
+								"629e49b6c17131af283dc251"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "filter",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 800ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+									"});\r",
+									"pm.test(\"The respose has a true value in 'error'\", ()=> {\r",
+									"    const error = pm.response.json().error;\r",
+									"    pm.expect(error).to.not.false;\r",
+									"})\r",
+									"pm.test(\"Body message should be an error\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.eql(\"Super Admins not found\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Token",
+								"value": "{{TokenSuperAdmin}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}/super-admins?firstName=ff&lastName=sdsds&email=123464@",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"super-admins"
+							],
+							"query": [
+								{
+									"key": "firstName",
+									"value": "ff"
+								},
+								{
+									"key": "lastName",
+									"value": "sdsds"
+								},
+								{
+									"key": "email",
+									"value": "123464@"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "edit 400",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 800ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+									"});\r",
+									"pm.test(\"Body message should be an error\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.eql(\"Password must have between 8 and 12 characters\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Token",
+								"value": "{{TokenSuperAdmin}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\": \"iH\",\r\n    \"email\": \"rikitika@prip.com\",\r\n    \"firstName\": \"Francisco\",\r\n    \"lastName\": \"Juanse\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/super-admins/62969c47d16568c9cce7725c",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"super-admins",
+								"62969c47d16568c9cce7725c"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "edit 404",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 800ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+									"});\r",
+									"pm.test(\"Body message should be an error\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.eql(\"Super Admin not found\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Token",
+								"value": "{{TokenSuperAdmin}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\": \"iH4trShell\",\r\n    \"email\": \"rikitika@prip.com\",\r\n    \"firstName\": \"Francisco\",\r\n    \"lastName\": \"Juanse\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/super-admins/629e49b6c17131af283dc251",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"super-admins",
+								"629e49b6c17131af283dc251"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "edit 500",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 500\", function () {\r",
+									"    pm.response.to.have.status(500);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 800ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+									"});\r",
+									"pm.test(\"Body message should be an error\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.eql(`Cast to ObjectId failed for value \"44\" (type string) at path \"_id\" for model \"SuperAdmin\"`);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Token",
+								"value": "{{TokenSuperAdmin}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\": \"iH4trShell\",\r\n    \"email\": \"rikitika@prip.com\",\r\n    \"firstName\": \"Francisco\",\r\n    \"lastName\": \"Juanse\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/super-admins/44",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"super-admins",
+								"44"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 500\", function () {\r",
+									"    pm.response.to.have.status(500);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 800ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+									"});\r",
+									"pm.test(\"Body message should be an error\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.eql(\"Cannot read property 'firebaseUid' of null\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Token",
+								"value": "{{TokenSuperAdmin}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}/super-admins/629e49b6c17131af283dc251",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"super-admins",
+								"629e49b6c17131af283dc251"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "employees",
+			"item": [
+				{
+					"name": "getAll",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 800ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+									"});\r",
+									"pm.test(\"Body message should be success\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.eql(\"Success\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{TokenEmployee}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}/employees/",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"employees",
+								""
+							],
+							"query": [
+								{
+									"key": "firstName",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "lastName",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "dni",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "email",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "password",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getById",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 800ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+									"});\r",
+									"pm.test(\"Body message should be success\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.eql(\"Success\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Token",
+								"value": "{{TokenEmployee}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}/employees/{{EmployeeId}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"employees",
+								"{{EmployeeId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "filter",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 800ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+									"});\r",
+									"pm.test(\"Status code name has string\", function () {\r",
+									"    pm.response.to.have.status(\"OK\");\r",
+									"});\r",
+									"pm.test(\"Body message should be success\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.eql(\"Success\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Token",
+								"value": "{{TokenEmployee}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}/employees",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"employees"
+							],
+							"query": [
+								{
+									"key": "firstName",
+									"value": "{{EmployeeName}}",
+									"disabled": true
+								},
+								{
+									"key": "lastName",
+									"value": "{{EmployeeLastName}}",
+									"disabled": true
+								},
+								{
+									"key": "dni",
+									"value": "{{EmployeeDni}}",
+									"disabled": true
+								},
+								{
+									"key": "email",
+									"value": "{{EmployeeEmail}}",
+									"disabled": true
+								},
+								{
+									"key": "dateOfBirth",
+									"value": "{{EmployeeDOB}}",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "edit",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 800ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+									"});\r",
+									"pm.test(\"Body message should be success\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.eql(\"Employee edited successfully\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Token",
+								"value": "{{TokenAdmin}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"{{$randomFirstName}}\",\r\n    \"lastName\": \"{{$randomLastName}}\",\r\n    \"email\": \"eee@gmail.com\",\r\n    \"dni\": \"12345678\",\r\n    \"password\": \"admin123\",\r\n    \"dateOfBirth\": \"05-05-1985\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/employees/{{EmployeeId}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"employees",
+								"{{EmployeeId}}"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 800ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+									"});\r",
+									"pm.test(\"Body message should be success\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.eql(\"Employee deleted successfully\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Token",
+								"value": "{{TokenAdmin}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{URL}}/employees/{{EmployeeId}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"employees",
+								"{{EmployeeId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "employees FAILED REQ",
+			"item": [
+				{
+					"name": "create",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code should be 400\",() =>{\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 800ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+									"});\r",
+									"pm.test(\"Body message should be an error\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.eql(`First Name must have at least 3 characters`);\r",
+									"});\r",
+									"pm.test(\"The respose has a true value in 'error'\", ()=> {\r",
+									"    const error = pm.response.json().error;\r",
+									"    pm.expect(error).to.not.false;\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Token",
+								"value": "{{TokenAdmin}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"Pr\",\r\n    \"lastName\": \"Post\",\r\n    \"email\": \"prueba@gmail.com\",\r\n    \"dni\": \"12345678\",\r\n    \"password\": \"a1Asdwe1\",\r\n    \"dateOfBirth\": \"05-05-1985\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/employees",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"employees"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAll",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 800ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Token",
+								"value": "{{TokenEmployee}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}/employ",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"employ"
+							],
+							"query": [
+								{
+									"key": "firstName",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "lastName",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "dni",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "email",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "password",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getById",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 800ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+									"});\r",
+									"pm.test(\"The respose has a true value in 'error'\", ()=> {\r",
+									"    const error = pm.response.json().error;\r",
+									"    pm.expect(error).to.not.false;\r",
+									"})\r",
+									"pm.test(\"Body message should be an error\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.eql(`Employee was not found`);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Token",
+								"value": "{{TokenEmployee}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}/employees/628973c9eadc98a94e88485f",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"employees",
+								"628973c9eadc98a94e88485f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "filter",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 800ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+									"});\r",
+									"pm.test(\"The respose has a true value in 'error'\", ()=> {\r",
+									"    const error = pm.response.json().error;\r",
+									"    pm.expect(error).to.not.false;\r",
+									"})\r",
+									"pm.test(\"Body message should be an error\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.eql(\"Employee was not found\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Token",
+								"value": "{{TokenEmployee}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}/employees?firstName=s&lastName=v",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"employees"
+							],
+							"query": [
+								{
+									"key": "dni",
+									"value": "{{EmployeeDni}}",
+									"disabled": true
+								},
+								{
+									"key": "email",
+									"value": "{{EmployeeEmail}}",
+									"disabled": true
+								},
+								{
+									"key": "dateOfBirth",
+									"value": "{{EmployeeDOB}}",
+									"disabled": true
+								},
+								{
+									"key": "firstName",
+									"value": "s"
+								},
+								{
+									"key": "lastName",
+									"value": "v"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "edit 400",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 800ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+									"});\r",
+									"pm.test(\"Body message should be an error\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.eql(\"Your email must be a valid email\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Token",
+								"value": "{{TokenAdmin}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"Prueba\",\r\n    \"lastName\": \"Post\",\r\n    \"email\": \"pruebamail.com\",\r\n    \"dni\": \"12345678\",\r\n    \"password\": \"a1Asdwe1\",\r\n    \"dateOfBirth\": \"05-05-1985\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/employees/62969ad351ab08b2c200fb86",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"employees",
+								"62969ad351ab08b2c200fb86"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "edit 404",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 800ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+									"});\r",
+									"pm.test(\"Body message should be an error\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.eql(\"The employee has not been found\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Token",
+								"value": "{{TokenAdmin}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"Prueba\",\r\n    \"lastName\": \"Post\",\r\n    \"email\": \"prueba@gmail.com\",\r\n    \"dni\": \"12345678\",\r\n    \"password\": \"a1Asdwe1\",\r\n    \"dateOfBirth\": \"05-05-1985\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/employees/62969ad351ab08b2c200fb83",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"employees",
+								"62969ad351ab08b2c200fb83"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "edit 500",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 500\", function () {\r",
+									"    pm.response.to.have.status(500);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 800ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+									"});\r",
+									"pm.test(\"Body message should be an error\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.eql(`Cast to ObjectId failed for value \"629\" (type string) at path \"_id\" for model \"Employee\"`);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Token",
+								"value": "{{TokenAdmin}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"Prueba\",\r\n    \"lastName\": \"Post\",\r\n    \"email\": \"prueba@gmail.com\",\r\n    \"dni\": \"12345678\",\r\n    \"password\": \"a1Asdwe1\",\r\n    \"dateOfBirth\": \"05-05-1985\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/employees/629",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"employees",
+								"629"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 500\", function () {\r",
+									"    pm.response.to.have.status(500);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 8000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(8000);\r",
+									"});\r",
+									"pm.test(\"Body message should be an error\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.eql(\"Employee can not be deleted\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Token",
+								"value": "{{TokenAdmin}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{URL}}/employees/628973c9eadc98a94e88485f",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"employees",
+								"628973c9eadc98a94e88485f"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "time-sheets",
+			"item": [
+				{
+					"name": "create",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code should be 201\",() =>{\r",
+									"    pm.response.to.have.status(201);\r",
+									"    const {_id: timeSheetId, totalHours: timeSheetTotalHours, status: timeSheetStatus, startDate: timeSheetStartDate, endDate: timeSheetEndDate, employeeId: timeSheetEmployeeId} = pm.response.json().data\r",
+									"    pm.collectionVariables.set(\"TimeSheetId\", timeSheetId);\r",
+									"    pm.collectionVariables.set(\"TimeSheetTotalHours\", timeSheetTotalHours);\r",
+									"    pm.collectionVariables.set(\"TimeSheetStatus\", timeSheetStatus);\r",
+									"    pm.collectionVariables.set(\"TimeSheetStartDate\", timeSheetStartDate);\r",
+									"    pm.collectionVariables.set(\"TimeSheetEndDate\", timeSheetEndDate);\r",
+									"    pm.collectionVariables.set(\"TimeSheetEmployeeId\", timeSheetEmployeeId);\r",
+									"    console.log(timeSheetStartDate)\r",
+									"})\r",
+									"pm.test(\"Response time is less than 800ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+									"});\r",
+									"pm.test(\"Body message should be success\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.eql(\"Time sheet created\");\r",
+									"});\r",
+									"pm.test(\"The respose has a false value in 'error'\", ()=> {\r",
+									"    const error = pm.response.json().error;\r",
+									"    pm.expect(error).to.not.true;\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Token",
+								"value": "{{TokenAdmin}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"tasks\":[{\r\n            \"description\": \"{{$randomJobDescriptor}}\",\r\n            \"workedHours\": {{$randomInt}},\r\n            \"projectId\": \"{{ProjectId}}\",\r\n            \"date\": \"Mon, 18 Jul 2022 02:55:31 GMT\"\r\n            }],\r\n    \"startDate\": \"Mon, 18 Jul 2022 02:55:31 GMT\",\r\n    \"employeeId\": \"{{EmployeeId}}\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/time-sheets",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"time-sheets"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAll",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 1100ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(1100);\r",
+									"});\r",
+									"pm.test(\"Body message should be success\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.eql(\"Time-sheets\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Token",
+								"value": "{{TokenAdmin}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}/time-sheets",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"time-sheets"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getById",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 800ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+									"});\r",
+									"pm.test(\"Body message should be success\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.eql(\"Time-sheet found\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Token",
+								"value": "{{TokenAdmin}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}/time-sheets/{{TimeSheetId}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"time-sheets",
+								"{{TimeSheetId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "filter",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 800ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+									"});\r",
+									"pm.test(\"Status code name has string\", function () {\r",
+									"    pm.response.to.have.status(\"OK\");\r",
+									"});\r",
+									"pm.test(\"Body message should be success\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.eql(\"Time-sheets\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Token",
+								"value": "{{TokenAdmin}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}/time-sheets?totalHours={{TimeSheetTotalHours}}&status={{TimeSheetStatus}}&startDate={{TimeSheetStartDate}}&endDate={{TimeSheetEndDate}}&employeeId={{TimeSheetEmployeeId}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"time-sheets"
+							],
+							"query": [
+								{
+									"key": "totalHours",
+									"value": "{{TimeSheetTotalHours}}"
+								},
+								{
+									"key": "status",
+									"value": "{{TimeSheetStatus}}"
+								},
+								{
+									"key": "startDate",
+									"value": "{{TimeSheetStartDate}}"
+								},
+								{
+									"key": "endDate",
+									"value": "{{TimeSheetEndDate}}"
+								},
+								{
+									"key": "employeeId",
+									"value": "{{TimeSheetEmployeeId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "edit",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 800ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+									"});\r",
+									"pm.test(\"Body message should be success\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.eql(\"Time sheet edited\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Token",
+								"value": "{{TokenAdmin}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"tasks\":[{\r\n            \"description\": \"{{$randomJobDescriptor}}\",\r\n            \"workedHours\": {{$randomInt}},\r\n            \"projectId\": \"{{ProjectId}}\",\r\n            \"date\": \"Mon, 25 Jul 2022 02:55:31 GMT\"\r\n            }],\r\n    \"startDate\": \"Mon, 18 Jul 2022 02:55:31 GMT\",\r\n    \"employeeId\": \"{{EmployeeId}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/time-sheets/{{TimeSheetId}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"time-sheets",
+								"{{TimeSheetId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 800ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+									"});\r",
+									"pm.test(\"Body message should be success\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.eql(\"Time-sheet deleted\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Token",
+								"value": "{{TokenAdmin}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}/time-sheets/{{TimeSheetId}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"time-sheets",
+								"{{TimeSheetId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "time-sheets FAILED REQ",
+			"item": [
+				{
+					"name": "create",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code should be 400\",() =>{\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 800ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+									"});\r",
+									"pm.test(\"Body message should be an error\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.eql(`Start date must be a Monday`);\r",
+									"});\r",
+									"pm.test(\"The respose has a true value in 'error'\", ()=> {\r",
+									"    const error = pm.response.json().error;\r",
+									"    pm.expect(error).to.not.false;\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Token",
+								"value": "{{TokenAdmin}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"tasks\":[{\r\n            \"description\": \"{{$randomJobDescriptor}}\",\r\n            \"workedHours\": {{$randomInt}},\r\n            \"projectId\": \"{{ProjectId}}\",\r\n            \"date\": \"Tue, 17 Jul 2022 02:55:31 GMT\"\r\n            }],\r\n    \"startDate\": \"Mon, 17 Jul 2022 02:55:31 GMT\",\r\n    \"employeeId\": \"{{EmployeeId}}\"\r\n}\r\n\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/time-sheets/",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"time-sheets",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAll",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 800ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/time-sheet",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"time-sheet"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getById",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 800ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+									"});\r",
+									"pm.test(\"The respose has a true value in 'error'\", ()=> {\r",
+									"    const error = pm.response.json().error;\r",
+									"    pm.expect(error).to.not.false;\r",
+									"})\r",
+									"pm.test(\"Body message should be an error\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.eql(`Time-sheet was not found`);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Token",
+								"value": "{{TokenAdmin}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}/time-sheets/628977c9eadc98a94e88483f",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"time-sheets",
+								"628977c9eadc98a94e88483f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "filter",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 800ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+									"});\r",
+									"pm.test(\"The respose has a true value in 'error'\", ()=> {\r",
+									"    const error = pm.response.json().error;\r",
+									"    pm.expect(error).to.not.false;\r",
+									"})\r",
+									"pm.test(\"Body message should be an error\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.eql(\"Time-sheet was not found\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Token",
+								"value": "{{TokenAdmin}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}/time-sheets?startDate=11",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"time-sheets"
+							],
+							"query": [
+								{
+									"key": "status",
+									"value": "{{TimeSheetStatus}}",
+									"disabled": true
+								},
+								{
+									"key": "endDate",
+									"value": "{{TimeSheetEndDate}}",
+									"disabled": true
+								},
+								{
+									"key": "employeeId",
+									"value": "{{TimeSheetEmployeeId}}",
+									"disabled": true
+								},
+								{
+									"key": "tasks[0]._id",
+									"value": "{{TimeSheetTask}}",
+									"disabled": true
+								},
+								{
+									"key": "startDate",
+									"value": "11"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "edit 400",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 800ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+									"});\r",
+									"pm.test(\"Body message should be an error\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.eql(`Start date must be a Monday`);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Token",
+								"value": "{{TokenAdmin}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"tasks\":[{\r\n            \"description\": \"{{$randomJobDescriptor}}\",\r\n            \"workedHours\": {{$randomInt}},\r\n            \"projectId\": \"{{ProjectId}}\",\r\n            \"date\": \"Mon, 1 Jul 2022 02:55:31 GMT\"\r\n            }],\r\n    \"startDate\": \"Mon, 1 Jul 2022 02:55:31 GMT\",\r\n    \"employeeId\": \"{{EmployeeId}}\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/time-sheets/628977c9eadc98a94e88485f",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"time-sheets",
+								"628977c9eadc98a94e88485f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "edit 404",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 800ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+									"});\r",
+									"pm.test(\"Body message should be an error\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.eql(\"Time sheet not found\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Token",
+								"value": "{{TokenAdmin}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"tasks\":[{\r\n            \"description\": \"{{$randomJobDescriptor}}\",\r\n            \"workedHours\": {{$randomInt}},\r\n            \"projectId\": \"{{ProjectId}}\",\r\n            \"date\": \"Mon, 18 Jul 2022 02:55:31 GMT\"\r\n            }],\r\n    \"startDate\": \"Mon, 18 Jul 2022 02:55:31 GMT\",\r\n    \"employeeId\": \"{{EmployeeId}}\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/time-sheets/628977c9eadc98a94e38485f",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"time-sheets",
+								"628977c9eadc98a94e38485f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "edit 500",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 500\", function () {\r",
+									"    pm.response.to.have.status(500);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 800ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+									"});\r",
+									"pm.test(\"Body message should be an error\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.eql(`Cast to ObjectId failed for value \"{ _id: \\'628977c9ea\\' }\" (type Object) at path \"_id\" for model \"Time-sheets\"`);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Token",
+								"value": "{{TokenAdmin}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"tasks\":[{\r\n            \"description\": \"{{$randomJobDescriptor}}\",\r\n            \"workedHours\": {{$randomInt}},\r\n            \"projectId\": \"{{ProjectId}}\",\r\n            \"date\": \"Mon, 18 Jul 2022 02:55:31 GMT\"\r\n            }],\r\n    \"startDate\": \"Mon, 18 Jul 2022 02:55:31 GMT\",\r\n    \"employeeId\": \"{{EmployeeId}}\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/time-sheets/628977c9ea",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"time-sheets",
+								"628977c9ea"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 800ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+									"});\r",
+									"pm.test(\"Body message should be an error\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.eql(\"Time-sheet was not found\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Token",
+								"value": "{{TokenAdmin}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}/time-sheets/628977c9eadc98a94e38485f",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"time-sheets",
+								"628977c9eadc98a94e38485f"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "projects",
+			"item": [
+				{
+					"name": "create",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code should be 201\",() =>{\r",
+									"    pm.response.to.have.status(201);\r",
+									"    const {_id: projectId, name: projectName, status: projectStatus, description: projectDescription} = pm.response.json().data\r",
+									"    pm.collectionVariables.set(\"ProjectId\", projectId);\r",
+									"    pm.collectionVariables.set(\"ProjectName\", projectName);\r",
+									"    pm.collectionVariables.set(\"ProjectStatus\", projectStatus);\r",
+									"    pm.collectionVariables.set(\"ProjectDescription\", projectDescription);\r",
+									"    const {_id: employeeId, rate: employeeRate, role: employeeRole} = pm.response.json().data.employees[0];\r",
+									"    pm.collectionVariables.set(\"Employee_id\", employeeId);\r",
+									"    pm.collectionVariables.set(\"EmployeeRate\", employeeRate);\r",
+									"    pm.collectionVariables.set(\"EmployeeRole\", employeeRole);\r",
+									"})\r",
+									"pm.test(\"Response time is less than 800ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+									"});\r",
+									"pm.test(\"Body message should be success\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.eql(\"Project was created.\");\r",
+									"});\r",
+									"pm.test(\"The respose has a false value in 'error'\", ()=> {\r",
+									"    const error = pm.response.json().error;\r",
+									"    pm.expect(error).to.not.true;\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Token",
+								"value": "{{TokenAdmin}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"{{$randomCompanyName}}\",\r\n    \"status\":\"To do\",\r\n    \"description\": \"{{$randomWords}}\",\r\n    \"employees\": [{\r\n        \"employeeId\": \"{{EmployeeId}}\",\r\n        \"rate\": {{$randomInt}},\r\n        \"role\": \"DEV\"\r\n    }],\r\n    \"startDate\": \"{{$randomDateRecent}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/projects",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"projects"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAll",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 1100ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(1100);\r",
+									"});\r",
+									"pm.test(\"Body message should be success\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.eql(\"Project found\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Token",
+								"value": "{{TokenAdmin}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}/projects",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"projects"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "multi",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getById",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 800ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+									"});\r",
+									"pm.test(\"Body message should be success\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.eql(\"Project found\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Token",
+								"value": "{{TokenAdmin}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}/projects/{{ProjectId}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"projects",
+								"{{ProjectId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "filter",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 800ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+									"});\r",
+									"pm.test(\"Status code name has string\", function () {\r",
+									"    pm.response.to.have.status(\"OK\");\r",
+									"});\r",
+									"pm.test(\"Body message should be success\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.eql(\"Project found\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Token",
+								"value": "{{TokenAdmin}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}/projects?name={{ProjectName}}&description={{ProjectDescription}}&status={{ProjectStatus}}&employees._id={{Employee_id}}&employees.rate={{EmployeeRate}}&employees.role={{EmployeeRole}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"projects"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "{{ProjectName}}"
+								},
+								{
+									"key": "description",
+									"value": "{{ProjectDescription}}"
+								},
+								{
+									"key": "status",
+									"value": "{{ProjectStatus}}"
+								},
+								{
+									"key": "employees._id",
+									"value": "{{Employee_id}}"
+								},
+								{
+									"key": "employees.rate",
+									"value": "{{EmployeeRate}}"
+								},
+								{
+									"key": "employees.role",
+									"value": "{{EmployeeRole}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "put",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 800ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+									"});\r",
+									"pm.test(\"Body message should be success\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.msg).to.eql(\"Project updated\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "TOken",
+								"value": "{{TokenAdmin}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"{{$randomCompanyName}}\",\r\n    \"status\":\"Done\",\r\n    \"description\": \"{{$randomWords}}\",\r\n    \"employees\": [{\r\n        \"employeeId\": \"{{EmployeeId}}\",\r\n        \"rate\": {{$randomInt}},\r\n        \"role\": \"DEV\"\r\n    }],\r\n    \"startDate\": \"{{$randomDateRecent}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/projects/{{ProjectId}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"projects",
+								"{{ProjectId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 800ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+									"});\r",
+									"pm.test(\"Body message should be success\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.eql(\"Project deleted\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Token",
+								"value": "{{TokenAdmin}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/projects/{{ProjectId}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"projects",
+								"{{ProjectId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "projects FAILED REQ",
+			"item": [
+				{
+					"name": "create",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code should be 400\",() =>{\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 800ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+									"});\r",
+									"pm.test(\"Body message should be an error\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.eql(`\"name\" length must be at least 3 characters long`);\r",
+									"});\r",
+									"pm.test(\"The respose has a true value in 'error'\", ()=> {\r",
+									"    const error = pm.response.json().error;\r",
+									"    pm.expect(error).to.not.false;\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Token",
+								"value": "{{TokenAdmin}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"{{$randomAlphaNumeric}}\",\r\n    \"status\":\"To do\",\r\n    \"description\": \"{{$randomWords}}\",\r\n    \"employees\": [{\r\n        \"employeeId\": \"{{EmployeeId}}\",\r\n        \"rate\": {{$randomInt}},\r\n        \"role\": \"DEV\"\r\n    }],\r\n    \"startDate\": \"{{$randomDateRecent}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/projects",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"projects"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAll",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 800ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Token",
+								"value": "{{TokenAdmin}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}/projec",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"projec"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "multi",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getById",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 800ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+									"});\r",
+									"pm.test(\"The respose has a true value in 'error'\", ()=> {\r",
+									"    const error = pm.response.json().error;\r",
+									"    pm.expect(error).to.not.false;\r",
+									"})\r",
+									"pm.test(\"Body message should be an error\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.eql(`Project not found`);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Token",
+								"value": "{{TokenAdmin}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}/projects/629a7f26eff8db2c5a2a4702",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"projects",
+								"629a7f26eff8db2c5a2a4702"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "filter",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 800ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+									"});\r",
+									"pm.test(\"The respose has a true value in 'error'\", ()=> {\r",
+									"    const error = pm.response.json().error;\r",
+									"    pm.expect(error).to.not.false;\r",
+									"})\r",
+									"pm.test(\"Body message should be an error\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.eql(\"Project not found with those parameters\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Token",
+								"value": "{{TokenAdmin}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}/projects?employees.rate=123.12&employees.role=DEV&name=s&description=&status=d",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"projects"
+							],
+							"query": [
+								{
+									"key": "employees._id",
+									"value": "629c57a8c00bbfa9c27adf94",
+									"disabled": true
+								},
+								{
+									"key": "employees.rate",
+									"value": "123.12"
+								},
+								{
+									"key": "employees.role",
+									"value": "DEV"
+								},
+								{
+									"key": "name",
+									"value": "s"
+								},
+								{
+									"key": "description",
+									"value": ""
+								},
+								{
+									"key": "status",
+									"value": "d"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "put 400",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 800ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+									"});\r",
+									"pm.test(\"Body message should be an error\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.eql(`\"name\" is required`);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Token",
+								"value": "{{TokenAdmin}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"status\":\"To do\",\r\n    \"description\": \"{{$randomWords}}\",\r\n    \"employees\": [{\r\n        \"employeeId\": \"{{EmployeeId}}\",\r\n        \"rate\": {{$randomInt}},\r\n        \"role\": \"DEV\"\r\n    }],\r\n    \"startDate\": \"{{$randomDateRecent}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/projects/629a7f26eff8db2c5a2a0702",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"projects",
+								"629a7f26eff8db2c5a2a0702"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "put 404",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 800ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+									"});\r",
+									"pm.test(\"Body message should be an error\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.msg).to.eql(\"Project not found\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Token",
+								"value": "{{TokenAdmin}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"{{$randomWords}}\",\r\n    \"status\":\"To do\",\r\n    \"description\": \"{{$randomWords}}\",\r\n    \"employees\": [{\r\n        \"employeeId\": \"{{EmployeeId}}\",\r\n        \"rate\": {{$randomInt}},\r\n        \"role\": \"DEV\"\r\n    }],\r\n    \"startDate\": \"{{$randomDateRecent}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/projects/629a7f26eff8db2c5a2a0202",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"projects",
+								"629a7f26eff8db2c5a2a0202"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "put 500",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 500\", function () {\r",
+									"    pm.response.to.have.status(500);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 800ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+									"});\r",
+									"pm.test(\"Body message should be an error\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.include(\"Cast to ObjectId failed for value\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Token",
+								"value": "{{TokenAdmin}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"{{$randomWords}}\",\r\n    \"status\":\"To do\",\r\n    \"description\": \"{{$randomWords}}\",\r\n    \"employees\": [{\r\n        \"employeeId\": \"{{EmployeeId}}\",\r\n        \"rate\": {{$randomInt}},\r\n        \"role\": \"DEV\"\r\n    }],\r\n    \"startDate\": \"{{$randomDateRecent}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/projects/629a7f26e",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"projects",
+								"629a7f26e"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 800ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(800);\r",
+									"});\r",
+									"pm.test(\"Body message should be an error\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.eql(\"Project not found\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Token",
+								"value": "{{TokenAdmin}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/projects/629a7f26eff8db2c5a2a0202",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"projects",
+								"629a7f26eff8db2c5a2a0202"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "URL",
+			"value": "franco-trackgenix-server.vercel.app",
+			"type": "string"
+		},
+		{
+			"key": "AdminId",
+			"value": ""
+		},
+		{
+			"key": "AdminName",
+			"value": ""
+		},
+		{
+			"key": "AdminLastName",
+			"value": ""
+		},
+		{
+			"key": "AdminEmail",
+			"value": ""
+		},
+		{
+			"key": "superAdminId",
+			"value": ""
+		},
+		{
+			"key": "superAdminName",
+			"value": ""
+		},
+		{
+			"key": "superAdminLastName",
+			"value": ""
+		},
+		{
+			"key": "superAdminEmail",
+			"value": ""
+		},
+		{
+			"key": "EmployeeId",
+			"value": ""
+		},
+		{
+			"key": "EmployeeName",
+			"value": ""
+		},
+		{
+			"key": "EmployeeLastName",
+			"value": ""
+		},
+		{
+			"key": "EmployeeDni",
+			"value": ""
+		},
+		{
+			"key": "EmployeeEmail",
+			"value": ""
+		},
+		{
+			"key": "EmployeeDOB",
+			"value": ""
+		},
+		{
+			"key": "TimeSheetId",
+			"value": ""
+		},
+		{
+			"key": "TimeSheetTotalHours",
+			"value": ""
+		},
+		{
+			"key": "TimeSheetStatus",
+			"value": ""
+		},
+		{
+			"key": "TimeSheetStartDate",
+			"value": ""
+		},
+		{
+			"key": "TimeSheetEndDate",
+			"value": ""
+		},
+		{
+			"key": "TimeSheetEmployeeId",
+			"value": ""
+		},
+		{
+			"key": "TimeSheetTask",
+			"value": ""
+		},
+		{
+			"key": "TimeSheetDescription",
+			"value": ""
+		},
+		{
+			"key": "ProjectId",
+			"value": ""
+		},
+		{
+			"key": "ProjectName",
+			"value": ""
+		},
+		{
+			"key": "ProjectStatus",
+			"value": ""
+		},
+		{
+			"key": "ProjectDescription",
+			"value": ""
+		},
+		{
+			"key": "Employee_id",
+			"value": ""
+		},
+		{
+			"key": "EmployeeRate",
+			"value": ""
+		},
+		{
+			"key": "EmployeeRole",
+			"value": ""
+		},
+		{
+			"key": "TokenEmployee",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "TokenAdmin",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "TokenSuperAdmin",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
