@@ -39,7 +39,6 @@ export const timeSheetsReducer = (state = initialStore, actions) => {
     case CONSTANTS.GET_TIMESHEETS_LOADING:
       return {
         ...state,
-        error: undefined,
         loading: true
       };
 
@@ -54,6 +53,7 @@ export const timeSheetsReducer = (state = initialStore, actions) => {
       return {
         ...state,
         error: actions.payload,
+        list: [],
         loading: false
       };
 

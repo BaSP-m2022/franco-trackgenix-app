@@ -1,13 +1,19 @@
 import * as actions from './actions';
+import { serializeObject } from 'utils/formatters';
 
 const URL = `${process.env.REACT_APP_API_URL}/projects`;
 
-export const getProjects = () => {
+export const getProjects = (optionalParams = '') => {
   return async (dispatch) => {
     dispatch(actions.getProjectsLoading());
     try {
-      const response = await fetch(URL);
+      const response = await fetch(`${URL}?${optionalParams}`, {
+        headers: {
+          token: JSON.parse(sessionStorage.getItem('loggedUser'))?.token
+        }
+      });
       const jsonResponse = await response.json();
+
       if (jsonResponse.error) {
         dispatch(actions.getProjectsError(jsonResponse.message));
       } else {
@@ -20,13 +26,39 @@ export const getProjects = () => {
   };
 };
 
+export const getProjectsFiltered = (search) => {
+  return async (dispatch) => {
+    dispatch(actions.getProjectsFilteredLoading());
+    try {
+      const response = await fetch(`${URL}/${serializeObject(search)}`, {
+        headers: {
+          token: JSON.parse(sessionStorage.getItem('loggedUser'))?.token
+        }
+      });
+      const jsonResponse = await response.json();
+
+      if (jsonResponse.error) {
+        dispatch(actions.getProjectsFilteredError(jsonResponse.message));
+      } else {
+        dispatch(actions.getProjectsFilteredSuccess(jsonResponse.data));
+      }
+      return jsonResponse.data;
+    } catch (error) {
+      dispatch(actions.getProjectsFilteredError(error.toString()));
+    }
+  };
+};
+
 export const putProject = (id, body) => {
   return async (dispatch) => {
     dispatch(actions.putProjectLoading());
     try {
       const response = await fetch(`${URL}/${id}`, {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          token: JSON.parse(sessionStorage.getItem('loggedUser'))?.token
+        },
         body: JSON.stringify(body)
       });
       const jsonResponse = await response.json();
@@ -47,7 +79,10 @@ export const deleteProject = (id) => {
     dispatch(actions.deleteProjectLoading());
     try {
       const response = await fetch(`${URL}/${id}`, {
-        method: 'DELETE'
+        method: 'DELETE',
+        headers: {
+          token: JSON.parse(sessionStorage.getItem('loggedUser'))?.token
+        }
       });
       const jsonResponse = await response.json();
       if (jsonResponse.error) {
@@ -68,7 +103,10 @@ export const postProject = (body) => {
     try {
       const response = await fetch(`${URL}/`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          token: JSON.parse(sessionStorage.getItem('loggedUser'))?.token
+        },
         body: JSON.stringify(body)
       });
       const jsonResponse = await response.json();

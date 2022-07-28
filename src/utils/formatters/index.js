@@ -12,4 +12,13 @@ function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-export { formatDate, capitalizeFirstLetter };
+function serializeObject(obj) {
+  let str = [];
+  for (let prop in obj)
+    if (Object.prototype.hasOwnProperty.call(obj, prop)) {
+      str.push(encodeURIComponent(prop) + '=' + encodeURIComponent(obj[prop]));
+    }
+  return '?' + str.join('&');
+}
+
+export { formatDate, capitalizeFirstLetter, serializeObject };

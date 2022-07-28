@@ -1,6 +1,6 @@
 import style from './button.module.css';
 
-function button(props) {
+function Button(props) {
   if (props.link && props.id) {
     return (
       <a href={props.link + props.id} className={style.btn}>
@@ -16,13 +16,23 @@ function button(props) {
   } else {
     if (props.type === 'delete') {
       return (
-        <button className={style.delete} onClick={props.handler}>
+        <button
+          className={style.delete}
+          onClick={props.handler}
+          type={props.type}
+          onKeyPress={props.handleKeypress}
+        >
           {props.text}
         </button>
       );
     } else {
       return (
-        <button className={style.btn} onClick={props.handler}>
+        <button
+          className={style.btn}
+          onClick={props.handler}
+          type={props.type}
+          onKeyPress={props.handleKeypress}
+        >
           {props.text}
         </button>
       );
@@ -30,4 +40,4 @@ function button(props) {
   }
 }
 
-export default button;
+export default Button;
