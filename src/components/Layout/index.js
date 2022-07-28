@@ -1,41 +1,38 @@
 import React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
-import { Header, Sidebar, Footer, LoadingScreen } from 'components/Shared';
-import { useSelector } from 'react-redux';
+import { Header, Sidebar, LoadingScreen } from 'components/Shared';
 
 import styles from './layout.module.css';
 
 const SignUp = React.lazy(() => import('components/pages/Signup'));
 const Login = React.lazy(() => import('components/pages/Login'));
 
-const AdminList = React.lazy(() => import('components/pages/Admin/List'));
 const AdminForm = React.lazy(() => import('components/pages/Admin/Form'));
 const AdminHome = React.lazy(() => import('components/pages/Admin/Home'));
+const AdminList = React.lazy(() => import('components/pages/Admin/List'));
 const AdminProfile = React.lazy(() => import('components/Shared/Profile/Admin'));
 
-const SuperAdminList = React.lazy(() => import('components/pages/SuperAdmin/List'));
 const SuperAdminForm = React.lazy(() => import('components/pages/SuperAdmin/Form'));
 const SuperAdminHome = React.lazy(() => import('components/pages/SuperAdmin/Home'));
+const SuperAdminList = React.lazy(() => import('components/pages/SuperAdmin/List'));
 
-const EmployeeList = React.lazy(() => import('components/pages/Employee/List'));
 const EmployeeForm = React.lazy(() => import('components/pages/Employee/Form'));
 const EmployeeHome = React.lazy(() => import('components/pages/Employee/Home'));
+const EmployeeList = React.lazy(() => import('components/pages/Employee/List'));
 const PmTimeSheet = React.lazy(() => import('components/pages/Employee/PM/PmTimesheet'));
 const EmployeeTableProfile = React.lazy(() => import('components/pages/Employee/Profile'));
 const EmployeeProfile = React.lazy(() => import('components/Shared/Profile/Employee'));
 
-const ProjectList = React.lazy(() => import('components/pages/Project/List'));
 const ProjectForm = React.lazy(() => import('components/pages/Project/Form'));
+const ProjectList = React.lazy(() => import('components/pages/Project/List'));
 const ProjectProfile = React.lazy(() => import('components/pages/Project/Profile'));
 
-const TimeSheetList = React.lazy(() => import('components/pages/TimeSheet/List'));
 const TimeSheetForm = React.lazy(() => import('components/pages/TimeSheet/Form'));
+const TimeSheetList = React.lazy(() => import('components/pages/TimeSheet/List'));
 
 const Landing = React.lazy(() => import('components/pages/Landing'));
 
 function Layout() {
-  const authenticated = useSelector((state) => state.auth.authenticated);
-
   return (
     <div className={styles.container}>
       <Header />
@@ -75,8 +72,6 @@ function Layout() {
           </React.Suspense>
         </div>
       </div>
-
-      {authenticated === 'ni-loco-pongo-el-footer' ? <Footer /> : null}
     </div>
   );
 }

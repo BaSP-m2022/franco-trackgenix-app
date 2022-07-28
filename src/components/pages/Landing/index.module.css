@@ -1,39 +1,40 @@
-main {
-	display: flex;
-	flex-direction: column;
+.main {
+  display: flex;
+  flex-direction: column;
   color: #373867;
-	font-family: 'Roboto', sans-serif;
+  font-family: 'Roboto', sans-serif;
   max-width: 1200px;
+  width: 100%;
 }
 
 .introSection {
-	display: flex;
-	flex-wrap: wrap-reverse;
-	justify-content: center;
+  display: flex;
+  flex-wrap: wrap-reverse;
+  justify-content: center;
 }
 
 .introSection div {
-	display: flex;
-	flex-direction: column;
-	flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
 }
 
 .introSection figure {
-	margin-bottom: 3.5%;
+  margin-bottom: 3.5%;
 }
 
 .introSection figure img {
-	width: 100%;
-	max-width: 495px;
-	border-radius: 10px;
+  width: 100%;
+  max-width: 495px;
+  border-radius: 10px;
 }
 
 .main .sectionLine {
-	background-color: transparent;
-	margin-bottom: 0px;
+  background-color: transparent;
+  margin-bottom: 0px;
 }
 
-.headerTypo{
+.headerTypo {
   font-size: 40px;
   font-weight: 700;
   line-height: 46.88px;
@@ -41,16 +42,18 @@ main {
 }
 
 .functionalities {
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
-.formSection input, .formSection label {
+.formSection input,
+.formSection label {
   white-space: nowrap;
 }
 
-.formSection .submit_btn,  .formSection .cancel_btn{
+.formSection .submit_btn,
+.formSection .cancel_btn {
   font-weight: 500;
   font-size: 16px;
   line-height: 19px;
@@ -58,123 +61,123 @@ main {
 }
 
 h2.sectionTypo {
-	width: fit-content;
-	max-width: 94.2%;
-	margin-bottom: 5%;
+  width: fit-content;
+  max-width: 94.2%;
+  margin-bottom: 5%;
   font-size: 30px;
   line-height: 35px;
 }
 
 h2.sectionTypo::after {
-	display: block;
-	width: calc(100% + 30px);
-	height: 3px;
-	margin-top: 15px;
-	background-color: rgba(170, 206, 155, 1);
-	border-radius: 4px;
-	content: "";
+  display: block;
+  width: calc(100% + 30px);
+  height: 3px;
+  margin-top: 15px;
+  background-color: rgba(170, 206, 155, 1);
+  border-radius: 4px;
+  content: "";
 }
 
 .functionalities section {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	text-align: center;
-	margin-top: 5%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-top: 5%;
 }
 
 .functionalities h3 {
-	margin: 4% 0 2%;
+  margin: 4% 0 2%;
 }
 
 .functionalities figure {
-	display: flex;
-	order: -1;
+  display: flex;
+  order: -1;
 }
 
 .functionalities figure img {
-	width: 103px;
+  width: 103px;
 }
 
 .reasonsType {
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: space-around;
-	gap: 50px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  gap: 50px;
 }
 
 .reasonsType article {
-	display: flex;
-	flex-direction: column;
-	padding: 20px;
-	max-width: 350px;
-	background-color: rgba(55, 56, 103, 0.1);
-	gap: 15px;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  max-width: 350px;
+  background-color: rgba(55, 56, 103, 0.1);
+  gap: 15px;
 }
 
 .reasonsType img {
-	width: 100%;
+  width: 100%;
 }
 
 .reasonsType .buttonTypo {
-	margin-top: auto;
+  margin-top: auto;
 }
 
 .formSection form {
-	display: flex;
-	flex-direction: column;
+  display: flex;
+  flex-direction: column;
   align-items: center;
-	flex-wrap: wrap;
-	gap: 4%;
+  flex-wrap: wrap;
+  gap: 4%;
 }
 
 .formSection div {
-	width: 100%;
-	margin-bottom: 2%;
+  width: 100%;
+  margin-bottom: 2%;
 }
 
 .formSection form>div {
-	display: flex;
-	flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .formSection input,
 .formSection select,
 .formSection textarea {
-	border: 1px solid #373867;
-	border-radius: 4px;
-	color: #373867;
-	font-family: 'Roboto', sans-serif;
-	font-size: 14px;
-	line-height: 16px;
+  border: 1px solid #373867;
+  border-radius: 4px;
+  color: #373867;
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  line-height: 16px;
 }
 
-.formSection textarea{
+.formSection textarea {
   padding: 10px 12px;
   margin-top: 2%;
 }
 
 .formSection div {
-	display: flex;
-	align-items: center;
-	margin-top: 15px;
+  display: flex;
+  align-items: center;
+  margin-top: 15px;
 }
 
 .formSection .textarea {
-	width: 100%;
+  width: 100%;
 }
 
 .formSection .checkboxes {
-	display: flex;
-	flex-direction: row;
-	justify-content: center;
-	gap: 5%;
-	width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 5%;
+  width: 100%;
 }
 
 .formSection {
-	display: flex;
-	flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .formSection p {
@@ -185,38 +188,38 @@ h2.sectionTypo::after {
   color: #373867;
 }
 
-.formSection .buttons{
+.formSection .buttons {
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
 }
 
-.formSection .formPriorities{
+.formSection .formPriorities {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
   gap: 25px;
 }
 
-.formSection .robot_check{
+.formSection .robot_check {
   display: flex;
   flex-direction: row;
 }
 
 .formSection input[type=radio],
 .formSection input[type=checkbox] {
-	margin-top: 0;
+  margin-top: 0;
   width: 9%;
   border: 0px;
 }
 
 .formSection .buttons {
-	display: flex;
-	flex-direction: row;
-	justify-content: center;
-	width: 100%;
-	gap: 5%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+  gap: 5%;
 }
 
 .titleTypo {
@@ -270,93 +273,93 @@ h2.sectionTypo::after {
   line-height: 23px;
 }
 
-.cancel_btn{
+.cancel_btn {
   background-color: red !important;
 }
 
 @media only screen and (min-width: 480px) {
 
-	.functionalities section {
-		display: flex;
-		flex-direction: column;
-		flex-wrap: wrap;
-		justify-content: center;
-		align-items: flex-start;
-		align-content: flex-start;
-		height: 265px;
-		text-align: left;
-	}
-
-	.functionalities h3 {
-		width: 50%;
-	}
-
-	.functionalities p {
-		width: 54%;
-	}
-
-	.functionalities section {
-		margin-top: 0;
-	}
-
-	.functionalities figure img {
-		width: 198px;
-		margin-top: 10px;
-		margin-right: 10px;
-	}
-
-	.formSection div,
-	.formSection fieldset {
-		width: 48%;
+  .functionalities section {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
     justify-content: center;
-	}
+    align-items: flex-start;
+    align-content: flex-start;
+    height: 265px;
+    text-align: left;
+  }
+
+  .functionalities h3 {
+    width: 50%;
+  }
+
+  .functionalities p {
+    width: 54%;
+  }
+
+  .functionalities section {
+    margin-top: 0;
+  }
+
+  .functionalities figure img {
+    width: 198px;
+    margin-top: 10px;
+    margin-right: 10px;
+  }
+
+  .formSection div,
+  .formSection fieldset {
+    width: 48%;
+    justify-content: center;
+  }
 }
 
 @media only screen and (min-width: 768px) {
 
-	.reasonsType article {
-		max-width: 440px;
-	}
+  .reasonsType article {
+    max-width: 440px;
+  }
 
-	.linksSection {
-		flex-direction: row;
-		justify-content: space-evenly;
-	}
+  .linksSection {
+    flex-direction: row;
+    justify-content: space-evenly;
+  }
 }
 
 @media only screen and (min-width: 1024px) {
 
-  .main{
+  .main {
     margin-right: 80px;
   }
 
-	.introSection {
-		flex-wrap: nowrap;
-		justify-content: space-evenly;
+  .introSection {
+    flex-wrap: nowrap;
+    justify-content: space-evenly;
     gap: 72px;
     margin-bottom: 150px;
-	}
+  }
 
-	.introSection div {
-		width: 50%;
-		max-width: 520px;
-		margin-right: 5%;
-	}
+  .introSection div {
+    width: 50%;
+    max-width: 520px;
+    margin-right: 5%;
+  }
 
-	.introSection figure {
-		width: 50%;
-		max-width: 520px;
-		margin-bottom: 0;
-	}
+  .introSection figure {
+    width: 50%;
+    max-width: 520px;
+    margin-bottom: 0;
+  }
 
-	.introSection figure img {
-		max-width: 520px;
-	}
+  .introSection figure img {
+    max-width: 520px;
+  }
 
-	.introSection .buttonContainer {
-		align-self: flex-end;
+  .introSection .buttonContainer {
+    align-self: flex-end;
     width: auto;
-	}
+  }
 
   section div.learMore {
     width: 100%;
@@ -365,28 +368,28 @@ h2.sectionTypo::after {
     align-items: flex-end;
   }
 
-	.functionalities {
-		flex-direction: row;
-		flex-wrap: wrap;
+  .functionalities {
+    flex-direction: row;
+    flex-wrap: wrap;
     margin-bottom: 5%;
-	}
+  }
 
-	.functionalities section {
-		height: 250px;
-		max-width: 523px;
-	}
+  .functionalities section {
+    height: 250px;
+    max-width: 523px;
+  }
 
-	.functionalities p,
-	.functionalities h3 {
-		width: calc(100% - 208px);
-	}
+  .functionalities p,
+  .functionalities h3 {
+    width: calc(100% - 208px);
+  }
 
-	.longTitle h2.sectionTypo::after {
-		width: calc(100% + 30px);
-	}
+  .longTitle h2.sectionTypo::after {
+    width: calc(100% + 30px);
+  }
 
-	.reasonsType {
-		justify-content: space-between;
+  .reasonsType {
+    justify-content: space-between;
     margin-bottom: 10%;
-	}
+  }
 }
