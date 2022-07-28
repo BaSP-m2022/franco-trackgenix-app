@@ -54,7 +54,9 @@ const TimeSheets = () => {
 
   useEffect(() => {
     setFilteredList(
-      timeSheets.filter((item) => item.firstName.toLowerCase().includes(searchQuery.toLowerCase()))
+      timeSheets.filter((item) =>
+        item.employeeId.firstName.toLowerCase().includes(searchQuery.toLowerCase())
+      )
     );
   }, [timeSheets, searchQuery]);
 

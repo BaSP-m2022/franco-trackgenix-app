@@ -63,7 +63,7 @@ const AdminForm = () => {
       setValue('firstName', admin.firstName);
       setValue('lastName', admin.lastName);
       setValue('email', admin.email);
-      setValue('password', admin.password);
+      setValue('password', '1234567a');
       setRequestType('PUT');
     }
   }, [admin]);
@@ -150,37 +150,42 @@ const AdminForm = () => {
             />
           )}
         />
-        <Controller
-          control={control}
-          name="email"
-          render={({ field: { value, onChange }, fieldState: { error } }) => (
-            <Input
-              className={styles.label}
-              type="email"
-              name="Email"
-              value={value}
-              placeholder="Email"
-              onChange={onChange}
-              error={error?.message}
-            />
-          )}
-        />
-        <Controller
-          control={control}
-          name="password"
-          render={({ field: { value, onChange }, fieldState: { error } }) => (
-            <Input
-              className={styles.label}
-              type="password"
-              name="Password"
-              value={value}
-              placeholder="Password"
-              onChange={onChange}
-              error={error?.message}
-            />
-          )}
-        />
-
+        {requestType === 'POST' && (
+          <Controller
+            control={control}
+            name="email"
+            render={({ field: { value, onChange }, fieldState: { error } }) => (
+              <Input
+                className={styles.label}
+                type="email"
+                name="Email"
+                disabled={requestType === 'PUT'}
+                value={value}
+                placeholder="Email"
+                onChange={onChange}
+                error={error?.message}
+              />
+            )}
+          />
+        )}
+        {requestType === 'POST' && (
+          <Controller
+            control={control}
+            name="password"
+            render={({ field: { value, onChange }, fieldState: { error } }) => (
+              <Input
+                className={styles.label}
+                type="password"
+                name="Password"
+                disabled={requestType === 'PUT'}
+                value={value}
+                placeholder="Password"
+                onChange={onChange}
+                error={error?.message}
+              />
+            )}
+          />
+        )}
         <div className={styles.buttons}>
           <Button
             text="Return"

@@ -44,7 +44,7 @@ const EmployeeForm = () => {
       setValue('lastName', employee.lastName);
       setValue('dateOfBirth', employee.dateOfBirth.slice(0, 10));
       setValue('email', employee.email);
-      setValue('password', employee.password);
+      setValue('password', '1234567a');
       setValue('dni', employee.dni);
       setRequestType('PUT');
       setTitle('Edit Employee');
@@ -160,35 +160,38 @@ const EmployeeForm = () => {
             />
           )}
         />
-        <Controller
-          control={control}
-          name="email"
-          render={({ field: { value, onChange }, fieldState: { error } }) => (
-            <Input
-              type="email"
-              name="Email"
-              value={value}
-              placeholder="Email"
-              onChange={onChange}
-              error={error?.message}
-            />
-          )}
-        />
-        <Controller
-          control={control}
-          name="password"
-          render={({ field: { value, onChange }, fieldState: { error } }) => (
-            <Input
-              type="password"
-              name="Password"
-              value={value}
-              placeholder="Password"
-              onChange={onChange}
-              error={error?.message}
-            />
-          )}
-        />
-
+        {requestType === 'POST' && (
+          <Controller
+            control={control}
+            name="email"
+            render={({ field: { value, onChange }, fieldState: { error } }) => (
+              <Input
+                type="email"
+                name="Email"
+                value={value}
+                placeholder="Email"
+                onChange={onChange}
+                error={error?.message}
+              />
+            )}
+          />
+        )}
+        {requestType === 'POST' && (
+          <Controller
+            control={control}
+            name="password"
+            render={({ field: { value, onChange }, fieldState: { error } }) => (
+              <Input
+                type="password"
+                name="Password"
+                value={value}
+                placeholder="Password"
+                onChange={onChange}
+                error={error?.message}
+              />
+            )}
+          />
+        )}
         <div className={styles.buttons}>
           <Button
             text="Return"
