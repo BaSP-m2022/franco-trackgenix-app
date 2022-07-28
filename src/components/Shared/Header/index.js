@@ -62,7 +62,11 @@ const Header = () => {
             className={styles.userButton}
             onClick={() => {
               dispatch(logout());
+<<<<<<< HEAD
               history.push('/login');
+=======
+              history.push('/home');
+>>>>>>> origin/master
               window.location.reload();
             }}
           >

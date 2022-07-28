@@ -5,10 +5,29 @@ import styles from './NavLink.module.css';
 
 const NavLinks = () => {
   const authenticated = useSelector((state) => state.auth.authenticated);
+  const projects = useSelector((state) => state.projects.list);
   const [role, setRole] = useState('');
+  const [isPm, setIsPm] = useState(false);
   useEffect(() => {
     setRole(JSON.parse(sessionStorage.getItem('loggedUser'))?.role);
   }, [authenticated]);
+
+  useEffect(() => {
+    const role = JSON.parse(sessionStorage.getItem('loggedUser'))?.role;
+    const idEmployee = JSON.parse(sessionStorage.getItem('loggedUser'))?._id;
+    if (role === 'EMPLOYEE') {
+      if (
+        projects.find((project) =>
+          project.employees.map((employee) => {
+            if (employee.employeeId._id === idEmployee && employee.role === 'PM') return true;
+          })
+        )
+      ) {
+        sessionStorage.setItem('isPM', true);
+        setIsPm(true);
+      }
+    }
+  }, [projects]);
 
   return (
     <div>
@@ -22,6 +41,20 @@ const NavLinks = () => {
                     Home
                   </NavLink>
                 </li>
+                {isPm && (
+                  <li className={styles.items}>
+                    <NavLink to={'/projects'} className={styles.links}>
+                      Projects
+                    </NavLink>
+                  </li>
+                )}
+                {isPm && (
+                  <li className={styles.items}>
+                    <NavLink to={'/employees/pm/timesheet'} className={styles.links}>
+                      Projects Timesheets
+                    </NavLink>
+                  </li>
+                )}
               </ul>
             );
           case 'ADMIN':

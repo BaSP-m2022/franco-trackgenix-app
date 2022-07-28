@@ -76,7 +76,9 @@ const ProjectProfile = () => {
             <ProfileItem label={'Description'} text={project.description} />
             <ProfileItem label={'Status'} text={project.status} />
             <ProfileItem label={'Start Date'} text={project.startDate?.slice(0, 10)} />
-            <ProfileItem label={'End Date'} text={project.endDate?.slice(0, 10)} />
+            {project.endDate && (
+              <ProfileItem label={'End Date'} text={project.endDate?.slice(0, 10)} />
+            )}
           </div>
           <div className={`${styles.div} ${styles.table}`}>
             <h2 className={styles.subtitleSmall}>Employees</h2>

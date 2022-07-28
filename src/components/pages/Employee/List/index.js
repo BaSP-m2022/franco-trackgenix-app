@@ -116,7 +116,7 @@ const Employees = () => {
         deleteItem={buttonDelete}
         column={column}
         editItem={handleSetEmployee}
-        buttons={true}
+        buttons={2}
         handleRowClick={(e) => history.push(`employees/${e.currentTarget.getAttribute('data-id')}`)}
       />
     </section>

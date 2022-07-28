@@ -3,10 +3,11 @@ import { useHistory } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { useDispatch, useSelector } from 'react-redux';
-import Joi from 'joi';
 import { clearError } from 'redux/employees/actions';
 import { login } from 'redux/auth/thunks';
+import { getProjects } from 'redux/projects/thunks';
 import { Input, Modal, Button, LoadingScreen } from 'components/Shared';
+import Joi from 'joi';
 import styles from './login.module.css';
 
 const schema = Joi.object({
@@ -29,6 +30,10 @@ const loginForm = () => {
   useEffect(() => {
     const token = JSON.parse(sessionStorage.getItem('loggedUser'))?.token;
     const role = JSON.parse(sessionStorage.getItem('loggedUser'))?.role;
+    const idEmployee = JSON.parse(sessionStorage.getItem('loggedUser'))?._id;
+    if (role === 'EMPLOYEE') {
+      dispatch(getProjects(`employees.employeeId=${idEmployee}`));
+    }
     if (token) history.push(`${role ? `${role.toLowerCase()}` : ''}/home`);
   }, [authenticated]);
 
