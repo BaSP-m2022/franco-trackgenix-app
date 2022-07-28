@@ -101,14 +101,14 @@ const AdminForm = () => {
     }
   };
 
-  if (loading) {
-    return <LoadingScreen />;
-  }
-
   const handleClose = () => {
     closeModal();
     dispatch(clearError());
   };
+
+  if (loading) {
+    return <LoadingScreen />;
+  }
 
   return (
     <div className={styles.container}>
@@ -118,71 +118,70 @@ const AdminForm = () => {
           <Button text="OK" handler={!error ? routeChange : handleClose} />
         </div>
       </Modal>
-      <h3 className={styles.h3}>{requestType === 'PUT' ? 'Update Admin' : 'Add Admin'}</h3>
+      <h3 className={styles.title}>{requestType === 'PUT' ? 'Update Admin' : 'Add Admin'}</h3>
       <form className={styles.form} onSubmit={onSubmit}>
-        <div className={styles.inputs}>
-          <Controller
-            control={control}
-            name="firstName"
-            render={({ field: { value, onChange }, fieldState: { error } }) => (
-              <Input
-                className={styles.label}
-                type="text"
-                name="First name"
-                value={value}
-                placeholder="First name"
-                onChange={onChange}
-                error={error?.message}
-              />
-            )}
-          />
-          <Controller
-            control={control}
-            name="lastName"
-            render={({ field: { value, onChange }, fieldState: { error } }) => (
-              <Input
-                className={styles.label}
-                type="text"
-                name="Last name"
-                value={value}
-                placeholder="Last name"
-                onChange={onChange}
-                error={error?.message}
-              />
-            )}
-          />
-          <Controller
-            control={control}
-            name="email"
-            render={({ field: { value, onChange }, fieldState: { error } }) => (
-              <Input
-                className={styles.label}
-                type="email"
-                name="Email"
-                value={value}
-                placeholder="Email"
-                onChange={onChange}
-                error={error?.message}
-              />
-            )}
-          />
-          <Controller
-            control={control}
-            name="password"
-            render={({ field: { value, onChange }, fieldState: { error } }) => (
-              <Input
-                className={styles.label}
-                type="password"
-                name="Password"
-                value={value}
-                placeholder="Password"
-                onChange={onChange}
-                error={error?.message}
-              />
-            )}
-          />
-        </div>
-        <div className={styles.buttonContainer}>
+        <Controller
+          control={control}
+          name="firstName"
+          render={({ field: { value, onChange }, fieldState: { error } }) => (
+            <Input
+              className={styles.label}
+              type="text"
+              name="First name"
+              value={value}
+              placeholder="First name"
+              onChange={onChange}
+              error={error?.message}
+            />
+          )}
+        />
+        <Controller
+          control={control}
+          name="lastName"
+          render={({ field: { value, onChange }, fieldState: { error } }) => (
+            <Input
+              className={styles.label}
+              type="text"
+              name="Last name"
+              value={value}
+              placeholder="Last name"
+              onChange={onChange}
+              error={error?.message}
+            />
+          )}
+        />
+        <Controller
+          control={control}
+          name="email"
+          render={({ field: { value, onChange }, fieldState: { error } }) => (
+            <Input
+              className={styles.label}
+              type="email"
+              name="Email"
+              value={value}
+              placeholder="Email"
+              onChange={onChange}
+              error={error?.message}
+            />
+          )}
+        />
+        <Controller
+          control={control}
+          name="password"
+          render={({ field: { value, onChange }, fieldState: { error } }) => (
+            <Input
+              className={styles.label}
+              type="password"
+              name="Password"
+              value={value}
+              placeholder="Password"
+              onChange={onChange}
+              error={error?.message}
+            />
+          )}
+        />
+
+        <div className={styles.buttons}>
           <Button
             text="Return"
             handler={() => {

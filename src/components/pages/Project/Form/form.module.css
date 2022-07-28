@@ -1,24 +1,21 @@
 .container {
-  flex: 1;
   display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  text-align: center;
   flex-direction: column;
-  margin-top: 100px;
-  margin-bottom: 50px;
+  align-items: center;
 }
-.h2 {
+
+.title {
+  margin-bottom: 28px;
   color: #373867;
+  font-size: 1.5em;
+  font-weight: bold;
 }
+
 .form {
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-.projects {
-  align-self: center;
 }
 
 .employeeDiv {
@@ -26,23 +23,25 @@
   display: flex;
   justify-content: space-around;
   align-items: center;
-  margin: 0px 15px 20px 15px;
 }
+
+.employeeDiv div {
+  margin-right: 8px;
+}
+
 .addEmployeeDiv {
-  margin: 0px 0 10px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 16px 0 10px 0;
 }
 
-.employeeList {
-  margin: 0 0 1% 0;
-}
-
-.employeeMargin {
-  margin: 0px 20px;
+.deleteButton {
+  margin-bottom: 9px;
 }
 
 .errorArray {
   color: #ff0000;
-  margin: 3px 0 1% 0;
-  font-size: 13px;
-  height: 14px;
+  margin: 20px 0 24px 0;
+  font-size: 14px;
 }

@@ -1,59 +1,26 @@
-.container{
-  flex: 1;
+.container {
   display: flex;
-  justify-content: center;
-  align-items: center;
   flex-direction: column;
-  padding: 0 20% 10% 0;
-  margin-top: 75px;
+  align-items: center;
 }
-.a{
-  display: inline-block;
-  text-decoration: none;
-  color: #000;
-  cursor: pointer;
-  padding: 5px 10px;
-  margin-bottom: 20px;
-}
-.a:hover {
-  text-decoration: underline;
-background-color: #f1f1f1;
-}
-.a:link {
-    text-decoration: inherit;
-    color: inherit;
-}
-.a:visited {
-    text-decoration: inherit;
-    color: inherit;
-}
-.h3{
-  display: block;
-  margin: 15px 20px;
+
+.title {
+  margin-bottom: 28px;
+  color: #373867;
   font-size: 1.5em;
   font-weight: bold;
 }
-.form{
+
+.form {
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-.buttonContainer{
+
+.buttons {
   width: 100%;
   display: flex;
   justify-content: center;
-  padding: 0 25px;
-}
-.error{
-  color: red;
-  font-size: 16px;
-  margin-right: 25px;
-}
-.inputs{
-  display: flex;
-  flex-direction: column;
-}
-.message{
-  text-align: center;
+  padding-bottom: 20px;
 }

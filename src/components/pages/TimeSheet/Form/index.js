@@ -168,7 +168,7 @@ const TimeSheetForm = () => {
           <Button text="OK" handler={!errorError ? routeChange : handleClose} />
         </div>
       </Modal>
-      <h3 className={styles.tittle}>
+      <h3 className={styles.title}>
         {requestType === 'PUT' ? 'Update Time Sheet' : 'Add Time Sheet'}
       </h3>
       <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
@@ -270,7 +270,7 @@ const TimeSheetForm = () => {
             ))}
           </div>
         </div>
-        <div className={styles.buttonDiv}>
+        <div className={styles.buttons}>
           <Button
             text={'Add new task'}
             type="button"

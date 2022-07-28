@@ -172,199 +172,191 @@ function ProjectForm() {
     dispatch(clearError());
   };
 
-  const ls = LoadingScreen();
   if (loading) {
-    return ls;
-  } else {
-    return (
-      <div className={styles.container}>
-        <Modal modalTitle={errorDB ? 'ERROR' : modalTitle} isOpen={isOpen}>
-          <p>{errorDB ? errorDB : msg}</p>
-          <div>
-            <Button text="OK" handler={!errorDB ? routeChange : handleClose} />
-          </div>
-        </Modal>
-        <h2 className={styles.h2}>{title}</h2>
-        <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
-          <div className={styles.projects}>
-            <Controller
-              control={control}
-              name="name"
-              render={({ field: { value, onChange }, fieldState: { error } }) => (
-                <Input
-                  className={styles.label}
-                  name="Name"
-                  value={value}
-                  placeholder="Name"
-                  onChange={onChange}
-                  error={error?.message}
-                />
-              )}
-            />
-            <Controller
-              control={control}
-              name={`status`}
-              render={({ field: { value, onChange }, fieldState: { error } }) => (
-                <SelectDropdown
-                  className={styles.label}
-                  name="Status"
-                  value={value}
-                  onChange={onChange}
-                  options={[
-                    { label: `To do`, value: 'To do' },
-                    { label: `In progress`, value: 'In progress' },
-                    { label: `Done`, value: 'Done' }
-                  ]}
-                  error={error?.message}
-                />
-              )}
-            />
-            <Controller
-              control={control}
-              name="description"
-              render={({ field: { value, onChange }, fieldState: { error } }) => (
-                <Input
-                  className={styles.label}
-                  name="Description"
-                  type="text"
-                  value={value}
-                  placeholder="Description"
-                  onChange={onChange}
-                  error={error?.message}
-                />
-              )}
-            />
-          </div>
-          <div className={styles.dates}>
-            <div className={styles.date}>
-              <Controller
-                control={control}
-                name="startDate"
-                render={({ field: { value, onChange }, fieldState: { error } }) => (
-                  <Input
-                    className={styles.label}
-                    name="Start Date"
-                    type="date"
-                    value={value}
-                    onChange={onChange}
-                    error={error?.message}
-                  />
-                )}
-              />
-            </div>
-            <div className={styles.date}>
-              <Controller
-                control={control}
-                name="endDate"
-                render={({ field: { value, onChange }, fieldState: { error } }) => (
-                  <Input
-                    className={styles.label}
-                    name="End Date"
-                    type="date"
-                    value={value}
-                    onChange={onChange}
-                    error={error?.message}
-                  />
-                )}
-              />
-            </div>
-          </div>
-          <div className={styles.addEmployeeDiv}>
-            <div className={styles.employeeList}>
-              {fields.map((field, index) => (
-                <div key={field.id} className={styles.employeeDiv}>
-                  <Controller
-                    control={control}
-                    name={`employees[${index}].employeeId`}
-                    defaultValue={field.text}
-                    render={({ field: { value, onChange }, fieldState: { error } }) => (
-                      <SelectDropdown
-                        className={styles.employeeMargin}
-                        name={'Employee'}
-                        value={value}
-                        onChange={onChange}
-                        options={employeeOptions}
-                        error={error?.message}
-                      />
-                    )}
-                  />
-                  <Controller
-                    control={control}
-                    name={`employees[${index}].rate`}
-                    render={({ field: { value, onChange }, fieldState: { error } }) => (
-                      <Input
-                        className={styles.employeeMargin}
-                        name="Rate"
-                        type="number"
-                        min={0}
-                        value={value}
-                        placeholder="Rate"
-                        onChange={onChange}
-                        error={error?.message}
-                      />
-                    )}
-                  />
-                  <Controller
-                    control={control}
-                    name={`employees[${index}].role`}
-                    render={({ field: { value, onChange }, fieldState: { error } }) => (
-                      <SelectDropdown
-                        name={'Role'}
-                        className={styles.label}
-                        value={value}
-                        onChange={onChange}
-                        options={[
-                          { label: `PM`, value: 'PM' },
-                          { label: `DEV`, value: 'DEV' },
-                          { label: `QA`, value: 'QA' },
-                          { label: `TL`, value: 'TL' }
-                        ]}
-                        error={error?.message}
-                      />
-                    )}
-                  />
-                  <Button
-                    type={'delete'}
-                    text={'Delete'}
-                    handler={(e) => {
-                      e.preventDefault();
-                      remove(index);
-                      setClick(click - 1);
-                    }}
-                  />
-                </div>
-              ))}
-            </div>
-            <Button
-              text={'Add new employee to Project'}
-              type="button"
-              handler={(e) => {
-                e.preventDefault();
-                setClick(click + 1);
-                append({ employeeId: '', rate: 0, role: '' });
-              }}
-            />
-          </div>
-          {click === 0 && errors.employees ? (
-            <p className={styles.errorArray}>{errors.employees?.message}</p>
-          ) : null}
-          {click != 0 && errors.employees && !errors.employees.type != 'array.min' ? (
-            <p className={styles.errorArray}>{errors.employees?.message}</p>
-          ) : null}
-          <div>
-            <Button
-              text="Return"
-              handler={() => {
-                dispatch(clearError());
-                routeChange();
-              }}
-            />
-            <Button text={buttonText} />
-          </div>
-        </form>
-      </div>
-    );
+    return <LoadingScreen />;
   }
+
+  return (
+    <div className={styles.container}>
+      <Modal modalTitle={errorDB ? 'Error' : modalTitle} isOpen={isOpen}>
+        <p>{errorDB ? errorDB : msg}</p>
+        <div>
+          <Button text="OK" handler={!errorDB ? routeChange : handleClose} />
+        </div>
+      </Modal>
+      <h3 className={styles.title}>{title}</h3>
+      <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+        <Controller
+          control={control}
+          name="name"
+          render={({ field: { value, onChange }, fieldState: { error } }) => (
+            <Input
+              className={styles.label}
+              name="Name"
+              value={value}
+              placeholder="Name"
+              onChange={onChange}
+              error={error?.message}
+            />
+          )}
+        />
+        <Controller
+          control={control}
+          name={`status`}
+          render={({ field: { value, onChange }, fieldState: { error } }) => (
+            <SelectDropdown
+              className={styles.label}
+              name="Status"
+              value={value}
+              onChange={onChange}
+              options={[
+                { label: `To do`, value: 'To do' },
+                { label: `In progress`, value: 'In progress' },
+                { label: `Done`, value: 'Done' }
+              ]}
+              error={error?.message}
+            />
+          )}
+        />
+        <Controller
+          control={control}
+          name="description"
+          render={({ field: { value, onChange }, fieldState: { error } }) => (
+            <Input
+              className={styles.label}
+              name="Description"
+              type="text"
+              value={value}
+              placeholder="Description"
+              onChange={onChange}
+              error={error?.message}
+            />
+          )}
+        />
+        <Controller
+          control={control}
+          name="startDate"
+          render={({ field: { value, onChange }, fieldState: { error } }) => (
+            <Input
+              className={styles.label}
+              name="Start Date"
+              type="date"
+              value={value}
+              onChange={onChange}
+              error={error?.message}
+            />
+          )}
+        />
+        <Controller
+          control={control}
+          name="endDate"
+          render={({ field: { value, onChange }, fieldState: { error } }) => (
+            <Input
+              className={styles.label}
+              name="End Date"
+              type="date"
+              value={value}
+              onChange={onChange}
+              error={error?.message}
+            />
+          )}
+        />
+        <div className={styles.addEmployeeDiv}>
+          {fields.map((field, index) => (
+            <div key={field.id} className={styles.employeeDiv}>
+              <Controller
+                control={control}
+                name={`employees[${index}].employeeId`}
+                defaultValue={field.text}
+                render={({ field: { value, onChange }, fieldState: { error } }) => (
+                  <SelectDropdown
+                    name={'Employee'}
+                    value={value}
+                    onChange={onChange}
+                    options={employeeOptions}
+                    error={error?.message}
+                  />
+                )}
+              />
+              <Controller
+                control={control}
+                name={`employees[${index}].rate`}
+                render={({ field: { value, onChange }, fieldState: { error } }) => (
+                  <Input
+                    fixedWidth={false}
+                    name="Rate"
+                    type="number"
+                    min={0}
+                    value={value}
+                    placeholder="Rate"
+                    onChange={onChange}
+                    error={error?.message}
+                  />
+                )}
+              />
+              <Controller
+                control={control}
+                name={`employees[${index}].role`}
+                render={({ field: { value, onChange }, fieldState: { error } }) => (
+                  <SelectDropdown
+                    fixedWidth={false}
+                    name={'Role'}
+                    className={styles.label}
+                    value={value}
+                    onChange={onChange}
+                    options={[
+                      { label: `PM`, value: 'PM' },
+                      { label: `DEV`, value: 'DEV' },
+                      { label: `QA`, value: 'QA' },
+                      { label: `TL`, value: 'TL' }
+                    ]}
+                    error={error?.message}
+                  />
+                )}
+              />
+              <div className={styles.deleteButton}>
+                <Button
+                  type={'delete'}
+                  text={'Delete'}
+                  handler={(e) => {
+                    e.preventDefault();
+                    remove(index);
+                    setClick(click - 1);
+                  }}
+                />
+              </div>
+            </div>
+          ))}
+
+          <Button
+            text={'Add new employee to Project'}
+            type="button"
+            handler={(e) => {
+              e.preventDefault();
+              setClick(click + 1);
+              append({ employeeId: '', rate: 0, role: '' });
+            }}
+          />
+        </div>
+        {click === 0 && errors.employees ? (
+          <p className={styles.errorArray}>{errors.employees?.message}</p>
+        ) : null}
+        {click != 0 && errors.employees && !errors.employees.type != 'array.min' ? (
+          <p className={styles.errorArray}>{errors.employees?.message}</p>
+        ) : null}
+        <div>
+          <Button
+            text="Return"
+            handler={() => {
+              dispatch(clearError());
+              routeChange();
+            }}
+          />
+          <Button text={buttonText} />
+        </div>
+      </form>
+    </div>
+  );
 }
 
 export default ProjectForm;
