@@ -1,3 +1,5 @@
+const allure = require('@wdio/allure-reporter').default;
+
 exports.config = {
   //
   // ====================
@@ -20,11 +22,9 @@ exports.config = {
   // then the current working directory is where your `package.json` resides, so `wdio`
   // will be called from there.
   //
-  specs: ['./test/specs/edit-profile/admin.spec.js'],
+  specs: ['./test/specs/Superadmin/*.js'],
   // Patterns to exclude.
-  exclude: [
-    // 'path/to/excluded/files'
-  ],
+  // exclude: ['./test/specs/Signup/Signup.success.js'],
   //
   // ============
   // Capabilities
@@ -131,7 +131,10 @@ exports.config = {
   // Test reporter for stdout.
   // The only one supported by default is 'dot'
   // see also: https://webdriver.io/docs/dot-reporter
-  reporters: ['spec', ['allure', { outputDir: 'allure-results' }]],
+  reporters: [
+    'spec',
+    ['allure', { outputDir: 'allure-results', disableWebdriverScreenshotsReporting: false }]
+  ],
 
   //
   // Options to be passed to Jasmine.
@@ -142,8 +145,7 @@ exports.config = {
     // The Jasmine framework allows interception of each assertion in order to log the state of the application
     // or website depending on the result. For example, it is pretty handy to take a screenshot every time
     // an assertion fails.
-    //eslint-disable-next-line
-    expectationResultHandler: function (passed, assertion) {
+    expectationResultHandler: function (passed, assertion) { //eslint-disable-line
       // do something
     }
   },
@@ -242,9 +244,26 @@ exports.config = {
    * @param {Boolean} result.passed    true if test has passed, otherwise false
    * @param {Object}  result.retries   informations to spec related retries, e.g. `{ attempts: 0, limit: 0 }`
    */
-  //eslint-disable-next-line
-  afterTest: async function (test, context, { error, result, duration, passed, retries }) {
-    if (!passed) {
+  onComplete: function () {
+    const reportError = new Error('Could not generate Allure report');
+    const generation = allure(['generate', 'allure-results', '--clean']);
+    return new Promise((resolve, reject) => {
+      const generationTimeout = setTimeout(() => reject(reportError), 5000);
+
+      generation.on('exit', function (exitCode) {
+        clearTimeout(generationTimeout);
+
+        if (exitCode !== 0) {
+          return reject(reportError);
+        }
+
+        console.log('Allure report successfully generated');
+        resolve();
+      });
+    });
+  },
+  afterTest: async function (test, context, { error }) {
+    if (error) {
       await browser.takeScreenshot();
     }
   }

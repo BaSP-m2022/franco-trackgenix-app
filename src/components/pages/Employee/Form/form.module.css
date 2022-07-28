@@ -12,10 +12,16 @@
   justify-content: center;
   align-items: center;
   padding: 0 25px;
-  margin: 10px;
+  margin: 15px 0;
 }
 
-.containerSec {
+.buttonDelete {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.container {
   margin: 6% auto;
   text-align: center;
 }
@@ -23,4 +29,23 @@
 .formTitle {
   font-weight: bold;
   color: #373867;
+}
+
+.modal {
+  padding: 15px;
+  flex-direction: column;
+  height: 400px;
+  min-width: 500px;
+  overflow: auto;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.col {
+  flex-direction: column;
+  margin: 10px;
 }
