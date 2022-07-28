@@ -1,7 +1,7 @@
 const Page = require('./page');
 class superAdminForm extends Page {
   get formTitle() {
-    return $('.superAdmin_h3__2GYH7');
+    return $('.form_h3__1RBbE');
   }
   get firstName() {
     return $('//*[@id="root"]/div/div/div[2]/div/form/div[1]/div[1]/label');
@@ -46,16 +46,13 @@ class superAdminForm extends Page {
     return $('button.button_btn__3WL0L:nth-child(2)');
   }
   get modal() {
-    return $('//*[@id="root"]/div/div/div[2]/div/form/div[2]/div/div');
+    return $('.modal_modalDivTitle__3Te57');
   }
   get titleModal() {
     return $('.modal_modalDivTitle__3Te57 > h3:nth-child(1)');
   }
   get textModal() {
-    return $('.superAdmin_message__2Rggc');
-  }
-  get modalX() {
-    return $('//*[@id="root"]/div/div/div[2]/div/form/div[2]/div/div/div[1]/button');
+    return $('.form_message__3rf0M');
   }
   get modalOk() {
     return $('.modal_modalDivChildren__2FU_o > div:nth-child(2) > button:nth-child(1)');
@@ -75,7 +72,7 @@ class superAdminForm extends Page {
   }
 
   open() {
-    return super.open('super-admins/form');
+    return super.open('admins/form');
   }
 
   async updateSuperAdmin(firstname, lastname, email, password) {
@@ -88,11 +85,9 @@ class superAdminForm extends Page {
     await this.saveButton.click();
     await expect(this.modal).toBeDisplayed();
     await expect(this.titleModal).toBeDisplayed();
-    await expect(this.titleModal).toHaveText('Super Admin Updated');
-    await expect(this.textModal).toHaveText('Super Admin has been updated');
-    await expect(this.modalX).toBeDisplayed();
+    await expect(this.titleModal).toHaveText('Admin Updated');
+    await expect(this.textModal).toHaveText('Admin has been updated');
     await expect(this.modalOk).toBeDisplayed();
-    await expect(this.modalX).toBeClickable;
     await this.modalOk.click();
   }
   async updateSuperAdminFailed(firstname, lastname, email, password) {
@@ -114,11 +109,9 @@ class superAdminForm extends Page {
     await this.saveButton.click();
     await expect(this.modal).toBeDisplayed();
     await expect(this.titleModal).toBeDisplayed();
-    await expect(this.titleModal).toHaveText('Super Admin Created');
-    await expect(this.textModal).toHaveText('Super Admin has been created');
-    await expect(this.modalX).toBeDisplayed();
+    await expect(this.titleModal).toHaveText('Admin Created');
+    await expect(this.textModal).toHaveText('Admin has been created');
     await expect(this.modalOk).toBeDisplayed();
-    await expect(this.modalX).toBeClickable;
     await this.modalOk.click();
   }
 }

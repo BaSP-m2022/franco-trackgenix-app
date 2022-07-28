@@ -4,7 +4,11 @@ export const getAdmins = () => {
   return async (dispatch) => {
     dispatch(actions.getAdminsLoading());
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/admins`);
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/admins`, {
+        headers: {
+          token: JSON.parse(sessionStorage.getItem('loggedUser'))?.token
+        }
+      });
       const jsonResponse = await response.json();
       if (jsonResponse.error) {
         dispatch(actions.getAdminsError(jsonResponse.message));
@@ -23,7 +27,10 @@ export const deleteAdmin = (id) => {
     dispatch(actions.deleteAdminLoading());
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/admins/${id}`, {
-        method: 'DELETE'
+        method: 'DELETE',
+        headers: {
+          token: JSON.parse(sessionStorage.getItem('loggedUser'))?.token
+        }
       });
       const jsonResponse = await response.json();
       if (jsonResponse.error) {
@@ -44,7 +51,10 @@ export const putAdmin = (id, body) => {
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/admins/${id}`, {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          token: JSON.parse(sessionStorage.getItem('loggedUser'))?.token
+        },
         body: body
       });
       const jsonResponse = await response.json();
@@ -66,7 +76,10 @@ export const postAdmin = (body) => {
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/admins`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          token: JSON.parse(sessionStorage.getItem('loggedUser'))?.token
+        },
         body: body
       });
       const jsonResponse = await response.json();

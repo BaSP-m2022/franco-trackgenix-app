@@ -135,7 +135,7 @@ Playwright is a browser automation library for Node.js (similar to Selenium or P
 
 <br>
 
-### How to use it? 
+### How to use it?
 
 
 In console, run this command for install playwright

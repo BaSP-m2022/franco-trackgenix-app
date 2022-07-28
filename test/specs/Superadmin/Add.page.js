@@ -1,11 +1,20 @@
 const SuperAdminForm = require('../../pageobjects/superadmin.form');
+const SuperAdminList = require('../../pageobjects/superadmin.list');
+const Homepage = require('../../pageobjects/home.page');
+const { name, lastname, randomEmail } = require('../../pageobjects/Random.data');
 
 describe('Add superAdmin page interactions', () => {
+  beforeAll('Homepage should be deployed and Log In success', async () => {
+    browser.fullscreenWindow();
+    await Homepage.open();
+    await SuperAdminList.loginSA('noborrar@hotmail.com', '1234567q');
+  });
   it('Elements displayed', async () => {
-    await SuperAdminForm.open();
-    await expect(browser).toHaveUrl('https://franco-trackgenix-app.vercel.app/super-admins/form');
+    browser.fullscreenWindow();
+    await SuperAdminList.addSuperAdmin.click();
+    await expect(browser).toHaveUrl('https://franco-trackgenix-app.vercel.app/admins/form');
     await expect(SuperAdminForm.formTitle).toBeDisplayed();
-    await expect(SuperAdminForm.formTitle).toHaveText('Add Super Admin');
+    await expect(SuperAdminForm.formTitle).toHaveText('Add Admin');
     await expect(SuperAdminForm.firstName).toBeDisplayed();
     await expect(SuperAdminForm.firstName).toHaveText('First name');
     await expect(SuperAdminForm.lastName).toBeDisplayed();
@@ -20,12 +29,14 @@ describe('Add superAdmin page interactions', () => {
     await expect(SuperAdminForm.saveButton).toBeClickable();
   });
   it('Inputs enables', async () => {
+    browser.fullscreenWindow();
     await expect(SuperAdminForm.firstNameInput).toBeEnabled();
     await expect(SuperAdminForm.lastnameInput).toBeEnabled();
     await expect(SuperAdminForm.emailInput).toBeEnabled();
     await expect(SuperAdminForm.passwordInput).toBeEnabled();
   });
   it('Add an superAdmin success', async () => {
-    await SuperAdminForm.addSuperAdmin('Axel', 'Fiol', 'axel.fiol97@gmail.com', 'qqqq1111');
+    browser.fullscreenWindow();
+    await SuperAdminForm.addSuperAdmin(name, lastname, randomEmail(), 'test1234');
   });
 });
