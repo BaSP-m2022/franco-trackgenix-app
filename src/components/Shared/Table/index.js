@@ -36,7 +36,7 @@ const TableRow = ({
             {item[`${columnItem.value}`].length > 0 ? (
               <Button handler={() => modal(item[`${columnItem.value}`])} text="Show All" />
             ) : (
-              <p>No {arrayName}</p>
+              <p className={styles.noButton}>No {arrayName}</p>
             )}
           </td>
         );

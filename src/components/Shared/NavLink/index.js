@@ -8,6 +8,7 @@ const NavLinks = () => {
   const projects = useSelector((state) => state.projects.list);
   const [role, setRole] = useState('');
   const [isPm, setIsPm] = useState(false);
+
   useEffect(() => {
     setRole(JSON.parse(sessionStorage.getItem('loggedUser'))?.role);
   }, [authenticated]);

@@ -1,6 +1,6 @@
 .tableMain {
   width: 100%;
-  margin: 0;
+  margin-bottom: 18px;
   border-radius: 5px;
   border-spacing: 0;
   table-layout: auto;
@@ -20,13 +20,25 @@
   border-top-right-radius: 8px;
 }
 
+.tableMain tbody tr:last-child td:first-child {
+  border-bottom-left-radius: 8px;
+}
+
+.tableMain tbody tr:last-child td:last-child {
+  border-top-right-radius: 8px;
+}
+
+.tableMain tbody tr:last-child {
+  border-bottom: 0;
+}
+
 .containerTable tr,
 .tableMain tr {
   text-align: left;
   color: #373867;
-  border-radius: 20px;
   border-bottom: 1px solid #bebec8;
 }
+
 
 .containerTable td {
   padding: 14px 12px;
@@ -57,6 +69,10 @@
 .buttonsTableContainer {
   display: flex;
   justify-content: space-between;
+}
+
+.noButton {
+  text-align: center;
 }
 
 .buttonTable,
