@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import styles from './navlink.module.css';
+import styles from './NavLink.module.css';
 
 const NavLinks = () => {
   const authenticated = useSelector((state) => state.auth.authenticated);
