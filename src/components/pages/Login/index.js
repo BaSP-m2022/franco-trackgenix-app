@@ -34,7 +34,7 @@ const loginForm = () => {
     if (role === 'EMPLOYEE') {
       dispatch(getProjects(`employees.employeeId=${idEmployee}`));
     }
-    if (token) history.push(`${role ? `${role.toLowerCase()}s` : ''}/home`);
+    if (token) history.push(`${role ? `${role.toLowerCase()}` : ''}/home`);
   }, [authenticated]);
 
   useEffect(() => {
