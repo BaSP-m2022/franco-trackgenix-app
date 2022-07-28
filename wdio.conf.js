@@ -1,3 +1,5 @@
+const allure = require('@wdio/allure-reporter').default;
+
 exports.config = {
   //
   // ====================
@@ -131,8 +133,10 @@ exports.config = {
   // Test reporter for stdout.
   // The only one supported by default is 'dot'
   // see also: https://webdriver.io/docs/dot-reporter
-  reporters: ['spec', ['allure', { outputDir: 'allure-results' }]],
-
+  reporters: [
+    'spec',
+    ['allure', { outputDir: 'allure-results', disableWebdriverScreenshotsReporting: false }]
+  ],
   //
   // Options to be passed to Jasmine.
   jasmineOpts: {
@@ -241,8 +245,26 @@ exports.config = {
    * @param {Boolean} result.passed    true if test has passed, otherwise false
    * @param {Object}  result.retries   informations to spec related retries, e.g. `{ attempts: 0, limit: 0 }`
    */
-  afterTest: async function (test, context, { error, result, duration, passed, retries }) { //eslint-disable-line
-    if (!passed) {
+  onComplete: function () {
+    const reportError = new Error('Could not generate Allure report');
+    const generation = allure(['generate', 'allure-results', '--clean']);
+    return new Promise((resolve, reject) => {
+      const generationTimeout = setTimeout(() => reject(reportError), 5000);
+
+      generation.on('exit', function (exitCode) {
+        clearTimeout(generationTimeout);
+
+        if (exitCode !== 0) {
+          return reject(reportError);
+        }
+
+        console.log('Allure report successfully generated');
+        resolve();
+      });
+    });
+  },
+  afterTest: async function (test, context, { error }) {
+    if (error) {
       await browser.takeScreenshot();
     }
   }
