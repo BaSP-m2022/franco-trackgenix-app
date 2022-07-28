@@ -1,5 +1,7 @@
 import React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { setIsMenuOpen } from 'redux/menu/actions';
 import { Header, Sidebar, LoadingScreen } from 'components/Shared';
 
 import styles from './layout.module.css';
@@ -33,14 +35,24 @@ const TimeSheetList = React.lazy(() => import('components/pages/TimeSheet/List')
 const Landing = React.lazy(() => import('components/pages/Landing'));
 
 function Layout() {
+  const dispatch = useDispatch();
+
+  const isMenuOpen = useSelector((state) => state.menu.isMenuOpen);
+
   return (
     <div className={styles.container}>
       <Header />
-      <div className={styles.mainDiv}>
+      <div className={`${styles.mainDiv} ${isMenuOpen ? styles.isMenuOpen : null}`}>
         <div className={styles.divSideBar}>
           <Sidebar />
         </div>
-        <div className={styles.divSwitch}>
+        <div
+          className={styles.divSwitch}
+          onClick={() => {
+            dispatch(setIsMenuOpen(false));
+          }}
+        >
+          <div className={styles.overlayBack}></div>
           <React.Suspense fallback={<LoadingScreen />}>
             <Switch>
               <Route exact path="/signup" component={SignUp} />

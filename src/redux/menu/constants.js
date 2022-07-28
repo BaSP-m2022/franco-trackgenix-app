@@ -1,0 +1,1 @@
+export const SET_IS_MENU_OPEN = 'GET_PROJECTS_LOADING';

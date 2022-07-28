@@ -110,8 +110,8 @@ const signupForm = () => {
   }
 
   return (
-    <div className={styles.containerSec}>
-      <h2 className={styles.formTitle}>Sign Up</h2>
+    <div className={styles.container}>
+      <h2 className={styles.title}>Sign Up</h2>
       <form className={styles.form}>
         <div>
           <Controller

@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from 'redux/auth/thunks';
 import { setAuthentication } from 'redux/auth/actions';
+import { setIsMenuOpen } from 'redux/menu/actions';
 import MenuButton from './MenuButton';
 import styles from './header.module.css';
 
@@ -11,6 +12,7 @@ const Header = () => {
   const dispatch = useDispatch();
 
   const authenticated = useSelector((state) => state.auth.authenticated);
+  const isMenuOpen = useSelector((state) => state.menu.isMenuOpen);
 
   const [loggedUser, setLoggedUser] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -29,8 +31,13 @@ const Header = () => {
   return (
     <header className={styles.header}>
       <div className={styles.buttonLogo}>
-        <div className={styles.button}>
-          <MenuButton />
+        <div
+          className={styles.button}
+          onClick={() => {
+            dispatch(setIsMenuOpen(!isMenuOpen));
+          }}
+        >
+          <MenuButton isMenuOpen={isMenuOpen} />
         </div>
         <div className={styles.logo}>
           <img
@@ -40,10 +47,6 @@ const Header = () => {
           />
         </div>
       </div>
-      {/* onClick={() => {
-        setIsModalOpen
-        history.push(`/${loggedUser.role?.toLowerCase()}s/profile`);
-      }} */}
       {!loggedUser?.firstName ? null : (
         <div className={styles.buttonContainer}>
           <button

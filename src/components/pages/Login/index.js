@@ -71,7 +71,7 @@ const loginForm = () => {
   }
 
   return (
-    <section className={styles.containerSec}>
+    <section className={styles.container}>
       <Modal modalTitle={'Login error'} isOpen={isOpen} handleClose={closeModal}>
         <p>{error}</p>
         <div>
@@ -84,7 +84,7 @@ const loginForm = () => {
           />
         </div>
       </Modal>
-      <h2 className={styles.formTitle}>Log In</h2>
+      <h2 className={styles.title}>Log In</h2>
       <form className={styles.form}>
         <div>
           <Controller

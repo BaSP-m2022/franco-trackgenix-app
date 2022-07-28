@@ -7,33 +7,76 @@
   margin: 0 auto;
 }
 
-.divSideBar {
-  position: fixed;
+.mainDiv {
+  display: flex;
+  position: relative;
   top: 70px;
+  height: calc(100vh - 70px);
+  padding-bottom: 16px;
+}
+
+.mainDiv.isMenuOpen .divSideBar {
+  display: block;
+  opacity: 1;
+}
+
+.mainDiv.isMenuOpen .divSwitch {
+  display: block;
+  opacity: 1;
+}
+
+.mainDiv.isMenuOpen .divSwitch .overlayBack {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #000;
+  opacity: 0.6;
+  filter: alpha(opacity=60);
+  z-index: 5;
+}
+
+.divSideBar {
+  position: absolute;
+  top: 0;
   bottom: 0;
   width: 170px;
   display: none;
+  opacity: 1;
+  transition: all 0.2s ease-in-out;
+  z-index: 20;
 }
 
 .divSwitch {
-  overflow-x: auto;
-  margin-top: 90px;
-  padding-left: 10px;
-  padding-right: 21px;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: auto;
+  padding-top: 10px;
+  padding-left: 10px;
+  padding-right: 21px;
   margin-bottom: 5%;
 }
 
-@media (min-width: 760px) {
-  .divSideBar {
+@media (min-width: 768px) {
+  .mainDiv.isMenuOpen .divSideBar {
+    position: relative;
     display: block;
-    top: 110px;
+    opacity: 1;
   }
 
-  .divSwitch {
-    margin-top: 130px;
-    padding-left: 175px;
+  .mainDiv.isMenuOpen .divSwitch .overlayBack {
+    display: none;
   }
+
+  .divSideBar {
+    display: block;
+    position: relative;
+  }
+
+  .divSwitch {}
 }
