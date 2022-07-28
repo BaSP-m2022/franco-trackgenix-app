@@ -1,5 +1,3 @@
-const allure = require('@wdio/allure-reporter').default;
-
 exports.config = {
   //
   // ====================
@@ -22,9 +20,11 @@ exports.config = {
   // then the current working directory is where your `package.json` resides, so `wdio`
   // will be called from there.
   //
-  specs: ['./test/specs/Superadmin/*.js'],
+  specs: ['./test/specs/**/*.js'],
   // Patterns to exclude.
-  // exclude: ['./test/specs/Signup/Signup.success.js'],
+  exclude: [
+    // 'path/to/excluded/files'
+  ],
   //
   // ============
   // Capabilities
@@ -52,7 +52,7 @@ exports.config = {
       // maxInstances can get overwritten per capability. So if you have an in-house Selenium
       // grid with only 5 firefox instances available you can make sure that not more than
       // 5 instances get started at a time.
-      maxInstances: 1,
+      maxInstances: 5,
       //
       browserName: 'chrome',
       acceptInsecureCerts: true
@@ -131,10 +131,7 @@ exports.config = {
   // Test reporter for stdout.
   // The only one supported by default is 'dot'
   // see also: https://webdriver.io/docs/dot-reporter
-  reporters: [
-    'spec',
-    ['allure', { outputDir: 'allure-results', disableWebdriverScreenshotsReporting: false }]
-  ],
+  reporters: ['spec', ['allure', { outputDir: 'allure-results' }]],
 
   //
   // Options to be passed to Jasmine.
@@ -244,26 +241,8 @@ exports.config = {
    * @param {Boolean} result.passed    true if test has passed, otherwise false
    * @param {Object}  result.retries   informations to spec related retries, e.g. `{ attempts: 0, limit: 0 }`
    */
-  onComplete: function () {
-    const reportError = new Error('Could not generate Allure report');
-    const generation = allure(['generate', 'allure-results', '--clean']);
-    return new Promise((resolve, reject) => {
-      const generationTimeout = setTimeout(() => reject(reportError), 5000);
-
-      generation.on('exit', function (exitCode) {
-        clearTimeout(generationTimeout);
-
-        if (exitCode !== 0) {
-          return reject(reportError);
-        }
-
-        console.log('Allure report successfully generated');
-        resolve();
-      });
-    });
-  },
-  afterTest: async function (test, context, { error }) {
-    if (error) {
+  afterTest: async function (test, context, { error, result, duration, passed, retries }) { //eslint-disable-line
+    if (!passed) {
       await browser.takeScreenshot();
     }
   }
