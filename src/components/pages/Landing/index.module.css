@@ -80,7 +80,7 @@ h2.sectionTypo::after {
   margin-top: 15px;
   background-color: rgba(170, 206, 155, 1);
   border-radius: 4px;
-  content: "";
+  content: '';
 }
 
 .functionalities section {
@@ -141,7 +141,7 @@ h2.sectionTypo::after {
   margin-bottom: 2%;
 }
 
-.formSection form>div {
+.formSection form > div {
   display: flex;
   flex-direction: column;
 }
@@ -213,8 +213,8 @@ h2.sectionTypo::after {
   flex-direction: row;
 }
 
-.formSection input[type=radio],
-.formSection input[type=checkbox] {
+.formSection input[type='radio'],
+.formSection input[type='checkbox'] {
   margin-top: 0;
   width: 9%;
   border: 0px;
@@ -289,7 +289,6 @@ h2.sectionTypo::after {
 }
 
 @media only screen and (min-width: 480px) {
-
   .functionalities section {
     display: flex;
     flex-direction: column;
@@ -331,10 +330,43 @@ h2.sectionTypo::after {
     width: 48%;
     justify-content: center;
   }
+
+  .greenLine {
+    width: 100%;
+    border-top: 8px solid #aace9b;
+    border-radius: 5px;
+  }
+  .content {
+    display: flex;
+    flex-direction: row;
+  }
+  .footerText {
+    display: flex;
+    flex-direction: column;
+    float: right;
+    padding-top: 0.5%;
+    width: 70%;
+  }
+  .footerText p {
+    float: right;
+  }
+  .p1 {
+    padding: 0% 0% 0% 42.5%;
+  }
+  .p2 {
+    padding: 0% 0% 0% 9%;
+  }
+  .rowLinks {
+    background-color: #ffff;
+    padding-top: 1%;
+    width: 40%;
+  }
+  .rowLinks a {
+    padding: 3%;
+  }
 }
 
 @media only screen and (min-width: 768px) {
-
   .reasonsType article {
     max-width: 440px;
   }
@@ -346,7 +378,6 @@ h2.sectionTypo::after {
 }
 
 @media only screen and (min-width: 1024px) {
-
   .main {
     margin-right: 80px;
   }
