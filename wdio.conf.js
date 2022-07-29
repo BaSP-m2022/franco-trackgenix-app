@@ -22,9 +22,11 @@ exports.config = {
   // then the current working directory is where your `package.json` resides, so `wdio`
   // will be called from there.
   //
-  specs: ['./test/specs/Superadmin/*.js'],
+  specs: ['./test/specs/**/*.js'],
   // Patterns to exclude.
-  // exclude: ['./test/specs/Signup/Signup.success.js'],
+  exclude: [
+    // 'path/to/excluded/files'
+  ],
   //
   // ============
   // Capabilities
@@ -52,7 +54,7 @@ exports.config = {
       // maxInstances can get overwritten per capability. So if you have an in-house Selenium
       // grid with only 5 firefox instances available you can make sure that not more than
       // 5 instances get started at a time.
-      maxInstances: 1,
+      maxInstances: 5,
       //
       browserName: 'chrome',
       acceptInsecureCerts: true
@@ -135,7 +137,6 @@ exports.config = {
     'spec',
     ['allure', { outputDir: 'allure-results', disableWebdriverScreenshotsReporting: false }]
   ],
-
   //
   // Options to be passed to Jasmine.
   jasmineOpts: {
