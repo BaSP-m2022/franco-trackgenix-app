@@ -16,7 +16,7 @@ const ProjectProfile = () => {
   const [project, setProject] = useState({});
 
   const filteredProjects = useSelector((state) => state.projects.filteredList);
-  const loadingProjetcs = useSelector((state) => state.projects.loading);
+  const loadingProjects = useSelector((state) => state.projects.loading);
   const errorProjetcs = useSelector((state) => state.projects.error);
 
   useEffect(() => {
@@ -57,7 +57,7 @@ const ProjectProfile = () => {
     { heading: 'Rate', value: 'rate' }
   ];
 
-  if (loadingProjetcs) {
+  if (loadingProjects) {
     <LoadingScreen />;
   }
 

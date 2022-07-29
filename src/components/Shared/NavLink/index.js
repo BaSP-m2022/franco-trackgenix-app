@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import styles from './NavLink.module.css';
+import { setIsMenuOpen } from 'redux/menu/actions';
 
 const NavLinks = () => {
+  const dispatch = useDispatch();
   const authenticated = useSelector((state) => state.auth.authenticated);
   const projects = useSelector((state) => state.projects.list);
   const [role, setRole] = useState('');
@@ -37,20 +39,35 @@ const NavLinks = () => {
           case 'EMPLOYEE':
             return (
               <ul className={styles.routes}>
-                <li className={styles.items}>
+                <li
+                  className={styles.items}
+                  onClick={() => {
+                    dispatch(setIsMenuOpen(false));
+                  }}
+                >
                   <NavLink to={'/employee/home'} className={styles.links}>
                     Home
                   </NavLink>
                 </li>
                 {isPm && (
-                  <li className={styles.items}>
+                  <li
+                    className={styles.items}
+                    onClick={() => {
+                      dispatch(setIsMenuOpen(false));
+                    }}
+                  >
                     <NavLink to={'/projects'} className={styles.links}>
                       Projects
                     </NavLink>
                   </li>
                 )}
                 {isPm && (
-                  <li className={styles.items}>
+                  <li
+                    className={styles.items}
+                    onClick={() => {
+                      dispatch(setIsMenuOpen(false));
+                    }}
+                  >
                     <NavLink to={'/employees/pm/timesheet'} className={styles.links}>
                       Projects Timesheets
                     </NavLink>
@@ -61,17 +78,32 @@ const NavLinks = () => {
           case 'ADMIN':
             return (
               <ul className={styles.routes}>
-                <li className={styles.items}>
+                <li
+                  className={styles.items}
+                  onClick={() => {
+                    dispatch(setIsMenuOpen(false));
+                  }}
+                >
                   <NavLink to={'/employees'} className={styles.links}>
                     Employees
                   </NavLink>
                 </li>
-                <li className={styles.items}>
+                <li
+                  className={styles.items}
+                  onClick={() => {
+                    dispatch(setIsMenuOpen(false));
+                  }}
+                >
                   <NavLink to={'/projects'} className={styles.links}>
                     Projects
                   </NavLink>
                 </li>
-                <li className={styles.items}>
+                <li
+                  className={styles.items}
+                  onClick={() => {
+                    dispatch(setIsMenuOpen(false));
+                  }}
+                >
                   <NavLink to={'/time-sheets'} className={styles.links}>
                     Timesheets
                   </NavLink>
@@ -81,7 +113,12 @@ const NavLinks = () => {
           case 'SUPER-ADMIN':
             return (
               <ul className={styles.routes}>
-                <li className={styles.items}>
+                <li
+                  className={styles.items}
+                  onClick={() => {
+                    dispatch(setIsMenuOpen(false));
+                  }}
+                >
                   <NavLink to={'/admins'} className={styles.links}>
                     Admins
                   </NavLink>
@@ -91,17 +128,32 @@ const NavLinks = () => {
           default:
             return (
               <ul className={styles.routes}>
-                <li className={styles.items}>
+                <li
+                  className={styles.items}
+                  onClick={() => {
+                    dispatch(setIsMenuOpen(false));
+                  }}
+                >
                   <NavLink to={'home'} className={styles.links}>
                     Home
                   </NavLink>
                 </li>
-                <li className={styles.items}>
+                <li
+                  className={styles.items}
+                  onClick={() => {
+                    dispatch(setIsMenuOpen(false));
+                  }}
+                >
                   <NavLink to={'login'} className={styles.links}>
                     Login
                   </NavLink>
                 </li>
-                <li className={styles.items}>
+                <li
+                  className={styles.items}
+                  onClick={() => {
+                    dispatch(setIsMenuOpen(false));
+                  }}
+                >
                   <NavLink to={'signup'} className={styles.links}>
                     Sign Up
                   </NavLink>
