@@ -3,7 +3,7 @@ const SuperAdminList = require('../../pageobjects/superadmin.list');
 const Homepage = require('../../pageobjects/home.page');
 const { name, lastname, randomEmail } = require('../../pageobjects/Random.data');
 
-describe('Add superAdmin page interactions', () => {
+describe('Add Super Admin page interactions', () => {
   beforeAll('Homepage should be deployed and Log In success', async () => {
     browser.fullscreenWindow();
     await Homepage.open();
@@ -35,8 +35,77 @@ describe('Add superAdmin page interactions', () => {
     await expect(SuperAdminForm.emailInput).toBeEnabled();
     await expect(SuperAdminForm.passwordInput).toBeEnabled();
   });
-  it('Add an superAdmin success', async () => {
+  it('Add an Super Admin success', async () => {
     browser.fullscreenWindow();
     await SuperAdminForm.addSuperAdmin(name, lastname, randomEmail(), 'test1234');
+  });
+  it('Wrong data inputs', async () => {
+    browser.fullscreenWindow();
+    await SuperAdminList.addSuperAdmin.click();
+    await SuperAdminForm.addSuperAdminFailed('1', '1', '1', '1');
+    await expect(SuperAdminForm.firstNameMsg).toHaveText('First Name must have only letters');
+    await expect(SuperAdminForm.lastnameMsg).toHaveText('Last Name must have only letters');
+    await expect(SuperAdminForm.emailMsg).toHaveText('"email" must be a valid email');
+    await expect(SuperAdminForm.passwordMsg).toHaveText(
+      '"password" length must be at least 8 characters long'
+    );
+  });
+  it('Just success First Name', async () => {
+    browser.fullscreenWindow();
+    await SuperAdminForm.addSuperAdminFailed('Higinia', '1', '1', '1');
+    await expect(SuperAdminForm.firstNameMsg).not.toHaveText();
+    await expect(SuperAdminForm.lastnameMsg).toHaveText('Last Name must have only letters');
+    await expect(SuperAdminForm.emailMsg).toHaveText('"email" must be a valid email');
+    await expect(SuperAdminForm.passwordMsg).toHaveText(
+      '"password" length must be at least 8 characters long'
+    );
+  });
+  it('Just success Last Name', async () => {
+    browser.fullscreenWindow();
+    await SuperAdminForm.addSuperAdminFailed('1', 'Medica', '1', '1');
+    await expect(SuperAdminForm.firstNameMsg).toHaveText('First Name must have only letters');
+    await expect(SuperAdminForm.lastnameMsg).not.toHaveText();
+    await expect(SuperAdminForm.emailMsg).toHaveText('"email" must be a valid email');
+    await expect(SuperAdminForm.passwordMsg).toHaveText(
+      '"password" length must be at least 8 characters long'
+    );
+  });
+  it('Just success Email', async () => {
+    browser.fullscreenWindow();
+    await SuperAdminForm.addSuperAdminFailed('1', '1', 'higinia@gmail.com', '1');
+    await expect(SuperAdminForm.firstNameMsg).toHaveText('First Name must have only letters');
+    await expect(SuperAdminForm.lastnameMsg).toHaveText('Last Name must have only letters');
+    await expect(SuperAdminForm.emailMsg).not.toHaveText();
+    await expect(SuperAdminForm.passwordMsg).toHaveText(
+      '"password" length must be at least 8 characters long'
+    );
+  });
+  it('Just success password', async () => {
+    browser.fullscreenWindow();
+    await SuperAdminForm.addSuperAdminFailed('1', '1', '1', 'hola1111');
+    await expect(SuperAdminForm.firstNameMsg).toHaveText('First Name must have only letters');
+    await expect(SuperAdminForm.lastnameMsg).toHaveText('Last Name must have only letters');
+    await expect(SuperAdminForm.emailMsg).toHaveText('"email" must be a valid email');
+    await expect(SuperAdminForm.passwordMsg).not.toHaveText();
+  });
+  it('Long failed password', async () => {
+    browser.fullscreenWindow();
+    await SuperAdminForm.addSuperAdminFailed('1', '1', '1', 'hola11111111111111111');
+    await expect(SuperAdminForm.firstNameMsg).toHaveText('First Name must have only letters');
+    await expect(SuperAdminForm.lastnameMsg).toHaveText('Last Name must have only letters');
+    await expect(SuperAdminForm.emailMsg).toHaveText('"email" must be a valid email');
+    await expect(SuperAdminForm.passwordMsg).toHaveText(
+      '"password" length must be less than or equal to 12 characters long'
+    );
+  });
+  it('empty inputs', async () => {
+    browser.fullscreenWindow();
+    await SuperAdminForm.open();
+    await SuperAdminForm.addSuperAdminFailed();
+    await expect(SuperAdminForm.firstNameMsg).toHaveText('"firstName" is not allowed to be empty');
+    await expect(SuperAdminForm.lastnameMsg).toHaveText('"lastName" is not allowed to be empty');
+    await expect(SuperAdminForm.emailMsg).toHaveText('"email" is not allowed to be empty');
+    await expect(SuperAdminForm.passwordMsg).toHaveText('"password" is not allowed to be empty');
+    await SuperAdminForm.returnButton.click();
   });
 });

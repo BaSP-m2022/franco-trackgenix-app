@@ -1,10 +1,10 @@
 const Page = require('./page');
 class superAdminForm extends Page {
   get formTitle() {
-    return $('.form_h3__1RBbE');
+    return $('.form_title__1YfJp');
   }
   get firstName() {
-    return $('//*[@id="root"]/div/div/div[2]/div/form/div[1]/div[1]/label');
+    return $('div.input_container__1yWID:nth-child(1) > label:nth-child(1)');
   }
   get firstNameInput() {
     return $('div.input_container__1yWID:nth-child(1) > input:nth-child(2)');
@@ -13,7 +13,7 @@ class superAdminForm extends Page {
     return $('div.input_container__1yWID:nth-child(1) > p:nth-child(3)');
   }
   get lastName() {
-    return $('//*[@id="root"]/div/div/div[2]/div/form/div[1]/div[2]/label');
+    return $('div.input_container__1yWID:nth-child(2) > label:nth-child(1)');
   }
   get lastnameInput() {
     return $('div.input_container__1yWID:nth-child(2) > input:nth-child(2)');
@@ -22,7 +22,7 @@ class superAdminForm extends Page {
     return $('div.input_container__1yWID:nth-child(2) > p:nth-child(3)');
   }
   get email() {
-    return $('//*[@id="root"]/div/div/div[2]/div/form/div[1]/div[3]/label');
+    return $('div.input_container__1yWID:nth-child(3) > label:nth-child(1)');
   }
   get emailInput() {
     return $('div.input_container__1yWID:nth-child(3) > input:nth-child(2)');
@@ -31,7 +31,7 @@ class superAdminForm extends Page {
     return $('div.input_container__1yWID:nth-child(3) > p:nth-child(3)');
   }
   get password() {
-    return $('//*[@id="root"]/div/div/div[2]/div/form/div[1]/div[4]/label');
+    return $('div.input_container__1yWID:nth-child(4) > label:nth-child(1)');
   }
   get passwordInput() {
     return $('div.input_container__1yWID:nth-child(4) > input:nth-child(2)');
@@ -40,7 +40,7 @@ class superAdminForm extends Page {
     return $('div.input_container__1yWID:nth-child(4) > p:nth-child(3)');
   }
   get returnButton() {
-    return $('//*[@id="root"]/div/div/div[2]/div/form/div[2]/button[1]');
+    return $('button.button_btn__3WL0L:nth-child(1)');
   }
   get saveButton() {
     return $('button.button_btn__3WL0L:nth-child(2)');
@@ -52,7 +52,7 @@ class superAdminForm extends Page {
     return $('.modal_modalDivTitle__3Te57 > h3:nth-child(1)');
   }
   get textModal() {
-    return $('.form_message__3rf0M');
+    return $('.modal_modalDivChildren__2FU_o > p:nth-child(1)');
   }
   get modalOk() {
     return $('.modal_modalDivChildren__2FU_o > div:nth-child(2) > button:nth-child(1)');
@@ -75,12 +75,10 @@ class superAdminForm extends Page {
     return super.open('admins/form');
   }
 
-  async updateSuperAdmin(firstname, lastname, email, password) {
+  async updateSuperAdmin(firstname, lastname) {
     const elem = await $('button.button_btn__3WL0L:nth-child(2)');
     await this.setFirstName(firstname);
     await this.setLastName(lastname);
-    await this.setEmail(email);
-    await this.setPassword(password);
     await elem.scrollIntoView();
     await this.saveButton.click();
     await expect(this.modal).toBeDisplayed();
@@ -90,12 +88,10 @@ class superAdminForm extends Page {
     await expect(this.modalOk).toBeDisplayed();
     await this.modalOk.click();
   }
-  async updateSuperAdminFailed(firstname, lastname, email, password) {
+  async updateSuperAdminFailed(firstname, lastname) {
     const elem = await $('button.button_btn__3WL0L:nth-child(2)');
     await this.setFirstName(firstname);
     await this.setLastName(lastname);
-    await this.setEmail(email);
-    await this.setPassword(password);
     await elem.scrollIntoView();
     await this.saveButton.click();
   }
@@ -113,6 +109,15 @@ class superAdminForm extends Page {
     await expect(this.textModal).toHaveText('Admin has been created');
     await expect(this.modalOk).toBeDisplayed();
     await this.modalOk.click();
+  }
+  async addSuperAdminFailed(firstname, lastname, email, password) {
+    const elem = await $('button.button_btn__3WL0L:nth-child(2)');
+    await this.setFirstName(firstname);
+    await this.setLastName(lastname);
+    await this.setEmail(email);
+    await this.setPassword(password);
+    await elem.scrollIntoView();
+    await this.saveButton.click();
   }
 }
 

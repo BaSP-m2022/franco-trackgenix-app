@@ -57,7 +57,7 @@ class SuperAdminsPage extends Page {
     return $('button.button_btn__3WL0L:nth-child(2)');
   }
   get login() {
-    return $('.header_text__3nSwW');
+    return $('li.NavLink_items__197Te:nth-child(2) > a:nth-child(1)');
   }
   get emailInput() {
     return $('div.input_container__1yWID:nth-child(1) > input:nth-child(2)');
