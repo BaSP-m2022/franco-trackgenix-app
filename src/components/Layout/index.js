@@ -49,7 +49,7 @@ function Layout() {
         <div
           className={styles.divSwitch}
           onClick={() => {
-            dispatch(setIsMenuOpen(false));
+            if (isMenuOpen) dispatch(setIsMenuOpen(false));
           }}
         >
           <div className={styles.overlayBack}></div>

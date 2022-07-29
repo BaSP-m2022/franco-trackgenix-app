@@ -11,6 +11,8 @@ import { useForm, Controller, useFieldArray } from 'react-hook-form';
 import { getTimeSheets, putTimeSheet } from 'redux/timeSheets/thunks';
 import { clearError } from 'redux/timeSheets/actions';
 import { getProjects } from 'redux/projects/thunks';
+import { clearError as clearErrorProject, clearProjects } from 'redux/projects/actions';
+import { clearError as clearErrorEmployee } from 'redux/employees/actions';
 import { useHistory } from 'react-router-dom';
 import { joiResolver } from '@hookform/resolvers/joi';
 import Joi from 'joi';
@@ -183,6 +185,15 @@ const EmployeeHome = () => {
   useEffect(() => {
     setValue('tasks', formatTasks());
   }, [timeSheetsEmployee[order]]);
+
+  useEffect(
+    () => () => {
+      dispatch(clearErrorEmployee());
+      dispatch(clearErrorProject());
+      dispatch(clearProjects());
+    },
+    []
+  );
 
   const formatTasks = () => {
     timeSheetsEmployee[order]?.tasks.map((task) => {

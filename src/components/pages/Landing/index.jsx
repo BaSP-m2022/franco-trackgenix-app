@@ -225,9 +225,10 @@ const landing = () => {
             </div>
             <h5>Ask about our system</h5>
             <textarea
+              className={styles.textarea}
               name=""
               id=""
-              cols="100"
+              cols="60"
               rows="10"
               placeholder="Enter your message"
             ></textarea>

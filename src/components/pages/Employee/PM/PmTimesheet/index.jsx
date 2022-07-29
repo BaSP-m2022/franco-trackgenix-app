@@ -5,6 +5,8 @@ import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm, Controller, useFieldArray } from 'react-hook-form';
 import { getTimeSheets, postTimeSheet, putTimeSheet } from 'redux/timeSheets/thunks';
+import { clearError as clearErrorProject, clearProjects } from 'redux/projects/actions';
+import { clearError as clearErrorEmployee } from 'redux/employees/actions';
 import { clearError } from 'redux/timeSheets/actions';
 import { getProjects } from 'redux/projects/thunks';
 import { joiResolver } from '@hookform/resolvers/joi';
@@ -113,13 +115,10 @@ const PmTimeSheet = () => {
       if (timesheet.employeeId._id === employee.employeeId._id) {
         timesheet.tasks.map((task) => {
           if (task.projectId._id === projectId) {
-            console.log('task', task);
             const date = new Date(task.date);
             if (date.getUTCDay() < 1) {
-              console.log('first if entered');
               hourDays[date.getUTCDay() - 1] += task.workedHours;
             } else {
-              console.log('second if entered');
               hourDays[date.getUTCDay() - 1] += task.workedHours;
             }
             hourDays[7] += task.workedHours;
@@ -127,7 +126,6 @@ const PmTimeSheet = () => {
         });
       }
     });
-    console.log('hourDays', hourDays);
     return (
       <tr className={styles.containerTable}>
         <td>{employee.employeeId.firstName + ' ' + employee.employeeId.lastName}</td>
@@ -238,6 +236,15 @@ const PmTimeSheet = () => {
       setValue('tasks', formatTasks(timeSheetList, employeeId, projectId));
     }
   }, [employeeId, startDate, timeSheets]);
+
+  useEffect(
+    () => () => {
+      dispatch(clearErrorEmployee());
+      dispatch(clearErrorProject());
+      dispatch(clearProjects());
+    },
+    []
+  );
 
   const openModal = () => {
     setIsOpen(true);

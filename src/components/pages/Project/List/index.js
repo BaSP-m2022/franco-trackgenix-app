@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { getProjects, deleteProject } from 'redux/projects/thunks';
-import { setProject, clearError } from 'redux/projects/actions';
+import { setProject, clearError as clearErrorProject, clearProjects } from 'redux/projects/actions';
+import { clearError as clearErrorEmployee } from 'redux/employees/actions';
 import { Button, Table, LoadingScreen, Modal, Search } from 'components/Shared';
 import styles from './list.module.css';
 
@@ -61,7 +62,7 @@ const Projects = () => {
     if (!projects.length) {
       if (sessionStorage.getItem('isPM') === 'true') {
         dispatch(getProjects(`employees.employeeId=${idEmployee}`));
-      } else dispatch(getProjects());
+      } else if (!error) dispatch(getProjects());
     }
 
     if (error) {
@@ -95,7 +96,9 @@ const Projects = () => {
 
   useEffect(
     () => () => {
-      dispatch(clearError());
+      dispatch(clearErrorEmployee());
+      dispatch(clearErrorProject());
+      dispatch(clearProjects());
     },
     []
   );

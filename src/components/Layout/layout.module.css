@@ -12,7 +12,6 @@
   position: relative;
   top: 70px;
   height: calc(100vh - 70px);
-  padding-bottom: 16px;
 }
 
 .mainDiv.isMenuOpen .divSideBar {
@@ -26,7 +25,7 @@
 }
 
 .mainDiv.isMenuOpen .divSwitch .overlayBack {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;

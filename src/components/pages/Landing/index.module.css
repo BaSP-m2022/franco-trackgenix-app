@@ -11,6 +11,7 @@
   display: flex;
   flex-wrap: wrap-reverse;
   justify-content: center;
+  width: 100%;
 }
 
 .introSection div {
@@ -58,6 +59,10 @@
   font-size: 16px;
   line-height: 19px;
   text-align: center;
+}
+
+.textarea {
+  width: 100%;
 }
 
 h2.sectionTypo {
@@ -155,6 +160,7 @@ h2.sectionTypo::after {
 .formSection textarea {
   padding: 10px 12px;
   margin-top: 2%;
+  width: 100%;
 }
 
 .formSection div {
@@ -246,10 +252,11 @@ h2.sectionTypo::after {
 
 .linkSection {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  margin: 10% 10% 0% 10%;
+  margin: 25px 0;
+  padding-left: 15px;
   font-size: 20px;
   line-height: 23px;
   margin-bottom: 95px;
@@ -273,6 +280,10 @@ h2.sectionTypo::after {
   line-height: 23px;
 }
 
+.linkSection div {
+  margin: 15px 0;
+}
+
 .cancel_btn {
   background-color: red !important;
 }
@@ -287,6 +298,13 @@ h2.sectionTypo::after {
     align-content: flex-start;
     height: 265px;
     text-align: left;
+  }
+
+  .linkSection {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
   }
 
   .functionalities h3 {
