@@ -85,7 +85,7 @@ const Header = () => {
         <button
           className={`${styles.modalButton} ${styles.editButton}`}
           onClick={() => {
-            history.push(`/${loggedUser.role?.toLowerCase()}s/profile`);
+            history.push(`/${loggedUser.role?.toLowerCase()}/profile`);
             setIsModalOpen(false);
           }}
         >

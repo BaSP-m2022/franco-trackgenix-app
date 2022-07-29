@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { getEmployees, deleteEmployee } from 'redux/employees/thunks';
-import { setEmployee, clearError } from 'redux/employees/actions';
+import { setEmployee, clearError as clearEmployeeError } from 'redux/employees/actions';
+import { clearError as clearProjectError } from 'redux/projects/actions';
 import { Table, LoadingScreen, Modal, Button, Search } from 'components/Shared';
 import styles from './list.module.css';
 
@@ -54,7 +55,8 @@ const Employees = () => {
 
   useEffect(
     () => () => {
-      dispatch(clearError());
+      dispatch(clearEmployeeError());
+      dispatch(clearProjectError());
     },
     []
   );
@@ -114,7 +116,7 @@ const Employees = () => {
         column={column}
         editItem={handleSetEmployee}
         buttons={2}
-        handleRowClick={(e) => history.push(`employees/${e.currentTarget.getAttribute('data-id')}`)}
+        handleRowClick={(e) => history.push(`employee/${e.currentTarget.getAttribute('data-id')}`)}
       />
     </section>
   );
