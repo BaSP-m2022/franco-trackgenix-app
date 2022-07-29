@@ -9,17 +9,21 @@ beforeAll('login', async () => {
   await timeSheet.click();
 });
 
-describe('first test', () => {
+describe('Test add and edit cases', () => {
   it('We can add a TimeSheet whit valid date', async () => {
+    await browser.fullscreenWindow();
     await expect(TimeSheetsPage.addTimesheet).toBeDisplayed();
     await expect(TimeSheetsPage.addTimesheet).toBeClickable();
     await TimeSheetsPage.addTimesheet.click();
+    await browser.fullscreenWindow();
     await TimeSheetForm.setTimeSheet('01/08/2022', '20/08/2022', 'Just for testing', '45');
+    await browser.pause(500);//eslint-disable-line
     const createMsg = await $('//*[@id="root"]/div/div/div[2]/div/div/div/div[2]/p');
     await expect(createMsg).toHaveText('TimeSheet has been created');
     const button = await $('//*[@id="root"]/div/div/div[2]/div/div/div/div[2]/div/button');
     await button.scrollIntoView();
     await expect(button).toBeClickable();
+    await browser.pause(500);//eslint-disable-line
     await button.click();
   });
   it('We can edit a TimeSheet whit valid date', async () => {
@@ -28,9 +32,12 @@ describe('first test', () => {
     );
     await expect(editButton).toBeClickable();
     await editButton.click();
-    await TimeSheetForm.editTimesheet('25/07/2022', '27/08/2022', 'Change Timsheet', '45');
+    await browser.fullscreenWindow();
+    await TimeSheetForm.editTimesheet('25/07/2022', '27/08/2022', 'Change Timesheet', '45');
+    await browser.pause(500);//eslint-disable-line
     const createMsg = await $('//*[@id="root"]/div/div/div[2]/div/div/div/div[2]/p');
     await expect(createMsg).toHaveText('TimeSheet has been updated');
+    await browser.pause(500);//eslint-disable-line
     const button = await $('//*[@id="root"]/div/div/div[2]/div/div/div/div[2]/div/button');
     await expect(button).toBeClickable();
     await button.click();

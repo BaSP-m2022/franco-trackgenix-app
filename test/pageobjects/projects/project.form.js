@@ -199,6 +199,20 @@ class ProjectForm extends Page {
     await this.setDev.click();
     await this.saveButton.click();
   }
+  async editPM(projectName, description, startDate, endDate, rate2) {
+    await this.setProjectName(projectName);
+    await this.statusSelect.click();
+    await this.selectStatus1.click();
+    await this.setProjectDrescription(description);
+    await this.setStartDate(startDate);
+    await this.setEndDate(endDate);
+    await this.employeeSelector2.scrollIntoView();
+    await this.employeeSelector2.click();
+    await this.selectEmployee2.click();
+    await this.setEmployeeRate2(rate2);
+    await this.setDev.click();
+    await this.saveButton.click();
+  }
 
   open() {
     return super.open('projecs/form');

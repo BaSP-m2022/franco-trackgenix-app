@@ -12,20 +12,19 @@ describe('edit user profile', () => {
     const profile = await $('//*[@id="root"]/div/header/div[2]/button[1]');
     await expect(profile).toBeClickable();
     await profile.click();
-    await expect(browser).toHaveUrl('https://franco-trackgenix-app.vercel.app/admins/profile');
+    await expect(browser).toHaveUrl('https://franco-trackgenix-app.vercel.app/admin/profile');
   });
   it('edit admin profile', async () => {
     await browser.fullscreenWindow();
     const data1 = await Edit.inputName.getValue();
     console.log(data1);
     const data2 = await Edit.inputLastName.getValue();
-
+    await browser.pause(500);//eslint-disable-line
     await Edit.updateAdmin(name, lastname);
     const data5 = await $(
       '//*[@id="root"]/div/div/div[2]/section/form[1]/div[1]/div[1]/input'
     ).getValue();
     const data6 = await Edit.inputLastName.getValue();
-
     const modalSuccess = await $('//*[@id="root"]/div/div/div[2]/section/div/div/div[2]');
     const okButton = await $('//*[@id="root"]/div/div/div[2]/section/div/div/div[2]/div/button');
     const successMessage = await $('//*[@id="root"]/div/div/div[2]/section/div/div/div[2]/p');
