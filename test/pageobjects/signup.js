@@ -1,10 +1,10 @@
 const Page = require('./page');
 class SignUp extends Page {
   get formTitle() {
-    return $('.signup_formTitle__3c4vj');
+    return $('.signup_title__1jstH');
   }
   get table() {
-    return $('.signup_containerSec__Xa48M');
+    return $('.signup_container__3vEWY');
   }
   get firstNameTitleInput() {
     return $('div.input_container__1yWID:nth-child(1) > label:nth-child(1)');
@@ -80,9 +80,6 @@ class SignUp extends Page {
   }
   get modalOk() {
     return $('.modal_modalDivChildren__2FU_o > div:nth-child(2) > button:nth-child(1)');
-  }
-  get login() {
-    return $('.header_userButton__1P-t6');
   }
 
   async setFirstName(firstname) {
