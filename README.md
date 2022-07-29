@@ -267,7 +267,7 @@ f. HTTP Proxy: local host - Port: 8888 (Remember that the port number must be th
 
 ```
 We would like to thank all the Radium Rocket staff for the support provided and the possibility of acquiring and being able to implement all this knowledge.
-On the other hand, we wanted to make a special mention to our 3 tutors/professors assigned in the 3rd stage of QA: Paloma Quiroz, Rodrigo Sibrins, Agustin Cartery for giving us their best predisposition when helping us with all our problems and concerns throughout every week, in addition to teaching us all the tools that we implement in this automation plan. Without them this work would not have been possible.
+On the other hand, we wanted to make a special mention to our tutors/professors assigned in the 3rd stage: Paloma Quiroz and Franco Marini for giving us their best predisposition when helping us with all our problems and concerns throughout every week, in addition to teaching us all the tools that we implement in this automation plan. Without them this work would not have been possible.
 ```
 
 
