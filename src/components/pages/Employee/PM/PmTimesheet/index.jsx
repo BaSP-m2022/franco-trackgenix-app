@@ -257,10 +257,12 @@ const PmTimeSheet = () => {
 
   const earlier = () => {
     setStartDate(startDate - 7 * 60 * 60 * 24 * 1000);
+    dispatch(getTimeSheets(`tasks.projectId=${projectId}`));
   };
 
   const latter = () => {
     setStartDate(startDate + 7 * 60 * 60 * 24 * 1000);
+    dispatch(getTimeSheets(`tasks.projectId=${projectId}`));
   };
 
   const onSubmit = (data) => {
