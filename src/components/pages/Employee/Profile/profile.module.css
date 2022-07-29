@@ -1,6 +1,7 @@
 .container {
   display: flex;
   flex-direction: column;
+  position: relative;
   padding: 20px 40px;
   margin: 6% auto 10% auto;
   border: 5px solid #373867;
@@ -11,6 +12,15 @@
   font-size: 18px;
   font-weight: bold;
   color: #373867;
+}
+
+.backImg {
+  position: absolute;
+  width: 36px;
+  top: -65px;
+  left: 0px;
+  filter: invert(20%) sepia(11%) saturate(2986%) hue-rotate(200deg) brightness(97%) contrast(88%);
+  cursor: pointer;
 }
 
 .div {

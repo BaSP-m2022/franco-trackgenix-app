@@ -73,7 +73,7 @@ function Layout() {
               <Route exact path="/employees/:id" component={EmployeeTableProfile} />
               <Route exact path="/projects" component={ProjectList} />
               <Route exact path="/projects/form" component={ProjectForm} />
-              <Route exact path="/projects/:id" component={ProjectProfile} />
+              <Route exact path="/project/:id" component={ProjectProfile} />
               <Route exact path="/time-sheets" component={TimeSheetList} />
               <Route exact path="/time-sheets/form" component={TimeSheetForm} />
               <Route exact path="/home" component={Landing} />

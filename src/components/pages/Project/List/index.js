@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { getProjects, deleteProject } from 'redux/projects/thunks';
-import { setProject } from 'redux/projects/actions';
+import { setProject, clearError } from 'redux/projects/actions';
 import { Button, Table, LoadingScreen, Modal, Search } from 'components/Shared';
 import styles from './list.module.css';
 
@@ -93,6 +93,13 @@ const Projects = () => {
     );
   }, [projectList, searchQuery]);
 
+  useEffect(
+    () => () => {
+      dispatch(clearError());
+    },
+    []
+  );
+
   const delProject = () => {
     dispatch(deleteProject(idToDelete));
     closeModal();
@@ -162,7 +169,7 @@ const Projects = () => {
         buttons={sessionStorage.getItem('isPM') ? 1 : 2}
         modal={handleArray}
         arrayName={'Employees'}
-        handleRowClick={(e) => history.push(`projects/${e.currentTarget.getAttribute('data-id')}`)}
+        handleRowClick={(e) => history.push(`project/${e.currentTarget.getAttribute('data-id')}`)}
       ></Table>
     </section>
   );
