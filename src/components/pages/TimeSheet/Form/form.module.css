@@ -1,19 +1,28 @@
 .container {
-  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.container form {
-  display: flex;
-  padding: 30px;
-  flex-direction: column;
-  margin-bottom: 25px;
+.title {
+  margin-bottom: 28px;
+  color: #373867;
+  font-size: 1.5em;
+  font-weight: bold;
 }
 
-.title {
-  color: #373867;
+.form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.buttons {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding-bottom: 20px;
 }
 
 .input {
@@ -22,11 +31,6 @@
 
 .select {
   width: 260px;
-}
-
-.buttonDiv {
-  padding: 20px;
-  text-align: center;
 }
 
 .taskUl {
@@ -39,4 +43,7 @@
   flex-direction: column;
   margin: 0 0 20px 0;
   align-items: center;
+  border: 3px solid #373867;
+  border-radius: 6px;
+  padding: 10px 8px;
 }

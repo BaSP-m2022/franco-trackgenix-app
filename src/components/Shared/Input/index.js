@@ -1,8 +1,19 @@
 import styles from './input.module.css';
 
-function Input({ label = '', name, type, value, placeholder, error, onChange, min, max }) {
+function Input({
+  label = '',
+  fixedWidth = 1,
+  name,
+  type,
+  value,
+  placeholder,
+  error,
+  onChange,
+  min,
+  max
+}) {
   return (
-    <div className={styles.container}>
+    <div className={`${styles.container} ${!fixedWidth && styles.containerWidth}`}>
       <label className={`${styles.label} ${error && styles.labelError}`} htmlFor={name}>
         {label ? label : name}
       </label>

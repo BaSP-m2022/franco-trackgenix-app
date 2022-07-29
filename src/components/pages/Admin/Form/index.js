@@ -63,7 +63,7 @@ const AdminForm = () => {
       setValue('firstName', admin.firstName);
       setValue('lastName', admin.lastName);
       setValue('email', admin.email);
-      setValue('password', admin.password);
+      setValue('password', '1234567a');
       setRequestType('PUT');
     }
   }, [admin]);
@@ -101,18 +101,14 @@ const AdminForm = () => {
     }
   };
 
-  if (loading) {
-    return (
-      <div className={styles.loading}>
-        <LoadingScreen />
-      </div>
-    );
-  }
-
   const handleClose = () => {
     closeModal();
     dispatch(clearError());
   };
+
+  if (loading) {
+    return <LoadingScreen />;
+  }
 
   return (
     <div className={styles.container}>
@@ -122,39 +118,39 @@ const AdminForm = () => {
           <Button text="OK" handler={!error ? routeChange : handleClose} />
         </div>
       </Modal>
-      <h3 className={styles.h3}>{requestType === 'PUT' ? 'Update Admin' : 'Add Admin'}</h3>
+      <h3 className={styles.title}>{requestType === 'PUT' ? 'Update Admin' : 'Add Admin'}</h3>
       <form className={styles.form} onSubmit={onSubmit}>
-        <div className={styles.inputs}>
-          <Controller
-            control={control}
-            name="firstName"
-            render={({ field: { value, onChange }, fieldState: { error } }) => (
-              <Input
-                className={styles.label}
-                type="text"
-                name="First name"
-                value={value}
-                placeholder="First name"
-                onChange={onChange}
-                error={error?.message}
-              />
-            )}
-          />
-          <Controller
-            control={control}
-            name="lastName"
-            render={({ field: { value, onChange }, fieldState: { error } }) => (
-              <Input
-                className={styles.label}
-                type="text"
-                name="Last name"
-                value={value}
-                placeholder="Last name"
-                onChange={onChange}
-                error={error?.message}
-              />
-            )}
-          />
+        <Controller
+          control={control}
+          name="firstName"
+          render={({ field: { value, onChange }, fieldState: { error } }) => (
+            <Input
+              className={styles.label}
+              type="text"
+              name="First name"
+              value={value}
+              placeholder="First name"
+              onChange={onChange}
+              error={error?.message}
+            />
+          )}
+        />
+        <Controller
+          control={control}
+          name="lastName"
+          render={({ field: { value, onChange }, fieldState: { error } }) => (
+            <Input
+              className={styles.label}
+              type="text"
+              name="Last name"
+              value={value}
+              placeholder="Last name"
+              onChange={onChange}
+              error={error?.message}
+            />
+          )}
+        />
+        {requestType === 'POST' && (
           <Controller
             control={control}
             name="email"
@@ -163,6 +159,7 @@ const AdminForm = () => {
                 className={styles.label}
                 type="email"
                 name="Email"
+                disabled={requestType === 'PUT'}
                 value={value}
                 placeholder="Email"
                 onChange={onChange}
@@ -170,6 +167,8 @@ const AdminForm = () => {
               />
             )}
           />
+        )}
+        {requestType === 'POST' && (
           <Controller
             control={control}
             name="password"
@@ -178,6 +177,7 @@ const AdminForm = () => {
                 className={styles.label}
                 type="password"
                 name="Password"
+                disabled={requestType === 'PUT'}
                 value={value}
                 placeholder="Password"
                 onChange={onChange}
@@ -185,8 +185,8 @@ const AdminForm = () => {
               />
             )}
           />
-        </div>
-        <div className={styles.buttonContainer}>
+        )}
+        <div className={styles.buttons}>
           <Button
             text="Return"
             handler={() => {

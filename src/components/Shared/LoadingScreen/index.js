@@ -4,13 +4,13 @@ import styles from './ls.module.css';
 function LoadingScreen() {
   return (
     <div tabIndex="0" className={styles.background} aria-label="Loading">
-      <div className={styles.loaderBackground}></div>
       <svg
         viewBox="0 0 38 38"
         xmlns="http://www.w3.org/2000/svg"
         width={100}
         height={100}
         style={{ stroke: '#517940' }}
+        className={styles.svg}
       >
         <g fill="none" fillRule="evenodd">
           <g transform="translate(1 1)" strokeWidth="2">

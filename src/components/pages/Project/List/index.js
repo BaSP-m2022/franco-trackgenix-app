@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { getProjects, deleteProject } from 'redux/projects/thunks';
-import { setProject } from 'redux/projects/actions';
+import { setProject, clearError as clearErrorProject, clearProjects } from 'redux/projects/actions';
+import { clearError as clearErrorEmployee } from 'redux/employees/actions';
 import { Button, Table, LoadingScreen, Modal, Search } from 'components/Shared';
 import styles from './list.module.css';
 
@@ -61,7 +62,7 @@ const Projects = () => {
     if (!projects.length) {
       if (sessionStorage.getItem('isPM') === 'true') {
         dispatch(getProjects(`employees.employeeId=${idEmployee}`));
-      } else dispatch(getProjects());
+      } else if (!error) dispatch(getProjects());
     }
 
     if (error) {
@@ -93,6 +94,15 @@ const Projects = () => {
     );
   }, [projectList, searchQuery]);
 
+  useEffect(
+    () => () => {
+      dispatch(clearErrorEmployee());
+      dispatch(clearErrorProject());
+      dispatch(clearProjects());
+    },
+    []
+  );
+
   const delProject = () => {
     dispatch(deleteProject(idToDelete));
     closeModal();
@@ -107,12 +117,9 @@ const Projects = () => {
   };
 
   if (loading) {
-    return (
-      <div className={styles.loading}>
-        <LoadingScreen />
-      </div>
-    );
+    return <LoadingScreen />;
   }
+
   return (
     <section className={styles.container}>
       <Modal modalTitle={modalTitle} isOpen={isModalOpen} handleClose={closeModal}>
@@ -139,7 +146,8 @@ const Projects = () => {
         )}
       </Modal>
       <h2 className={styles.title}>Projects</h2>
-      <div className={styles.add}>
+
+      <div className={styles.buttons}>
         {!sessionStorage.getItem('isPM') && (
           <Button
             text={'Add new Project'}
@@ -149,28 +157,23 @@ const Projects = () => {
             }}
           />
         )}
-        <div className={styles.search}>
-          <Search
-            searchQuery={searchQuery}
-            setSearchQuery={setSearchQuery}
-            placeholder={'Search for project name'}
-          />
-        </div>
+        <Search
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+          placeholder={'Search for project name'}
+        />
       </div>
-      <div className={styles.flex}>
-        <Table
-          data={searchQuery.length ? filteredList : projectList}
-          deleteItem={buttonDelete}
-          column={column}
-          editItem={handleSetProject}
-          buttons={sessionStorage.getItem('isPM') ? 1 : 2}
-          modal={handleArray}
-          arrayName={'Employees'}
-          handleRowClick={(e) =>
-            history.push(`projects/${e.currentTarget.getAttribute('data-id')}`)
-          }
-        ></Table>
-      </div>
+
+      <Table
+        data={searchQuery.length ? filteredList : projectList}
+        deleteItem={buttonDelete}
+        column={column}
+        editItem={handleSetProject}
+        buttons={sessionStorage.getItem('isPM') ? 1 : 2}
+        modal={handleArray}
+        arrayName={'Employees'}
+        handleRowClick={(e) => history.push(`project/${e.currentTarget.getAttribute('data-id')}`)}
+      ></Table>
     </section>
   );
 };

@@ -1,20 +1,44 @@
 .tableMain {
   width: 100%;
-  margin: 0;
-  border: 1px solid #bebec8;
+  margin-bottom: 18px;
   border-radius: 5px;
-  border-spacing: 0px;
+  border-spacing: 0;
   table-layout: auto;
   border-collapse: collapse;
+  box-shadow: 0px 6px 6px rgba(33, 33, 33, .2);
+}
+
+.tableMain thead {
+  box-shadow: 0px 3px 5px rgba(33, 33, 33, .1);
+}
+
+.tableMain thead th:first-child {
+  border-top-left-radius: 8px;
+}
+
+.tableMain thead th:last-child {
+  border-top-right-radius: 8px;
+}
+
+.tableMain tbody tr:last-child td:first-child {
+  border-bottom-left-radius: 8px;
+}
+
+.tableMain tbody tr:last-child td:last-child {
+  border-top-right-radius: 8px;
+}
+
+.tableMain tbody tr:last-child {
+  border-bottom: 0;
 }
 
 .containerTable tr,
 .tableMain tr {
   text-align: left;
   color: #373867;
-  border-radius: 20px;
   border-bottom: 1px solid #bebec8;
 }
+
 
 .containerTable td {
   padding: 14px 12px;
@@ -38,10 +62,17 @@
   background: #eef5eb;
 }
 
-.buttonTableContainer {
+.buttonsTableTd {
+  width: 75px;
+}
+
+.buttonsTableContainer {
   display: flex;
   justify-content: space-between;
-  min-width: 55px;
+}
+
+.noButton {
+  text-align: center;
 }
 
 .buttonTable,

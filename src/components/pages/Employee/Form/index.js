@@ -44,7 +44,7 @@ const EmployeeForm = () => {
       setValue('lastName', employee.lastName);
       setValue('dateOfBirth', employee.dateOfBirth.slice(0, 10));
       setValue('email', employee.email);
-      setValue('password', employee.password);
+      setValue('password', '1234567a');
       setValue('dni', employee.dni);
       setRequestType('PUT');
       setTitle('Edit Employee');
@@ -92,79 +92,75 @@ const EmployeeForm = () => {
   };
 
   if (loading) {
-    return (
-      <div className={styles.loading}>
-        <LoadingScreen />
-      </div>
-    );
+    return <LoadingScreen />;
   }
 
   return (
-    <div className={styles.containerSec}>
+    <div className={styles.container}>
       <Modal modalTitle={errorR ? 'Error' : modalTitle} isOpen={isOpen}>
         <p>{errorR ? errorR : modalText}</p>
         <div>
           <Button text="OK" handler={!errorR ? routeChange : handleClose} />
         </div>
       </Modal>
-      <h2 className={styles.formTitle}>{title}</h2>
+      <h3 className={styles.title}>{title}</h3>
       <form className={styles.form}>
-        <div>
-          <Controller
-            control={control}
-            name="firstName"
-            render={({ field: { value, onChange }, fieldState: { error } }) => (
-              <Input
-                name="First name"
-                value={value}
-                placeholder="First name"
-                onChange={onChange}
-                error={error?.message}
-              />
-            )}
-          />
-          <Controller
-            control={control}
-            name="lastName"
-            render={({ field: { value, onChange }, fieldState: { error } }) => (
-              <Input
-                type="text"
-                name="Last name"
-                value={value}
-                placeholder="Last name"
-                onChange={onChange}
-                error={error?.message}
-              />
-            )}
-          />
-          <Controller
-            control={control}
-            name="dateOfBirth"
-            render={({ field: { value, onChange }, fieldState: { error } }) => (
-              <Input
-                name="Date Of Birth"
-                type="date"
-                value={value}
-                placeholder="Enter your Birth date"
-                onChange={onChange}
-                error={error?.message}
-              />
-            )}
-          />
-          <Controller
-            control={control}
-            name="dni"
-            render={({ field: { value, onChange }, fieldState: { error } }) => (
-              <Input
-                name="DNI"
-                type="text"
-                value={value}
-                placeholder="Enter your DNI"
-                onChange={onChange}
-                error={error?.message}
-              />
-            )}
-          />
+        <Controller
+          control={control}
+          name="firstName"
+          render={({ field: { value, onChange }, fieldState: { error } }) => (
+            <Input
+              name="First name"
+              value={value}
+              placeholder="First name"
+              onChange={onChange}
+              error={error?.message}
+            />
+          )}
+        />
+        <Controller
+          control={control}
+          name="lastName"
+          render={({ field: { value, onChange }, fieldState: { error } }) => (
+            <Input
+              type="text"
+              name="Last name"
+              value={value}
+              placeholder="Last name"
+              onChange={onChange}
+              error={error?.message}
+            />
+          )}
+        />
+        <Controller
+          control={control}
+          name="dateOfBirth"
+          render={({ field: { value, onChange }, fieldState: { error } }) => (
+            <Input
+              name="Date Of Birth"
+              type="date"
+              value={value}
+              placeholder="Enter your Birth date"
+              onChange={onChange}
+              error={error?.message}
+            />
+          )}
+        />
+        <Controller
+          control={control}
+          name="dni"
+          render={({ field: { value, onChange }, fieldState: { error } }) => (
+            <Input
+              name="DNI"
+              type="text"
+              value={value}
+              placeholder="Enter your DNI"
+              onChange={onChange}
+              error={error?.message}
+            />
+          )}
+        />
+        {requestType === 'POST' && (
           <Controller
             control={control}
             name="email"
@@ -179,6 +175,8 @@ const EmployeeForm = () => {
               />
             )}
           />
+        )}
+        {requestType === 'POST' && (
           <Controller
             control={control}
             name="password"
@@ -193,8 +191,8 @@ const EmployeeForm = () => {
               />
             )}
           />
-        </div>
-        <div className={styles.buttonContainer}>
+        )}
+        <div className={styles.buttons}>
           <Button
             text="Return"
             handler={() => {

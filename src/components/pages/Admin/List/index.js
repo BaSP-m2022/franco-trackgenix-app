@@ -60,11 +60,7 @@ const Admins = () => {
   };
 
   if (loading) {
-    return (
-      <div className={styles.loading}>
-        <LoadingScreen />
-      </div>
-    );
+    return <LoadingScreen />;
   }
 
   return (
@@ -91,8 +87,8 @@ const Admins = () => {
           )}
         </div>
       </Modal>
-      <h2>Admins</h2>
-      <div className={styles.buttonContainer}>
+      <h2 className={styles.title}>Admins</h2>
+      <div className={styles.buttons}>
         <Button
           text={'Add Admin'}
           handler={() => {

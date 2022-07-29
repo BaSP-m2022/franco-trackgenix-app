@@ -36,7 +36,7 @@ const TableRow = ({
             {item[`${columnItem.value}`].length > 0 ? (
               <Button handler={() => modal(item[`${columnItem.value}`])} text="Show All" />
             ) : (
-              <p>No {arrayName}</p>
+              <p className={styles.noButton}>No {arrayName}</p>
             )}
           </td>
         );
@@ -55,8 +55,8 @@ const TableRow = ({
       );
     })}
     {buttons && (
-      <td>
-        <div className={styles.buttonTableContainer}>
+      <td className={styles.buttonsTableTd}>
+        <div className={styles.buttonsTableContainer}>
           {buttons > 0 && (
             <button className={styles.buttonTable} onClick={() => editItem(item._id)}>
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">

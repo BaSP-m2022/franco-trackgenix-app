@@ -1,32 +1,33 @@
-.loadingDiv {
+.container {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  margin-top: 20%;
-  margin-left: 30%;
-}
-
-.containerSuperAdmin {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   flex-direction: column;
-  margin-right: 10%;
-  padding-right: 20%;
-  margin-right: auto;
-}
-
-.containerSuperAdmin a {
-  text-decoration: none;
-}
-.containerSuperAdmin h2 {
-  color: #373867;
-}
-
-.btnSearchDiv {
-  display: flex;
-  justify-content: space-between;
+  text-align: center;
   width: 100%;
+}
+
+.title {
+  margin-bottom: 26px;
+  color: #373867;
+  font-size: 30px;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.buttons button,
+.buttons form {
+  margin-bottom: 20px;
+}
+
+@media (min-width: 480px) {
+  .buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+  }
 }

@@ -1,8 +1,18 @@
 import styles from './sd.module.css';
 
-function SelectDropdown({ name, error, value, disabled, onChange, pattern, options, required }) {
+function SelectDropdown({
+  fixedWidth = 1,
+  name,
+  error,
+  value,
+  disabled,
+  onChange,
+  pattern,
+  options,
+  required
+}) {
   return (
-    <div className={styles.container}>
+    <div className={`${styles.container} ${!fixedWidth && styles.containerWidth}`}>
       <label className={`${styles.label} ${error && styles.labelError}`} htmlFor={name}>
         {name}
       </label>

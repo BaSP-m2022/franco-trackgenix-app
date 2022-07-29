@@ -1,68 +1,33 @@
 .container {
-  flex: 1;
   display: flex;
-  justify-content: center;
-  align-items: center;
   flex-direction: column;
+  text-align: center;
+  width: 100%;
 }
 
 .title {
+  margin-bottom: 26px;
   color: #373867;
   font-size: 30px;
 }
 
-#projects_list_table {
-  text-align: center;
-}
-
-#projects_list_table td,
-#projects_list_table th {
-  padding: 7px;
-}
-
-.capitalize {
-  text-transform: capitalize;
-}
-
-.fa_style {
-  padding-left: 10px;
-  padding-top: 10px;
-  font-size: 20px;
-  transition: all 0.2s;
-}
-
-.fa_style:hover {
-  cursor: pointer;
-  transform: scale(1.21);
-}
-
-.add {
-  width: 95%;
+.buttons {
   display: flex;
-  justify-content: space-between;
-  padding-top: 50px;
-}
-
-.add a {
-  text-decoration: none;
-}
-
-.flex {
-  display: flex;
-  width: 95%;
   flex-direction: column;
-  margin-right: 50px;
-}
-
-.search {
-  border-color: #373867;
-}
-
-.loading {
-  display: flex;
-  justify-content: center;
   align-items: center;
-  text-align: center;
-  min-height: 100vh;
-  margin-left: 40%;
+  width: 100%;
+}
+
+.buttons button,
+.buttons form {
+  margin-bottom: 20px;
+}
+
+@media (min-width: 480px) {
+  .buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+  }
 }

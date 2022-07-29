@@ -137,7 +137,7 @@ export const projectsReducer = (state = initialStore, actions) => {
     case CONSTANTS.CLEAR_PROJECTS:
       return {
         ...state,
-        list: ''
+        list: []
       };
 
     default:

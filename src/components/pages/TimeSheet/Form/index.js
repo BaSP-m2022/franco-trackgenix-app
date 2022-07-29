@@ -132,14 +132,6 @@ const TimeSheetForm = () => {
     setIsOpen(false);
   };
 
-  if (loading) {
-    return (
-      <div className={styles.loading}>
-        <LoadingScreen />
-      </div>
-    );
-  }
-
   const onSubmit = (data) => {
     const body = JSON.stringify({
       tasks: data.tasks,
@@ -165,12 +157,9 @@ const TimeSheetForm = () => {
   };
 
   if (loading) {
-    return (
-      <div className={styles.loading}>
-        <LoadingScreen />
-      </div>
-    );
+    return <LoadingScreen />;
   }
+
   return (
     <div className={styles.container}>
       <Modal modalTitle={errorError ? 'error' : modalTitle} isOpen={isOpen}>
@@ -179,7 +168,7 @@ const TimeSheetForm = () => {
           <Button text="OK" handler={!errorError ? routeChange : handleClose} />
         </div>
       </Modal>
-      <h3 className={styles.tittle}>
+      <h3 className={styles.title}>
         {requestType === 'PUT' ? 'Update Time Sheet' : 'Add Time Sheet'}
       </h3>
       <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
@@ -281,7 +270,7 @@ const TimeSheetForm = () => {
             ))}
           </div>
         </div>
-        <div className={styles.buttonDiv}>
+        <div className={styles.buttons}>
           <Button
             text={'Add new task'}
             type="button"

@@ -1,45 +1,58 @@
 import React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
-import { Header, Sidebar, Footer, LoadingScreen } from 'components/Shared';
+import { useSelector, useDispatch } from 'react-redux';
+import { setIsMenuOpen } from 'redux/menu/actions';
+import { Header, Sidebar, LoadingScreen } from 'components/Shared';
+
 import styles from './layout.module.css';
 
 const SignUp = React.lazy(() => import('components/pages/Signup'));
 const Login = React.lazy(() => import('components/pages/Login'));
 
-const AdminList = React.lazy(() => import('components/pages/Admin/List'));
 const AdminForm = React.lazy(() => import('components/pages/Admin/Form'));
 const AdminHome = React.lazy(() => import('components/pages/Admin/Home'));
+const AdminList = React.lazy(() => import('components/pages/Admin/List'));
 const AdminProfile = React.lazy(() => import('components/Shared/Profile/Admin'));
 
-const SuperAdminList = React.lazy(() => import('components/pages/SuperAdmin/List'));
 const SuperAdminForm = React.lazy(() => import('components/pages/SuperAdmin/Form'));
 const SuperAdminHome = React.lazy(() => import('components/pages/SuperAdmin/Home'));
+const SuperAdminList = React.lazy(() => import('components/pages/SuperAdmin/List'));
 
-const EmployeeList = React.lazy(() => import('components/pages/Employee/List'));
 const EmployeeForm = React.lazy(() => import('components/pages/Employee/Form'));
 const EmployeeHome = React.lazy(() => import('components/pages/Employee/Home'));
+const EmployeeList = React.lazy(() => import('components/pages/Employee/List'));
 const PmTimeSheet = React.lazy(() => import('components/pages/Employee/PM/PmTimesheet'));
 const EmployeeTableProfile = React.lazy(() => import('components/pages/Employee/Profile'));
 const EmployeeProfile = React.lazy(() => import('components/Shared/Profile/Employee'));
 
-const ProjectList = React.lazy(() => import('components/pages/Project/List'));
 const ProjectForm = React.lazy(() => import('components/pages/Project/Form'));
+const ProjectList = React.lazy(() => import('components/pages/Project/List'));
 const ProjectProfile = React.lazy(() => import('components/pages/Project/Profile'));
 
-const TimeSheetList = React.lazy(() => import('components/pages/TimeSheet/List'));
 const TimeSheetForm = React.lazy(() => import('components/pages/TimeSheet/Form'));
+const TimeSheetList = React.lazy(() => import('components/pages/TimeSheet/List'));
 
 const Landing = React.lazy(() => import('components/pages/Landing'));
 
 function Layout() {
+  const dispatch = useDispatch();
+
+  const isMenuOpen = useSelector((state) => state.menu.isMenuOpen);
+
   return (
     <div className={styles.container}>
       <Header />
-      <div className={styles.mainDiv}>
+      <div className={`${styles.mainDiv} ${isMenuOpen ? styles.isMenuOpen : null}`}>
         <div className={styles.divSideBar}>
           <Sidebar />
         </div>
-        <div className={styles.divSwitch}>
+        <div
+          className={styles.divSwitch}
+          onClick={() => {
+            if (isMenuOpen) dispatch(setIsMenuOpen(false));
+          }}
+        >
+          <div className={styles.overlayBack}></div>
           <React.Suspense fallback={<LoadingScreen />}>
             <Switch>
               <Route exact path="/signup" component={SignUp} />
@@ -60,7 +73,7 @@ function Layout() {
               <Route exact path="/employee/:id" component={EmployeeTableProfile} />
               <Route exact path="/projects" component={ProjectList} />
               <Route exact path="/projects/form" component={ProjectForm} />
-              <Route exact path="/projects/:id" component={ProjectProfile} />
+              <Route exact path="/project/:id" component={ProjectProfile} />
               <Route exact path="/time-sheets" component={TimeSheetList} />
               <Route exact path="/time-sheets/form" component={TimeSheetForm} />
               <Route exact path="/home" component={Landing} />
@@ -71,7 +84,6 @@ function Layout() {
           </React.Suspense>
         </div>
       </div>
-      <Footer />
     </div>
   );
 }

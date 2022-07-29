@@ -1,15 +1,28 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.title {
+  margin-bottom: 28px;
+  color: #373867;
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
 .form {
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  color: #373867;
 }
 
-.buttonContainer {
+.buttons {
   width: 100%;
   display: flex;
   justify-content: center;
+  padding-bottom: 20px;
   align-items: center;
   padding: 0 25px;
   margin: 15px 0;

@@ -1,5 +1,9 @@
-* {
-  box-sizing:border-box
+.container {
+  margin: 0 auto;
+  text-align: center;
+  border: 5px solid #373867;
+  border-radius: 10px;
+  padding: 50px;
 }
 
 .form {
@@ -7,7 +11,6 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 50px;
 }
 
 .buttonContainer {
@@ -19,14 +22,9 @@
   margin: 10px;
 }
 
-.containerSec {
-  margin: 6% auto;
-  text-align: center;
-  border: 5px solid #373867;
-  border-radius: 10px;
-}
-
-.formTitle{
-  font-weight: bold;
+.title {
+  margin-bottom: 28px;
   color: #373867;
+  font-size: 1.5em;
+  font-weight: bold;
 }

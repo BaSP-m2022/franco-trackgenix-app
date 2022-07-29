@@ -167,12 +167,9 @@ const EmployeeProfile = () => {
   };
 
   if (loading) {
-    return (
-      <div className={styles.loading}>
-        <LoadingScreen />
-      </div>
-    );
+    return <LoadingScreen />;
   }
+
   return (
     <section className={styles.container}>
       <Modal modalTitle={modalTitle} isOpen={isOpen} handleClose={closeModal}>

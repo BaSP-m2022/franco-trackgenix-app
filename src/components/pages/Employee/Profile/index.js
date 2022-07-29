@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getEmployeesFiltered } from 'redux/employees/thunks';
 import { clearError as clearErrorEmployee } from 'redux/employees/actions';
 import { getProjectsFiltered } from 'redux/projects/thunks';
-import { clearError as clearErrorProject } from 'redux/projects/actions';
+import { clearError as clearErrorProject, clearProjects } from 'redux/projects/actions';
 import { ProfileItem, Table, LoadingScreen } from 'components/Shared';
 import styles from './profile.module.css';
 
@@ -65,6 +65,7 @@ const EmployeeProfile = () => {
     () => () => {
       dispatch(clearErrorEmployee());
       dispatch(clearErrorProject());
+      dispatch(clearProjects());
     },
     []
   );
@@ -76,12 +77,9 @@ const EmployeeProfile = () => {
   ];
 
   if (loadingEmployees) {
-    return (
-      <div className={styles.loading}>
-        <LoadingScreen />
-      </div>
-    );
+    return <LoadingScreen />;
   }
+
   return (
     <section className={styles.container}>
       {!employee._id ? (
@@ -91,6 +89,21 @@ const EmployeeProfile = () => {
       ) : (
         <>
           <div className={`${styles.div} ${styles.profile}`}>
+            <svg
+              width="200px"
+              height="200px"
+              viewBox="0 0 200 200"
+              data-name="Layer 1"
+              id="Layer_1"
+              xmlns="http://www.w3.org/2000/svg"
+              className={styles.backImg}
+              onClick={() => {
+                history.push('/employees');
+              }}
+            >
+              <title />
+              <path d="M100,15a85,85,0,1,0,85,85A84.93,84.93,0,0,0,100,15Zm0,150a65,65,0,1,1,65-65A64.87,64.87,0,0,1,100,165ZM116.5,57.5a9.67,9.67,0,0,0-14,0L74,86a19.92,19.92,0,0,0,0,28.5L102.5,143a9.9,9.9,0,0,0,14-14l-28-29L117,71.5C120.5,68,120.5,61.5,116.5,57.5Z" />
+            </svg>
             <h2 className={styles.subtitle}>{`${employee.firstName} ${employee.lastName}`}</h2>
             <ProfileItem label={'Email'} text={employee.email} />
             <ProfileItem label={'DNI'} text={employee.dni} />
@@ -107,7 +120,7 @@ const EmployeeProfile = () => {
                 data={employeeProjects}
                 column={column}
                 handleRowClick={(e) =>
-                  history.replace(`/projects/${e.currentTarget.getAttribute('data-id')}`)
+                  history.replace(`/project/${e.currentTarget.getAttribute('data-id')}`)
                 }
               />
             )}
